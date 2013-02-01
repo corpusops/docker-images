@@ -1,8 +1,9 @@
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
     && chmod +x *sh \
-    && cat optional_packages_*.txt > optional_packages.txt \
-    && cat packages_*.txt > packages.txt \
+    && _cops_SYSTEM=$(./system_detect.sh) \
+    && cat ${_cops_SYSTEM}_optional_packages*.txt optional_packages*.txt > optional_packages.txt \
+    && cat ${_cops_SYSTEM}_packages*.txt > packages.txt \
     && : fix logrorate global conf \
     && if [ -e /var/log ];then touch /var/log/syslog /var/log/messages;fi \
     && ./${_cops_SYSTEM}_up.sh \
@@ -12,7 +13,8 @@ RUN sh -c 'set -ex \
     && ./add_gosu.sh \
     && ./add_forego.sh \
     && DEBUG=1 ./setup_locales.sh \
-    && cp -v bin/* setup_locales.sh cops_pkgmgr_install.sh /bin \
+    && cp -v bin/* system_detect.sh setup_locales.sh \
+        cops_pkgmgr_install.sh /bin \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go

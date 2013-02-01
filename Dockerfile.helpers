@@ -1,16 +1,18 @@
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
+    helpers/system_detect.sh \
     helpers/add_confd.sh \
     helpers/add_dockerize.sh \
     helpers/add_forego.sh \
     helpers/add_opt_pkgs.sh \
     helpers/setup_locales.sh \
     helpers/cops_pkgmgr_install.sh \
-    helpers/${_cops_SYSTEM}_up.sh \
+    helpers/*_up.sh \
     rootfs/ \
-    packages/packages_${_cops_SYSTEM}.txt \
-    packages/optional_packages_supervisors.txt \
-    packages/optional_packages_${_cops_SYSTEM}.txt \
+    packages/*packages*.txt \
     ${EXTRA_FILES_LIST} \
     /tmp/corpusopssteroids/
+ADD \
+    rootfs/etc/supervisor.d/cron \
+    /etc/supervisor.d/

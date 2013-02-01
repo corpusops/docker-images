@@ -1,4 +1,4 @@
-ARG EXTRA_FILES_LIST="library/nginx/packages_nginx_${_cops_SYSTEM}.txt"
+ARG EXTRA_FILES_LIST="library/nginx/*packages*.txt"
 ADD \
     rootfs/etc/procfiles/nginx_logrotate.Procfile \
     /etc/procfiles/
@@ -6,6 +6,5 @@ ADD \
     rootfs/etc/logrotate.d/nginx \
     /etc/logrotate.d/
 ADD \
-    rootfs/etc/supervisor.d/cron \
     rootfs/etc/supervisor.d/nginx \
     /etc/supervisor.d/

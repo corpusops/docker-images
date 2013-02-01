@@ -671,10 +671,9 @@ gen_image() {
         IMG=$(cat ../tag )
     fi
     export _cops_BASE=$image
-    export _cops_SYSTEM=$system
     export _cops_VERSION=$tag
     export _cops_IMG=$DOCKER_REPO/$(basename $IMG)
-    debug "IMG: $_cops_IMG | SYSTEM: $_cops_SYSTEM | BASE: $_cops_image | VERSION: $_cops_VERSION"
+    debug "IMG: $_cops_IMG | BASE: $_cops_image | VERSION: $_cops_VERSION"
     for folder in . .. ../../..;do
         local df="$folder/Dockerfile.override"
         if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
@@ -693,7 +692,7 @@ gen_image() {
     else
         debug "Using dockerfiles: $dockerfiles from $_cops_IMG"
     fi
-    cat $dockerfiles | envsubst '$_cops_BASE;$_cops_VERSION;$_cops_SYSTEM' > Dockerfile
+    cat $dockerfiles | envsubst '$_cops_BASE;$_cops_VERSION;' > Dockerfile
     cd - &>/dev/null
 }
 ### end - docker remote api
