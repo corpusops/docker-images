@@ -320,14 +320,24 @@ library/alpine/latest\
  library/php/7.3-fpm-alpine\
  library/php/7.3-zts-alpine\
  library/elasticsearch/5-alpine\
+ library/elasticsearch/6.5.4\
+ library/elasticsearch/6.5.3\
+ library/elasticsearch/6.5.2\
+ library/elasticsearch/6.5.1\
+ library/elasticsearch/6.5.0\
  library/solr/alpine\
  library/redis/alpine\
  library/redis/5.0-alpine\
  library/redis/5-alpine\
  library/redis/4.0-alpine\
  library/redis/4-alpine\
+ minio/minio/edge\
+ minio/minio/latest\
+ minio/mint/1.0.0\
+ minio/mint/edge\
+ minio/mint/latest\
  mailhog/mailhog/latest\
- library/solr/7-alpine::60
+ library/solr/7-alpine::71
 library/debian/latest\
  library/debian/slim\
  library/debian/sid\
@@ -348,8 +358,16 @@ library/debian/latest\
  library/nginx/mainline-perl\
  library/nginx/stable\
  library/nginx/stable-perl\
+ library/elasticsearch/6.4.3\
+ library/elasticsearch/6.4.2\
+ library/elasticsearch/6.4.1\
+ library/elasticsearch/6.4.0\
  library/elasticsearch/1\
- library/elasticsearch/2::30
+ minio/doctor/latest\
+ minio/k8s-operator/latest\
+ minio/mc/edge\
+ minio/mc/latest\
+ library/elasticsearch/2::39
 library/ubuntu/latest\
  library/ubuntu/bionic\
  library/ubuntu/18.04\
