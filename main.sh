@@ -223,7 +223,7 @@ NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
-SKIP_MINOR="((redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|mongo):.*([0-9]\.?){3}(-32bit.*)?)"
+SKIP_MINOR="((dejavu|redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|mongo):.*([0-9]\.?){3}(-32bit.*)?)"
   SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
 SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu|oldstable|oldoldstable):.*[0-9]{8}.*)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|squeeze))"
@@ -239,6 +239,7 @@ SKIP_MISC="(-?(on.?build)|pgrouting.*old)"
 SKIPPED_TAGS="($SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
 CURRENT_TS=$(date +%s)
 default_images="
+appbaseio/dejavu
 minio/mint
 minio/minio
 minio/mc

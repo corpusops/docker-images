@@ -61,6 +61,7 @@
 | [makinacorpus/pgrouting](https://hub.docker.com/makinacorpus/pgrouting)([./makinacorpus/pgrouting](./makinacorpus/pgrouting)) | [corpusops/pgrouting](https://hub.docker.com/r/corpusops/pgrouting)             |
 | [mdillon/postgis](https://hub.docker.com/mdillon/postgis)([./mdillon/postgis](./mdillon/postgis))                             | [corpusops/postgis](https://hub.docker.com/r/corpusops/postgis)                 |
 | [mailhog/mailhog](https://hub.docker.com/mailhog/mailhog)([./mailhog/mailhog](./mailhog/mailhog))                             | [corpusops/mailhog](https://hub.docker.com/r/corpusops/mailhog)                 |
+| [appbaseio/dejavu](https://hub.docker.com/appbaseio/dejavu)([./appbaseio/dejavu](./appbaseio/dejavu))                         | [corpusops/mailhog](https://hub.docker.com/r/corpusops/mailhog)                 |
 
 - Those helpers (docker entrypoints) are added:
 
