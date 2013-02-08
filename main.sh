@@ -239,6 +239,11 @@ SKIP_MISC="(-?(on.?build)|pgrouting.*old)"
 SKIPPED_TAGS="($SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
 CURRENT_TS=$(date +%s)
 default_images="
+minio/mint
+minio/minio
+minio/mc
+minio/doctor
+minio/k8s-operator
 library/alpine
 library/centos
 library/debian
