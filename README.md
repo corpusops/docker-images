@@ -128,16 +128,37 @@ You better have to read the entrypoints to understand how they work.
 - One usual way to use this providen entrypoint is to launch it through forego to gain also logrotate support for free.<br/>
   Remember also that all files in ``/etc/nginx`` will be proccessed by envsubst
   and all variables prefixed by ``NGINX_`` will be replaced. Also .template files
-  will be skipped (eg: /etc/nginx/foo.template).
+  will be skipped (eg: /etc/nginx/foo.template). We integrated both supervisord (recommended) and forego configs
+    - supervisord example
 
-    ```yaml
-    nginx:
-      image: "corpusops/nginx"
-      entrypoint: /bin/forego.sh
-      environment:
-      - FOREGO_PROCFILE=/etc/procfiles/nginx_logrotate.Procfile
-      - NGINX_FOOBAR=footruc
-    ```
+        ```yaml
+        nginx:
+          command: >
+            /bin/sh -c "
+            CONF_PREFIX=MYAPP__ confenvsubst.sh /etc/nginx/conf.d/default.conf.template
+            > /etc/nginx/conf.d/default.conf
+            && exec /bin/supervisord.sh"
+          environment:
+          - SUPERVISORD_CONFIGS=/etc/supervisor.d/cron /etc/supervisor.d/nginx
+          volumes:
+          - ./myvhost.conf:/etc/nginx/conf.d/default.conf.template
+
+        ```
+
+    - forego example
+
+        ```yaml
+        nginx:
+          command: >
+            /bin/sh -c "
+            CONF_PREFIX=MYAPP__ confenvsubst.sh /etc/nginx/conf.d/default.conf.template
+            > /etc/nginx/conf.d/default.conf
+            && : exec /bin/forego.sh"
+          environment:
+          - FOREGO_PROCFILE=/etc/procfiles/nginx_logrotate.Procfile
+          volumes:
+          - ./myvhost.conf:/etc/nginx/conf.d/default.conf.template
+        ```
 
 ### traefik helper: /bin/traefik.sh
 - [/bin/traefik.sh](./rootfs/bin/traefik.sh): helper to dockerize traefik
