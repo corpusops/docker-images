@@ -25,13 +25,17 @@ export SUPERVISORD_LOGFILE_MAXBYTES="${SUPERVISORD_LOGFILE_MAXBYTES:-"50MB"}"
 export SUPERVISORD_LOGFILE_BACKUPS="${SUPERVISORD_LOGFILE_BACKUPS:-"31"}"
 DEFAULT_CONFIG_TEMPLATE="
 [supervisord]
-logfile=$SUPERVISORD_LOGFILE
-logfile_maxbytes=$SUPERVISORD_LOGFILE_MAXBYTES
-logfile_backups=$SUPERVISORD_LOGFILE_BACKUPS
 # loglevel=$SUPERVISORD_LOGLEVEL
 pidfile=%(here)s/$SUPERVISORD_DIR/supervisord.pid
 identifier=supervisor
+logfile=$SUPERVISORD_LOGFILE
 "
+if ! ( echo $SUPERVISORD_LOGFILE|egrep -q /dev/std );then
+DEFAULT_CONFIG_TEMPLATE="$DEFAULT_CONFIG_TEMPLATE
+logfile_maxbytes=$SUPERVISORD_LOGFILE_MAXBYTES
+logfile_backups=$SUPERVISORD_LOGFILE_BACKUPS
+"
+fi
 if [[ -n $SUPERVISORD_HAS_SOCK ]] || [[ -n $SUPERVISORD_HAS_HTTP ]];then
   DEFAULT_CONFIG_TEMPLATE="$DEFAULT_CONFIG_TEMPLATE
 [supervisorctl]
@@ -66,12 +70,13 @@ for i in $SUPERVISORD_LOGSDIR $SUPERVISORD_DIR;do
     if [ ! -e "$i" ];then mkdir -p "$i";fi
 done
 SUPERVISORD_CFG="${SUPERVISORD_CFG:-"$SUPERVISORD_DIR/supervisord.conf"}"
-SUPERVISORD_CONFIGS="
-${SUPERVISORD_CONFIGS-}
-$( (find /etc/supervisor.d -type f 2>/dev/null || /bin/true)|grep -v $SUPERVISORD_CFG|sort -d|awk '!seen[$0]++')
-$( (find /etc/supervisor /etc/supervisord $SUPERVISORD_DIR \
+DEFAULT_SUPERVISORD_CONFIGS="
+$( (find /etc/supervisord.d /etc/supervisor.d -type f 2>/dev/null || /bin/true)|grep -v $SUPERVISORD_CFG|sort -d|awk '!seen[$0]++')
+$( (find \
+    /etc/supervisor $SUPERVISORD_DIR /etc/supervisord \
     -type f -and \( -name '*.conf' -or -name '*.ini' \) -and min-depth 2\
     2>/dev/null|grep -v $SUPERVISORD_CFG ||/bin/true)|sort -d| awk '!seen[$0]++')"
+SUPERVISORD_CONFIGS="${SUPERVISORD_CONFIGS-${DEFAULT_SUPERVISORD_CONFIGS}}"
 if [ ! -e $SUPERVISORD_CFG ];then
     echo "$DEFAULT_CONFIG_TEMPLATE" | envsubst "$(get_conf_vars)" \
         > "$SUPERVISORD_CFG.template"
