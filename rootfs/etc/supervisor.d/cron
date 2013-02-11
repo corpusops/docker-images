@@ -1,11 +1,11 @@
 [program:crond]
-command = crond -f
+command = sh -c '\
+    set -ex;if ( which cron >/dev/null 2>&1 );then cron=$(which cron); \
+    elif ( which crond >/dev/null 2>&1 );then cron=$(which crond); \
+    else echo "no cron";exit 1;fi \
+    && exec $cron -f'
 autostart = true
-stdout_logfile = $SUPERVISORD_LOGSDIR/%(program_name)s_out.log
-stdout_logfile_maxbytes = $SUPERVISORD_LOGFILE_MAXBYTES
-stdout_logfile_backups = $SUPERVISORD_LOGFILE_BACKUPS
-stderr_logfile = $SUPERVISORD_LOGSDIR/%(program_name)s_err.log
-stderr_logfile_maxbytes = $SUPERVISORD_LOGFILE_MAXBYTES
-stderr_logfile_backups = $SUPERVISORD_LOGFILE_BACKUPS
-stdout_events_enabled = true
-stderr_events_enabled = true
+startsecs = 1
+autorestart = true
+stdout_logfile=/dev/stdout
+stderr_logfile=/dev/stderr

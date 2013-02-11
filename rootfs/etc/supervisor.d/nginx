@@ -1,12 +1,13 @@
 [program:nginx]
-command = sh -c 'b=nginx && if [ -e /bin/nginx.sh ];then b=/bin/nginx.sh; fi && echo "Using $b">&2 && $b -g "daemon off;"'
-autostart=true
-stdout_logfile = $SUPERVISORD_LOGSDIR/%(program_name)s_out.log
-stdout_logfile_maxbytes = $SUPERVISORD_LOGFILE_MAXBYTES
-stdout_logfile_backups = $SUPERVISORD_LOGFILE_BACKUPS
-stderr_logfile = $SUPERVISORD_LOGSDIR/%(program_name)s_err.log
-stderr_logfile_maxbytes = $SUPERVISORD_LOGFILE_MAXBYTES
-stderr_logfile_backups = $SUPERVISORD_LOGFILE_BACKUPS
-stdout_events_enabled = true
-stderr_events_enabled = true
-redirect_stderr=True
+command = sh -c '\
+    b=nginx \
+    && if [ -e /bin/nginx.sh ];then b=/bin/nginx.sh;fi \
+    && echo "Using $b">&2 && exec $b -g "daemon off;"'
+autorestart = true
+startsecs = 5
+killasgroup = true
+stopasgroup = true
+stopsignal = KILL
+stopwaitsecs = 3
+stdout_logfile=/dev/stdout
+stderr_logfile=/dev/stderr
