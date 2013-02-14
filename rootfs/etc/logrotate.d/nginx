@@ -1,6 +1,10 @@
 # to be processed by envsubst
 
-/zlog/*-error.log
+/log/nginx/*-error.log
+/log/nginx/*-access.log
+/logs/nginx/*-error.log
+/logs/nginx/*-access.log
+/log/*-error.log
 /log/*-access.log
 /logs/*-error.log
 /logs/*-access.log
