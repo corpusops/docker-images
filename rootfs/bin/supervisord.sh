@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-CONF_PREFIX="${SUPERVISORD_CONF_PREFIX:-${CONF_PREFIX:-SUPERVISORD_}}"
+SUPERVISORD_CONF_PREFIX="${SUPERVISORD_CONF_PREFIX:-${CONF_PREFIX:-SUPERVISORD_}}"
 get_conf_vars() {
     echo $( env | egrep "${CONF_PREFIX}[^=]+=.*" \
             | sed -re "s/((${CONF_PREFIX})[^=]+)=.*/$\1;/g";); }
@@ -57,6 +57,11 @@ username=$SUPERVISORD_USER
 password=$SUPERVISORD_PASSWORD
 "
 fi
+DEFAULT_CONFIG_TEMPLATE="$DEFAULT_CONFIG_TEMPLATE
+#
+# Programs
+#
+"
 for i in $SUPERVISORD_LOGSDIR $SUPERVISORD_DIR;do
     if [ ! -e "$i" ];then mkdir -p "$i";fi
 done
@@ -70,11 +75,8 @@ $( (find /etc/supervisor /etc/supervisord $SUPERVISORD_DIR \
 if [ ! -e $SUPERVISORD_CFG ];then
     echo "$DEFAULT_CONFIG_TEMPLATE" | envsubst "$(get_conf_vars)" \
         > "$SUPERVISORD_CFG.template"
-    for i in ${SUPERVISORD_CFG}.template $SUPERVISORD_CONFIGS;do if [ -e "$i" ];then
-        echo "Running envsubst on $i" >&2
-        echo >> "$SUPERVISORD_CFG"
-        envsubst "$(get_conf_vars)" >> "$SUPERVISORD_CFG" < "$i"
-    fi;done
+    ENVSUBST_DEST="$SUPERVISORD_CFG" CONF_PREFIX="$SUPERVISORD_CONF_PREFIX" \
+        confenvsubst.sh ${SUPERVISORD_CFG}.template $SUPERVISORD_CONFIGS
 fi
 get_command() {
     local p=

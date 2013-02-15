@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 set -e
-CONF_PREFIX="${NGINX_CONF_PREFIX:-${CONF_PREFIX:-NGINX_}}"
+export NGINX_CONF_PREFIX="${NGINX_CONF_PREFIX:-${CONF_PREFIX:-NGINX_}}"
 get_conf_vars() {
     echo $( env | egrep "${CONF_PREFIX}[^=]+=.*" \
             | sed -re "s/((${CONF_PREFIX})[^=]+)=.*/$\1;/g";); }
@@ -26,13 +26,7 @@ for e in $NGINX_LOGS_DIRS $NGINX_CONF_DIR;do
     if [ ! -e "$e" ];then mkdir -p "$e";fi
     if [ "x$NO_CHOWN" != "x" ] && [ -e "$e" ];then chown "$NGINX_USER" "$e";fi
 done
-for i in $NGINX_CONFIGS;do if [ -e "$i" ];then
-    echo "Running envsubst on $i" >&2
-    content="$(cat $i)"
-    dest=$i
-    cp -p "$i" "${dest}"
-    echo "$content"|envsubst "$(get_conf_vars)" > "$dest"
-fi;done
+CONF_PREFIX="$NGINX_CONF_PREFIX" confenvsubst.sh $NGINX_CONFIGS
 chmod 600 /etc/logrotate.d/nginx
 exec $NGINX_BIN "$@"
 # vim:set et sts=4 ts=4 tw=80:

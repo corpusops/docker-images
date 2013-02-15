@@ -20,11 +20,6 @@ if [ -e "$TRAEFIK_CONFIG" ];then
     export TRAEFIK_CONFIGS="$TRAEFIK_CONFIGS $TRAEFIK_CONFIG"
     export TRAEFIK_ARGS="$TRAEFIK_ARGS -c ${TRAEFIK_CONFIG}.run"
 fi
-for i in $TRAEFIK_CONFIGS;do if [ -e "$i" ] && [ "x$NO_ENVSUBST" = "x" ];then
-    echo "Running envsubst on $i" >&2
-    content="$(cat $i)"
-    cp -p "$i" "${i}.run"
-    echo "$content" | envsubst "$(get_conf_vars)" > "${i}.run"
-fi;done
+CONF_PREFIX="$TRAEFIK_CONF_PREFIX" confenvsubst.sh $TRAEFIK_CONFIGS
 exec $TRAEFIK_BIN ${@} $TRAEFIK_ARGS
 # vim:set et sts=4 ts=4 tw=80:
