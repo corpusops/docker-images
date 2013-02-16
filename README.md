@@ -26,6 +26,7 @@
     - [confd](https://github.com/kelseyhightower/confd): tool to generates configs from templates when envsubst or basic shell is just not enougth
     - [dockerize](https://github.com/jwilder/dockerize): tool to orchestrate containers between themselves
     - [gosu](https://github.com/tianon/gosu): tool to downgrade privileges, the perfect SUDO.
+    - [confenvsubst](./rootfs/bin/confenvsubst.sh): tool to generate configs from env vars with well knows prefixes
     - Except for alpine based images (using musl, so no locales): setup sensible locales for: ``fr``, ``en``, ``de``.
 
 - (1): if it is packaged on the underlying distrib (eg: runit is only on alpine>3)
