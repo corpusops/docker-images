@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
-CONF_PREFIX=FOREGO_
+set -e
+CONF_PREFIX="${FOREGO_CONF_PREFIX:-${CONF_PREFIX:-FOREGO_}}"
 get_conf_vars() {
     echo $( env | egrep "${CONF_PREFIX}[^=]+=.*" \
-    | sed -e "s/\(${CONF_PREFIX}[^=]\+\)=.*/$\1;/g";); }
+            | sed -re "s/((${CONF_PREFIX})[^=]+)=.*/$\1;/g";); }
 SDEBUG=${SDEBUG-}
 if [ "x$SDEBUG" != "x" ];then set -x;fi
 export FOREGO_PROCFILE="${FOREGO_PROCFILE-${PROCFILE-}}"
@@ -19,6 +20,7 @@ fi
 for i in $FOREGO_PROCFILES;do if [ -e "$i" ];then
     echo "Running envsubst on $i" >&2
     content="$(cat $i)"
+    cp -p "$i" "${i}.run"
     echo "$content" | envsubst "$(get_conf_vars)" > "${i}.run"
 fi;done
 exec $FOREGO_BIN ${@:-start} $FOREGO_ARGS

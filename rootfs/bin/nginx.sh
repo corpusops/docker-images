@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
-CONF_PREFIX=NGINX_
+set -e
+CONF_PREFIX="${NGINX_CONF_PREFIX:-${CONF_PREFIX:-NGINX_}}"
 get_conf_vars() {
     echo $( env | egrep "${CONF_PREFIX}[^=]+=.*" \
-    | sed -e "s/\(${CONF_PREFIX}[^=]\+\)=.*/$\1;/g";); }
+            | sed -re "s/((${CONF_PREFIX})[^=]+)=.*/$\1;/g";); }
 SDEBUG=${SDEBUG-}
 if [ "x$SDEBUG" != "x" ];then set -x;fi
 NO_CHOWN=${NO_CHOWN-}
@@ -29,6 +30,7 @@ for i in $NGINX_CONFIGS;do if [ -e "$i" ];then
     echo "Running envsubst on $i" >&2
     content="$(cat $i)"
     dest=$i
+    cp -p "$i" "${dest}"
     echo "$content"|envsubst "$(get_conf_vars)" > "$dest"
 fi;done
 chmod 600 /etc/logrotate.d/nginx

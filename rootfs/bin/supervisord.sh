@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-CONF_PREFIX=SUPERVISORD_
+set -e
+CONF_PREFIX="${SUPERVISORD_CONF_PREFIX:-${CONF_PREFIX:-SUPERVISORD_}}"
 get_conf_vars() {
     echo $( env | egrep "${CONF_PREFIX}[^=]+=.*" \
-    | sed -e "s/\(${CONF_PREFIX}[^=]\+\)=.*/$\1;/g";); }
+            | sed -re "s/((${CONF_PREFIX})[^=]+)=.*/$\1;/g";); }
 SDEBUG=${SDEBUG-}
 if [ "x$SDEBUG" != "x" ];then set -x;fi
 export SUPERVISORD_USER="${SUPERVISORD_USER:-supervisord}"
@@ -62,10 +63,10 @@ done
 SUPERVISORD_CFG="${SUPERVISORD_CFG:-"$SUPERVISORD_DIR/supervisord.conf"}"
 SUPERVISORD_CONFIGS="
 ${SUPERVISORD_CONFIGS-}
-$(find /etc/supervisor.d -type f 2>/dev/null|grep -v $SUPERVISORD_CFG|sort -d|awk '!seen[$0]++')
-$(find /etc/supervisor /etc/supervisord $SUPERVISORD_DIR \
+$( (find /etc/supervisor.d -type f 2>/dev/null || /bin/true)|grep -v $SUPERVISORD_CFG|sort -d|awk '!seen[$0]++')
+$( (find /etc/supervisor /etc/supervisord $SUPERVISORD_DIR \
     -type f -and \( -name '*.conf' -or -name '*.ini' \) -and min-depth 2\
-    2>/dev/null|grep -v $SUPERVISORD_CFG|sort -d| awk '!seen[$0]++')"
+    2>/dev/null|grep -v $SUPERVISORD_CFG ||/bin/true)|sort -d| awk '!seen[$0]++')"
 if [ ! -e $SUPERVISORD_CFG ];then
     echo "$DEFAULT_CONFIG_TEMPLATE" | envsubst "$(get_conf_vars)" \
         > "$SUPERVISORD_CFG.template"
@@ -78,8 +79,8 @@ fi
 get_command() {
     local p=
     local cmd="${@}"
-    if which which >/dev/null 2>/dev/null;then
-        p=$(which "${cmd}" 2>/dev/null)
+    if ( which which >/dev/null 2>/dev/null );then
+        p=$(which "${cmd}" 2>/dev/null||/bin/true)
     fi
     if [ "x${p}" = "x" ];then
         p=$(export IFS=":";
