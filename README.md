@@ -86,10 +86,25 @@
 ## Zoom on entryoints
 You better have to read the entrypoints to understand how they work.
 
-### supervisord: /bin/supervisord.sh
-- [/bin/supervisord.sh](./rootfs/bin/supervisord.sh):
-    - generates its config (read the helper) by concatenating all config files found inside ``/etc/supervisor.d``
+### supervisord helper: /bin/supervisord.sh
+- [/bin/supervisord.sh](./rootfs/bin/supervisord.sh): helper to dockerize supervisord-go
+    - generates its config (read the helper) by concatenating all config (.conf, .ini) files
+      found inside subdirectories of <br/>
+      ``/etc/supervisor.d``, ``/etc/supervisor``, ``/etc/supervisord``, in t
     - envsubst is done on config files for all vars beginning by ``SUPERVISORD_``
+    - ``SUPERVISORD_CONFIGS`` can be set to alternate configs to aggregate to supervisord config
+    - ``SUPERVISORD_LOGFILE`` can be set up to another path, as we set it to stdout by defaut
+- One usual way to use this providen entrypoint is to launch it through supervisor to gain also logrotate support for free.<br/>
+
+    ```yaml
+    supervisord:
+      image: "corpusops/supervisord"
+      entrypoint: /bin/supervisord.sh
+      environment:
+      - export SUPERVISORD_LOGFILE=/dev/stdout
+      - SUPERVISORD_CONFIGS=/foo/s.conf
+    ```
+
 ### forego helper: /bin/forego.sh
 - [/bin/forego.sh](./rootfs/bin/forego.sh): helper to dockerize forego :
     - envsubst is done on Procfiles for all vars beginning by ``FOREGO_``
