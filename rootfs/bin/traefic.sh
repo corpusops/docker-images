@@ -5,18 +5,21 @@ get_conf_vars() {
     | sed -e "s/\(${CONF_PREFIX}[^=]\+\)=.*/$\1;/g";); }
 SDEBUG=${SDEBUG-}
 if [ "x$SDEBUG" != "x" ];then set -x;fi
-export TRAEFIC_CONFIGS="
-$( find $TRAEFIC_CONFIGS_DIR -type f|grep -v .run)"
+export NO_ENVSUBST=""
+export TRAEFIC_CONFIGS=""
 export TRAEFIC_BIN="${TRAEFIC_BIN:-"traefic"}"
-export TRAEFIC_ARGS="${TRAEFIC_ARGS}"
-export TRAEFIC_DEFAULT_CONFIG="${TRAEFIC_DEFAULT_CONFIG:-"/traefic.toml"}"
+export TRAEFIC_ARGS="${TRAEFIC_ARGS-}"
+export TRAEFIC_DEFAULT_CONFIG=""
+if ! ( echo "$@" |egrep -q -- ' -c |--config' );then
+    export TRAEFIC_DEFAULT_CONFIG="/traefic.toml"
+fi
 export TRAEFIC_CONFIG="${TRAEFIC_CONFIG:-${TRAEFIC_DEFAULT_CONFIG}}"
 for e in $TRAEFIC_CONF_DIR;do if [ ! -e "$e" ];then mkdir -p "$e";fi;done
 if [ -e "$TRAEFIC_CONFIG" ];then
     export TRAEFIC_CONFIGS="$TRAEFIC_CONFIGS $TRAEFIC_CONFIG"
     export TRAEFIC_ARGS="$TRAEFIC_ARGS -c ${TRAEFIC_CONFIG}.run"
 fi
-for i in $TRAEFIC_CONFIGS;do if [ -e "$i" ];then
+for i in $TRAEFIC_CONFIGS;do if [ -e "$i" ] && [ "x$NO_ENVSUBST" = "x" ];then
     echo "Running envsubst on $i" >&2
     content="$(cat $i)"
     echo "$content" | envsubst "$(get_conf_vars)" > "${i}.run"

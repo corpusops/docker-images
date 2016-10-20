@@ -129,7 +129,7 @@ You better have to read the entrypoints to understand how they work.
     - Or, easier, you can use either
         - the ``TRAEFIC_CONFIG`` env var pointing to your config.
         - mount a file to ``/traefic.toml``
-    - This config file will be parsed by envsubst.
+    - This config file will be parsed by envsubst for any env var prefixed by ``TRAEFIC_``.
 
         ```yaml
         traefic:
