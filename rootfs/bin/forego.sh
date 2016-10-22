@@ -8,7 +8,7 @@ if [ "x$SDEBUG" != "x" ];then set -x;fi
 export FOREGO_PROCFILE="${FOREGO_PROCFILE-${PROCFILE-}}"
 export FOREGO_PROCFILES_DIR="${FOREGO_PROCFILES_DIR:-"/etc/procfiles"}"
 export FOREGO_PROCFILES="
-$( find $FOREGO_PROCFILES_DIR -type f|grep -v .run)"
+$( find $FOREGO_PROCFILES_DIR -type f 2>/dev/null|grep -v .run)"
 export FOREGO_BIN="${FOREGO_BIN:-"forego"}"
 export FOREGO_ARGS="${FOREGO_ARGS}"
 for e in $FOREGO_CONF_DIR;do if [ ! -e "$e" ];then mkdir -p "$e";fi;done
