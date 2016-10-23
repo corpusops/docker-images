@@ -123,21 +123,21 @@ You better have to read the entrypoints to understand how they work.
     ```
 
 ### traefik helper: /bin/traefik.sh
-- [/bin/traefic.sh](./rootfs/bin/traefic.sh): helper to dockerize traefic
+- [/bin/traefik.sh](./rootfs/bin/traefik.sh): helper to dockerize traefik
 - As you may know, forego uses a Procfile to configure itself.
-    - You can either use this entrypoint directly by giving args including the traefic config
+    - You can either use this entrypoint directly by giving args including the traefik config
     - Or, easier, you can use either
-        - the ``TRAEFIC_CONFIG`` env var pointing to your config.
-        - mount a file to ``/traefic.toml``
-    - This config file will be parsed by envsubst for any env var prefixed by ``TRAEFIC_``.
+        - the ``TRAEFIK_CONFIG`` env var pointing to your config.
+        - mount a file to ``/traefik.toml``
+    - This config file will be parsed by envsubst for any env var prefixed by ``TRAEFIK_``.
 
         ```yaml
-        traefic:
-          image: "corpusops/traefic"
-          entrypoint: /bin/traefic.sh
+        traefik:
+          image: "corpusops/traefik"
+          entrypoint: /bin/traefik.sh
           environment:
           # if this file exists, it will be used as the config automatically
-          - TRAEFIC_CONFIG=/traefic.toml
+          - TRAEFIK_CONFIG=/traefik.toml
         ```
 
 ## Support development
