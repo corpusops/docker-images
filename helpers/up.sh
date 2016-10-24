@@ -69,4 +69,7 @@ if [ -e /etc/fedora-release ];then set -x && pkgs="$pkgs glibc";fi
 export FORCE_INSTALL=y
 DO_UPDATE="1" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
 install_gpg
+if ! ( echo foo|envsubst >/dev/null 2>&1);then
+    echo "envsubst is missing"
+fi
 # vim:set et sts=4 ts=4 tw=0:

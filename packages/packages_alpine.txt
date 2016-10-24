@@ -7,3 +7,5 @@ logrotate
 socat
 tzdata
 wget
+# for envsubst
+gettext
