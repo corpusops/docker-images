@@ -24,5 +24,5 @@ for i in $TRAEFIK_CONFIGS;do if [ -e "$i" ] && [ "x$NO_ENVSUBST" = "x" ];then
     content="$(cat $i)"
     echo "$content" | envsubst "$(get_conf_vars)" > "${i}.run"
 fi;done
-$TRAEFIK_BIN ${@} $TRAEFIK_ARGS
+exec $TRAEFIK_BIN ${@} $TRAEFIK_ARGS
 # vim:set et sts=4 ts=4 tw=80:
