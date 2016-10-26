@@ -7,12 +7,13 @@ SDEBUG=${SDEBUG-}
 if [ "x$SDEBUG" != "x" ];then set -x;fi
 export SUPERVISORD_USER="${SUPERVISORD_USER:-supervisord}"
 export SUPERVISORD_PASSWORD="${SUPERVISORD_PASSWORD:-supervisord}"
-export SUPERVISORD_DIR="${SUPERVISORD_DIR:-"/etc/supervisord"}"
+export SUPERVISORD_DIR="${SUPERVISORD_DIR:-"/etc/supervisord-go"}"
 export SUPERVISORD_DEFAULT_CFG="${SUPERVISORD_DEFAULT_CFG:-"$SUPERVISORD_DIR/supervisord.conf"}"
 export SUPERVISORD_SOCKET_PATH="${SUPERVISORD_SOCKET_PATH:-"$SUPERVISORD_DIR/sock/supervisord.sock"}"
 export SUPERVISORD_SOCKET_DIR="$(dirname "$SUPERVISORD_SOCKET_PATH")"
 export SUPERVISORD_PIDFILE="${SUPERVISORD_PIDFILE:-"$SUPERVISORD_DIR/supervisord.pid"}"
 export SUPERVISORD_LOGSDIR="${SUPERVISORD_LOGSDIR:-"/var/log/supervisor"}"
+export SUPERVISORD_LOGFILE="${SUPERVISORD_LOGFILE:-"/dev/stdout"}"
 export SUPERVISORD_LOGFILE="${SUPERVISORD_LOGFILE:-"$SUPERVISORD_LOGSDIR/supervisord.log"}"
 export SUPERVISORD_HAS_HTTP="${SUPERVISORD_HAS_HTTP:-}"
 export SUPERVISORD_HAS_SOCK="${SUPERVISORD_HAS_SOCK:-y}"
@@ -60,10 +61,11 @@ for i in $SUPERVISORD_LOGSDIR $SUPERVISORD_DIR;do
 done
 SUPERVISORD_CFG="${SUPERVISORD_CFG:-"$SUPERVISORD_DIR/supervisord.conf"}"
 SUPERVISORD_CONFIGS="
-$(find /etc/supervisor.d -type f 2>/dev/null|grep -v $SUPERVISORD_CFG|sort -d)
-$(find /etc/supervisor /etc/supervisord -type f \
-    -and \( -name '*.conf' -or -name '*.ini' \) \
-    2>/dev/null|grep -v $SUPERVISORD_CFG|sort -d)"
+${SUPERVISORD_CONFIGS-}
+$(find /etc/supervisor.d -type f 2>/dev/null|grep -v $SUPERVISORD_CFG|sort -d|awk '!seen[$0]++')
+$(find /etc/supervisor /etc/supervisord $SUPERVISORD_DIR \
+    -type f -and \( -name '*.conf' -or -name '*.ini' \) -and min-depth 2\
+    2>/dev/null|grep -v $SUPERVISORD_CFG|sort -d| awk '!seen[$0]++')"
 if [ ! -e $SUPERVISORD_CFG ];then
     echo "$DEFAULT_CONFIG_TEMPLATE" | envsubst "$(get_conf_vars)" \
         > "$SUPERVISORD_CFG.template"
