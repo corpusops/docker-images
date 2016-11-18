@@ -98,7 +98,7 @@ get_command() {
 }
 for csupervisorbin in supervisord-go supervisord;do
     supervisorbin=$(get_command $csupervisorbin)
-    if ( $supervisorbin version || $supervisorbin -v );then break;fi
+    if ( $supervisorbin version >/dev/null 2>&1 || $supervisorbin -v >/dev/null 2>&1);then break;fi
 done
 if [[ -z $supervisorbin ]];then
     echo "Supervisord not found" >&2
