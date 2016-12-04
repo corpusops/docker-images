@@ -39,7 +39,7 @@ RUN sh -c 'set -ex \
     && ./add_gosu.sh \
     && ./add_forego.sh \
     && DEBUG=1 ./setup_locales.sh \
-    && cp -v bin/* cops_pkgmgr_install.sh /bin \
+    && cp -v bin/* setup_locales.sh cops_pkgmgr_install.sh /bin \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go
