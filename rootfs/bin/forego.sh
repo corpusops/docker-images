@@ -21,5 +21,5 @@ for i in $FOREGO_PROCFILES;do if [ -e "$i" ];then
     content="$(cat $i)"
     echo "$content" | envsubst "$(get_conf_vars)" > "${i}.run"
 fi;done
-$FOREGO_BIN ${@:-start} $FOREGO_ARGS
+exec $FOREGO_BIN ${@:-start} $FOREGO_ARGS
 # vim:set et sts=4 ts=4 tw=80:
