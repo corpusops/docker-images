@@ -7,11 +7,11 @@ log() { echo "$@">&2; }
 debug() { if [ "x$DEBUG" = "x"  ];then log "$@";fi }
 vv() { log "$@";    if [ "x${DRYRUN}" = "x" ];then "$@";fi; }
 dvv() { debug "$@"; if [ "x${DRYRUN}" = "x" ];then "$@";fi; }
-is_debian() { cat /etc/*release 2>/dev/null| egrep -iq "debian|ubuntu|mint";  }
+is_debian() { cat /etc/*release 2>/dev/null| grep -E -iq "debian|ubuntu|mint";  }
 is_suse() { test -e /etc/SuSE-brand || test -e /etc/SuSE-release; }
-is_redhat() { cat /etc/*release 2>/dev/null| egrep -iq "centos|red|fedora|oracle|olinux|oh|rhel";  }
-is_alpine() { echo $DISTRIB_ID | egrep -iq "alpine" || test -e /etc/alpine-release; }
-is_archlinux() { cat /etc/*release 2>/dev/null| egrep -iq "arch"; }
+is_redhat() { cat /etc/*release 2>/dev/null| grep -E -iq "centos|red|fedora|oracle|olinux|oh|rhel";  }
+is_alpine() { echo $DISTRIB_ID | grep -E -iq "alpine" || test -e /etc/alpine-release; }
+is_archlinux() { cat /etc/*release 2>/dev/null| grep -E -iq "arch"; }
 if [ "x${SDEBUG}" != "x" ];then set -x;fi
 INSTALL_LOCALES="${INSTALL_LOCALES-"
  fr_FR.UTF-8 fr_FR.ISO-8859-15 fr_FR.ISO-8859-1 fr_FR@euro.ISO-8859-15 fr_FR@euro.ISO-8859-1 \
@@ -59,7 +59,7 @@ lazy_localedef() {
     lazylocale=$1
     ilazylocale=$(sanitize_locale $lazylocale)
     shift
-    if ( sanitize_locale "$(locale -a)"|egrep -q "^$ilazylocale$" );then
+    if ( sanitize_locale "$(locale -a)"|grep -E -q "^$ilazylocale$" );then
         log "Already generated: $lazylocale"
     else
         vv localedef $@ $lazylocale
@@ -79,7 +79,7 @@ for item in $INSTALL_LOCALES;do if [ "x$item" != "x" ] ;then
     fi
     if ( is_debian );then
         vv touch /etc/locale.gen
-        if ! ( egrep -iq "^${lang}.*${variant}.*${cp}" /etc/locale.gen );then
+        if ! ( grep -E -iq "^${lang}.*${variant}.*${cp}" /etc/locale.gen );then
             log "Adding $lang $cp $variant to gen"
             cps="";if ( echo "$cp" | grep -ivq 'iso' );then cps=".${cp}";fi
             echo "${lang}${variant} ${cp}" >> /etc/locale.gen
@@ -98,7 +98,7 @@ if [ "x${INSTALL_DEFAULT_LOCALE}" != "x" ];then
     # some OS has case sensitive locale spelling,
     # try to autodetect it
     AUTODETECTED_LOCALE=$(locale -a\
-        |egrep -i "^$( echo $INSTALL_DEFAULT_LOCALE \
+        |grep -E -i "^$( echo $INSTALL_DEFAULT_LOCALE \
                         | awk '{print tolower($0)}' \
                         |sed -re "s/([-_.])/\1?/g" )$" \
         |head -n1)
@@ -110,7 +110,7 @@ if [ "x${INSTALL_DEFAULT_LOCALE}" != "x" ];then
         if [ -e "$localesenv" ];then
             log "Verifying $localesenv ($INSTALL_DEFAULT_LOCALE)"
             for knob in $ALL_DEFAULT_LANG;do
-                if ! ( egrep -q "^(export +)?$knob=" "$localesenv" );then
+                if ! ( grep -E -q "^(export +)?$knob=" "$localesenv" );then
                     log "Installing $knob in $localesenv"
                     if [ "x$localesenv" = "x/etc/environment" ];then
                         echo "$knob=$INSTALL_DEFAULT_LOCALE" >> "$localesenv"

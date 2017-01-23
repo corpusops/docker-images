@@ -19,7 +19,7 @@ install() {
     && urls="$(do_curl -s -H "Authorization: token $GITHUB_PAT" \
         "https://api.github.com/repos/$PKG/releases/$REMCO_RELEASE" \
         | grep browser_download_url | cut -d "\"" -f 4\
-        | egrep -i "($(uname -s).*$arch|sha)" )" \
+        | grep -E -i "($(uname -s).*$arch|sha)" )" \
     && : :: frep: download and unpack artefacts \
     && for u in $urls;do do_curl -sLO $u;done \
     && echo $(cat frep-*-linux-$arch.sha256|awk '{print $1}'; ls frep-*-linux-$arch )|sed "s/ /  /g" > frep-*-linux-$arch.sha256.v \

@@ -80,40 +80,40 @@ done
 if ( grep -q "release 6" /etc/redhat-release >/dev/null 2>&1 );then
     NOSOCAT=1
 fi
-if (echo $DISTRIB_ID | egrep -iq "debian");then
+if (echo $DISTRIB_ID | grep -E -iq "debian");then
     if [ "x$DISTRIB_RELEASE" = "x" ];then
         if [ -e /etc/debian_version ];then
             DISTRIB_RELEASE=$(cat /etc/debian_version|sed -re "s!/sid!!")
         fi
-        if (echo $DISTRIB_RELEASE | egrep -iq squeeze );then  DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="6" ;fi
-        if (echo $DISTRIB_RELEASE | egrep -iq wheezy );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="7" ;fi
-        if (echo $DISTRIB_RELEASE | egrep -iq jessie );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="8" ;fi
-        if (echo $DISTRIB_RELEASE | egrep -iq stretch );then  DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="9" ;fi
-        if (echo $DISTRIB_RELEASE | egrep -iq buster );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="10";fi
-        if (echo $DISTRIB_RELEASE | egrep -iq bullseye );then DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="11";fi
+        if (echo $DISTRIB_RELEASE | grep -E -iq squeeze );then  DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="6" ;fi
+        if (echo $DISTRIB_RELEASE | grep -E -iq wheezy );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="7" ;fi
+        if (echo $DISTRIB_RELEASE | grep -E -iq jessie );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="8" ;fi
+        if (echo $DISTRIB_RELEASE | grep -E -iq stretch );then  DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="9" ;fi
+        if (echo $DISTRIB_RELEASE | grep -E -iq buster );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="10";fi
+        if (echo $DISTRIB_RELEASE | grep -E -iq bullseye );then DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="11";fi
     fi
     sed -i -re "s/(old)?oldstable/$DISTRIB_CODENAME/g" $(find /etc/apt/sources.list* -type f)
     NAPTMIRROR="http.debian.net|httpredir.debian.org|deb.debian.org"
-elif ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
+elif ( echo $DISTRIB_ID | grep -E -iq "mint|ubuntu" );then
     NAPTMIRROR="archive.ubuntu.com|security.ubuntu.com"
 fi
 DEBIAN_LTS_SOURCELIST="
 deb http://security.debian.org/     $DISTRIB_CODENAME/updates main contrib non-free
 deb-src http://security.debian.org/ $DISTRIB_CODENAME/updates main contrib non-free
 "
-if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" ) \
+if ( echo $_cops_SYSTEM | grep -E -iq "red.?hat" ) \
     && (yum list installed fakesystemd >/dev/null 2>&1);then
     yum swap -y fakesystemd systemd
 fi
 fix_epel() {
-    if ( echo $DISTRIB_RELEASE | egrep -iq "^(6|7)(\.|$)" ) &&\
+    if ( echo $DISTRIB_RELEASE | grep -E -iq "^(6|7)(\.|$)" ) &&\
         [ "x$(find /etc/*repos* -name '*epel*.repo' 2>/dev/null | wc -l)" != "x0" ];then
         log "Patching epel repo to use http"
         sed -i "s/https/http/" /etc/*repos*/*epel*.repo
     fi
 }
 PRE_PACKAGES="ca-certificates epel-release"
-if ( echo $DISTRIB_ID | egrep -iq "centos|red|fedora" ) && ! ( echo $DISTRIB_ID | egrep -iq fedora );then
+if ( echo $DISTRIB_ID | grep -E -iq "centos|red|fedora" ) && ! ( echo $DISTRIB_ID | grep -E -iq fedora );then
     fix_epel
     for pkg in $PRE_PACKAGES;do
         ( vv yum -y install $pkg || vv yum --disablerepo=epel -y install $pkg ) || /bin/true
@@ -121,25 +121,25 @@ if ( echo $DISTRIB_ID | egrep -iq "centos|red|fedora" ) && ! ( echo $DISTRIB_ID 
     done
     fix_epel
 fi
-if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
-    if (echo $DISTRIB_ID|egrep -iq debian);then
+if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
+    if (echo $DISTRIB_ID|grep -E -iq debian);then
         sed -i -r -e '/(((squeeze)-(lts))|testing-backports)/d' \
             $( find /etc/apt/sources.list* -type f; )
     fi
-    if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ];then
+    if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ];then
         # fix old debian unstable images
         sed -i -re "s!sid(/)?!$DISTRIB_CODENAME\1!" $(find /etc/apt/sources.list* -type f)
         OAPTMIRROR="archive.debian.org"
         sed -i -r -e '/-updates|security.debian.org/d' \
             $( find /etc/apt/sources.list* -type f; )
-        if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -eq $DEBIAN_OLDSTABLE ];then
+        if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -eq $DEBIAN_OLDSTABLE ];then
             log "Using debian LTS packages"
             echo "$DEBIAN_LTS_SOURCELIST" >> /etc/apt/sources.list
             rm -rvf /var/lib/apt/*
         fi
     fi
-    if ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" ) && \
-        ( echo $DISTRIB_RELEASE |egrep -iq $oldubuntu);then
+    if ( echo $DISTRIB_ID | grep -E -iq "mint|ubuntu" ) && \
+        ( echo $DISTRIB_RELEASE |grep -E -iq $oldubuntu);then
         OAPTMIRROR="old-releases.ubuntu.com"
         sed -i -r \
             -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
@@ -157,7 +157,7 @@ if [ "x$OAPTMIRROR" != "x" ];then
 fi
 # fix broken curl if needed
 curl_updated=
-if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
+if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
     if ( dpkg -l libcurl3 );then
         for i in curl libcurl3;do
             if ( dpkg -l $i );then
@@ -195,14 +195,14 @@ if [ -e /etc/fedora-release ];then
             yumopts="$yumopts --$opt"
         fi
     done
-    if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME"|egrep -iq "20|heisenbug" );then
+    if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME"|grep -E -iq "20|heisenbug" );then
         DISTRO_SYNC=1
     fi
     if [ "x$DISTRO_SYNC" != "x" ];then vv yum -y distro-sync;fi
     # be sure to install locales
     yuminstall $yumopts -y glibc-common
 fi
-if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME" | egrep -iq alpine );then
+if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME" | grep -E -iq alpine );then
     log "Upgrading alpine"
     apk update && apk add bash
     apk upgrade --update-cache --available

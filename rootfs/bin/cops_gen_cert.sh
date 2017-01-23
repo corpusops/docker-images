@@ -4,7 +4,7 @@ SDEBUG=${SDEBUG-}
 export SSL_COMMON_NAME="${SSL_COMMON_NAME:-"$(hostname -f)"}"
 SSL_ALT_NAMES="${SSL_ALT_NAMES:-""}"
 for cn in "$SSL_COMMON_NAME" "www.$SSL_COMMON_NAME";do
-    if ( echo $SSL_ALT_NAMES | xargs -n1 | egrep -qv "^$cn" );then
+    if ( echo $SSL_ALT_NAMES | xargs -n1 | grep -E -qv "^$cn" );then
         SSL_ALT_NAMES="$SSL_ALT_NAMES $cn"
     fi
 done

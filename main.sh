@@ -6,7 +6,7 @@ export COMPOSE_DOCKER_CLI_BUILD=${COMPOSE_DOCKER_CLI_BUILD-1}
 export BUILDKIT_PROGRESS=${BUILDKIT_PROGRESS-plain}
 ## refresh from corpsusops.bootstrap/hacking/shell_glue (copy paste until last function)
 readlinkf() {
-    if ( uname | egrep -iq "darwin|bsd" );then
+    if ( uname | grep -E -iq "darwin|bsd" );then
         if ( which greadlink 2>&1 >/dev/null );then
             greadlink -f "$@"
         elif ( which perl 2>&1 >/dev/null );then
@@ -269,11 +269,11 @@ find_top_node_() {
     if [ ! -e $img ];then return;fi
     for i in $(
         find $img -maxdepth 1 -mindepth 1 -type d \
-        |grep -v chakra|egrep -- "[^0-9.][0-9]+$"|egrep "1."|sort -V)
+        |grep -v chakra|grep -E -- "[^0-9.][0-9]+$"|grep -E "1."|sort -V)
     do
         for j in $(\
             find $i* -maxdepth 1 -mindepth 0 -type d \
-            |egrep "[0-9]+\.[0-9]+($|-alpine)$"\
+            |grep -E "[0-9]+\.[0-9]+($|-alpine)$"\
             |sed -re 's!.*/!!'|sort -V|tail -n12);do
             ls -d $img/$j
         done
@@ -293,7 +293,7 @@ declare -A duplicated_tags
 declare -A registry_tokens
 declare -A registry_services
 
-is_on_build() { echo "$@" | egrep -iq "on.*build"; }
+is_on_build() { echo "$@" | grep -E -iq "on.*build"; }
 slashcount() { local _slashcount="$(echo "${@}"|sed -e 's![^/]!!g')";echo ${#_slashcount}; }
 
 ## registry code badly inspired from:
@@ -327,7 +327,7 @@ setup_token() {
     registry_service=${registry_services[$tkey]}
     if [[ -z "$registry_token" ]];then
         local authinfos=$(curl -vvv $registry/v2/ 2>&1|grep -i Www-Authenticate:)
-        if ! ( echo  $authinfos | egrep -iq "Www-Authenticate:.*realm.*service" );then
+        if ! ( echo  $authinfos | grep -E -iq "Www-Authenticate:.*realm.*service" );then
             return 1
         fi
         # Www-Authenticate: Bearer realm="https://...",service="registry..."
@@ -349,7 +349,7 @@ get_image_scope() {
 
 get_image_tag() {
     local image="$1"
-    if ( echo $image | egrep -q ":[^/]+$" );then
+    if ( echo $image | grep -E -q ":[^/]+$" );then
         image=$( echo $image | sed -e 's!\(.*\):[^/]\+$!\1!' )
     fi
     echo $image
@@ -357,7 +357,7 @@ get_image_tag() {
 
 get_image_version() {
     local image="$1"
-    if ( echo $image | egrep -q ":[^/]+$" )
+    if ( echo $image | grep -E -q ":[^/]+$" )
         then local tag=${1//*:/}
         else local tag=latest
     fi
@@ -409,7 +409,7 @@ is_an_image_ancestor() {
         get_remote_image_configuration $ancestor 2>/dev/null || : )
     if [[ -n $alastlayer ]];then
         (image_query='.rootfs.diff_ids' \
-            get_remote_image_configuration $itag 2>/dev/null || : ) | egrep -q $alastlayer
+            get_remote_image_configuration $itag 2>/dev/null || : ) | grep -E -q $alastlayer
         ret=$?
     fi
     return $ret
@@ -430,11 +430,11 @@ gen_image() {
     local dockeriles=""
     if [ ! -e "$ldir" ];then mkdir -p "$ldir";fi
     cd "$ldir"
-    if ( echo "$image $tag"|egrep -iq "redhat|centos|oracle|fedora|red-hat" );then
+    if ( echo "$image $tag"|grep -E -iq "redhat|centos|oracle|fedora|red-hat" );then
         system=redhat
-    elif ( echo "$image $tag"|egrep -iq suse );then
+    elif ( echo "$image $tag"|grep -E -iq suse );then
         system=suse
-    elif ( echo "$image $tag"|egrep -iq "mailhog|alpine" );then
+    elif ( echo "$image $tag"|grep -E -iq "mailhog|alpine" );then
         system=alpine
     fi
     IMG=$image
@@ -471,10 +471,10 @@ gen_image() {
 is_skipped() {
     local ret=1 t="$@"
     if [[ -z $SKIPPED_TAGS ]];then return 1;fi
-    if ( echo "$t" | egrep -q "$SKIPPED_TAGS" );then
+    if ( echo "$t" | grep -E -q "$SKIPPED_TAGS" );then
         ret=0
     fi
-    # if ( echo "$t" | egrep -q "/traefik" ) && ( echo "$t" | egrep -vq "alpine" );then
+    # if ( echo "$t" | grep -E -q "/traefik" ) && ( echo "$t" | grep -E -vq "alpine" );then
     #     ret=0
     # fi
     return $ret
@@ -483,7 +483,7 @@ is_skipped() {
 # exit 1
 
 skip_local() {
-    egrep -v "(.\/)?local"
+    grep -E -v "(.\/)?local"
 }
 
 #  get_namespace_tag libary/foo/bar : get image tag with its final namespace
@@ -493,7 +493,7 @@ do_get_namespace_tag() {
         local version=$(basename $image)
         local repo=$DOCKER_REPO
         local tag=$(basename $(dirname $image))
-        if ! ( echo $image|egrep -q "$IMAGES_SKIP_NS" );then
+        if ! ( echo $image|grep -E -q "$IMAGES_SKIP_NS" );then
             local tag="$(dirname $(dirname $image))-$tag"
         fi
         for i in $image $image/.. $image/../../..;do
@@ -548,12 +548,12 @@ get_image_tags() {
     # cleanup elastic minor images (keep latest)
     atags="$(filter_tags "$(cat $t.raw)")"
     changed=
-    if ( echo $t | egrep -q "$ONLY_ONE_MINOR" );then
+    if ( echo $t | grep -E -q "$ONLY_ONE_MINOR" );then
         oomt=""
         for ix in $(seq 0 30);do
-            if ! ( echo "$atags" | egrep -q "^$ix\." );then continue;fi
+            if ! ( echo "$atags" | grep -E -q "^$ix\." );then continue;fi
             for j in $(seq 0 99);do
-                if ! ( echo "$atags" | egrep -q "^$ix\.${j}\." );then continue;fi
+                if ! ( echo "$atags" | grep -E -q "^$ix\.${j}\." );then continue;fi
                 for flavor in "" \
                     alpine alpine3.13 alpine3.14 alpine3.15 alpine3.16 alpine3.5 \
                     trusty xenial bionic focal jammy \
@@ -561,11 +561,11 @@ get_image_tags() {
                     ;do
                     selected=""
                     if [[ -z "$flavor" ]];then
-                        selected="$( (( echo "$atags" | egrep "$ix\.$j\.[0-9]+$" )    || true )|sort -V )"
+                        selected="$( (( echo "$atags" | grep -E "$ix\.$j\.[0-9]+$" )    || true )|sort -V )"
                     else
-                        if ! ( echo "$atags" | egrep -q "$ix\.$j\..*$flavor$" );then continue;fi
+                        if ! ( echo "$atags" | grep -E -q "$ix\.$j\..*$flavor$" );then continue;fi
                         for k in $(seq 0 99);do
-                            v=$( (( echo "$atags" | egrep "$ix\.$j\.${k}.*$flavor$" ) || true )|sort -V )
+                            v=$( (( echo "$atags" | grep -E "$ix\.$j\.${k}.*$flavor$" ) || true )|sort -V )
                             if [[ -n $v ]];then
                                 if [[ -n $selected ]];then selected="$selected $v";else selected="$v";fi
                             fi
@@ -613,7 +613,7 @@ do_clean_tags() {
     if [[ -z "$1" ]];then echo "no image";exit 1;fi
     while read image;do
         local tag=$(basename $image)
-        if ! ( echo "$tags" | egrep -q "^$tag$" );then
+        if ! ( echo "$tags" | grep -E -q "^$tag$" );then
             rm -rfv "$image"
         fi
     done < <(find "$W/$image" -mindepth 1 -maxdepth 1 -type d 2>/dev/null|skip_local)
@@ -641,7 +641,7 @@ do_refresh_images() {
                 if [[ -z "${SKIP_MAKE_TAGS-}" ]];then
                     make_tags $image
                 fi
-                if ( echo "$image" | egrep -vq "${PROTECTED_TAGS-}" ) || [[ -z ${PROTECTED_TAGS-} ]];then
+                if ( echo "$image" | grep -E -vq "${PROTECTED_TAGS-}" ) || [[ -z ${PROTECTED_TAGS-} ]];then
                     do_clean_tags $image
                 fi
             fi
@@ -657,7 +657,7 @@ char_occurence() {
 
 
 get_image_from() {
-    local lancestor=$(egrep ^FROM "$1" |head -n1|awk '{print $2}')
+    local lancestor=$(grep -E ^FROM "$1" |head -n1|awk '{print $2}')
     echo $lancestor
 }
 
@@ -674,7 +674,7 @@ is_same_commit_label() {
 
 get_docker_squash_args() {
     DOCKER_DO_SQUASH=${DOCKER_DO_SQUASH-init}
-    if ! ( echo "${NO_SQUASH-}"|egrep -q "^(no)?$" );then
+    if ! ( echo "${NO_SQUASH-}"|grep -E -q "^(no)?$" );then
         DOCKER_DO_SQUASH=""
         log "no squash"
     elif [[ "$DOCKER_DO_SQUASH" = init ]];then
@@ -724,7 +724,7 @@ load_all_batched_images() {
         while read imgs;do if [[ -n "$imgs" ]];then
             load_batched_images "${imgs//*::/}" "${imgs//::*/}"
         fi;done <<< "$BATCHED_IMAGES"
-        _images_list_=$(echo "$_images_list_"|egrep -v "^\s*$"| awk '!seen[$0]++'|sort -V)
+        _images_list_=$(echo "$_images_list_"|grep -E -v "^\s*$"| awk '!seen[$0]++'|sort -V)
     fi
 }
 
@@ -741,11 +741,11 @@ do_build() {
     local images_args="${@:-$default_images}" images="" allcandidates=""
     # batch then all zleftover images that werent batched at first
     local i=
-    if ( echo "$@" |egrep -q zleftover: ) && [[ -z "${SKIP_IMAGES_SCAN}" ]];then
+    if ( echo "$@" |grep -E -q zleftover: ) && [[ -z "${SKIP_IMAGES_SCAN}" ]];then
         load_all_batched_images
         for k in $(do_list_images);do
             for l in $(do_list_image $k);do
-                if ! (echo "$_images_list_"|egrep -q "^$l$");then
+                if ! (echo "$_images_list_"|grep -E -q "^$l$");then
                     if [[ -n "$allcandidates" ]];then allcandidates="$allcandidates ";fi
                     allcandidates="${allcandidates}${l}"
                 fi
@@ -849,7 +849,7 @@ do_list_image() {
     else for i in $(find -mindepth 2 -type d|skip_local );do
              if [ -e "$i/Dockerfile" ];then echo "$i";fi;done
     fi ) \
-    | egrep "${@}" \
+    | grep -E "${@}" \
     | sed -re "s|(\./)?(([^/]+(/[^/]+)))(/.*)|\2\5|g"\
     | awk '!seen[$0]++' | sort -V
 }
@@ -871,7 +871,7 @@ is_in_images() {
     local tomatch="$1"
     shift
     local i=""
-    for i in $@;do if ( echo "$_images_list_"| egrep -iq "^$i$" );then
+    for i in $@;do if ( echo "$_images_list_"| grep -E -iq "^$i$" );then
         ret=0
         break
     fi;done
@@ -905,7 +905,7 @@ load_batched_images() {
             local subimages=$(do_list_image $img)
             if [[ -z $subimages ]];then break;fi
             for j in $subimages;do
-                if ! ( is_in_images $j ) && ( echo "$batched_images" | egrep -q "^$j$");then
+                if ! ( is_in_images $j ) && ( echo "$batched_images" | grep -E -q "^$j$");then
                     local space=" "
                     if [ `expr $counter % $batchsize` = 0 ];then
                         space=""
@@ -969,7 +969,7 @@ do_usage() {
     # Show autodoc help
     awk '{ if ($0 ~ /^#[^!#]/) { \
                 gsub(/^#/, "", $0); print $0 } }' \
-                "$THISSCRIPT"|egrep -v "vim|^ colors"
+                "$THISSCRIPT"|grep -E -v "vim|^ colors"
     echo ""
 }
 

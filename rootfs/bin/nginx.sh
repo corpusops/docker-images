@@ -39,7 +39,7 @@ export NGINX_CONF_RENDER_DIR="${NGINX_CONF_RENDER_DIR:-"/tmp/nginxconf"}"
 export NO_NGINX_LOGROTATE=${NO_NGINX_LOGROTATE-}
 export NGINX_CONFIGS="${NGINX_CONFIGS-"$( \
     find "$NGINX_CONF_DIR" -type f \
-    |egrep -v "$NGINX_FREP_SKIP|\.template$")
+    |grep -E -v "$NGINX_FREP_SKIP|\.template$")
 /etc/logrotate.d/nginx"}"
 log() { echo "$@" >&2; }
 vv() { log "$@";"$@"; }
@@ -81,7 +81,7 @@ if [ "x$SKIP_EXTRA_CONF" = "x" ] && [ -e /nginx.d ];then
     cp -rf /nginx.d/* "$NGINX_CONF_RENDER_DIR"
     if [ "x$SKIP_CONF_RENDER" = "x" ];then
         for v in $(cd "$NGINX_CONF_RENDER_DIR" && find . -type f);do
-            if (echo "$f" |egrep -v "$NGINX_FREP_SKIP");then
+            if (echo "$f" |grep -E -v "$NGINX_FREP_SKIP");then
                 vv frep "$NGINX_CONF_RENDER_DIR/$v:$NGINX_CONF_RENDER_DIR/$v" --overwrite
             fi
         done
@@ -104,7 +104,7 @@ else
     if ( $NGINX_BIN -h 2>&1|grep -q -- -T; );then
         if ( nginx -t &>/dev/null );then
             for i in $($NGINX_BIN -T \
-                | egrep "\s*ssl_dhparam" | grep -v "{{" \
+                | grep -E "\s*ssl_dhparam" | grep -v "{{" \
                 | awk '{print $2}'|sed -re "s/;//g"|awk '!seen[$0]++' );do
                 NGINX_DH_FILES="$NGINX_DH_FILES $i"
             done
@@ -112,7 +112,7 @@ else
             nginxconfs="$(find /etc/nginx/ -type f|xargs cat)"
             if [ "x$nginxconfs" != "x0" ];then
                 for i in $( echo "$nginxconfs"\
-                    | egrep "\s*ssl_dhparam" | grep -v "{{" \
+                    | grep -E "\s*ssl_dhparam" | grep -v "{{" \
                     | awk '{print $2}'|sed -re "s/;//g"|awk '!seen[$0]++' );do
                     NGINX_DH_FILES="$NGINX_DH_FILES $i"
                 done
@@ -157,7 +157,7 @@ fi
 DEFAULT_NGINX_DEBUG_BIN=$(which nginx-debug 2>/dev/null )
 NGINX_DEBUG_BIN=${NGINX_DEBUG_BIN-$DEFAULT_NGINX_DEBUG_BIN}
 # if debug is enabled, try to see if we need to switch binary
-if ( egrep -rvh "^(\s|\t| )*#" $NGINX_CONF_DIR | egrep -rq "error_log .* debug" ) && \
+if ( grep -E -rvh "^(\s|\t| )*#" $NGINX_CONF_DIR | grep -E -rq "error_log .* debug" ) && \
     [ "x$NGINX_DEBUG_BIN" != "x" ];then
     NGINX_BIN="$NGINX_DEBUG_BIN"
 fi

@@ -2,7 +2,7 @@
 set -e
 FOREGO_CONF_PREFIX="${FOREGO_CONF_PREFIX:-${CONF_PREFIX:-FOREGO_}}"
 get_conf_vars() {
-    echo $( env | egrep "${CONF_PREFIX}[^=]+=.*" \
+    echo $( env | grep -E "${CONF_PREFIX}[^=]+=.*" \
             | sed -re "s/((${CONF_PREFIX})[^=]+)=.*/$\1;/g";); }
 SDEBUG=${SDEBUG-}
 if [ "x$SDEBUG" != "x" ];then set -x;fi

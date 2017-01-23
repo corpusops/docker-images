@@ -11,7 +11,7 @@ set -e
 CONF_PREFIX="${CONF_PREFIX:-CONFIG__}"
 CONF_VARS="${CONF_VARS-}"
 get_conf_vars() {
-    echo $( env | egrep "^${CONF_PREFIX}[^=]+=.*" \
+    echo $( env | grep -E "^${CONF_PREFIX}[^=]+=.*" \
             | sed -re "s/((^${CONF_PREFIX})[^=]+)=.*/$\1;/g";); }
 doenvsubst() {
     substsuf=""

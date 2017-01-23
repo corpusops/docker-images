@@ -116,7 +116,7 @@ SUPERVISORD_CONFIGS="${SUPERVISORD_CONFIGS-${@:-${DEFAULT_SUPERVISORD_CONFIGS}}}
 SUPERVISORD_CONFIGS_=
 for i in $SUPERVISORD_CONFIGS;do
     j=$i
-    if ! ( echo $i | egrep -q ^/ );then
+    if ! ( echo $i | grep -E -q ^/ );then
         j=/etc/supervisor.d/$j
     fi
     if [ "x$SUPERVISORD_CONFIGS_" != "x" ];then
