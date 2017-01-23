@@ -21,8 +21,8 @@ jobs:
     steps:
       - name: Set vars
         run: |-
-            if ( echo "$GITHUB_REF" | egrep -q "${RELEASABLE_BRANCHES}" ) \
-            && ( echo "$GITHUB_REPOSITORY" | egrep -q "${RELEASABLE_REPOS}" )
+            if ( echo "$GITHUB_REF" | grep -E -q "${RELEASABLE_BRANCHES}" ) \
+            && ( echo "$GITHUB_REPOSITORY" | grep -E -q "${RELEASABLE_REPOS}" )
             then releasable=true;else releasable=false;fi
             echo "::set-output name=releasable::$releasable"
             echo "::set-output name=silent::$(echo $silent)"

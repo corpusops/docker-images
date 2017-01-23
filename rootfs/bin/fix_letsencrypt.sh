@@ -18,7 +18,7 @@ elif [ -e /etc/redhat-release ];then
     DISTRIB_CODENAME=$(echo $(head  /etc/issue)|awk '{print substr(substr($4,2),1,length($4)-2)}');echo $DISTRIB_RELEASE
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print tolower($3)}')
 fi
-if ( echo ${DISTRIB_ID}${DISTRIB_CODENAME} | egrep -iq ubuntutrusty ) ;then
+if ( echo ${DISTRIB_ID}${DISTRIB_CODENAME} | grep -E -iq ubuntutrusty ) ;then
     sed -i -re 's/mozilla\/DST_Root_CA_X3.crt/!mozilla\/DST_Root_CA_X3.crt/' /etc/ca-certificates.conf
     dpkg-reconfigure -fnoninteractive ca-certificates
     update-ca-certificates

@@ -16,7 +16,7 @@ install() {
     && urls="$(do_curl -s -H "Authorization: token $GITHUB_PAT" \
         "https://api.github.com/repos/kelseyhightower/confd/releases/$CONFD_RELEASE" \
         | grep browser_download_url | cut -d "\"" -f 4\
-        | egrep -i "($(uname -s).*$arch|sha)" )" \
+        | grep -E -i "($(uname -s).*$arch|sha)" )" \
     && : :: confd: download and unpack artefacts \
     && for u in $urls;do do_curl -sLO $u;done \
     && if [ ! -e $COPS_HELPERS ];then mkdir -p "$COPS_HELPERS";fi \

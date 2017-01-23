@@ -26,7 +26,7 @@ if [ "x$NO_PKGS_INSTALL" = "x" ];then
        WANTED_EXTRA_PACKAGES="$pkgs" $W/cops_pkgmgr_install.sh
     fi
 fi
-if [ "x$NO_HELPERS_SYNC" = "x" ] && ! ( echo $T | egrep -q "^/$" );then
+if [ "x$NO_HELPERS_SYNC" = "x" ] && ! ( echo $T | grep -E -q "^/$" );then
     for i in \
         etc/rsyslog.d/ \
         etc/supervisor.d/ \

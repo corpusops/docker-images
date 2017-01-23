@@ -18,7 +18,7 @@ install() {
     && urls="$(do_curl -s -H "Authorization: token $GITHUB_PAT" \
         "https://api.github.com/repos/tianon/gosu/releases/$GOSU_RELEASE" \
                | grep browser_download_url | cut -d "\"" -f 4\
-               | egrep -i "sha|$arch"; )" \
+               | grep -E -i "sha|$arch"; )" \
     && : :: gosu: download artefacts \
     && for u in $urls;do do_curl -sLO $u;done \
     && : :: gosu: integrity check \
