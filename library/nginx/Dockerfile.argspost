@@ -1,0 +1,1 @@
+ARG EXTRA_PACKAGES_LIST="library/nginx/packages_nginx_${SYSTEM}.txt"

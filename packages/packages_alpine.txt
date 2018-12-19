@@ -1,0 +1,7 @@
+bash
+curl
+gnupg
+logrotate
+socat
+tzdata
+wget

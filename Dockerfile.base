@@ -1,0 +1,10 @@
+RUN sh -c 'set -ex \
+    && cd /tmp/corpusopssteroids \
+    && chmod +x *sh \
+    && cat packages_*.txt > ${SYSTEM}.txt \
+    && ./${SYSTEM}_up.sh \
+    && cp -v cops_pkgmgr_install.sh /bin \
+    && ./add_gosu.sh \
+    && ./add_forego.sh \
+    && ./add_dockerize.sh \
+    && DEBUG=1 ./setup_locales.sh '

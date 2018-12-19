@@ -1,0 +1,10 @@
+ADD \
+    helpers/add_gosu.sh \
+    helpers/add_dockerize.sh \
+    helpers/setup_locales.sh \
+    helpers/add_forego.sh \
+    helpers/cops_pkgmgr_install.sh \
+    helpers/${SYSTEM}_up.sh \
+    packages/packages_${SYSTEM}.txt \
+    ${EXTRA_PACKAGES_LIST} \
+    /tmp/corpusopssteroids/

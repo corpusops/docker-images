@@ -1,0 +1,10 @@
+bash
+cronie
+curl
+logrotate
+socat
+timezone
+wget
+tar
+glibc-locale
+glibc-i18ndata
