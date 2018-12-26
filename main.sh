@@ -416,7 +416,8 @@ do_build() {
             if ! ( has_command parallel );then
                 die "install Gnu parallel (package: parrallel on most distrib)"
             fi
-            if ! ( echo "$book" | parallel -j$NBPARALLEL --tty $( [[ -n $DRYRUN ]] && echo "--dry-run" ); );then
+            if ! ( echo "$book" | parallel --joblog build.log -j$NBPARALLEL --tty $( [[ -n $DRYRUN ]] && echo "--dry-run" ); );then
+                if [ -e build.log ];then cat build.log;fi
                 rc=124
             fi
         else
