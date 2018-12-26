@@ -1,4 +1,5 @@
 bash
+ca-certificates
 curl
 gnupg
 logrotate
