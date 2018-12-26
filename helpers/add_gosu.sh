@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
-set -x
+SDEBUG=${SDEBUG-}
+GITHUB_PAT="${GITHUB_PAT:-$(echo 'OGUzNjkwMDZlMzNhYmNmMGRiNmE5Yjg1NWViMmJkNWVlNjcwYTExZg=='|base64 -d)}"
 GOSU_RELEASE="${GOSU_RELEASE:-latest}"
-: install gosu \
+install() {
+    if [ "x${SDEBUG}" != "x" ];then set -x;fi
+    : install gosu \
     && : ::: \
     && mkdir /tmp/gosu && cd /tmp/gosu \
     && : :: gosu: search latest artefacts and SHA files \
@@ -14,7 +17,8 @@ GOSU_RELEASE="${GOSU_RELEASE:-latest}"
             rm -f /k_$k && break;else echo "Keyserver failed: $s" >&2;fi;done \
         && if [ -e /k_$k ];then exit 1;fi \
        done \
-    && urls="$( curl -s "https://api.github.com/repos/tianon/gosu/releases/$GOSU_RELEASE" \
+    && urls="$(curl -s -H "Authorization: token $GITHUB_PAT" \
+        "https://api.github.com/repos/tianon/gosu/releases/$GOSU_RELEASE" \
                | grep browser_download_url | cut -d "\"" -f 4\
                | egrep -i "sha|$arch"; )" \
     && : :: gosu: download artefacts \
@@ -23,6 +27,8 @@ GOSU_RELEASE="${GOSU_RELEASE:-latest}"
     && for i in SHA256SUMS gosu-$arch;do gpg --batch --verify $i.asc $i &> /dev/null;done \
     && grep gosu-$arch SHA256SUMS | sha256sum -c - >/dev/null \
     && : :: gosu: filesystem install \
-    && mv -f gosu-$arch /usr/bin/gosu \
+    && mv -vf gosu-$arch /usr/bin/gosu \
     && chmod +x /usr/bin/gosu && cd / && rm -rf /tmp/gosu
+}
+install;ret=$?;if [ "x$ret" != "x0" ];then SDEBUG=1 install;fi;exit $ret
 # vim:set et sts=4 ts=4 tw=80:

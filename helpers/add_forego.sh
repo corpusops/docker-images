@@ -1,11 +1,14 @@
 #!/usr/bin/env sh
-set -x
+SDEBUG=${SDEBUG-}
+GITHUB_PAT="${GITHUB_PAT:-$(echo 'OGUzNjkwMDZlMzNhYmNmMGRiNmE5Yjg1NWViMmJkNWVlNjcwYTExZg=='|base64 -d)}"
 FOREGO_RELEASE="${FOREGO_RELEASE:-latest}"
+install () {
+    if [ "x${SDEBUG}" != "x" ];then set -x;fi
 : install forego \
     && : ::: \
     && mkdir /tmp/forego && cd /tmp/forego \
     && : :: forego: search latest artefacts and SHA files \
-    && urls="$( curl -s \
+    && urls="$(curl -s -H "Authorization: token $GITHUB_PAT" \
       "https://api.github.com/repos/corpusops/forego/releases/$FOREGO_RELEASE" \
       | grep browser_download_url | cut -d "\"" -f 4; )" \
     && : :: forego: download artefacts \
@@ -13,6 +16,8 @@ FOREGO_RELEASE="${FOREGO_RELEASE:-latest}"
     && : :: forego: integrity check \
     && grep forego.gz forego.gz.sha | sha256sum -c - >/dev/null \
     && : :: forego: filesystem install \
-    && gunzip forego.gz && mv -f forego /usr/bin/forego \
+    && gunzip forego.gz && mv -vf forego /usr/bin/forego \
     && chmod +x /usr/bin/forego && cd / && rm -rf /tmp/forego
+}
+install;ret=$?;if [ "x$ret" != "x0" ];then SDEBUG=1 install;fi;exit $ret
 # vim:set et sts=4 ts=4 tw=80:

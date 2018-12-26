@@ -75,9 +75,7 @@ uniquify_string() {
 }
 do_trap_() { rc=$?;func=$1;sig=$2;${func};if [ "x${sig}" != "xEXIT" ];then kill -${sig} $$;fi;exit $rc; }
 do_trap() { rc=${?};func=${1};shift;sigs=${@};for sig in ${sigs};do trap "do_trap_ ${func} ${sig}" "${sig}";done; }
-is_ci() {
-    return $( ( [ "x${TRAVIS-}" != "x" ] || [ "x${GITLAB_CI}" != "x" ] );echo $?;)
-}
+is_ci() { return $( set +e;( [ "x${TRAVIS-}" != "x" ] || [ "x${GITLAB_CI}" != "x" ] );echo $?; ); }
 log_() {
     reset_colors;msg_color=${2:-${YELLOW}};
     logger_color=${1:-${RED}};
@@ -158,7 +156,7 @@ output_in_error() { ( do_trap output_in_error_post EXIT TERM QUIT INT;\
                       output_in_error_ "${@}" ; ); }
 output_in_error_() {
     if [ "x${OUTPUT_IN_ERROR_DEBUG-}" != "x" ];then set -x;fi
-    if is_ci;then
+    if ( is_ci );then
         DEFAULT_CI_BUILD=y
     fi
     CI_BUILD="${CI_BUILD-${DEFAULT_CI_BUILD-}}"
@@ -186,13 +184,13 @@ output_in_error_() {
         log "Running$([ "x$LOG" != "x" ] && echo "($LOG)"; ): $@";
     fi
     TMPTIMER=
-    if [ "x${DO_OUTPUT_TIMER}" = "x" ]; then
+    if [ "x${DO_OUTPUT_TIMER}" != "x" ]; then
         TMPTIMER=$(mktemp)
         ( i=0;\
           while test -f $TMPTIMER;do\
            i=$((++i));\
            if [ `expr $i % $TIMER_FREQUENCE` -eq 0 ];then \
-               log "BuildInProgress$([ "x$LOG" != "x" ] && echo "($LOG)"; ): ${@}";\
+               log "BuildInProgress$( if [ "x$LOG" != "x" ];then echo "($LOG)";fi ): ${@}";\
              i=0;\
            fi;\
            sleep 1;\
