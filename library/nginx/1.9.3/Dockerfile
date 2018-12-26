@@ -25,10 +25,11 @@ RUN sh -c 'set -ex \
     && cat packages_*.txt > apt.txt \
     && ./apt_up.sh \
     && cp -v cops_pkgmgr_install.sh /bin \
+    && DEBUG=1 ./setup_locales.sh \
+    && ./add_dockerize.sh \
     && ./add_gosu.sh \
     && ./add_forego.sh \
-    && ./add_dockerize.sh \
-    && DEBUG=1 ./setup_locales.sh '
+    '
 ADD helpers/apt_clean.sh /tmp/corpusopssteroids/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \

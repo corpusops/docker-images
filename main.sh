@@ -381,7 +381,7 @@ record_build_image() {
         if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
     done
     local df=${df:-Dockerfile}
-    book="$(printf "docker build -t $repo/$tag:$version $W -f $image/$df\n${book}")"
+    book="$(printf "docker build -t $repo/$tag:$version . -f $image/$df\n${book}")"
 }
 
 #  build $args: refresh images files
