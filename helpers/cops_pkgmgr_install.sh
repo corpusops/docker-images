@@ -278,6 +278,10 @@ detect_os() {
         DISTRIB_CODENAME=$(. /etc/os-release;echo $VERSION)
         DISTRIB_CODENAME=$(echo $DISTRIB_CODENAME |sed -e "s/.*(\([^)]\+\))/\1/")
         DISTRIB_RELEASE=$(. /etc/os-release;echo $VERSION_ID)
+    elif [ -e /etc/alpine-release ];then
+        DISTRIB_ID="alpine"
+        DISTRIB_CODENAME="Alpine Linux"
+        DISTRIB_RELEASE="$(cat /etc/alpine-release)"
     elif [ -e /etc/redhat-release ];then
         RHRELEASE=$(cat /etc/redhat-release)
         DISTRIB_CODENAME=${RHRELEASE}
@@ -301,16 +305,15 @@ get_command() {
         p=$(which "${cmd}" 2>/dev/null)
     fi
     if [ "x${p}" = "x" ];then
-        p=$(export IFS=:;
-            echo "${PATH-}" | while read -ra pathea;do
-                for pathe in "${pathea[@]}";do
-                    pc="${pathe}/${cmd}";
-                    if [ -x "${pc}" ]; then
-                        p="${pc}"
-                    fi
-                done
+        p=$(export IFS=":";
+            for pathe in $PATH;do
+                pc="${pathe}/${cmd}";
+                if [ -x "${pc}" ]; then
+                    p="${pc}"
+                fi
                 if [ "x${p}" != "x" ]; then echo "${p}";break;fi
-            done )
+            done
+         )
     fi
     if [ "x${p}" != "x" ];then
         echo "${p}"
