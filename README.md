@@ -48,6 +48,16 @@
     ./main.sh gen
     ```
 - Commit the whole and check build status on [travis](https://travis-ci.org/corpusops/docker-images/builds)
+- Image can override any of the hooks in this order (placing a ``Dockerfile.<hook_name>`` in the image folder (precedence: tag folder itself, imagefolder (for all tags), and the default ones)
+    - [from](./Dockerfile.from)
+    - [args](./Dockerfile.args)
+    - ``argspost``: just a hook (empty by default)
+    - [helpers](./Dockerfile.helpers)
+    - ``pre``: just a hook (empty by default)
+    - [base](./Dockerfile.base)
+    - ``post``: just a hook (empty by default)
+    - [clean](./Dockerfile.clean)
+    - ``cleanpost``: just a hook (empty by default)
 
 ## Support development
 - Ethereum: ``0xa287d95530ba6dcb6cd59ee7f571c7ebd532814e``
