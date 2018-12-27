@@ -1,8 +1,6 @@
 FROM library/debian:7.3
 ARG DO_UPDATE=y
 ARG NONINTERACTIVE=y
-ARG GPG_KEYS=B42F6819007F00F88E364FD4036A9C25BF357DD4
-ARG GPG_KEYS_SERVERS="https://pgp.key-server.io/ hkp://p80.pool.sks-keyservers.net:80 hkp://ipv4.pool.sks-keyservers.net hkp://keyserver.ubuntu.com:80 hkp://pgp.mit.edu:80"
 ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"
 ARG EXTRA_PACKAGES_LIST="packages/packages_apt.txt"
 ARG COPS_SYSTEM=apt
