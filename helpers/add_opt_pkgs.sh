@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+: "install optional packages" \
+    && pkgs=$(grep -vE "^\s*#" optional_packages.txt  | tr "\n" " ") \
+    && DO_UPDATE="" WANTED_PACKAGES="" WANTED_EXTRA_PACKAGES="$pkgs" \
+     ./cops_pkgmgr_install.sh
+# vim:set et sts=4 ts=4 tw=0:

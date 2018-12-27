@@ -38,10 +38,7 @@ slim-stretch
 2.4-slim-jessie
 2.4-jessie
 2.4-alpine3.6
-2.3-onbuild
-2.4-onbuild
 2.2-slim
-2.2-onbuild
 2.2
 2.2-jessie
 2.2-slim-jessie
@@ -51,8 +48,6 @@ slim-stretch
 2.4-alpine3.4
 alpine3.6
 2-alpine3.6
-onbuild
-2-onbuild
 slim-jessie
 2-slim-jessie
 jessie
@@ -60,11 +55,9 @@ jessie
 alpine3.4
 2-alpine3.4
 2.1-alpine
-2.1-onbuild
 2.1-slim
 2.1
 2.0-slim
-2.0-onbuild
 2.0
 2.2-wheezy
 1-wheezy
@@ -73,9 +66,7 @@ alpine3.4
 1
 1.9
 2.0-wheezy
-1.9-onbuild
 2-wheezy
 wheezy
 2.1-wheezy
-1-onbuild
 1.9-wheezy

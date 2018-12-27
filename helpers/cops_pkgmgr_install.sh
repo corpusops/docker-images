@@ -884,6 +884,9 @@ is_apk_available() {
         if ! ( apk info $i >/dev/null 2>&1 );then
             return 1
         fi
+        if ! ( apk add --simulate $i >/dev/null 2>&1 );then
+            return 1
+        fi
     done
     return 0
 }

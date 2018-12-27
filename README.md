@@ -2,6 +2,7 @@
 
 ## doc
 - Idea is to inject some tools inside base library images
+- We do not wrap ``ONBUILD`` based images.
 - For all we want:
     -  the network swissknifes:
         [socat](http://www.dest-unreach.org/socat/),
@@ -12,10 +13,19 @@
     - [cron](https://fr.wikipedia.org/wiki/Cron): isc cron on debian like, cronie on redhat, busybox cron on alpine (dcron).
     - [logrotate](https://github.com/logrotate/logrotate): the venerable but still useful versatile logrotator
     - [bash](https://www.gnu.org/software/bash/): the venerable shell
-    - [forego](https://github.com/ddollar/forego): *foreman in go*, supervisord/runit/circus/foreman alike
+    - process supervisors:
+        - [forego](https://github.com/ddollar/forego): *foreman in go*, supervisord/runit/circus/foreman alike
+        - [supervisord-go](https://github.com/ochinchina/supervisord): *supervisord in go*, attention, it has bugs like PID1 proccess reaping issues, use with care and read [the tracker](https://github.com/ochinchina/supervisord/issues) and specially [#60](https://github.com/ochinchina/supervisord/issues/60)!
+        - [runit](http://smarden.org/runit/) (1)
+        - [monit](https://mmonit.com/monit/) (1)
+        - foreman(ruby) & supervisord (python) are not bundled
+          as they would add too much dependencies
+          therefore make images grow too much.
     - [dockerize](https://github.com/jwilder/dockerize): tool to orchestrate containers between themselves
     - [gosu](https://github.com/tianon/gosu): tool to downgrade privileges, the perfect SUDO.
     - Except for alpine based images (using musl, so no locales): setup sensible locales for: ``fr``, ``en``, ``de``.
+
+- (1): if it is packaged on the underlying distrib (eg: runit is only on alpine>3)
 
 ## Wrapped images
 

@@ -221,7 +221,7 @@ SKIP_PRE="((node|ruby|postgres|solr|elasticsearch|mongo|php|golang):.*(alpha|bet
 SKIP_OS="((suse|centos|fedora|redhat|alpine|debian|ubuntu):.*[0-9]{8}.*)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
-SKIPPED_TAGS="($SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|-old$)"
+SKIPPED_TAGS="($SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|-onbuild|-old$)"
 CURRENT_TS=$(date +%s)
 default_images="
 library/alpine
@@ -380,13 +380,7 @@ gen_image() {
         local df="$folder/Dockerfile.override"
         if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
     done
-    local parts="args argspost helpers pre base post clean cleanpost"
-    if ! $( is_on_build $_cops_VERSION );then
-        parts="from $parts"
-    else
-        # fetch base image original Dockerfile
-        parts="orig $parts"
-    fi
+    local parts="from args argspost helpers pre base post clean cleanpost"
     for order in $parts;do
         for folder in . .. ../../..;do
             local df="$folder/Dockerfile.$order"

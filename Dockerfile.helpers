@@ -1,10 +1,13 @@
 ADD \
+    helpers/up.sh \
     helpers/add_gosu.sh \
     helpers/add_dockerize.sh \
-    helpers/setup_locales.sh \
     helpers/add_forego.sh \
+    helpers/add_opt_pkgs.sh \
+    helpers/setup_locales.sh \
     helpers/cops_pkgmgr_install.sh \
     helpers/${_cops_SYSTEM}_up.sh \
     packages/packages_${_cops_SYSTEM}.txt \
+    packages/optional_packages_supervisors.txt \
     ${EXTRA_PACKAGES_LIST} \
     /tmp/corpusopssteroids/
