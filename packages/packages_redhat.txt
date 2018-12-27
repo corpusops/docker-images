@@ -1,7 +1,9 @@
 bash
+ca-certificates
 cronie
 curl
 logrotate
 socat
+tar
 tzdata
 wget

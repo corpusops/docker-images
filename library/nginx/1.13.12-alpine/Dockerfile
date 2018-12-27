@@ -8,6 +8,7 @@ ARG EXTRA_PACKAGES_LIST="packages/packages_alpine.txt"
 ARG FOREGO_RELEASE=latest
 ARG GOSU_RELEASE=latest
 ARG DOCKERIZE_RELEASE=latest
+ARG CURL_SSL_OPTS=--tlsv1
 ARG EXTRA_PACKAGES_LIST="library/nginx/packages_nginx_alpine.txt"
 ADD \
     helpers/add_gosu.sh \

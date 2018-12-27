@@ -1,4 +1,5 @@
 bash
+ca-certificates
 cronie
 curl
 logrotate
