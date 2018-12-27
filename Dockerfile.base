@@ -1,8 +1,8 @@
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
     && chmod +x *sh \
-    && cat packages_*.txt > ${SYSTEM}.txt \
-    && ./${SYSTEM}_up.sh \
+    && cat packages_*.txt > ${_cops_SYSTEM}.txt \
+    && ./${_cops_SYSTEM}_up.sh \
     && cp -v cops_pkgmgr_install.sh /bin \
     && DEBUG=1 ./setup_locales.sh \
     && ./add_dockerize.sh \

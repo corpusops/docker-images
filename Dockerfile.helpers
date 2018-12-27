@@ -4,7 +4,7 @@ ADD \
     helpers/setup_locales.sh \
     helpers/add_forego.sh \
     helpers/cops_pkgmgr_install.sh \
-    helpers/${SYSTEM}_up.sh \
-    packages/packages_${SYSTEM}.txt \
+    helpers/${_cops_SYSTEM}_up.sh \
+    packages/packages_${_cops_SYSTEM}.txt \
     ${EXTRA_PACKAGES_LIST} \
     /tmp/corpusopssteroids/

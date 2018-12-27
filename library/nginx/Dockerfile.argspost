@@ -1,1 +1,1 @@
-ARG EXTRA_PACKAGES_LIST="library/nginx/packages_nginx_${SYSTEM}.txt"
+ARG EXTRA_PACKAGES_LIST="library/nginx/packages_nginx_${_cops_SYSTEM}.txt"

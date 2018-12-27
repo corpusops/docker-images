@@ -14,8 +14,7 @@ env:
       sync_code="$install -C --synchronize-code --skip-sync-core" \
       release="$COPS_ROOT/hacking/docker_release" \
       silent_rm="$silent rm -rf"
-  matrix:
-$__images__
+  matrix:$__IMAGES
 cache: {directories: ["$HOME/.cache/pip", "$COPS_ROOT"]}
 before_install:
 - sudo apt-get update -qq

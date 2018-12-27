@@ -1,6 +1,6 @@
-ADD helpers/${SYSTEM}_clean.sh /tmp/corpusopssteroids/
+ADD helpers/${_cops_SYSTEM}_clean.sh /tmp/corpusopssteroids/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
     && chmod +x *sh \
-    && ./${SYSTEM}_clean.sh \
+    && ./${_cops_SYSTEM}_clean.sh \
     && cd / && rm -rf /tmp/corpusopssteroids'

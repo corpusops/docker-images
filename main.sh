@@ -208,6 +208,7 @@ THISSCRIPT=$0
 W="$(dirname $(readlinkf $THISSCRIPT))"
 cd "$W"
 if [[ -n $SDEBUG ]];then set -x;fi
+DEFAULT_REGISTRY=${DEFAULT_REGISTRY:-registry.hub.docker.com}
 DOCKER_REPO=${DOCKER_REPO:-corpusops}
 TOPDIR=$(pwd)
 SDEBUG=${SDEBUG-}
@@ -243,6 +244,115 @@ library/elasticsearch
 makinacorpus/pgrouting
 mdillon/postgis
 "
+declare -A registry_tokens
+declare -A registry_services
+
+is_on_build() { echo "$@" | egrep -iq "on.*build"; }
+slashcount() { local _slashcount="$(echo "${@}"|sed -e 's![^/]!!g')";echo ${#_slashcount}; }
+
+## registry code badly inspired from:
+## https://hackernoon.com/inspecting-docker-images-without-pulling-them-4de53d34a604
+DEFAULT_REGISTRY=${DEFAULT_REGISTRY:-registry.hub.docker.com}
+get_registry() {
+    local image=$@
+    local registry=${2:-$DEFAULT_REGISTRY}
+    local slashcount="$(echo ${image}|sed -e 's![^/]!!g')"
+    local nbslash=$(slashcount $image)
+    if ( echo "$image" |grep -iq gitlab.com );then
+        registry=registry.gitlab.com
+    elif [ $nbslash -gt 1 ];then
+        registry=$(echo $image|sed -e "s/\/.*//g")
+    else
+        registry="${registry}"
+    fi
+    if ( echo $registry | grep -vq -- "://" );then
+        registry="${REGISTRY_SCHEME:-https://}${registry}"
+    fi
+    echo "$registry"
+}
+
+setup_token() {
+    local registry=${1:-$(get_registry default)}
+    if [[ -n "$1" ]];then shift;fi
+    local oargs=${@}
+    local args=$oargs
+    local tkey=${registry}${oargs}
+    registry_token=${registry_tokens[$tkey]}
+    registry_service=${registry_services[$tkey]}
+    if [[ -z "$registry_token" ]];then
+        local authinfos=$(curl -vvv $registry/v2/ 2>&1|grep -i Www-Authenticate:)
+        if ! ( echo  $authinfos | egrep -iq "Www-Authenticate:.*realm.*service" );then
+            return 1
+        fi
+        # Www-Authenticate: Bearer realm="https://...",service="registry..."
+        local authendpoint=$(echo "$authinfos"|sed -e 's!.*realm="\([^"]\+\)".*!\1!g')
+        registry_service=$(echo "$authinfos"|sed -e 's!.*service="\([^"]\+\)".*!\1!g')
+        if [[ -n $args ]];then args="$args&";fi
+        args="${args}service=$registry_service"
+        registry_token=$(curl --silent "$authendpoint?$args" | jq -r '.token')
+    fi
+    if [[ -n $registry_token ]];then
+        registry_tokens[$tkey]="$registry_token"
+        registry_services[$tkey]="$registry_service"
+    fi
+}
+
+get_image_scope() {
+    echo "scope=repository:$1:pull"
+}
+
+get_image_tag() {
+    local image="$1"
+    if ( echo $image | egrep -q ":[^/]+$" );then
+        image=$( echo $image | sed -e 's!\(.*\):[^/]\+$!\1!' )
+    fi
+    echo $image
+}
+
+get_image_version() {
+    local image="$1"
+    if ( echo $image | egrep -q ":[^/]+$" )
+        then local tag=${1//*:/}
+        else local tag=latest
+    fi
+    echo $tag
+}
+
+## Retrieve the digest, now specifying in the header
+## that we have a token (so we can pe...
+get_digest() {
+    local fimage="$1"
+    local image="$(get_image_tag $1)"
+    local tag="$(get_image_version $1)"
+    local registry="$(get_registry $1)"
+    local scope="$(get_image_scope $image $registry)"
+    setup_token $registry $scope
+    curl \
+        --silent \
+        --header "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+        --header "Authorization: Bearer $registry_token" \
+        "$registry/v2/$image/manifests/$tag" \
+        | jq -r '.config.digest'
+}
+
+get_image_configuration() {
+    local fimage="$1"
+    local image="$(get_image_tag $1)"
+    local tag="$(get_image_version $1)"
+    local registry="$(get_registry $1)"
+    local scope="$(get_image_scope $image $registry)"
+    setup_token $registry $scope
+    local digest=$(get_digest $fimage)
+    set -x
+    echo $digest
+    curl -vvv\
+        --silent \
+        --location \
+        --header "Authorization: Bearer $registry_token" \
+        "$registry/v2/$image/blobs/$digest" \
+        | jq -r '.'
+}
+
 gen_image() {
     local image=$1 tag=$2
     local ldir="$TOPDIR/$image/$tag"
@@ -261,29 +371,36 @@ gen_image() {
     if [ -e ../tag ];then
         IMG=$(cat ../tag )
     fi
-    export BASE=$image
-    export SYSTEM=$system
-    export VERSION=$tag
-    export IMG=$DOCKER_REPO/$(basename $IMG)
-    debug "IMG: $IMG | SYSTEM: $SYSTEM | BASE: $image | VERSION: $VERSION"
+    export _cops_BASE=$image
+    export _cops_SYSTEM=$system
+    export _cops_VERSION=$tag
+    export _cops_IMG=$DOCKER_REPO/$(basename $IMG)
+    debug "IMG: $_cops_IMG | SYSTEM: $_cops_SYSTEM | BASE: $_cops_image | VERSION: $_cops_VERSION"
     for folder in . .. ../../..;do
         local df="$folder/Dockerfile.override"
         if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
     done
-    for order in from args argspost helpers pre base post clean cleanpost;do
+    local parts="args argspost helpers pre base post clean cleanpost"
+    if ! $( is_on_build $_cops_VERSION );then
+        parts="from $parts"
+    else
+        # fetch base image original Dockerfile
+        parts="orig $parts"
+    fi
+    for order in $parts;do
         for folder in . .. ../../..;do
             local df="$folder/Dockerfile.$order"
             if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
         done
     done
     if [[ -z $dockerfiles ]];then
-        log "no dockerfile for $image"
+        log "no dockerfile for $_cops_IMG"
         rc=1
         return $rc
     else
-        debug "Using dockerfiles: $dockerfiles from $image"
+        debug "Using dockerfiles: $dockerfiles from $_cops_IMG"
     fi
-    cat $dockerfiles | envsubst '$BASE;$VERSION;$SYSTEM' > Dockerfile
+    cat $dockerfiles | envsubst '$_cops_BASE;$_cops_VERSION;$_cops_SYSTEM' > Dockerfile
     cd - &>/dev/null
 }
 
@@ -433,6 +550,14 @@ do_build() {
 
 
 #  list_images: list images family
+do_list_image() {
+    for i in $(find -mindepth 2 -type d);do
+        if [ -e "$i/Dockerfile" ];then echo "$i";fi
+    done\
+    | egrep "$@" \
+    | sed -re "s|(\./)?(([^/]+(/[^/]+)))(/.*)|\2\5|g"\
+    | awk '!seen[$0]++' | sort -V
+}
 do_list_images() {
     for i in $(find -mindepth 2 -type d);do
         if [ -e "$i/Dockerfile" ];then echo "$i";fi
@@ -441,10 +566,72 @@ do_list_images() {
     | awk '!seen[$0]++' | sort -V
 }
 
+BATCHSIZE=${BATCHSIZE:-16}
+BIG_BATCH_SIZE=${BIG_BATCH_SIZE:-30}
+BATCHED_IMAGES="
+library/php::$BIG_BATCH_SIZE
+library/debian::$BIG_BATCH_SIZE
+library/nginx::$BATCHSIZE
+library/node::$BIG_BATCH_SIZE
+library/ruby::$BIG_BATCH_SIZE
+library/golang::$BIG_BATCH_SIZE
+library/python::$BIG_BATCH_SIZE
+"
+get_batched_images() {
+    local _images_=
+    local batchsize=${batchsize:-$BATCHSIZE}
+    for i in $@;do
+        local subimages=$(do_list_image $i)
+        if [[ -z $subimages ]];then break;fi
+        local batch="  - IMAGES="
+        counter=0
+        for j in $subimages;do
+            local space=" "
+            if [ `expr $counter % $batchsize` = 0 ];then
+                space=""
+                if [ $counter -gt 0 ];then
+                    batch="$(printf -- "${batch}\n  - IMAGES="; )"
+                fi
+            fi
+            counter=$(( $counter+1 ))
+            batch="${batch}${space}${j}"
+        done
+        if [ $counter -gt 0 ];then
+            _images_="$(printf "${_images_}\n${batch}" )"
+        fi
+    done
+    echo "${_images_}"
+}
+
 #  gen_travis; regenerate .travis.yml file
 do_gen_travis() {
-    __images__="$(for i in $(do_list_images);do echo "  - IMAGES=$i";done;echo; )" \
-        envsubst '$__images__' > "$W/.travis.yml" < "$W/.travis.yml.in"
+    local pbatched=""
+    for i in $BATCHED_IMAGES;do
+        local space=""
+        if [[ -n $pbatched ]];then
+            space=" "
+        fi
+        pbatched="$pbatched${space}${i//::*}"
+    done
+    pbatched="${pbatched// /|}"
+    local _images_=''
+    for i in $(do_list_images|egrep  -v "$pbatched");do
+        _images_="$(printf "${_images_}\n  - IMAGES=$i"; )"
+    done
+    local counter=0
+    debug "_images_(pre): $_images_"
+    for i in $BATCHED_IMAGES;do
+        local batchsize=${i//*::}
+        local img=${i//::*}
+        batch="$( batchsize="$batchsize" get_batched_images $img )"
+        debug "_batch_images_($img :: $batchsize): $batch"
+        if [[ -n $batch ]];then
+            _images_="$(printf "${_images_}\n${batch}" )"
+        fi
+    done
+    __IMAGES="$_images_" \
+        envsubst '$__IMAGES;' > "$W/.travis.yml" \
+        < "$W/.travis.yml.in"
 }
 
 #  gen: regenerate both images and travis.yml
