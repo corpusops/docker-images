@@ -4,7 +4,8 @@ RUN sh -c 'set -ex \
     && cat packages_*.txt > ${SYSTEM}.txt \
     && ./${SYSTEM}_up.sh \
     && cp -v cops_pkgmgr_install.sh /bin \
+    && DEBUG=1 ./setup_locales.sh \
+    && ./add_dockerize.sh \
     && ./add_gosu.sh \
     && ./add_forego.sh \
-    && ./add_dockerize.sh \
-    && DEBUG=1 ./setup_locales.sh '
+    '

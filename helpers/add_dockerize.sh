@@ -15,8 +15,8 @@ install() {
         | ( if [ -e /etc/alpine-release ];then grep alpine;else grep -v alpine;fi; ) \
         | egrep -i "($(uname -s).*$arch|sha)" )" \
     && : :: dockerize: download and unpack artefacts \
-    && for u in $urls;do curl -sLO $u && tar -xf $(basename $u);done \
-    && mv -f dockerize /usr/bin/dockerize \
+    && for u in $urls;do curl -sLO $u && tar -xzf $(basename $u);done \
+    && mv -vf dockerize /usr/bin/dockerize \
     && chmod +x /usr/bin/dockerize && cd / && rm -rf /tmp/dockerize
 }
 install;ret=$?;if [ "x$ret" != "x0" ];then SDEBUG=1 install;fi;exit $ret

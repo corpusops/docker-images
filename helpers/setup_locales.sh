@@ -9,7 +9,7 @@ vv() { log "$@";    if [ "x${DRYRUN}" = "x" ];then "$@";fi; }
 dvv() { debug "$@"; if [ "x${DRYRUN}" = "x" ];then "$@";fi; }
 is_debian() { cat /etc/*release | egrep -iq "debian|ubuntu|mint";  }
 is_redhat() { cat /etc/*release | egrep -iq "centos|red|fedora|oracle|olinux|oh|rhel";  }
-is_alpine() { cat /etc/*release | egrep -iq "alpine"; }
+is_alpine() { echo $DISTRIB_ID | egrep -iq "alpine" || test -e /etc/alpine-release; }
 is_archlinux() { cat /etc/*release | egrep -iq "arch"; }
 if [ "x${SDEBUG}" != "x" ];then set -x;fi
 INSTALL_LOCALES="${INSTALL_LOCALES-"
