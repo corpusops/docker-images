@@ -379,7 +379,7 @@ gen_image() {
     export _cops_SYSTEM=$system
     export _cops_VERSION=$tag
     export _cops_IMG=$DOCKER_REPO/$(basename $IMG)
-    debug "IMG: $_cops_IMG | SYSTEM: $_cops_SYSTEM | BASE: $_cops_image | VERSION: $_cops_VERSION"
+    debug "IMG: $_cops_IMG | SYSTEM: $_cops_SYSTEM | BASE: $_cops_image | VERSION: $_cops_VERSION"
     for folder in . .. ../../..;do
         local df="$folder/Dockerfile.override"
         if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
@@ -564,25 +564,23 @@ do_list_images() {
     | awk '!seen[$0]++' | sort -V
 }
 
-BATCHSIZE=${BATCHSIZE:-16}
-BIG_BATCH_SIZE=${BIG_BATCH_SIZE:-30}
 BATCHED_IMAGES="
-library/php::$BIG_BATCH_SIZE
-library/debian::$BIG_BATCH_SIZE
-library/nginx::$BATCHSIZE
-library/node::$BIG_BATCH_SIZE
-library/ruby::$BIG_BATCH_SIZE
-library/golang::$BIG_BATCH_SIZE
-library/python::$BIG_BATCH_SIZE
+library/nginx::25
+library/php library/debian library/python library/node library/ruby library/golang::40
+library/centos library/alpine::100
+library/mysql library/postgres mdillon/postgis makinacorpus/pgrouting::500
 "
 get_batched_images() {
-    local _images_=
-    local batchsize=${batchsize:-$BATCHSIZE}
+    local batch="  - IMAGES="
+    local counter=0
+    local batchsize=$1
+    shift
     for i in $@;do
-        local subimages=$(do_list_image $i)
+        local img=${i//::*}
+        if $(echo $i|grep -q ::);then batchsize=${i//*::};fi
+        debug "_batch_images_($img :: $batchsize): $batch"
+        local subimages=$(do_list_image $img)
         if [[ -z $subimages ]];then break;fi
-        local batch="  - IMAGES="
-        counter=0
         for j in $subimages;do
             local space=" "
             if [ `expr $counter % $batchsize` = 0 ];then
@@ -594,39 +592,34 @@ get_batched_images() {
             counter=$(( $counter+1 ))
             batch="${batch}${space}${j}"
         done
-        if [ $counter -gt 0 ];then
-            _images_="$(printf "${_images_}\n${batch}" )"
-        fi
     done
-    echo "${_images_}"
+    if [ $counter -gt 0 ];then
+        _images_="$(printf "${_images_}\n${batch}" )"
+    fi
 }
 
 #  gen_travis; regenerate .travis.yml file
 do_gen_travis() {
     local pbatched=""
-    for i in $BATCHED_IMAGES;do
+    while read imgs;do
         local space=""
         if [[ -n $pbatched ]];then
             space=" "
         fi
-        pbatched="$pbatched${space}${i//::*}"
-    done
+        for i in ${imgs//::*};do
+            pbatched="$pbatched${space}$i"
+        done
+    done <<< "$BATCHED_IMAGES"
+    pbatched="$pbatched"
     pbatched="${pbatched// /|}"
     local _images_=''
-    for i in $(do_list_images|egrep  -v "$pbatched");do
+    for i in $(do_list_images|egrep -v "$pbatched");do
         _images_="$(printf "${_images_}\n  - IMAGES=$i"; )"
     done
-    local counter=0
     debug "_images_(pre): $_images_"
-    for i in $BATCHED_IMAGES;do
-        local batchsize=${i//*::}
-        local img=${i//::*}
-        batch="$( batchsize="$batchsize" get_batched_images $img )"
-        debug "_batch_images_($img :: $batchsize): $batch"
-        if [[ -n $batch ]];then
-            _images_="$(printf "${_images_}\n${batch}" )"
-        fi
-    done
+    while read imgs;do if [[ -n "$imgs" ]];then
+        get_batched_images "${imgs//*::/}" "${imgs//::*/}"
+    fi;done <<< "$BATCHED_IMAGES"
     __IMAGES="$_images_" \
         envsubst '$__IMAGES;' > "$W/.travis.yml" \
         < "$W/.travis.yml.in"
