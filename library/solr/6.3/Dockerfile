@@ -8,6 +8,7 @@ ARG FOREGO_RELEASE=latest
 ARG GOSU_RELEASE=latest
 ARG DOCKERIZE_RELEASE=latest
 ARG CURL_SSL_OPTS=--tlsv1
+USER root
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
@@ -42,3 +43,4 @@ RUN sh -c 'set -ex \
     && chmod +x *sh \
     && ./apt_clean.sh \
     && cd / && rm -rf /tmp/corpusopssteroids'
+USER solr
