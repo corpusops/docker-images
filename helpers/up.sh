@@ -3,8 +3,14 @@ DISTRIB_ID=
 DISTRIB_CODENAME=
 DISTRIB_RELEAASE=
 oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.)"
-if [ -e /etc/lsb-release ];then
-    . /etc/lsb-release
+NOSOCAT=""
+for i in /etc/os-release /etc/lsb-release;do
+    if [ -e $i ];then
+        . "$i"
+    fi
+done
+if ( grep -q "release 6" /etc/redhat-release >/dev/null 2>&1 );then
+    NOSOCAT=1
 fi
 if ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
     if ( echo $DISTRIB_RELEASE |egrep -iq $oldubuntu);then
@@ -21,7 +27,8 @@ install_gpg() {
     done
     gpg --version &>/dev/null
 }
-DO_UPDATE="1" \
-WANTED_PACKAGES="$(grep -vE '^\s*#' packages.txt  | tr "\n" ' '; )" \
-    ./cops_pkgmgr_install.sh && install_gpg
+pkgs=$(grep -vE '^\s*#' packages.txt | tr "\n" ' ' )
+# only disable socat on CENTOS 6
+if [ "x$NOSOCAT" != "x" ];then pkgs=$(echo $pkgs|sed -e "s/socat//g");fi
+DO_UPDATE="1" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh && install_gpg
 # vim:set et sts=4 ts=4 tw=0:
