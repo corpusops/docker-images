@@ -7,10 +7,11 @@ log() { echo "$@">&2; }
 debug() { if [ "x$DEBUG" = "x"  ];then log "$@";fi }
 vv() { log "$@";    if [ "x${DRYRUN}" = "x" ];then "$@";fi; }
 dvv() { debug "$@"; if [ "x${DRYRUN}" = "x" ];then "$@";fi; }
-is_debian() { cat /etc/*release | egrep -iq "debian|ubuntu|mint";  }
-is_redhat() { cat /etc/*release | egrep -iq "centos|red|fedora|oracle|olinux|oh|rhel";  }
+is_debian() { cat /etc/*release 2>/dev/null| egrep -iq "debian|ubuntu|mint";  }
+is_suse() { test -e /etc/SuSE-brand || test -e /etc/SuSE-release; }
+is_redhat() { cat /etc/*release 2>/dev/null| egrep -iq "centos|red|fedora|oracle|olinux|oh|rhel";  }
 is_alpine() { echo $DISTRIB_ID | egrep -iq "alpine" || test -e /etc/alpine-release; }
-is_archlinux() { cat /etc/*release | egrep -iq "arch"; }
+is_archlinux() { cat /etc/*release 2>/dev/null| egrep -iq "arch"; }
 if [ "x${SDEBUG}" != "x" ];then set -x;fi
 INSTALL_LOCALES="${INSTALL_LOCALES-"
  fr_FR.UTF-8 fr_FR.ISO-8859-15 fr_FR.ISO-8859-1 fr_FR@euro.ISO-8859-15 fr_FR@euro.ISO-8859-1 \
