@@ -1182,8 +1182,7 @@ if [ "x$todo" = "x" ] && [ "x${FORCE_RUN}" = "x" ];then
     ret=0
 else
     if [ "x$WHOAMI" = "xroot" ];then
-        upgrade
-        install
+        upgrade && install
         ret=$?
     else
         export WANTED_PACKAGES="$( echo $COPS_PKGMGR_PKGCANDIDATES $SECONDROUND )"
