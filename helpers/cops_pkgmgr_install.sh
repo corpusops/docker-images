@@ -290,6 +290,15 @@ detect_os() {
         if [ $DISTRIB_MAJOR  -eq 7 ];then DISTRIB_CODENAME="wheezy";fi
         if [ $DISTRIB_MAJOR  -eq 8 ];then DISTRIB_CODENAME="jessie";fi
         if [ $DISTRIB_MAJOR  -eq 9 ];then DISTRIB_CODENAME="stretch";fi
+    elif [ -e /etc/SuSE-brand ] || [ -e /etc/SuSE-release ];then
+        for i in /etc/SuSE-brand /etc/SuSE-release;do
+            if [ -e $i ];then
+                DISTRIB_CODENAME="$(head -n 1 $i)"
+                DISTRIB_ID="openSUSE project"
+                DISTRIB_RELEASE="$(grep VERSION $i |awk '{print $3}')"
+                break
+            fi
+        done
     elif [ -e /etc/redhat-release ];then
         RHRELEASE=$(cat /etc/redhat-release)
         DISTRIB_CODENAME=${RHRELEASE}
