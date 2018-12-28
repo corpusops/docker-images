@@ -1,4 +1,18 @@
 #!/usr/bin/env sh
+DISTRIB_ID=
+DISTRIB_CODENAME=
+DISTRIB_RELEAASE=
+oldubuntu="^(10\.|12\.|14.10|15.04|15.10|16.10|17.04|17.10)"
+if [ -e /etc/lsb-release ];then
+    . /etc/lsb-release
+fi
+if ( echo $DISTRIB_ID|egrep -iq "mint|ubuntu" );then
+    if ( echo $DISTRIB_RELEASE |egrep -iq $oldubuntu);then
+        sed -i -r \
+            -e 's!archive.ubuntu.com!old-releases.ubuntu.com!g' \
+            $(find /etc/apt/sources.list* -type f)
+    fi
+fi
 : "install packages" \
     &&
     DO_UPDATE="1" \
