@@ -2,7 +2,7 @@
 DISTRIB_ID=
 DISTRIB_CODENAME=
 DISTRIB_RELEAASE=
-oldubuntu="^(10\.|12\.|14.10|15.04|15.10|16.10|17.04|17.10)"
+oldubuntu="^(10\.|12\.|13\.14.10|15\.|16.10|17\.)"
 if [ -e /etc/lsb-release ];then
     . /etc/lsb-release
 fi
