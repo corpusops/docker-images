@@ -218,10 +218,14 @@ NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
 SKIP_MINOR="((node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo|ruby):.*([0-9]\.?){3})"
 SKIP_PRE="((node|ruby|postgres|solr|elasticsearch|mongo|php|golang):.*(alpha|beta|rc))"
-SKIP_OS="(debian:(6.*|stretch)|(suse|centos|fedora|redhat|alpine|debian|ubuntu):.*[0-9]{8}.*)"
+SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu):.*[0-9]{8}.*)"
+SKIP_OS="$SKIP_OS|(debian:(6.*|stretch))"
+SKIP_OS="$SKIP_OS|(ubuntu:(14.10|12|10|11|13|15))"
+SKIP_OS="$SKIP_OS|(lucid|maverick|natty|precise|quantal|raring|saucy)"
+SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
-SKIPPED_TAGS="($SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|-onbuild|-old$)"
+SKIPPED_TAGS="($SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|-onbuild|-old)"
 CURRENT_TS=$(date +%s)
 default_images="
 library/alpine
