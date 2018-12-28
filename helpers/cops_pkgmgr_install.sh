@@ -282,6 +282,14 @@ detect_os() {
         DISTRIB_ID="alpine"
         DISTRIB_CODENAME="Alpine Linux"
         DISTRIB_RELEASE="$(cat /etc/alpine-release)"
+    elif [ -e /etc/debian_version ];then
+        DISTRIB_ID="Debian"
+        DISTRIB_RELEASE="$(cat /etc/debian_version)"
+        DISTRIB_MAJOR=$(echo $DISTRIB_RELEASE |cut -d. -f 1)
+        if [ $DISTRIB_MAJOR  -eq 6 ];then DISTRIB_CODENAME="squeeze";fi
+        if [ $DISTRIB_MAJOR  -eq 7 ];then DISTRIB_CODENAME="wheezy";fi
+        if [ $DISTRIB_MAJOR  -eq 8 ];then DISTRIB_CODENAME="jessie";fi
+        if [ $DISTRIB_MAJOR  -eq 9 ];then DISTRIB_CODENAME="stretch";fi
     elif [ -e /etc/redhat-release ];then
         RHRELEASE=$(cat /etc/redhat-release)
         DISTRIB_CODENAME=${RHRELEASE}

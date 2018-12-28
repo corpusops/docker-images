@@ -26,6 +26,7 @@
     - Except for alpine based images (using musl, so no locales): setup sensible locales for: ``fr``, ``en``, ``de``.
 
 - (1): if it is packaged on the underlying distrib (eg: runit is only on alpine>3)
+- debian 6 (stretch) is not supported anymore.
 
 ## Wrapped images
 
