@@ -9,5 +9,6 @@ ADD \
     helpers/${_cops_SYSTEM}_up.sh \
     packages/packages_${_cops_SYSTEM}.txt \
     packages/optional_packages_supervisors.txt \
+    packages/optional_packages_${_cops_SYSTEM}.txt \
     ${EXTRA_PACKAGES_LIST} \
     /tmp/corpusopssteroids/

@@ -13,6 +13,7 @@
     - [cron](https://fr.wikipedia.org/wiki/Cron): isc cron on debian like, cronie on redhat, busybox cron on alpine (dcron).
     - [logrotate](https://github.com/logrotate/logrotate): the venerable but still useful versatile logrotator
     - [bash](https://www.gnu.org/software/bash/): the venerable shell
+    - ca certificates: bundle of ROOT cas for SSL connections.
     - process supervisors:
         - [forego](https://github.com/ddollar/forego): *foreman in go*, supervisord/runit/circus/foreman alike
         - [supervisord-go](https://github.com/ochinchina/supervisord): *supervisord in go*, attention, it has bugs like PID1 proccess reaping issues, use with care and read [the tracker](https://github.com/ochinchina/supervisord/issues) and specially [#60](https://github.com/ochinchina/supervisord/issues/60)!

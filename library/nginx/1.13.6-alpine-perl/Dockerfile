@@ -20,6 +20,7 @@ ADD \
     helpers/alpine_up.sh \
     packages/packages_alpine.txt \
     packages/optional_packages_supervisors.txt \
+    packages/optional_packages_alpine.txt \
     ${EXTRA_PACKAGES_LIST} \
     /tmp/corpusopssteroids/
 RUN sh -c 'set -ex \
@@ -28,12 +29,12 @@ RUN sh -c 'set -ex \
     && cat optional_packages_*.txt > optional_packages.txt \
     && cat packages_*.txt > packages.txt \
     && ./alpine_up.sh \
-    && cp -v cops_pkgmgr_install.sh /bin \
     && ./add_opt_pkgs.sh \
-    && DEBUG=1 ./setup_locales.sh \
     && ./add_dockerize.sh \
     && ./add_gosu.sh \
     && ./add_forego.sh \
+    && DEBUG=1 ./setup_locales.sh \
+    && cp -v cops_pkgmgr_install.sh /bin \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go
