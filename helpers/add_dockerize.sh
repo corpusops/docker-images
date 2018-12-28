@@ -3,7 +3,7 @@ SDEBUG=${SDEBUG-}
 GITHUB_PAT="${GITHUB_PAT:-$(echo 'OGUzNjkwMDZlMzNhYmNmMGRiNmE5Yjg1NWViMmJkNWVlNjcwYTExZg=='|base64 -d)}"
 DOCKERIZE_RELEASE="${DOCKERIZE_RELEASE:-latest}"
 CURL_SSL_OPTS="${CURL_SSL_OPTS:-"--tlsv1"}"
-do_curl() { if ! (curl "$@" );then curl $CURL_SSL_OPTS "$@";fi; }
+do_curl() { if ! ( curl "$@" );then curl $CURL_SSL_OPTS "$@";fi; }
 install() {
     if [ "x${SDEBUG}" != "x" ];then set -x;fi
     : "install https://github.com/jwilder/dockerize" \

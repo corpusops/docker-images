@@ -901,7 +901,7 @@ is_apk_available() {
         if ! ( apk info $i >/dev/null 2>&1 );then
             return 1
         fi
-        if ! ( apk add --simulate $i >/dev/null 2>&1 );then
+        if ! ( apk add -u --simulate $i >/dev/null 2>&1 );then
             return 1
         fi
     done
@@ -926,7 +926,7 @@ apk_upgrade() {
 }
 
 apk_install() {
-    vvv apk add ${@}
+    vvv apk add -u ${@}
 }
 
 apk_setup() {

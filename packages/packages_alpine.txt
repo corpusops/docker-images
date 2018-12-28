@@ -1,5 +1,6 @@
 bash
 ca-certificates
+# force libcurl upgrade !
 curl
 gnupg
 logrotate
