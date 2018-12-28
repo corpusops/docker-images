@@ -943,20 +943,16 @@ zyppern() {
 zypperl() { echo "--auto-agree-with-licenses"; }
 
 is_zypper_available() {
-    for i in $@;do
-        if ! ( $(zyppern) install -D $(zypperl)  $i >/dev/null 2>&1 );then
-            return 1
-        fi
-    done
+    if ! ( $(zyppern) install -D $(zypperl) $@ >/dev/null 2>&1 );then
+        return 1
+    fi
     return 0
 }
 
 is_zypper_installed() {
-    for i in $@;do
-        if ! ( zypper info $i|egrep -iq "Installed\s.*yes"); then
-            return 1
-        fi
-    done
+    if ( $(zyppern) info $@|egrep -iq "installed:?\s.*no" ); then
+        return 1
+    fi
     return 0
 }
 zypper_update() {
