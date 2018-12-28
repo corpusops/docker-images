@@ -1,0 +1,3 @@
+# fedora locales
+# glibc-all-langpacks
+glibc-locale-source
