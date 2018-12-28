@@ -217,12 +217,13 @@ DRYRUN=${DRYRUN-}
 NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
 SKIP_MINOR="((node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo|ruby):.*([0-9]\.?){3})"
-SKIP_PRE="((node|ruby|postgres|solr|elasticsearch|mongo|php|golang):.*(alpha|beta|rc))"
+SKIP_PRE="((node|traefik|ruby|postgres|solr|elasticsearch|mongo|php|golang):.*(alpha|beta|rc))"
 SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu):.*[0-9]{8}.*)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|stretch))"
 SKIP_OS="$SKIP_OS|(ubuntu:(14.10|12|10|11|13|15))"
 SKIP_OS="$SKIP_OS|(lucid|maverick|natty|precise|quantal|raring|saucy)"
 SKIP_OS="$SKIP_OS|(fedora.*modular)"
+SKIP_OS="$SKIP_OS|(traefik:(rc.*|(v?([0-9]\.)*[0-9]$)|((latest|maroilles)$)))"
 SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
@@ -240,6 +241,7 @@ library/node
 library/php
 library/postgres
 library/python
+library/traefik
 library/ruby
 library/ubuntu
 library/opensuse
@@ -567,7 +569,7 @@ do_list_images() {
 
 BATCHED_IMAGES="
 library/nginx::25
-library/php library/debian library/python library/node library/ruby library/golang::40
+library/traefik library/php library/debian library/python library/node library/ruby library/golang::40
 library/centos library/alpine::100
 library/mysql library/postgres mdillon/postgis makinacorpus/pgrouting::500
 "

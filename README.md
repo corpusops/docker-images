@@ -42,6 +42,7 @@
 | [library/mongo](https://hub.docker.com/_/mongo)([./library/mongo](./library/mongo))                                           | [corpusops/mongo](https://hub.docker.com/r/corpusops/mongo)                     | x |
 | [library/mysql](https://hub.docker.com/_/mysql)([./library/mysql](./library/mysql))                                           | [corpusops/mysql](https://hub.docker.com/r/corpusops/mysql)                     | x |
 | [library/nginx](https://hub.docker.com/_/nginx)([./library/nginx](./library/nginx)) ( also add **htpasswd** )                 | [corpusops/nginx](https://hub.docker.com/r/corpusops/nginx)                     | x |
+| [library/traefik](https://hub.docker.com/_/traefik)([./library/traefik](./library/traefik))                                   | [corpusops/traefik](https://hub.docker.com/r/corpusops/traefik)                     | x |
 | [library/php](https://hub.docker.com/_/php)([./library/php](./library/php))                                                   | [corpusops/php](https://hub.docker.com/r/corpusops/php)                         | x |
 | [library/postgres](https://hub.docker.com/_/postgres)([./library/postgres](./library/postgres))                               | [corpusops/postgres](https://hub.docker.com/r/corpusops/postgres)               | x |
 | [library/python](https://hub.docker.com/_/python)([./library/python](./library/python))                                       | [corpusops/python](https://hub.docker.com/r/corpusops/python)                   | x |
