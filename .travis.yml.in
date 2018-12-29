@@ -28,11 +28,12 @@ before_install:
 - sh -c "$apply_role roles/corpusops.roles/services_virt_docker/role.yml"
 - i=$(whoami) && sudo chown -Rf $i $COPS_ROOT
 script:
+- echo "building $IMAGES" >&2
 - cd "$TRAVIS_BUILD_DIR" && $silent ./build.sh $IMAGES
 after_success:
 - docker images | grep -v none | sort -V
-- export DOCKER_IMAGES=$(docker images | grep "corpusops/" | awk '{print $1}' )
-  && echo $DOCKER_IMAGES
+- export DOCKER_IMAGES="$(docker images | grep "corpusops/" | awk '{print $1}' )"
+  && echo "$DOCKER_IMAGES"
 - if [ "x$RELEASE_DEBUG" = "x" ]
     then DEBUG=$RELEASE_DEBUG $funcs vv $release $DOCKER_IMAGES
     else $silent $release $DOCKER_IMAGES

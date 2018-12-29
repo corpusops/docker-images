@@ -536,9 +536,9 @@ do_build() {
                 die "install Gnu parallel (package: parrallel on most distrib)"
             fi
             if ! ( echo "$book" | parallel --joblog build.log -j$NBPARALLEL --tty $( [[ -n $DRYRUN ]] && echo "--dry-run" ); );then
-                if [ -e build.log ];then cat build.log;fi
                 rc=124
             fi
+            if [ -e build.log ];then cat build.log;fi
         else
             while read cmd;do
                 if [[ -n $cmd ]];then
@@ -569,13 +569,15 @@ do_list_images() {
 }
 
 BATCHED_IMAGES="
-library/nginx::25
-library/traefik library/php library/debian library/python library/node library/ruby library/golang::40
+library/fedora::10
+library/solr library/mongo library/nginx::25
+library/traefik library/php library/debian library/python \
+library/node library/ruby library/golang::70
 library/centos library/alpine::100
-library/mysql library/postgres mdillon/postgis makinacorpus/pgrouting::500
+library/opensuse library/mysql library/postgres mdillon/postgis makinacorpus/pgrouting::500
 "
 get_batched_images() {
-    local batch="  - IMAGES="
+    local batch="  - IMAGES=\""
     local counter=0
     local batchsize=$1
     shift
@@ -590,7 +592,7 @@ get_batched_images() {
             if [ `expr $counter % $batchsize` = 0 ];then
                 space=""
                 if [ $counter -gt 0 ];then
-                    batch="$(printf -- "${batch}\n  - IMAGES="; )"
+                    batch="$(printf -- "${batch}\"\n  - IMAGES=\""; )"
                 fi
             fi
             counter=$(( $counter+1 ))
@@ -598,7 +600,7 @@ get_batched_images() {
         done
     done
     if [ $counter -gt 0 ];then
-        _images_="$(printf "${_images_}\n${batch}" )"
+        _images_="$(printf "${_images_}\n${batch}\"" )"
     fi
 }
 
@@ -618,7 +620,7 @@ do_gen_travis() {
     pbatched="${pbatched// /|}"
     local _images_=''
     for i in $(do_list_images|egrep -v "$pbatched");do
-        _images_="$(printf "${_images_}\n  - IMAGES=$i"; )"
+        _images_="$(printf "${_images_}\n  - IMAGES=\"$i\""; )"
     done
     debug "_images_(pre): $_images_"
     while read imgs;do if [[ -n "$imgs" ]];then
