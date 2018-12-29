@@ -216,7 +216,7 @@ DEBUG=${DEBUG-}
 DRYRUN=${DRYRUN-}
 NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
-SKIP_MINOR="((node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo|ruby):.*([0-9]\.?){3})"
+SKIP_MINOR="((traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo|ruby):.*([0-9]\.?){3})"
 SKIP_PRE="((node|traefik|ruby|postgres|solr|elasticsearch|mongo|php|golang):.*(alpha|beta|rc))"
 SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu):.*[0-9]{8}.*)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|stretch))"
@@ -224,7 +224,7 @@ SKIP_OS="$SKIP_OS|(ubuntu:(14.10|12|10|11|13|15))"
 SKIP_OS="$SKIP_OS|(lucid|maverick|natty|precise|quantal|raring|saucy)"
 SKIP_OS="$SKIP_OS|(centos:5)"
 SKIP_OS="$SKIP_OS|(fedora.*modular)"
-SKIP_OS="$SKIP_OS|(traefik:(rc.*|(v?([0-9]\.)*[0-9]$)|((latest|maroilles)$)))"
+SKIP_OS="$SKIP_OS|(traefik:(rc.*|(v?([0-9]\.)*[0-9]$)|((latest)$)))"
 SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
@@ -436,14 +436,13 @@ get_image_tags() {
             has_more=$?
             if [[ -n "${result}}" ]];then results="${results} ${result}";fi
         done
-        rm -f "$t.raw"
         if [ ! -e "$TOPDIR/$n" ];then mkdir -p "$TOPDIR/$n";fi
-        printf "$results\n" > "$t.raw"
+        printf "$results\n" | sort -V > "$t.raw"
     fi
     rm -f "$t"
     ( for i in $(cat "$t.raw");do
         if is_skipped "$n:$i";then debug "Skipped: $n:$i";else printf "$i\n";fi
-      done | awk '!seen[$0]++' ) >> "$t"
+      done | awk '!seen[$0]++' | sort -V ) >> "$t"
     set -e
     if [ -e "$t" ];then cat "$t";fi
 }
@@ -593,9 +592,12 @@ mdillion/postgis/11-alpine \
 mdillion/postgis/10-alpine \
 mdillion/postgis/9-alpine \
 library/traefik/alpine \
+library/nginx/alpine-perl \
+library/nginx/mainline-alpine-perl \
+library/nginx/stable-alpine-perl \
 library/nginx/alpine \
-library/nginx/1.14-alpine \
-library/nginx/1.12-alpine \
+library/nginx/mainline-alpine \
+library/nginx/stable-alpine \
 library/node/alpine \
 library/node/lts-alpine \
 library/node/slim-alpine \
@@ -715,9 +717,12 @@ mdillion/postgis/11 \
 mdillion/postgis/10 \
 mdillion/postgis/9 \
 library/traefik/latest \
+library/nginx/perl \
+library/nginx/mainline-perl \
+library/nginx/stable-perl \
 library/nginx/latest \
-library/nginx/1.14 \
-library/nginx/1.12 \
+library/nginx/mainline \
+library/nginx/stable \
 library/node/latest \
 library/node/lts \
 library/node/slim \
