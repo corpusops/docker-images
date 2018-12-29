@@ -406,16 +406,26 @@ gen_image() {
     cd - &>/dev/null
 }
 
+is_skipped() {
+    local ret=1 t="$@"
+    if ( echo "$t" | egrep -q "$SKIPPED_TAGS" );then
+        ret=0
+    fi
+    if ( echo "$t" | egrep -q "/traefik" ) && ( echo "$t" | egrep -vq "alpine" );then
+        ret=0
+    fi
+    return $ret
+}
+
 get_image_tags() {
-    set +e
     local n=$1
     local results="" result=""
     local i=0
     local has_more=0
     local t="$TOPDIR/$n/imagetags"
     local u="https://registry.hub.docker.com/v2/repositories/${n}/tags/"
-    local last_modified=$(stat -c "%Y" "$t" 2>/dev/null )
-    if [ -e "$t" ] && [ $(($CURRENT_TS-$last_modified)) -lt $((24*60*60)) ];then
+    local last_modified=$(stat -c "%Y" "$t.raw" 2>/dev/null )
+    if [ -e "$t.raw" ] && [ $(($CURRENT_TS-$last_modified)) -lt $((24*60*60)) ];then
         has_more=1
     fi
     if [ $has_more -eq 0 ];then
@@ -432,7 +442,7 @@ get_image_tags() {
     fi
     rm -f "$t"
     ( for i in $(cat "$t.raw");do
-        if ! ( echo "$n:$i" | egrep -q "$SKIPPED_TAGS" );then printf "$i\n"; fi
+        if is_skipped "$n:$i";then debug "Skipped: $n:$i";else printf "$i\n";fi
       done | awk '!seen[$0]++' ) >> "$t"
     set -e
     if [ -e "$t" ];then cat "$t";fi
@@ -446,7 +456,9 @@ make_tags() {
     for t in $tags;do if ! ( gen_image "$image" "$t"; );then rc=1;fi;done
 }
 
-clean_tags () {
+
+#  clean_tags $i: clean image tags
+do_clean_tags() {
     local image=$1
     log "Cleaning on $image"
     local tags=$(get_image_tags $image )
@@ -467,7 +479,7 @@ do_refresh_images() {
     local images="${@:-$default_images}"
     while read image;do
         if [[ -n $image ]];then
-            clean_tags $image
+            do_clean_tags $image
             make_tags $image
         fi
     done <<< "$images"
@@ -879,7 +891,7 @@ do_usage() {
 
 do_main() {
     local args=${@:-usage}
-    local actions="refresh_images|build|gen_travis|gen|list_images"
+    local actions="refresh_images|build|gen_travis|gen|list_images|clean_tags"
     actions="@($actions)"
     action=${1-};
     if [[ -n "$@" ]];then shift;fi
