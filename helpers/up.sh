@@ -2,8 +2,9 @@
 DISTRIB_ID=
 DISTRIB_CODENAME=
 DISTRIB_RELEAASE=
-oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.)"
+oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04)"
 NOSOCAT=""
+OLDMIRROR="old-releases.ubuntu.com"
 for i in /etc/os-release /etc/lsb-release;do
     if [ -e $i ];then
         . "$i"
@@ -14,7 +15,8 @@ if ( grep -q "release 6" /etc/redhat-release >/dev/null 2>&1 );then
 fi
 if ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
     if ( echo $DISTRIB_RELEASE |egrep -iq $oldubuntu);then
-        sed -i -r -e 's!archive.ubuntu.com!old-releases.ubuntu.com!g' \
+        echo "Patchig APT to use $OLDMIRROR" >&2
+        sed -i -r -e 's!archive.ubuntu.com!'$OLDMIRROR'!g' \
             $( find /etc/apt/sources.list* -type f; )
     fi
 fi
