@@ -228,7 +228,7 @@ SKIP_OS="$SKIP_OS|(traefik:(rc.*|(v?([0-9]\.)*[0-9]$)|((latest|maroilles)$)))"
 SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
-SKIPPED_TAGS="($SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|-onbuild|-old)"
+SKIPPED_TAGS="($SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|-?on.?build|-old)"
 CURRENT_TS=$(date +%s)
 default_images="
 library/alpine
@@ -500,7 +500,9 @@ record_build_image() {
         if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
     done
     local df=${df:-Dockerfile}
-    book="$(printf "docker build -t $repo/$tag:$version . -f $image/$df\n${book}")"
+    local cmd="docker build -t $repo/$tag:$version . -f $image/$df"
+    local run="echo -e \"${RED}$cmd${NORMAL}\" && $cmd"
+    book="$(printf "$run\n${book}" )"
 }
 
 #  build $args: refresh images files
@@ -535,6 +537,7 @@ do_build() {
             if ! ( has_command parallel );then
                 die "install Gnu parallel (package: parrallel on most distrib)"
             fi
+            # be sure env_parallel is loaded
             if ! ( echo "$book" | parallel --joblog build.log -j$NBPARALLEL --tty $( [[ -n $DRYRUN ]] && echo "--dry-run" ); );then
                 rc=124
             fi
@@ -568,35 +571,274 @@ do_list_images() {
     | awk '!seen[$0]++' | sort -V
 }
 
-BATCHED_IMAGES="
-library/fedora::10
-library/solr library/mongo library/nginx::25
-library/traefik library/php library/debian library/python \
-library/node library/ruby library/golang::70
-library/centos library/alpine::100
-library/opensuse library/mysql library/postgres mdillon/postgis makinacorpus/pgrouting::500
+PRORITY_IMAGES_ALPINE="
+library/postgres/alpine \
+library/postgres/11-alpine \
+library/postgres/10-alpine \
+library/postgres/9-alpine \
+mdillion/postgis/alpine \
+mdillion/postgis/11-alpine \
+mdillion/postgis/10-alpine \
+mdillion/postgis/9-alpine \
+library/traefik/alpine \
+library/nginx/alpine \
+library/nginx/1.14-alpine \
+library/nginx/1.12-alpine \
+library/node/alpine \
+library/node/lts-alpine \
+library/node/slim-alpine \
+library/node/7-alpine \
+library/node/8-alpine \
+library/node/9-alpine \
+library/node/10-alpine \
+library/node/11-alpine \
+library/node/slim-alpine \
+library/node/lts-slim-alpine \
+library/node/slim-slim-alpine \
+library/node/7-slim-alpine \
+library/node/8-slim-alpine \
+library/node/9-slim-alpine \
+library/node/10-slim-alpine \
+library/node/11-slim-alpine \
+library/ruby/alpine \
+library/ruby/1-alpine \
+library/ruby/1.9-alpine \
+library/ruby/2-alpine \
+library/ruby/2.1-alpine \
+library/ruby/2.2-alpine \
+library/ruby/2.3-alpine \
+library/ruby/2.4-alpine \
+library/ruby/2.5-alpine \
+library/ruby/slim-alpine \
+library/ruby/1-slim-alpine \
+library/ruby/1.9-slim-alpine \
+library/ruby/2-slim-alpine \
+library/ruby/2.1-slim-alpine \
+library/ruby/2.2-slim-alpine \
+library/ruby/2.3-slim-alpine \
+library/ruby/2.4-slim-alpine \
+library/ruby/2.5-slim-alpine \
+library/php/alpine \
+library/php/cli-alpine \
+library/php/fpm-alpine \
+library/php/zts-alpine \
+library/php/5-alpine \
+library/php/5-cli-alpine \
+library/php/5-fpm-alpine \
+library/php/5-zts-alpine \
+library/php/5.6-alpine \
+library/php/5.6-cli-alpine \
+library/php/5.6-fpm-alpine \
+library/php/5.6-zts-alpine \
+library/php/7-alpine \
+library/php/7-cli-alpine \
+library/php/7-fpm-alpine \
+library/php/7-zts-alpine \
+library/php/7.0-alpine \
+library/php/7.0-cli-alpine \
+library/php/7.0-fpm-alpine \
+library/php/7.0-zts-alpine \
+library/php/7.1-alpine \
+library/php/7.1-cli-alpine \
+library/php/7.1-fpm-alpine \
+library/php/7.1-zts-alpine \
+library/php/7.2-alpine \
+library/php/7.2-cli-alpine \
+library/php/7.2-fpm-alpine \
+library/php/7.2-zts-alpine \
+library/php/7.3-alpine \
+library/php/7.3-cli-alpine \
+library/php/7.3-fpm-alpine \
+library/php/7.3-zts-alpine \
+library/solr/alpine \
+library/solr/7-alpine \
+library/solr/6-alpine \
+library/solr/5-alpine \
+library/solr/7-slim-alpine \
+library/solr/6-slim-alpine \
+library/solr/5-slim-alpine \
+library/elasticsearch/1-alpine \
+library/elasticsearch/2-alpine \
+library/elasticsearch/5-alpine \
+" \
+PRORITY_IMAGES="
+library/ubuntu/latest \
+library/ubuntu/18.04 \
+library/ubuntu/16.04 \
+library/ubuntu/14.04 \
+library/ubuntu/trusty \
+library/ubuntu/xenial \
+library/python/bionic \
+library/python/3 \
+library/python/3.6 \
+library/python/3.7 \
+library/python/2 \
+library/node/latest \
+library/golang/latest \
+library/alpine/latest \
+library/alpine/latest/3 \
+library/centos/latest \
+library/centos/7 \
+library/debian/latest \
+library/debian/7-slim \
+library/debian/8-slim \
+library/debian/9-slim \
+library/debian/7 \
+library/debian/8 \
+library/debian/9 \
+library/debian/sid-slim \
+library/debian/stable-slim \
+library/debian/sid \
+library/debian/stable \
+makinacorpus/pgrouting \
+library/mysql/5 \
+library/mysql/8 \
+library/mysql/latest \
+library/postgres/latest \
+library/postgres/11 \
+library/postgres/10 \
+library/postgres/9 \
+mdillion/postgis/latest \
+mdillion/postgis/11 \
+mdillion/postgis/10 \
+mdillion/postgis/9 \
+library/traefik/latest \
+library/nginx/latest \
+library/nginx/1.14 \
+library/nginx/1.12 \
+library/node/latest \
+library/node/lts \
+library/node/slim \
+library/node/7 \
+library/node/8 \
+library/node/9 \
+library/node/10 \
+library/node/11 \
+library/node/slim \
+library/node/lts-slim \
+library/node/slim-slim \
+library/node/7-slim \
+library/node/8-slim \
+library/node/9-slim \
+library/node/10-slim \
+library/node/11-slim \
+library/ruby/latest \
+library/ruby/1 \
+library/ruby/1.9 \
+library/ruby/2 \
+library/ruby/2.1 \
+library/ruby/2.2 \
+library/ruby/2.3 \
+library/ruby/2.4 \
+library/ruby/2.5 \
+library/ruby/slim \
+library/ruby/1-slim \
+library/ruby/1.9-slim \
+library/ruby/2-slim \
+library/ruby/2.1-slim \
+library/ruby/2.2-slim \
+library/ruby/2.3-slim \
+library/ruby/2.4-slim \
+library/ruby/2.5-slim \
+library/php/latest \
+library/php/cli \
+library/php/fpm \
+library/php/zts \
+library/php/5 \
+library/php/5-cli \
+library/php/5-fpm \
+library/php/5-zts \
+library/php/5.6 \
+library/php/5.6-cli \
+library/php/5.6-fpm \
+library/php/5.6-zts \
+library/php/7 \
+library/php/7-cli \
+library/php/7-fpm \
+library/php/7-zts \
+library/php/7.0 \
+library/php/7.0-cli \
+library/php/7.0-fpm \
+library/php/7.0-zts \
+library/php/7.1 \
+library/php/7.1-cli \
+library/php/7.1-fpm \
+library/php/7.1-zts \
+library/php/7.2 \
+library/php/7.2-cli \
+library/php/7.2-fpm \
+library/php/7.2-zts \
+library/php/7.3 \
+library/php/7.3-cli \
+library/php/7.3-fpm \
+library/php/7.3-zts \
+library/solr/latest \
+library/solr/7 \
+library/solr/6 \
+library/solr/5 \
+library/solr/7-slim \
+library/solr/6-slim \
+library/solr/5-slim \
+library/mongo/latest \
+library/mongo/2 \
+library/mongo/3 \
+library/mongo/4 \
+library/elasticsearch/1 \
+library/elasticsearch/2 \
+library/elasticsearch/5 \
 "
+BATCHED_IMAGES="\
+$PRORITY_IMAGES::1000
+$PRORITY_IMAGES_ALPINE::1000
+library/ubuntu library/elasticsearch::1000
+library/solr library/nginx::25
+library/traefik library/php library/debian library/python library/node library/ruby library/golang::70
+library/mysql library/postgres mdillon/postgis makinacorpus/pgrouting::500
+library/opensuse library/centos library/alpine library/mongo::100
+"
+
+is_in_images() {
+    local ret=0
+    local tomatch="$1"
+    shift
+    local i=""
+    for i in $@;do
+        if ! ( echo "$tomatch" | egrep -iq "($i(\"|)|(\"|)$i|^$i | $i | $i$)" );then
+            ret=1
+            break
+        fi
+    done
+    return $ret
+}
+
+## needs to be set:  $_images_/$batch/$counter/$batchsize
 get_batched_images() {
     local batch="  - IMAGES=\""
     local counter=0
-    local batchsize=$1
+    local default_batchsize=$1
     shift
     for i in $@;do
-        local img=${i//::*}
+        local imgs=${i//::*}
+        local batchsize=$default_batchsize
         if $(echo $i|grep -q ::);then batchsize=${i//*::};fi
-        debug "_batch_images_($img :: $batchsize): $batch"
-        local subimages=$(do_list_image $img)
-        if [[ -z $subimages ]];then break;fi
-        for j in $subimages;do
-            local space=" "
-            if [ `expr $counter % $batchsize` = 0 ];then
-                space=""
-                if [ $counter -gt 0 ];then
-                    batch="$(printf -- "${batch}\"\n  - IMAGES=\""; )"
+        debug "_batch_images_($imgs :: $batchsize): $batch"
+        for img in $imgs;do
+            debug "_batch_image_($img :: $batchsize): $batch"
+            local subimages=$(do_list_image $img)
+            if [[ -z $subimages ]];then break;fi
+            for j in $subimages;do
+                if ! ( is_in_images "$_images_ $batch" $j );then
+                    local space=" "
+                    if [ `expr $counter % $batchsize` = 0 ];then
+                        space=""
+                        if [ $counter -gt 0 ];then
+                            batch="$(printf -- "${batch}\"\n  - IMAGES=\""; )"
+                        fi
+                    fi
+                    counter=$(( $counter+1 ))
+                    batch="${batch}${space}${j}"
                 fi
-            fi
-            counter=$(( $counter+1 ))
-            batch="${batch}${space}${j}"
+            done
         done
     done
     if [ $counter -gt 0 ];then
@@ -606,26 +848,14 @@ get_batched_images() {
 
 #  gen_travis; regenerate .travis.yml file
 do_gen_travis() {
-    local pbatched=""
-    while read imgs;do
-        local space=""
-        if [[ -n $pbatched ]];then
-            space=" "
-        fi
-        for i in ${imgs//::*};do
-            pbatched="$pbatched${space}$i"
-        done
-    done <<< "$BATCHED_IMAGES"
-    pbatched="$pbatched"
-    pbatched="${pbatched// /|}"
     local _images_=''
-    for i in $(do_list_images|egrep -v "$pbatched");do
-        _images_="$(printf "${_images_}\n  - IMAGES=\"$i\""; )"
-    done
     debug "_images_(pre): $_images_"
+    # batch first each explicily built images
     while read imgs;do if [[ -n "$imgs" ]];then
         get_batched_images "${imgs//*::/}" "${imgs//::*/}"
     fi;done <<< "$BATCHED_IMAGES"
+    # batch then all leftover images that werent batched at first
+    get_batched_images 80 $(do_list_images)
     __IMAGES="$_images_" \
         envsubst '$__IMAGES;' > "$W/.travis.yml" \
         < "$W/.travis.yml.in"
@@ -661,4 +891,4 @@ do_main() {
 }
 cd "$W"
 do_main "$@"
-# vim:set et sts=4 ts=4 tw=80:
+# vim:set et sts=4 ts=4 tw=0:
