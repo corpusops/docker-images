@@ -76,6 +76,7 @@ sdie() { NO_HEADER=y die $@; }
 parse_cli() { parse_cli_common "${@}"; }
 parse_cli_common() {
     USAGE=
+    local i=
     for i in ${@-};do
         case ${i} in
             --no-color|--no-colors|--nocolor|--no-colors)
@@ -208,6 +209,7 @@ THISSCRIPT=$0
 W="$(dirname $(readlinkf $THISSCRIPT))"
 cd "$W"
 if [[ -n $SDEBUG ]];then set -x;fi
+DO_RELEASE=${DO_RELEASE-}
 DEFAULT_REGISTRY=${DEFAULT_REGISTRY:-registry.hub.docker.com}
 DOCKER_REPO=${DOCKER_REPO:-corpusops}
 TOPDIR=$(pwd)
@@ -216,6 +218,7 @@ DEBUG=${DEBUG-}
 DRYRUN=${DRYRUN-}
 NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
+SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR="((traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo|ruby):.*([0-9]\.?){3})"
 SKIP_PRE="((node|traefik|ruby|postgres|solr|elasticsearch|mongo|php|golang):.*(alpha|beta|rc))"
 SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu):.*[0-9]{8}.*)"
@@ -252,345 +255,15 @@ library/elasticsearch
 makinacorpus/pgrouting
 mdillon/postgis
 "
-declare -A registry_tokens
-declare -A registry_services
-
-is_on_build() { echo "$@" | egrep -iq "on.*build"; }
-slashcount() { local _slashcount="$(echo "${@}"|sed -e 's![^/]!!g')";echo ${#_slashcount}; }
-
-## registry code badly inspired from:
-## https://hackernoon.com/inspecting-docker-images-without-pulling-them-4de53d34a604
-DEFAULT_REGISTRY=${DEFAULT_REGISTRY:-registry.hub.docker.com}
-get_registry() {
-    local image=$@
-    local registry=${2:-$DEFAULT_REGISTRY}
-    local slashcount="$(echo ${image}|sed -e 's![^/]!!g')"
-    local nbslash=$(slashcount $image)
-    if ( echo "$image" |grep -iq gitlab.com );then
-        registry=registry.gitlab.com
-    elif [ $nbslash -gt 1 ];then
-        registry=$(echo $image|sed -e "s/\/.*//g")
-    else
-        registry="${registry}"
-    fi
-    if ( echo $registry | grep -vq -- "://" );then
-        registry="${REGISTRY_SCHEME:-https://}${registry}"
-    fi
-    echo "$registry"
-}
-
-setup_token() {
-    local registry=${1:-$(get_registry default)}
-    if [[ -n "$1" ]];then shift;fi
-    local oargs=${@}
-    local args=$oargs
-    local tkey=${registry}${oargs}
-    registry_token=${registry_tokens[$tkey]}
-    registry_service=${registry_services[$tkey]}
-    if [[ -z "$registry_token" ]];then
-        local authinfos=$(curl -vvv $registry/v2/ 2>&1|grep -i Www-Authenticate:)
-        if ! ( echo  $authinfos | egrep -iq "Www-Authenticate:.*realm.*service" );then
-            return 1
-        fi
-        # Www-Authenticate: Bearer realm="https://...",service="registry..."
-        local authendpoint=$(echo "$authinfos"|sed -e 's!.*realm="\([^"]\+\)".*!\1!g')
-        registry_service=$(echo "$authinfos"|sed -e 's!.*service="\([^"]\+\)".*!\1!g')
-        if [[ -n $args ]];then args="$args&";fi
-        args="${args}service=$registry_service"
-        registry_token=$(curl --silent "$authendpoint?$args" | jq -r '.token')
-    fi
-    if [[ -n $registry_token ]];then
-        registry_tokens[$tkey]="$registry_token"
-        registry_services[$tkey]="$registry_service"
-    fi
-}
-
-get_image_scope() {
-    echo "scope=repository:$1:pull"
-}
-
-get_image_tag() {
-    local image="$1"
-    if ( echo $image | egrep -q ":[^/]+$" );then
-        image=$( echo $image | sed -e 's!\(.*\):[^/]\+$!\1!' )
-    fi
-    echo $image
-}
-
-get_image_version() {
-    local image="$1"
-    if ( echo $image | egrep -q ":[^/]+$" )
-        then local tag=${1//*:/}
-        else local tag=latest
-    fi
-    echo $tag
-}
-
-## Retrieve the digest, now specifying in the header
-## that we have a token (so we can pe...
-get_digest() {
-    local fimage="$1"
-    local image="$(get_image_tag $1)"
-    local tag="$(get_image_version $1)"
-    local registry="$(get_registry $1)"
-    local scope="$(get_image_scope $image $registry)"
-    setup_token $registry $scope
-    curl \
-        --silent \
-        --header "Accept: application/vnd.docker.distribution.manifest.v2+json" \
-        --header "Authorization: Bearer $registry_token" \
-        "$registry/v2/$image/manifests/$tag" \
-        | jq -r '.config.digest'
-}
-
-get_image_configuration() {
-    local fimage="$1"
-    local image="$(get_image_tag $1)"
-    local tag="$(get_image_version $1)"
-    local registry="$(get_registry $1)"
-    local scope="$(get_image_scope $image $registry)"
-    setup_token $registry $scope
-    local digest=$(get_digest $fimage)
-    set -x
-    echo $digest
-    curl -vvv\
-        --silent \
-        --location \
-        --header "Authorization: Bearer $registry_token" \
-        "$registry/v2/$image/blobs/$digest" \
-        | jq -r '.'
-}
-
-gen_image() {
-    local image=$1 tag=$2
-    local ldir="$TOPDIR/$image/$tag"
-    local system=apt
-    local dockeriles=""
-    if [ ! -e "$ldir" ];then mkdir -p "$ldir";fi
-    cd "$ldir"
-    if ( echo "$image $tag"|egrep -iq "redhat|centos|oracle|fedora|red-hat" );then
-        system=redhat
-    elif ( echo "$image $tag"|egrep -iq suse );then
-        system=suse
-    elif ( echo "$image $tag"|egrep -iq alpine );then
-        system=alpine
-    fi
-    IMG=$image
-    if [ -e ../tag ];then
-        IMG=$(cat ../tag )
-    fi
-    export _cops_BASE=$image
-    export _cops_SYSTEM=$system
-    export _cops_VERSION=$tag
-    export _cops_IMG=$DOCKER_REPO/$(basename $IMG)
-    debug "IMG: $_cops_IMG | SYSTEM: $_cops_SYSTEM | BASE: $_cops_image | VERSION: $_cops_VERSION"
-    for folder in . .. ../../..;do
-        local df="$folder/Dockerfile.override"
-        if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
-    done
-    local parts="from args argspost helpers pre base post clean cleanpost"
-    for order in $parts;do
-        for folder in . .. ../../..;do
-            local df="$folder/Dockerfile.$order"
-            if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
-        done
-    done
-    if [[ -z $dockerfiles ]];then
-        log "no dockerfile for $_cops_IMG"
-        rc=1
-        return $rc
-    else
-        debug "Using dockerfiles: $dockerfiles from $_cops_IMG"
-    fi
-    cat $dockerfiles | envsubst '$_cops_BASE;$_cops_VERSION;$_cops_SYSTEM' > Dockerfile
-    cd - &>/dev/null
-}
-
-is_skipped() {
-    local ret=1 t="$@"
-    if ( echo "$t" | egrep -q "$SKIPPED_TAGS" );then
-        ret=0
-    fi
-    if ( echo "$t" | egrep -q "/traefik" ) && ( echo "$t" | egrep -vq "alpine" );then
-        ret=0
-    fi
-    return $ret
-}
-
-get_image_tags() {
-    local n=$1
-    local results="" result=""
-    local i=0
-    local has_more=0
-    local t="$TOPDIR/$n/imagetags"
-    local u="https://registry.hub.docker.com/v2/repositories/${n}/tags/"
-    local last_modified=$(stat -c "%Y" "$t.raw" 2>/dev/null )
-    if [ -e "$t.raw" ] && [ $(($CURRENT_TS-$last_modified)) -lt $((24*60*60)) ];then
-        has_more=1
-    fi
-    if [ $has_more -eq 0 ];then
-        while [ $has_more -eq 0 ];do
-            i=$((i+1))
-            result=$( curl "${u}?page=${i}" 2>/dev/null \
-                | jq -r '."results"[]["name"]' 2>/dev/null )
-            has_more=$?
-            if [[ -n "${result}}" ]];then results="${results} ${result}";fi
-        done
-        if [ ! -e "$TOPDIR/$n" ];then mkdir -p "$TOPDIR/$n";fi
-        printf "$results\n" | sort -V > "$t.raw"
-    fi
-    rm -f "$t"
-    ( for i in $(cat "$t.raw");do
-        if is_skipped "$n:$i";then debug "Skipped: $n:$i";else printf "$i\n";fi
-      done | awk '!seen[$0]++' | sort -V ) >> "$t"
-    set -e
-    if [ -e "$t" ];then cat "$t";fi
-}
-
-make_tags() {
-    local image=$1
-    log "Operating on $image"
-    local tags=$(get_image_tags $image )
-    debug "image: $image tags: $( echo $tags )"
-    for t in $tags;do if ! ( gen_image "$image" "$t"; );then rc=1;fi;done
-}
-
-
-#  clean_tags $i: clean image tags
-do_clean_tags() {
-    local image=$1
-    log "Cleaning on $image"
-    local tags=$(get_image_tags $image )
-    debug "image: $image tags: $( echo $tags )"
-    while read image;do
-        local tag=$(basename $image)
-        if ! ( echo "$tags" | egrep -q "^$tag$" );then
-            rm -rfv "$image"
-        fi
-    done < <(find "$TOPDIR/$image" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)
-}
-
-
-#  refresh_images $args: refresh images files
-#     refresh_images:  (no arg) refresh all images
-#     refresh_images library/ubuntu: only refresh ubuntu images
-do_refresh_images() {
-    local images="${@:-$default_images}"
-    while read image;do
-        if [[ -n $image ]];then
-            do_clean_tags $image
-            make_tags $image
-        fi
-    done <<< "$images"
-}
-
-char_occurence() {
-    local char=$1
-    shift
-    echo "$@" | awk -F"$char" '{print NF-1}'
-}
-
-record_build_image() {
-    # library/ubuntu/latest / mdillion/postgis/latest
-    local image=$1
-    # ubuntu/latest / mdillion/postgis/latest
-    local nimage=$(echo $image / sed -re "s/^library\///g")
-    # corpusops
-    local repo=$DOCKER_REPO
-    # ubuntu / postgis
-    local tag=$(basename $(dirname $image))
-    # latest / latest
-    local version=$(basename $image)
-    local i=
-    for i in $image $image/.. $image/../../..;do
-        # ubuntu-bare / postgis
-        if [ -e $i/repo ];then repo=$( cat $i/repo );break;fi
-    done
-    for i in $image $image/.. $image/../../..;do
-        # ubuntu-bare / postgis
-        if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
-    done
-    local df=${df:-Dockerfile}
-    local cmd="docker build -t $repo/$tag:$version . -f $image/$df"
-    local run="echo -e \"${RED}$cmd${NORMAL}\" && $cmd"
-    book="$(printf "$run\n${book}" )"
-}
-
-#  build $args: refresh images files
-#     build:  (no arg) refresh all images
-#     build library/ubuntu: only refresh ubuntu images
-#     build library/ubuntu/latest: only refresh ubuntu:latest image
-do_build() {
-    local images="${@:-$default_images}"
-    local to_build=""
-    local i=
-    for i in $images;do
-        local number_of_slash=$( char_occurence / $i )
-        if [ ! -e $i ];then
-            sdie "$i: folder does not exist yet, use refresh_images ?"
-        elif [ $number_of_slash = 1 ];then
-            to_build="$to_build $(find $i -mindepth 1 -maxdepth 1 -type d|sed "s/^.\///g"|sort -V)"
-        elif [ $number_of_slash = 2 ];then
-            to_build="$to_build $i"
-        else
-            sdie "$i: invalid number or slash: $number_of_slash"
-        fi
-    done
-    local counter=0
-    local book=""
-    for i in $to_build;do
-        record_build_image $i
-        counter=$((counter+1))
-    done
-    book=$( echo "$book"|tac|awk '!seen[$0]++' )
-    if [[ -n $book ]];then
-        if [ $NBPARALLEL -gt 1 ];then
-            if ! ( has_command parallel );then
-                die "install Gnu parallel (package: parrallel on most distrib)"
-            fi
-            # be sure env_parallel is loaded
-            if ! ( echo "$book" | parallel --joblog build.log -j$NBPARALLEL --tty $( [[ -n $DRYRUN ]] && echo "--dry-run" ); );then
-                rc=124
-            fi
-            if [ -e build.log ];then cat build.log;fi
-        else
-            while read cmd;do
-                if [[ -n $cmd ]];then
-                    if ! (  $( [[ -n $DRYRUN ]] && echo "log Would run:" || echo "vv" ) $cmd );then rc=123;fi
-                fi
-            done <<< "$book"
-        fi
-    fi
-    return $rc
-}
-
-
-#  list_images: list images family
-do_list_image() {
-    for i in $(find -mindepth 2 -type d);do
-        if [ -e "$i/Dockerfile" ];then echo "$i";fi
-    done\
-    | egrep "$@" \
-    | sed -re "s|(\./)?(([^/]+(/[^/]+)))(/.*)|\2\5|g"\
-    | awk '!seen[$0]++' | sort -V
-}
-do_list_images() {
-    for i in $(find -mindepth 2 -type d);do
-        if [ -e "$i/Dockerfile" ];then echo "$i";fi
-    done\
-    | sed -re "s|(\./)?([^/]+/[^/]+)/.*|\2|g"\
-    | awk '!seen[$0]++' | sort -V
-}
-
 PRORITY_IMAGES_ALPINE="
 library/postgres/alpine \
 library/postgres/11-alpine \
 library/postgres/10-alpine \
 library/postgres/9-alpine \
-mdillion/postgis/alpine \
-mdillion/postgis/11-alpine \
-mdillion/postgis/10-alpine \
-mdillion/postgis/9-alpine \
+mdillon/postgis/alpine \
+mdillon/postgis/11-alpine \
+mdillon/postgis/10-alpine \
+mdillon/postgis/9-alpine \
 library/traefik/alpine \
 library/nginx/alpine-perl \
 library/nginx/mainline-alpine-perl \
@@ -712,10 +385,10 @@ library/postgres/latest \
 library/postgres/11 \
 library/postgres/10 \
 library/postgres/9 \
-mdillion/postgis/latest \
-mdillion/postgis/11 \
-mdillion/postgis/10 \
-mdillion/postgis/9 \
+mdillon/postgis/latest \
+mdillon/postgis/11 \
+mdillon/postgis/10 \
+mdillon/postgis/9 \
 library/traefik/latest \
 library/nginx/perl \
 library/nginx/mainline-perl \
@@ -805,31 +478,440 @@ library/elasticsearch/2 \
 library/elasticsearch/5 \
 "
 BATCHED_IMAGES="\
-$PRORITY_IMAGES::1000
-$PRORITY_IMAGES_ALPINE::1000
-library/ubuntu library/elasticsearch::1000
-library/solr library/nginx::25
-library/traefik library/php library/debian library/python library/node library/ruby library/golang::70
-library/mysql library/postgres mdillon/postgis makinacorpus/pgrouting::500
-library/opensuse library/centos library/alpine library/mongo::100
+$PRORITY_IMAGES_ALPINE::33
+$PRORITY_IMAGES::17
 "
 
-is_in_images() {
-    local ret=0
-    local tomatch="$1"
-    shift
-    local i=""
-    for i in $@;do
-        if ! ( echo "$tomatch" | egrep -iq "($i(\"|)|(\"|)$i|^$i | $i | $i$)" );then
-            ret=1
-            break
+declare -A registry_tokens
+declare -A registry_services
+
+is_on_build() { echo "$@" | egrep -iq "on.*build"; }
+slashcount() { local _slashcount="$(echo "${@}"|sed -e 's![^/]!!g')";echo ${#_slashcount}; }
+
+## registry code badly inspired from:
+## https://hackernoon.com/inspecting-docker-images-without-pulling-them-4de53d34a604
+DEFAULT_REGISTRY=${DEFAULT_REGISTRY:-registry.hub.docker.com}
+get_registry() {
+    local image=$@
+    local registry=${2:-$DEFAULT_REGISTRY}
+    local slashcount="$(echo ${image}|sed -e 's![^/]!!g')"
+    local nbslash=$(slashcount $image)
+    if ( echo "$image" |grep -iq gitlab.com );then
+        registry=registry.gitlab.com
+    elif [ $nbslash -gt 1 ];then
+        registry=$(echo $image|sed -e "s/\/.*//g")
+    else
+        registry="${registry}"
+    fi
+    if ( echo $registry | grep -vq -- "://" );then
+        registry="${REGISTRY_SCHEME:-https://}${registry}"
+    fi
+    echo "$registry"
+}
+
+setup_token() {
+    local registry=${1:-$(get_registry default)}
+    if [[ -n "$1" ]];then shift;fi
+    local oargs=${@}
+    local args=$oargs
+    local tkey=${registry}${oargs}
+    registry_token=${registry_tokens[$tkey]}
+    registry_service=${registry_services[$tkey]}
+    if [[ -z "$registry_token" ]];then
+        local authinfos=$(curl -vvv $registry/v2/ 2>&1|grep -i Www-Authenticate:)
+        if ! ( echo  $authinfos | egrep -iq "Www-Authenticate:.*realm.*service" );then
+            return 1
         fi
+        # Www-Authenticate: Bearer realm="https://...",service="registry..."
+        local authendpoint=$(echo "$authinfos"|sed -e 's!.*realm="\([^"]\+\)".*!\1!g')
+        registry_service=$(echo "$authinfos"|sed -e 's!.*service="\([^"]\+\)".*!\1!g')
+        if [[ -n $args ]];then args="$args&";fi
+        args="${args}service=$registry_service"
+        registry_token=$(curl --silent "$authendpoint?$args" | jq -r '.token')
+    fi
+    if [[ -n $registry_token ]];then
+        registry_tokens[$tkey]="$registry_token"
+        registry_services[$tkey]="$registry_service"
+    fi
+}
+
+get_image_scope() {
+    echo "scope=repository:$1:pull"
+}
+
+get_image_tag() {
+    local image="$1"
+    if ( echo $image | egrep -q ":[^/]+$" );then
+        image=$( echo $image | sed -e 's!\(.*\):[^/]\+$!\1!' )
+    fi
+    echo $image
+}
+
+get_image_version() {
+    local image="$1"
+    if ( echo $image | egrep -q ":[^/]+$" )
+        then local tag=${1//*:/}
+        else local tag=latest
+    fi
+    echo $tag
+}
+
+## Retrieve the digest, now specifying in the header
+## that we have a token (so we can pe...
+get_digest() {
+    local fimage="$1"
+    local image="$(get_image_tag $1)"
+    local tag="$(get_image_version $1)"
+    local registry="$(get_registry $1)"
+    local scope="$(get_image_scope $image $registry)"
+    setup_token $registry $scope
+    curl \
+        --silent \
+        --header "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+        --header "Authorization: Bearer $registry_token" \
+        "$registry/v2/$image/manifests/$tag" \
+        | jq -r '.config.digest'
+}
+
+get_image_configuration() {
+    local fimage="$1"
+    local image="$(get_image_tag $1)"
+    local tag="$(get_image_version $1)"
+    local registry="$(get_registry $1)"
+    local scope="$(get_image_scope $image $registry)"
+    setup_token $registry $scope
+    local digest=$(get_digest $fimage)
+    echo $digest
+    curl -vvv\
+        --silent \
+        --location \
+        --header "Authorization: Bearer $registry_token" \
+        "$registry/v2/$image/blobs/$digest" \
+        | jq -r '.'
+}
+
+gen_image() {
+    local image=$1 tag=$2
+    local ldir="$TOPDIR/$image/$tag"
+    local system=apt
+    local dockeriles=""
+    if [ ! -e "$ldir" ];then mkdir -p "$ldir";fi
+    cd "$ldir"
+    if ( echo "$image $tag"|egrep -iq "redhat|centos|oracle|fedora|red-hat" );then
+        system=redhat
+    elif ( echo "$image $tag"|egrep -iq suse );then
+        system=suse
+    elif ( echo "$image $tag"|egrep -iq alpine );then
+        system=alpine
+    fi
+    IMG=$image
+    if [ -e ../tag ];then
+        IMG=$(cat ../tag )
+    fi
+    export _cops_BASE=$image
+    export _cops_SYSTEM=$system
+    export _cops_VERSION=$tag
+    export _cops_IMG=$DOCKER_REPO/$(basename $IMG)
+    debug "IMG: $_cops_IMG | SYSTEM: $_cops_SYSTEM | BASE: $_cops_image | VERSION: $_cops_VERSION"
+    for folder in . .. ../../..;do
+        local df="$folder/Dockerfile.override"
+        if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
     done
+    local parts="from args argspost helpers pre base post clean cleanpost"
+    for order in $parts;do
+        for folder in . .. ../../..;do
+            local df="$folder/Dockerfile.$order"
+            if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
+        done
+    done
+    if [[ -z $dockerfiles ]];then
+        log "no dockerfile for $_cops_IMG"
+        rc=1
+        return $rc
+    else
+        debug "Using dockerfiles: $dockerfiles from $_cops_IMG"
+    fi
+    cat $dockerfiles | envsubst '$_cops_BASE;$_cops_VERSION;$_cops_SYSTEM' > Dockerfile
+    cd - &>/dev/null
+}
+
+is_skipped() {
+    local ret=1 t="$@"
+    if ( echo "$t" | egrep -q "$SKIPPED_TAGS" );then
+        ret=0
+    fi
+    if ( echo "$t" | egrep -q "/traefik" ) && ( echo "$t" | egrep -vq "alpine" );then
+        ret=0
+    fi
     return $ret
 }
 
-## needs to be set:  $_images_/$batch/$counter/$batchsize
-get_batched_images() {
+skip_local() {
+    egrep -v "(.\/)?local"
+}
+
+get_image_tags() {
+    local n=$1
+    local results="" result=""
+    local i=0
+    local has_more=0
+    local t="$TOPDIR/$n/imagetags"
+    local u="https://registry.hub.docker.com/v2/repositories/${n}/tags/"
+    local last_modified=$(stat -c "%Y" "$t.raw" 2>/dev/null )
+    if [ -e "$t.raw" ] && [ $(($CURRENT_TS-$last_modified)) -lt $((24*60*60)) ];then
+        has_more=1
+    fi
+    if [ $has_more -eq 0 ];then
+        while [ $has_more -eq 0 ];do
+            i=$((i+1))
+            result=$( curl "${u}?page=${i}" 2>/dev/null \
+                | jq -r '."results"[]["name"]' 2>/dev/null )
+            has_more=$?
+            if [[ -n "${result}}" ]];then results="${results} ${result}";fi
+        done
+        if [ ! -e "$TOPDIR/$n" ];then mkdir -p "$TOPDIR/$n";fi
+        printf "$results\n" | sort -V > "$t.raw"
+    fi
+    rm -f "$t"
+    ( for i in $(cat "$t.raw");do
+        if is_skipped "$n:$i";then debug "Skipped: $n:$i";else printf "$i\n";fi
+      done | awk '!seen[$0]++' | sort -V ) >> "$t"
+    set -e
+    if [ -e "$t" ];then cat "$t";fi
+}
+
+make_tags() {
+    local image=$1
+    log "Operating on $image"
+    local tags=$(get_image_tags $image )
+    debug "image: $image tags: $( echo $tags )"
+    for t in $tags;do if ! ( gen_image "$image" "$t"; );then rc=1;fi;done
+}
+
+
+#  clean_tags $i: clean image tags
+do_clean_tags() {
+    local image=$1
+    log "Cleaning on $image"
+    local tags=$(get_image_tags $image )
+    debug "image: $image tags: $( echo $tags )"
+    while read image;do
+        local tag=$(basename $image)
+        if ! ( echo "$tags" | egrep -q "^$tag$" );then
+            rm -rfv "$image"
+        fi
+    done < <(find "$TOPDIR/$image" -mindepth 1 -maxdepth 1 -type 2>/dev/null|skip_local)
+}
+
+
+#  refresh_images $args: refresh images files
+#     refresh_images:  (no arg) refresh all images
+#     refresh_images library/ubuntu: only refresh ubuntu images
+do_refresh_images() {
+    local images="${@:-$default_images}"
+    while read image;do
+        if [[ -n $image ]];then
+            do_clean_tags $image
+            make_tags $image
+        fi
+    done <<< "$images"
+}
+
+char_occurence() {
+    local char=$1
+    shift
+    echo "$@" | awk -F"$char" '{print NF-1}'
+}
+
+record_build_image() {
+    # library/ubuntu/latest / mdillon/postgis/latest
+    local image=$1
+    # ubuntu/latest / mdillon/postgis/latest
+    local nimage=$(echo $image / sed -re "s/^library\///g")
+    # corpusops
+    local repo=$DOCKER_REPO
+    # ubuntu / postgis
+    local tag=$(basename $(dirname $image))
+    # latest / latest
+    local version=$(basename $image)
+    local i=
+    for i in $image $image/.. $image/../../..;do
+        # ubuntu-bare / postgis
+        if [ -e $i/repo ];then repo=$( cat $i/repo );break;fi
+    done
+    for i in $image $image/.. $image/../../..;do
+        # ubuntu-bare / postgis
+        if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
+    done
+    local df=${df:-Dockerfile}
+    local itag="$repo/$tag:$version"
+    local cmd="docker build -t $itag . -f $image/$df"
+    local run="echo -e \"${RED}$cmd${NORMAL}\" && $cmd"
+    if [[ -n "$DO_RELEASE" ]];then
+        run="$run && ./local/corpusops.bootstrap/hacking/docker_release $itag"
+    fi
+    book="$(printf "$run\n${book}" )"
+}
+
+load_all_batched_images() {
+    if [[ -z $_images_ ]];then
+        while read imgs;do if [[ -n "$imgs" ]];then
+            load_batched_images "${imgs//*::/}" "${imgs//::*/}"
+        fi;done <<< "$BATCHED_IMAGES"
+        _images_list_=$(echo "$_images_list_"|egrep -v "^\s*$"| awk '!seen[$0]++'|sort -V)
+    fi
+}
+
+#  [DOCKER_RELEASER="" DOCKER_PASSWORD="" DO_RELEASE=""] build $args: refresh images files
+#     build:  (no arg) refresh all images
+#     build library/ubuntu: only refresh ubuntu images
+#     build library/ubuntu/latest: only refresh ubuntu:latest image
+#     build leftover:BATCH_QUARTED/BATCH_SIZE find images that wont be explictly built and build them per batch
+#     If DO_RELEASE is set, image will be pushed using corpusops.bootstrap/hacking/docker_release
+do_build() {
+    local images_args="${@:-$default_images}" images="" allcandidates=""
+    # batch then all leftover images that werent batched at first
+    local i=
+    if ( echo "$@" |egrep -q leftover: ) && [[ -z "${SKIP_IMAGES_SCAN}" ]];then
+        load_all_batched_images
+        for k in $(do_list_images);do
+            for l in $(do_list_image $k);do
+                if ! (echo "$_images_list_"|egrep -q "^$l$");then
+                    if [[ -n "$allcandidates" ]];then allcandidates="$allcandidates ";fi
+                    allcandidates="${allcandidates}${l}"
+                fi
+            done
+        done
+    fi
+    for imagepart in $images_args;do
+        if ( echo $imagepart|grep -q leftover);then
+            local candidates=""
+            local leftover_re="leftover:\([0-9]\+\)[/]\([0-9]\+\)"
+            local part=$(  echo $imagepart|sed -e "s/$leftover_re/\1/g" )
+            local chunks=$(echo $imagepart|sed -e "s/$leftover_re/\2/g" )
+            local size=$(echo "$allcandidates"|wc -w)
+            local chunksize="$(($size/$chunks))"
+            local c=0 inf=$(($part-1)) sup=$part
+            if [ $sup = $chunks ];then sup=$(($sup+1));fi
+            debug "sup:$sup chunksize:$chunksize size:$size chunks:$chunks"
+            for img in $allcandidates;do
+                if [ $c -ge $(($inf*$chunksize)) ] && [ $c -lt $(($sup*$chunksize)) ];then
+                    if [[ -n "$candidates" ]];then candidates="$candidates ";fi
+                    candidates="${candidates}${img}"
+                fi
+                c=$(($c+1))
+            done
+            log "$imagepart candidates: $candidates"
+            imagepart=$candidates
+        fi
+        if [[ -n "$imagepart" ]];then
+            if [[ -n "$images" ]];then images="$images ";fi
+            images="${images}$imagepart"
+        fi
+    done
+    local to_build=""
+    local i=
+    for i in $images;do
+        local number_of_slash=$( char_occurence / $i )
+        if [ ! -e $i ];then
+            sdie "$i: folder does not exist yet, use refresh_images ?"
+        elif [ $number_of_slash = 1 ];then
+            to_build="$to_build $(find $i -mindepth 1 -maxdepth 1 -type d|sed "s/^.\///g"|sort -V|skip_local)"
+        elif [ $number_of_slash = 2 ];then
+            to_build="$to_build $i"
+        else
+            sdie "$i: invalid number or slash: $number_of_slash"
+        fi
+    done
+    local counter=0
+    local book=""
+    for i in $to_build;do
+        record_build_image $i
+        counter=$((counter+1))
+    done
+    book=$( echo "$book"|tac|awk '!seen[$0]++' )
+    if [[ -n "$DO_RELEASE" ]];then
+        do_refresh_corpusops
+    fi
+    if [[ -n $book ]];then
+        if [ $NBPARALLEL -gt 1 ];then
+            if ! ( has_command parallel );then
+                die "install Gnu parallel (package: parrallel on most distrib)"
+            fi
+            # be sure env_parallel is loaded
+            if ! ( echo "$book" | parallel --joblog build.log -j$NBPARALLEL --tty $( [[ -n $DRYRUN ]] && echo "--dry-run" ); );then
+                rc=124
+            fi
+            if [ -e build.log ];then cat build.log;fi
+        else
+            while read cmd;do
+                if [[ -n $cmd ]];then
+                    if ! (  $( [[ -n $DRYRUN ]] && echo "log Would run:" ) $cmd );then rc=123;fi
+                fi
+            done <<< "$book"
+        fi
+    fi
+    return $rc
+}
+
+#  is_image: validate dir is an image container
+is_image() {
+    test -e "$1/Dockerfile"
+}
+
+#  [SKIP_CORPUSOPS=] refresh_corpusops: install & upgrade corpusops
+do_refresh_corpusops() {
+    if [[ -z ${SKIP_CORPUSOPS-} ]];then
+        vv .ansible/scripts/download_corpusops.sh
+        vv .ansible/scripts/setup_corpusops.sh
+    fi
+}
+
+#  list_image: list image subimages or subimage
+do_list_image() {
+    local i=
+    ( if ( is_image "$@" );
+    then echo "$@"
+    else for i in $(find -mindepth 2 -type d|skip_local );do
+             if [ -e "$i/Dockerfile" ];then echo "$i";fi;done
+    fi ) \
+    | egrep "${@}" \
+    | sed -re "s|(\./)?(([^/]+(/[^/]+)))(/.*)|\2\5|g"\
+    | awk '!seen[$0]++' | sort -V
+}
+
+#  list_images: list images family
+do_list_images() {
+    local i=
+    ( if ( is_image "$@" );
+    then echo "$@"
+    else for i in $(find -mindepth 2 -type d|skip_local );do
+             if [ -e "$i/Dockerfile" ];then echo "$i";fi;done
+    fi ) \
+    | sed -re "s|(\./)?([^/]+/[^/]+)/.*|\2|g"\
+    | awk '!seen[$0]++' | sort -V
+}
+
+is_in_images() {
+    local ret=1
+    local tomatch="$1"
+    shift
+    local i=""
+    for i in $@;do if ( echo "$_images_list_"| egrep -iq "^$i$" );then
+        ret=0
+        break
+    fi;done
+    return $ret
+}
+
+reset_images() {
+    _images_=""
+    _images_list_=""
+}
+
+## needs to be set:  $_images_/$_images_list_/$batch/$counter/$batchsize
+load_batched_images() {
+    local i=
     local batch="  - IMAGES=\""
     local counter=0
     local default_batchsize=$1
@@ -844,7 +926,7 @@ get_batched_images() {
             local subimages=$(do_list_image $img)
             if [[ -z $subimages ]];then break;fi
             for j in $subimages;do
-                if ! ( is_in_images "$_images_ $batch" $j );then
+                if ! ( is_in_images $j );then
                     local space=" "
                     if [ `expr $counter % $batchsize` = 0 ];then
                         space=""
@@ -853,6 +935,9 @@ get_batched_images() {
                         fi
                     fi
                     counter=$(( $counter+1 ))
+                    _images_list_="$_images_list_
+$j
+                    "
                     batch="${batch}${space}${j}"
                 fi
             done
@@ -865,14 +950,10 @@ get_batched_images() {
 
 #  gen_travis; regenerate .travis.yml file
 do_gen_travis() {
-    local _images_=''
+    reset_images
     debug "_images_(pre): $_images_"
     # batch first each explicily built images
-    while read imgs;do if [[ -n "$imgs" ]];then
-        get_batched_images "${imgs//*::/}" "${imgs//::*/}"
-    fi;done <<< "$BATCHED_IMAGES"
-    # batch then all leftover images that werent batched at first
-    get_batched_images 80 $(do_list_images)
+    load_all_batched_images
     __IMAGES="$_images_" \
         envsubst '$__IMAGES;' > "$W/.travis.yml" \
         < "$W/.travis.yml.in"
@@ -896,7 +977,7 @@ do_usage() {
 
 do_main() {
     local args=${@:-usage}
-    local actions="refresh_images|build|gen_travis|gen|list_images|clean_tags"
+    local actions="refresh_corpusops|refresh_images|build|gen_travis|gen|list_images|clean_tags"
     actions="@($actions)"
     action=${1-};
     if [[ -n "$@" ]];then shift;fi

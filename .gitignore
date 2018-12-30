@@ -1,1 +1,3 @@
 /*.log
+/local
+/.ansible/scripts/ansible_deploy_env
