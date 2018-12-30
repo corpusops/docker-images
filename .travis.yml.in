@@ -18,17 +18,22 @@ env:
       silent_rm="$silent rm -rf"
   matrix:$__IMAGES
 # all images that werent explicitly told to be built would be built in the next batches
-# we split them into 8 jobs
-  - IMAGES="leftover:1/10"
-  - IMAGES="leftover:2/10"
-  - IMAGES="leftover:3/10"
-  - IMAGES="leftover:4/10"
-  - IMAGES="leftover:5/10"
-  - IMAGES="leftover:6/10"
-  - IMAGES="leftover:7/10"
-  - IMAGES="leftover:8/10"
-  - IMAGES="leftover:9/10"
-  - IMAGES="leftover:10/10"
+# we span them onto 15 jobs
+  - IMAGES="leftover:1/15"
+  - IMAGES="leftover:2/15"
+  - IMAGES="leftover:3/15"
+  - IMAGES="leftover:4/15"
+  - IMAGES="leftover:5/15"
+  - IMAGES="leftover:6/15"
+  - IMAGES="leftover:7/15"
+  - IMAGES="leftover:8/15"
+  - IMAGES="leftover:9/15"
+  - IMAGES="leftover:10/15"
+  - IMAGES="leftover:11/15"
+  - IMAGES="leftover:12/15"
+  - IMAGES="leftover:13/15"
+  - IMAGES="leftover:14/15"
+  - IMAGES="leftover:15/15"
 cache: {directories: ["$HOME/.cache/pip", "$COPS_ROOT"]}
 before_install:
 - sudo apt-get update -qq
