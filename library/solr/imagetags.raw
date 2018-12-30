@@ -1,3 +1,4 @@
+5
 5-alpine
 5.3
 5.3-alpine
@@ -23,7 +24,7 @@
 5.5.5
 5.5.5-alpine 7.1.0-alpine
 5.5.5-slim
-6
+6 6.6
 6-slim
 6.0
 6.0-alpine
@@ -61,7 +62,6 @@
 6.5.0
 6.5.1
 6.5.1-alpine
-6.6
 6.6-alpine
 6.6-slim
 6.6.0 6.5.0-alpine
@@ -103,7 +103,7 @@
 7.2.0-slim
 7.2.1 7.3
 7.2.1-alpine
-7.2.1-slim 5
+7.2.1-slim
 7.3-alpine
 7.3-slim
 7.3.0

@@ -126,9 +126,9 @@
 1.13.12-alpine
 1.13.12-alpine-perl
 1.13.12-perl
-1.14
 1.14-alpine stable-alpine
 1.14-alpine-perl
+1.14-perl
 1.14.0
 1.14.0-alpine-perl 1.14.0-alpine
 1.14.0-perl
@@ -186,4 +186,4 @@ perl
 stable
 stable-alpine-perl
 stable-perl
- 1.14-perl
+ 1.14
