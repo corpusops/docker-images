@@ -57,6 +57,7 @@
 | [library/ubuntu](https://hub.docker.com/_/ubuntu)([./library/ubuntu](./library/ubuntu))                                       | [corpusops/ubuntu-bare](https://hub.docker.com/r/corpusops/ubuntu-bare)         |
 | [makinacorpus/pgrouting](https://hub.docker.com/makinacorpus/pgrouting)([./makinacorpus/pgrouting](./makinacorpus/pgrouting)) | [corpusops/pgrouting](https://hub.docker.com/r/corpusops/pgrouting)             |
 | [mdillon/postgis](https://hub.docker.com/mdillon/postgis)([./mdillon/postgis](./mdillon/postgis))                             | [corpusops/postgis](https://hub.docker.com/r/corpusops/postgis)                 |
+| [mailhog/mailhog](https://hub.docker.com/mailhog/mailhog)([./mailhog/mailhog](./mailhog/mailhog))                             | [corpusops/mailhog](https://hub.docker.com/r/corpusops/mailhog)                 |
 
 ## Refresh some files in this repository
 - Think time to time to refresh ``cops_pkgmgr_install.sh`` comes from [corpusops.bootstrap/bin](https://github.com/corpusops/corpusops.bootstrap/blob/master/bin/cops_pkgmgr_install.sh)
