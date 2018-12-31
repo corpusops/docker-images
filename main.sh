@@ -559,12 +559,13 @@ get_digest() {
     local registry="$(get_registry $1)"
     local scope="$(get_image_scope $image $registry)"
     setup_token $registry $scope
-    curl \
+    ret=$(curl \
         --silent \
         --header "Accept: application/vnd.docker.distribution.manifest.v2+json" \
         --header "Authorization: Bearer $registry_token" \
         "$registry/v2/$image/manifests/$tag" \
-        | jq -r '.config.digest'
+        | jq -r '.config.digest' 2>/dev/null || :)
+    echo $ret
 }
 
 get_remote_image_configuration() {
@@ -583,6 +584,21 @@ get_remote_image_configuration() {
         --header "Authorization: Bearer $registry_token" \
         "$registry/v2/$image/blobs/$digest" \
         | jq $image_query_args "${image_query}"
+}
+
+is_an_image_ancestor() {
+    local ancestor=$1
+    local itag=$2
+    local ret=1
+    alastlayer=$( \
+        image_query='.rootfs.diff_ids[-1]' \
+        get_remote_image_configuration $ancestor 2>/dev/null || : )
+    if [[ -n $alastlayer ]];then
+        (image_query='.rootfs.diff_ids' \
+            get_remote_image_configuration $itag 2>/dev/null || : ) | egrep -q $alastlayer
+        ret=$?
+    fi
+    return $ret
 }
 
 get_image_changeset() {
@@ -636,7 +652,7 @@ gen_image() {
     cat $dockerfiles | envsubst '$_cops_BASE;$_cops_VERSION;$_cops_SYSTEM' > Dockerfile
     cd - &>/dev/null
 }
-#### end - docker remote api
+### end - docker remote api
 
 is_skipped() {
     local ret=1 t="$@"
@@ -726,6 +742,12 @@ char_occurence() {
     echo "$@" | awk -F"$char" '{print NF-1}'
 }
 
+
+get_image_from() {
+    local lancestor=$(egrep ^FROM "$1" |head -n1|awk '{print $2}')
+    echo $lancestor
+}
+
 is_same_commit_label() {
     local git_commit="${1}"
     local itag="${2}"
@@ -758,13 +780,15 @@ record_build_image() {
         if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
     done
     local git_commit="${git_commit:-$(get_git_changeset "$W")}"
-    set -x
-    if [[ -z "$FORCE_REBUILD" ]] && ( is_same_commit_label $gitcommit $itag );then
+    local df=${df:-Dockerfile}
+    local itag="$repo/$tag:$version"
+    local lancestor=$(get_image_from "$image/$df")
+    if [[ -z "$FORCE_REBUILD" ]] && \
+        ( is_an_image_ancestor $lancestor $itag ) && \
+        ( is_same_commit_label $git_commit $itag );then
         log "Image $itag is update to date, skipping build"
         return
     fi
-    local df=${df:-Dockerfile}
-    local itag="$repo/$tag:$version"
     local cmd="docker build -t $itag . -f $image/$df"
     local cmd="$cmd --build-arg=DOCKER_IMAGES_COMMIT=$git_commit"
     local run="echo -e \"${RED}$cmd${NORMAL}\" && $cmd"
