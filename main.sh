@@ -259,6 +259,7 @@ library/mongo
 library/elasticsearch
 makinacorpus/pgrouting
 mdillon/postgis
+mailhog/mailhog
 "
 BATCHED_IMAGES="\
 library/alpine/latest\
@@ -318,6 +319,7 @@ library/alpine/latest\
  library/redis/5-alpine\
  library/redis/4.0-alpine\
  library/redis/4-alpine\
+ mailhog/mailhog/latest\
  library/solr/7-alpine::60
 library/debian/latest\
  library/debian/slim\
@@ -636,7 +638,7 @@ gen_image() {
         system=redhat
     elif ( echo "$image $tag"|egrep -iq suse );then
         system=suse
-    elif ( echo "$image $tag"|egrep -iq alpine );then
+    elif ( echo "$image $tag"|egrep -iq "mailhog|alpine" );then
         system=alpine
     fi
     IMG=$image
