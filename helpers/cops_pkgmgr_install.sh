@@ -636,6 +636,7 @@ OS SUPPORT: debian(& ubuntu) / archlinux / red-hat (centos/rh/fedora) / alpine
 [DO_UPDATE=y] [SKIP_UPDATE=y] \
 [DO_UPGRADE=y] [SKIP_UPGRADE=y] \
 [DO_INSTALL=y] [SKIP_INSTALL=y] \
+[NO_LATEST=y] \
 [DEBUG=y"] \
     '"${0}"' [--check-os] [--help] [packagea] [packageb]'
 }
@@ -651,6 +652,7 @@ DO_SETUP=${DO_SETUP-default}
 DO_UPGRADE=${DO_UPGRADE-}
 DO_UPDATE=${DO_UPDATE-default}
 DO_INSTALL=${DO_INSTALL-default}
+NO_LATEST="${NO_LATEST-}"
 CHECK_OS=${CHECK_OS-}
 container=${container-}
 WHOAMI=$(whoami)
@@ -747,11 +749,12 @@ dnf_update() {
 }
 
 dnf_upgrade() {
-    vvv dnf upgrade $(i_y)
+    vvv dnf upgrade $(i_y) $@
 }
 
 dnf_install() {
-    vvv dnf install $(i_y) $@
+    vvv dnf install $(i_y) $@ &&\
+        if [ "x$NO_LATEST" = "x" ];then vvv dnf_upgrade $@;fi
 }
 
 dnf_ensure_repoquery() {

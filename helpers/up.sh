@@ -60,6 +60,7 @@ install_gpg() {
 pkgs=$(grep -vE '^\s*#' packages.txt | tr "\n" ' ' )
 # only disable socat on CENTOS 6
 if [ "x$NOSOCAT" != "x" ];then pkgs=$(echo $pkgs|sed -e "s/socat//g");fi
+if [ -e /etc/fedora-release ];then set -x && pkgs="$pkgs glibc";fi
 export FORCE_INSTALL=y
 DO_UPDATE="1" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
 install_gpg
