@@ -222,9 +222,9 @@ DRYRUN=${DRYRUN-}
 NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
-SKIP_MINOR="((traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo|ruby):.*([0-9]\.?){3})"
-SKIP_PRE="((node|traefik|ruby|postgres|solr|elasticsearch|mongo|php|golang):.*(alpha|beta|rc))"
-SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu):.*[0-9]{8}.*)"
+SKIP_MINOR="((redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo):.*([0-9]\.?){3}(-32bit.*)?)"
+  SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
+SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu|oldstable|oldoldstable):.*[0-9]{8}.*)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|stretch))"
 SKIP_OS="$SKIP_OS|(ubuntu:(14.10|12|10|11|13|15))"
 SKIP_OS="$SKIP_OS|(lucid|maverick|natty|precise|quantal|raring|saucy)"
@@ -234,7 +234,8 @@ SKIP_OS="$SKIP_OS|(traefik:(rc.*|(v?([0-9]\.)*[0-9]$)|((latest)$)))"
 SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
-SKIPPED_TAGS="($SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|-?on.?build|-old)"
+SKIP_MISC="(-?(on.?build)|pgrouting.*old)"
+SKIPPED_TAGS="($SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
 CURRENT_TS=$(date +%s)
 default_images="
 library/alpine
@@ -244,6 +245,7 @@ library/fedora
 library/golang
 library/mysql
 library/nginx
+library/redis
 library/node
 library/php
 library/postgres
@@ -311,6 +313,11 @@ library/alpine/latest\
  library/php/7.3-zts-alpine\
  library/elasticsearch/5-alpine\
  library/solr/alpine\
+ library/redis/alpine\
+ library/redis/5.0-alpine\
+ library/redis/5-alpine\
+ library/redis/4.0-alpine\
+ library/redis/4-alpine\
  library/solr/7-alpine::50
 library/debian/latest\
  library/debian/slim\
@@ -346,8 +353,18 @@ library/ubuntu/latest\
  library/solr/7-slim\
  library/mysql/8\
  library/mysql/5\
+ library/redis/stretch\
+ library/redis/latest\
+ library/redis/5.0-stretch\
+ library/redis/5.0\
+ library/redis/5-stretch\
+ library/redis/5\
+ library/redis/4.0-stretch\
+ library/redis/4.0\
+ library/redis/4-stretch\
+ library/redis/4\
  library/mongo/latest\
- library/mongo/4::18
+ library/mongo/4::40
 library/postgres/latest\
  mdillon/postgis/latest\
  library/postgres/11\
@@ -664,6 +681,8 @@ is_skipped() {
     fi
     return $ret
 }
+# echo $(set -x && is_skipped library/redis/3.0.4-32bit;echo $?)
+# exit 1
 
 skip_local() {
     egrep -v "(.\/)?local"
@@ -719,7 +738,7 @@ do_clean_tags() {
         if ! ( echo "$tags" | egrep -q "^$tag$" );then
             rm -rfv "$image"
         fi
-    done < <(find "$TOPDIR/$image" -mindepth 1 -maxdepth 1 -type 2>/dev/null|skip_local)
+    done < <(find "$W/$image" -mindepth 1 -maxdepth 1 -type d 2>/dev/null|skip_local)
 }
 
 
@@ -730,8 +749,8 @@ do_refresh_images() {
     local images="${@:-$default_images}"
     while read image;do
         if [[ -n $image ]];then
-            do_clean_tags $image
             make_tags $image
+            do_clean_tags $image
         fi
     done <<< "$images"
 }
