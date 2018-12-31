@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+set -e
 DISTRIB_ID=
 DISTRIB_CODENAME=
 DISTRIB_RELEAASE=
@@ -25,8 +26,11 @@ if (echo $DISTRIB_ID | egrep -iq "debian");then
 elif ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
     NAPTMIRROR="archive.debian.org"
 fi
-set -x
 if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
+    if (echo $DISTRIB_ID|egrep -iq debian);then
+        sed -i -r -e '/testing-backports/d' \
+            $( find /etc/apt/sources.list* -type f; )
+    fi
     if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -lt 7 ];then
         OAPTMIRROR="archive.debian.org"
         sed -i -r -e '/-updates|security.debian.org/d' \
@@ -43,17 +47,20 @@ if [ "x$OAPTMIRROR" != "x" ];then
         $( find /etc/apt/sources.list* -type f; )
 fi
 install_gpg() {
+    ret=1
     for i in gpg gnupg
     do
         if ( ./cops_pkgmgr_install.sh $i ) then
+            ret=0
             break
         fi
     done
-    gpg --version &>/dev/null
+    return $ret
 }
 pkgs=$(grep -vE '^\s*#' packages.txt | tr "\n" ' ' )
 # only disable socat on CENTOS 6
 if [ "x$NOSOCAT" != "x" ];then pkgs=$(echo $pkgs|sed -e "s/socat//g");fi
 export FORCE_INSTALL=y
-DO_UPDATE="1" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh && install_gpg
+DO_UPDATE="1" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
+install_gpg
 # vim:set et sts=4 ts=4 tw=0:
