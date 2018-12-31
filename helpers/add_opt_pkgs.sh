@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+export FORCE_INSTALL=y
 : "install optional packages" \
     && pkgs=$(grep -vE "^\s*#" optional_packages.txt  | tr "\n" " ") \
     && \

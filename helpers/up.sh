@@ -54,5 +54,6 @@ install_gpg() {
 pkgs=$(grep -vE '^\s*#' packages.txt | tr "\n" ' ' )
 # only disable socat on CENTOS 6
 if [ "x$NOSOCAT" != "x" ];then pkgs=$(echo $pkgs|sed -e "s/socat//g");fi
+export FORCE_INSTALL=y
 DO_UPDATE="1" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh && install_gpg
 # vim:set et sts=4 ts=4 tw=0:
