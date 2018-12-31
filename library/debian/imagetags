@@ -55,10 +55,12 @@ oldstable-slim
 rc-buggy
 sid
 sid-slim
-squeeze
 stable
 stable-backports
 stable-slim
+stretch
+stretch-backports
+stretch-slim
 testing
 testing-backports
 testing-slim
