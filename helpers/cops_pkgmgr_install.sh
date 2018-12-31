@@ -1103,6 +1103,8 @@ prepare_install() {
             if [ "x$SECONDROUND" != "x" ] || [ "x$SECONDROUND_EXTRA" != "x" ];then
                 ( DO_UPDATE=1 update )
                 secondround_pkgscan
+            elif [ "x$DO_UPDATE" != "x" ];then
+                update && DO_UPDATE=""
             fi
         fi
     else
