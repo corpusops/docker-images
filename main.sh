@@ -318,7 +318,7 @@ library/alpine/latest\
  library/redis/5-alpine\
  library/redis/4.0-alpine\
  library/redis/4-alpine\
- library/solr/7-alpine::50
+ library/solr/7-alpine::60
 library/debian/latest\
  library/debian/slim\
  library/debian/sid\
