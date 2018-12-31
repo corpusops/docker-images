@@ -17,18 +17,22 @@ elif [ -e /etc/os-release ];then
     DISTRIB_CODENAME=$(. /etc/os-release;echo $VERSION)
     DISTRIB_CODENAME=$(echo $DISTRIB_CODENAME |sed -e "s/.*(\([^)]\+\))/\1/")
     DISTRIB_RELEASE=$(. /etc/os-release;echo $VERSION_ID)
+elif [ -e /etc/debian_version ];then
+    DISTRIB_ID=debian
+    DISTRIB_CODENAME=$(head -n1  /etc/apt/sources.list | awk  '{print $3}')
+    DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print substr($3,1,1)}')
 fi
 if ( grep -q "release 6" /etc/redhat-release >/dev/null 2>&1 );then
     NOSOCAT=1
 fi
 if (echo $DISTRIB_ID | egrep -iq "debian");then
-    NAPTMIRROR="http.debian.net"
+    NAPTMIRROR="http.debian.net|httpredir.debian.org"
 elif ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
-    NAPTMIRROR="archive.debian.org"
+    NAPTMIRROR="archive.ubuntu.com"
 fi
 if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
     if (echo $DISTRIB_ID|egrep -iq debian);then
-        sed -i -r -e '/testing-backports/d' \
+        sed -i -r -e '/(((squeeze)-(lts))|testing-backports)/d' \
             $( find /etc/apt/sources.list* -type f; )
     fi
     if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -lt 7 ];then
