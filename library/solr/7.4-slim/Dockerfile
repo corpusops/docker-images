@@ -8,6 +8,7 @@ ARG FOREGO_RELEASE=latest
 ARG GOSU_RELEASE=latest
 ARG DOCKERIZE_RELEASE=latest
 ARG CURL_SSL_OPTS=--tlsv1
+ARG DOCKER_IMAGES_COMMIT=master
 USER root
 ADD \
     helpers/up.sh \
@@ -45,3 +46,4 @@ RUN sh -c 'set -ex \
     && ./apt_clean.sh \
     && cd / && rm -rf /tmp/corpusopssteroids'
 USER solr
+LABEL com.github.corpusops.docker-images-commit="$DOCKER_IMAGES_COMMIT"

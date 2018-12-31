@@ -1,0 +1,1 @@
+LABEL com.github.corpusops.docker-images-commit="$DOCKER_IMAGES_COMMIT"

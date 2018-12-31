@@ -202,6 +202,8 @@ vvv() { debug "${@}";silent_run "${@}"; }
 vv() { log "${@}";silent_run "${@}"; }
 silent_vv() { SILENT=${SILENT-1} vv "${@}"; }
 quiet_vv() { if [ "x${QUIET-}" = "x" ];then log "${@}";fi;run_silent "${@}";}
+#
+get_git_changeset() { ( cd "${1:-$(pwd)}" && git log HEAD|head -n1|awk '{print $2}'); }
 ## end from glue
 LOGGER_NAME="dockerimages-builder"
 rc=0
@@ -215,6 +217,7 @@ DOCKER_REPO=${DOCKER_REPO:-corpusops}
 TOPDIR=$(pwd)
 SDEBUG=${SDEBUG-}
 DEBUG=${DEBUG-}
+FORCE_REBUILD=${FORCE_REBUILD-}
 DRYRUN=${DRYRUN-}
 NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
@@ -564,7 +567,9 @@ get_digest() {
         | jq -r '.config.digest'
 }
 
-get_image_configuration() {
+get_remote_image_configuration() {
+    local image_query_args="${image_query_args:-"-M -r"}"
+    local image_query="${image_query:-.}"
     local fimage="$1"
     local image="$(get_image_tag $1)"
     local tag="$(get_image_version $1)"
@@ -572,13 +577,19 @@ get_image_configuration() {
     local scope="$(get_image_scope $image $registry)"
     setup_token $registry $scope
     local digest=$(get_digest $fimage)
-    echo $digest
-    curl -vvv\
+    curl \
         --silent \
         --location \
         --header "Authorization: Bearer $registry_token" \
         "$registry/v2/$image/blobs/$digest" \
-        | jq -r '.'
+        | jq $image_query_args "${image_query}"
+}
+
+get_image_changeset() {
+    ret=$(image_query='.config.Labels["com.github.corpusops.docker-images-commit"]' \
+          get_remote_image_configuration $@ 2>/dev/null || : )
+    if [ "x$ret" = "xnull" ];then ret="";fi
+    echo "$ret"
 }
 
 gen_image() {
@@ -608,7 +619,7 @@ gen_image() {
         local df="$folder/Dockerfile.override"
         if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
     done
-    local parts="from args argspost helpers pre base post clean cleanpost"
+    local parts="from args argspost helpers pre base post clean cleanpost labels labelspost"
     for order in $parts;do
         for folder in . .. ../../..;do
             local df="$folder/Dockerfile.$order"
@@ -625,6 +636,7 @@ gen_image() {
     cat $dockerfiles | envsubst '$_cops_BASE;$_cops_VERSION;$_cops_SYSTEM' > Dockerfile
     cd - &>/dev/null
 }
+#### end - docker remote api
 
 is_skipped() {
     local ret=1 t="$@"
@@ -714,6 +726,17 @@ char_occurence() {
     echo "$@" | awk -F"$char" '{print NF-1}'
 }
 
+is_same_commit_label() {
+    local git_commit="${1}"
+    local itag="${2}"
+    local ret=1
+    local remote_git_commit=$(get_image_changeset $itag)
+    if [ "x${git_commit}" = "x${remote_git_commit}" ];then
+        ret=0
+    fi
+    return $ret
+}
+
 record_build_image() {
     # library/ubuntu/latest / mdillon/postgis/latest
     local image=$1
@@ -734,9 +757,16 @@ record_build_image() {
         # ubuntu-bare / postgis
         if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
     done
+    local git_commit="${git_commit:-$(get_git_changeset "$W")}"
+    set -x
+    if [[ -z "$FORCE_REBUILD" ]] && ( is_same_commit_label $gitcommit $itag );then
+        log "Image $itag is update to date, skipping build"
+        return
+    fi
     local df=${df:-Dockerfile}
     local itag="$repo/$tag:$version"
     local cmd="docker build -t $itag . -f $image/$df"
+    local cmd="$cmd --build-arg=DOCKER_IMAGES_COMMIT=$git_commit"
     local run="echo -e \"${RED}$cmd${NORMAL}\" && $cmd"
     if [[ -n "$DO_RELEASE" ]];then
         run="$run && ./local/corpusops.bootstrap/hacking/docker_release $itag"
@@ -753,12 +783,13 @@ load_all_batched_images() {
     fi
 }
 
-#  [DOCKER_RELEASER="" DOCKER_PASSWORD="" DO_RELEASE=""] build $args: refresh images files
+#  [FORCE_REBUILD="" DOCKER_RELEASER="" DOCKER_PASSWORD="" DO_RELEASE=""] build $args: refresh images files
 #     build:  (no arg) refresh all images
 #     build library/ubuntu: only refresh ubuntu images
 #     build library/ubuntu/latest: only refresh ubuntu:latest image
 #     build leftover:BATCH_QUARTED/BATCH_SIZE find images that wont be explictly built and build them per batch
 #     If DO_RELEASE is set, image will be pushed using corpusops.bootstrap/hacking/docker_release
+#     If FORCE_REBUILD is set, image will be rebuilt even if commit label of any existing remote image matches
 do_build() {
     local images_args="${@:-$default_images}" images="" allcandidates=""
     # batch then all leftover images that werent batched at first
