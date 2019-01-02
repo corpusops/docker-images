@@ -1,0 +1,22 @@
+# to be processed by envsubst
+
+/zlog/*-error.log
+/log/*-access.log
+/logs/*-error.log
+/logs/*-access.log
+/var/log/nginx/*.log
+{
+  daily
+  missingok
+  rotate $NGINX_ROTATE
+  compress
+  delaycompress
+  notifempty
+  create 0640 $NGINX_USER $NGINX_GROUP
+  sharedscripts
+      postrotate
+       if [ -f $NGINX_PIDFILE ];then
+        kill -USR1 `cat $NGINX_PIDFILE` || /bin/true
+       fi
+      endscript
+}
