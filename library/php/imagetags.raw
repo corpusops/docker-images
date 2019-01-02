@@ -549,11 +549,11 @@
 5.6.39-zts
 5.6.39-zts-alpine
 5.6.39-zts-jessie
+7
 7-alpine
 7-alpine3.4
 7-alpine3.7
 7-alpine3.8
-7-apache
 7-apache-jessie
 7-apache-stretch
 7-cli
@@ -561,7 +561,6 @@
 7-cli-alpine3.6
 7-cli-alpine3.8
 7-cli-jessie
-7-cli-stretch
 7-fpm
 7-fpm-alpine
 7-fpm-alpine3.4
@@ -577,6 +576,7 @@
 7-zts-alpine3.7
 7-zts-alpine3.8
 7-zts-jessie
+7-zts-stretch
 7.0
 7.0-alpine
 7.0-alpine3.4
@@ -980,29 +980,29 @@
 7.0.33-zts-alpine3.7
 7.0.33-zts-jessie
 7.0.33-zts-stretch
-7.1
+7.1 7.1.25
 7.1-alpine
 7.1-alpine3.4
 7.1-alpine3.7
 7.1-alpine3.8
 7.1-apache
-7.1-apache-jessie 7.1.25-apache-jessie
-7.1-apache-stretch
-7.1-cli 7.1.25-cli
+7.1-apache-jessie
+7.1-apache-stretch 7.1.25-apache-stretch
+7.1-cli
 7.1-cli-alpine
 7.1-cli-alpine3.4
 7.1-cli-alpine3.7
 7.1-cli-alpine3.8 7.1.25-cli-alpine3.8
 7.1-cli-jessie
 7.1-cli-stretch
-7.1-fpm 7.1.25-fpm
+7.1-fpm
 7.1-fpm-alpine3.4
 7.1-fpm-alpine3.7
 7.1-fpm-alpine3.8
 7.1-fpm-alpine 7.1.25-fpm-alpine
 7.1-fpm-jessie
 7.1-fpm-stretch
-7.1-jessie
+7.1-jessie 7.1.25-jessie
 7.1-rc
 7.1-rc-alpine
 7.1-rc-apache
@@ -1430,18 +1430,18 @@
 7.1.24-zts-alpine3.8
 7.1.24-zts-jessie
 7.1.24-zts-stretch
-7.1.25
 7.1.25-alpine
 7.1.25-alpine3.8
 7.1.25-apache
-7.1.25-apache-stretch
+7.1.25-apache-jessie
+7.1.25-cli
 7.1.25-cli-alpine
 7.1.25-cli-jessie
 7.1.25-cli-stretch
+7.1.25-fpm
 7.1.25-fpm-alpine3.8
 7.1.25-fpm-jessie
 7.1.25-fpm-stretch
-7.1.25-jessie
 7.1.25-stretch
 7.1.25-zts
 7.1.25-zts-alpine
@@ -1453,15 +1453,15 @@
 7.2-alpine3.7
 7.2-alpine3.8
 7.2-alpine 7.2.13-alpine
-7.2-apache
+7.2-apache 7.2.13-apache
 7.2-apache-stretch
-7.2-cli 7.2.13-cli
+7.2-cli
 7.2-cli-alpine
 7.2-cli-alpine3.6
 7.2-cli-alpine3.7
 7.2-cli-alpine3.8
-7.2-cli-stretch
-7.2-fpm 7.2.13-fpm
+7.2-cli-stretch 7.2.13-cli-stretch
+7.2-fpm
 7.2-fpm-alpine
 7.2-fpm-alpine3.6
 7.2-fpm-alpine3.7
@@ -1855,11 +1855,11 @@
 7.2.12-zts-stretch
 7.2.13
 7.2.13-alpine3.8
-7.2.13-apache
 7.2.13-apache-stretch
+7.2.13-cli
 7.2.13-cli-alpine
 7.2.13-cli-alpine3.8
-7.2.13-cli-stretch
+7.2.13-fpm
 7.2.13-fpm-alpine
 7.2.13-fpm-alpine3.8
 7.2.13-fpm-stretch
@@ -1868,7 +1868,7 @@
 7.2.13-zts-alpine
 7.2.13-zts-alpine3.8
 7.2.13-zts-stretch
-7.3
+7.3 7.3.0
 7.3-alpine
 7.3-alpine3.8
 7.3-apache
@@ -1880,7 +1880,7 @@
 7.3-fpm
 7.3-fpm-alpine
 7.3-fpm-alpine3.8
-7.3-fpm-stretch 7.3.0-fpm-stretch
+7.3-fpm-stretch
 7.3-rc
 7.3-rc-alpine3.8
 7.3-rc-alpine 7.3.0RC6-alpine
@@ -1897,12 +1897,11 @@
 7.3-rc-zts
 7.3-rc-zts-alpine
 7.3-rc-zts-stretch
-7.3-stretch 7.3.0-stretch
-7.3-zts
+7.3-stretch
+7.3-zts 7.3.0-zts
 7.3-zts-alpine3.8
 7.3-zts-alpine 7.3.0-zts-alpine
 7.3-zts-stretch
-7.3.0
 7.3.0RC1
 7.3.0RC1-alpine
 7.3.0RC1-alpine3.8 7.3.0RC1-cli-alpine3.8
@@ -2041,7 +2040,8 @@
 7.3.0-fpm
 7.3.0-fpm-alpine
 7.3.0-fpm-alpine3.8
-7.3.0-zts
+7.3.0-fpm-stretch
+7.3.0-stretch
 7.3.0-zts-alpine3.8
 7.3.0-zts-stretch
 alpine
@@ -2049,7 +2049,7 @@ alpine3.4
 alpine3.6 7-alpine3.6
 alpine3.7
 alpine3.8
-apache
+apache 7-apache
 apache-jessie
 apache-stretch
 cli
@@ -2059,7 +2059,7 @@ cli-alpine3.6
 cli-alpine3.7 7-cli-alpine3.7
 cli-alpine3.8
 cli-jessie
-cli-stretch
+cli-stretch 7-cli-stretch
 fpm
 fpm-alpine
 fpm-alpine3.4
@@ -2069,7 +2069,7 @@ fpm-alpine3.8 7-fpm-alpine3.8
 fpm-jessie
 fpm-stretch
 jessie 7-jessie
-latest 7
+latest
 rc
 rc-alpine
 rc-alpine3.6
@@ -2098,5 +2098,5 @@ zts-alpine3.6
 zts-alpine3.7
 zts-alpine3.8
 zts-jessie
-zts-stretch 7-zts-stretch
+zts-stretch
  5-zts-jessie
