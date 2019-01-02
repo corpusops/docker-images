@@ -1,0 +1,11 @@
+[program:crond]
+command = crond -f
+autostart = true
+stdout_logfile = $SUPERVISORD_LOGSDIR/%(program_name)s_out.log
+stdout_logfile_maxbytes = $SUPERVISORD_LOGFILE_MAXBYTES
+stdout_logfile_backups = $SUPERVISORD_LOGFILE_BACKUPS
+stderr_logfile = $SUPERVISORD_LOGSDIR/%(program_name)s_err.log
+stderr_logfile_maxbytes = $SUPERVISORD_LOGFILE_MAXBYTES
+stderr_logfile_backups = $SUPERVISORD_LOGFILE_BACKUPS
+stdout_events_enabled = true
+stderr_events_enabled = true
