@@ -59,22 +59,19 @@ for i in $SUPERVISORD_LOGSDIR $SUPERVISORD_DIR;do
     if [ ! -e "$i" ];then mkdir -p "$i";fi
 done
 SUPERVISORD_CFG="${SUPERVISORD_CFG:-"$SUPERVISORD_DIR/supervisord.conf"}"
-cfgs="
-$(find /etc/supervisor.d -type f \
-    2>/dev/null|grep -v $SUPERVISORD_CFG|sort -d)
+SUPERVISORD_CONFIGS="
+$(find /etc/supervisor.d -type f 2>/dev/null|grep -v $SUPERVISORD_CFG|sort -d)
 $(find /etc/supervisor /etc/supervisord -type f \
     -and \( -name '*.conf' -or -name '*.ini' \) \
     2>/dev/null|grep -v $SUPERVISORD_CFG|sort -d)"
 if [ ! -e $SUPERVISORD_CFG ];then
-    echo "$DEFAULT_CONFIG_TEMPLATE" \
-        | envsubst "$(get_conf_vars)" > "$SUPERVISORD_CFG"
-    while read cfg;do if [ -e "$cfg" ];then
-        echo "Running envsubst on $cfg" >&2
+    echo "$DEFAULT_CONFIG_TEMPLATE" | envsubst "$(get_conf_vars)" \
+        > "$SUPERVISORD_CFG.template"
+    for i in ${SUPERVISORD_CFG}.template $SUPERVISORD_CONFIGS;do if [ -e "$i" ];then
+        echo "Running envsubst on $i" >&2
         echo >> "$SUPERVISORD_CFG"
-        envsubst "$(get_conf_vars)" >> "$SUPERVISORD_CFG" < "$cfg"
-    fi
-    done <<< "$SUPERVISORD_CFG.template
-$cfgs"
+        envsubst "$(get_conf_vars)" >> "$SUPERVISORD_CFG" < "$i"
+    fi;done
 fi
 get_command() {
     local p=
