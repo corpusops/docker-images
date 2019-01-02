@@ -59,6 +59,9 @@
 | [mdillon/postgis](https://hub.docker.com/mdillon/postgis)([./mdillon/postgis](./mdillon/postgis))                             | [corpusops/postgis](https://hub.docker.com/r/corpusops/postgis)                 |
 | [mailhog/mailhog](https://hub.docker.com/mailhog/mailhog)([./mailhog/mailhog](./mailhog/mailhog))                             | [corpusops/mailhog](https://hub.docker.com/r/corpusops/mailhog)                 |
 
+- Those helpers (docker entrypoints) are added:
+
+
 ## Refresh some files in this repository
 - Think time to time to refresh ``cops_pkgmgr_install.sh`` comes from [corpusops.bootstrap/bin](https://github.com/corpusops/corpusops.bootstrap/blob/master/bin/cops_pkgmgr_install.sh)
 - Then run
@@ -77,6 +80,44 @@
     - ``post``: just a hook (empty by default)
     - [clean](./Dockerfile.clean)
     - ``cleanpost``: just a hook (empty by default)
+
+## Zoom on entryoints
+You better have to read the entrypoints to understand how they work.
+
+### supervisord: /bin/supervisord.sh
+- [/bin/supervisord.sh](./rootfs/bin/supervisord.sh):
+    - generates its config (read the helper) by concatenating all config files found inside ``/etc/supervisor.d``
+    - envsubst is done on config files for all vars beginning by ``SUPERVISORD_``
+### forego helper: /bin/forego.sh
+- [/bin/forego.sh](./rootfs/bin/forego.sh): helper to dockerize forego :
+    - envsubst is done on Procfiles for all vars beginning by ``FOREGO_``
+- As you may know, forego uses a Procfile to configure itself.
+    - You can either use this entrypoint directly by giving args including the Procfile
+    - Or, easier, you can use The ``FOREGO_PROCFILE`` env var pointing to your config.
+      - This config file will be parsed by envsubst.
+
+    ```yaml
+    nginx:
+      command: "corpusops/nginx"
+      entrypoint: /bin/forego.sh -d /my/path
+      environment:
+      # This way your procfile can be processed by envsubst !
+      - FOREGO_PROCFILE=/my/path/.Procfile
+    ```
+### nginx helper: /bin/nginx.sh
+- [/bin/nginx.sh](./rootfs/bin/nginx.sh): helper to dockerize nginx
+- One usual way to use this providen entrypoint is to launch it through forego to gain also logrotate support for free.<br/>
+  Remember also that all files in ``/etc/nginx`` will be proccessed by envsubst
+  and all variables prefixed by ``NGINX_`` will be replaced.
+
+    ```yaml
+    nginx:
+      image: "corpusops/nginx"
+      entrypoint: /bin/forego.sh
+      environment:
+      - FOREGO_PROCFILE=/etc/procfiles/nginx_logrotate.Procfile
+      - NGINX_FOOBAR=footruc
+    ```
 
 ## Support development
 - Ethereum: ``0xa287d95530ba6dcb6cd59ee7f571c7ebd532814e``
