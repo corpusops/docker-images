@@ -8,7 +8,6 @@ oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04)"
 NOSOCAT=""
 OAPTMIRROR="${OAPTMIRROR:-}"
 if [ -e /etc/lsb-release ];then
-    debug "No lsb_release, sourcing manually /etc/lsb-release"
     DISTRIB_ID=$(. /etc/lsb-release;echo ${DISTRIB_ID})
     DISTRIB_CODENAME=$(. /etc/lsb-release;echo ${DISTRIB_CODENAME})
     DISTRIB_RELEASE=$(. /etc/lsb-release;echo ${DISTRIB_RELEASE})
