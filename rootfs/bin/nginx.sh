@@ -18,7 +18,7 @@ export NGINX_LOGS_DIR="${NGINX_LOGS_DIR:-"/var/log/nginx"}"
 export NGINX_LOGS_DIRS="/logs /log $NGINX_LOGS_DIR"
 export NGINX_SOCKET_DIR="$(dirname "$NGINX_SOCKET_PATH")"
 export NGINX_BIN=${NGINX_BIN:-"nginx"}
-export NGINX_CONFIGS="${NGINX_CONFIGS-"$( find $NGINX_CONF_DIR -type f)
+export NGINX_CONFIGS="${NGINX_CONFIGS-"$( find $NGINX_CONF_DIR -type f|egrep -v '\.template$')
 /etc/logrotate.d/nginx"}"
 if [[ -z $NGINX_STD_OUTPUT ]];then rm -fv $NGINX_LOGS_DIR/*;fi
 for e in $NGINX_LOGS_DIRS $NGINX_CONF_DIR;do
@@ -29,7 +29,6 @@ for i in $NGINX_CONFIGS;do if [ -e "$i" ];then
     echo "Running envsubst on $i" >&2
     content="$(cat $i)"
     dest=$i
-    if ( echo $i|egrep -q '\.template$' );then dest=$(basename $i .template);fi
     echo "$content"|envsubst "$(get_conf_vars)" > "$dest"
 fi;done
 chmod 600 /etc/logrotate.d/nginx
