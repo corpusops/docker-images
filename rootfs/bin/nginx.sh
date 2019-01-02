@@ -28,7 +28,9 @@ done
 for i in $NGINX_CONFIGS;do if [ -e "$i" ];then
     echo "Running envsubst on $i" >&2
     content="$(cat $i)"
-    echo "$content" | envsubst "$(get_conf_vars)" > "$i"
+    dest=$i
+    if ( echo $i|egrep -q '\.template$' );then dest=$(basename $i .template);fi
+    echo "$content"|envsubst "$(get_conf_vars)" > "$dest"
 fi;done
 chmod 600 /etc/logrotate.d/nginx
 exec $NGINX_BIN "$@"

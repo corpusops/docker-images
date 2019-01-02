@@ -108,7 +108,8 @@ You better have to read the entrypoints to understand how they work.
 - [/bin/nginx.sh](./rootfs/bin/nginx.sh): helper to dockerize nginx
 - One usual way to use this providen entrypoint is to launch it through forego to gain also logrotate support for free.<br/>
   Remember also that all files in ``/etc/nginx`` will be proccessed by envsubst
-  and all variables prefixed by ``NGINX_`` will be replaced.
+  and all variables prefixed by ``NGINX_`` will be replaced. Also .template files
+  will be unsuffixed (/etc/nginx/foo.template -> /etc/nginx/foo)
 
     ```yaml
     nginx:
