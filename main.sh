@@ -435,7 +435,7 @@ library/php/7\
  library/php/7.1\
  library/php/7.1-cli\
  library/php/7.1-fpm\
- library/php/7.1-zts::40
+ library/php/7.1-zts::20
 library/ruby/latest\
  library/ruby/slim\
  library/ruby/2\
