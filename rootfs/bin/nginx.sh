@@ -7,7 +7,7 @@ SDEBUG=${SDEBUG-}
 if [ "x$SDEBUG" != "x" ];then set -x;fi
 NO_CHOWN=${NO_CHOWN-}
 export NGINX_CONF_DIR="${NGINX_CONF_DIR:-"/etc/nginx"}"
-export # French legal http logs retention  is 3 years
+# French legal http logs retention  is 3 years
 export NGINX_ROTATE=${NGINX_ROTATE-$((365*3))}
 export NGINX_USER=${NGINX_USER-"nginx"}
 export NGINX_GROUP=${NGINX_GROUP-"nginx"}
