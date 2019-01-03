@@ -2,14 +2,24 @@ FROM library/nginx:1.10.3-alpine
 ARG DO_UPDATE=y
 ARG NONINTERACTIVE=y
 ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"
-ARG EXTRA_PACKAGES_LIST="packages/packages_alpine.txt"
+ARG EXTRA_FILES_LIST=""
 ARG COPS_SYSTEM=alpine
 ARG FOREGO_RELEASE=latest
 ARG GOSU_RELEASE=latest
 ARG DOCKERIZE_RELEASE=latest
 ARG CURL_SSL_OPTS=--tlsv1
 ARG DOCKER_IMAGES_COMMIT=master
-ARG EXTRA_PACKAGES_LIST="library/nginx/packages_nginx_alpine.txt"
+ARG EXTRA_FILES_LIST="library/nginx/packages_nginx_alpine.txt"
+ADD \
+    rootfs/etc/procfiles/nginx_logrotate.Procfile \
+    /etc/procfiles/
+ADD \
+    rootfs/etc/logrotate.d/nginx \
+    /etc/logrotate.d/
+ADD \
+    rootfs/etc/supervisor.d/cron \
+    rootfs/etc/supervisor.d/nginx \
+    /etc/supervisor.d/
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
@@ -19,10 +29,11 @@ ADD \
     helpers/setup_locales.sh \
     helpers/cops_pkgmgr_install.sh \
     helpers/alpine_up.sh \
+    rootfs/ \
     packages/packages_alpine.txt \
     packages/optional_packages_supervisors.txt \
     packages/optional_packages_alpine.txt \
-    ${EXTRA_PACKAGES_LIST} \
+    ${EXTRA_FILES_LIST} \
     /tmp/corpusopssteroids/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
@@ -35,7 +46,7 @@ RUN sh -c 'set -ex \
     && ./add_gosu.sh \
     && ./add_forego.sh \
     && DEBUG=1 ./setup_locales.sh \
-    && cp -v cops_pkgmgr_install.sh /bin \
+    && cp -v bin/* cops_pkgmgr_install.sh /bin \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go

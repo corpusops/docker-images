@@ -2,7 +2,7 @@ FROM library/opensuse:42.3
 ARG DO_UPDATE=y
 ARG NONINTERACTIVE=y
 ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"
-ARG EXTRA_PACKAGES_LIST="packages/packages_suse.txt"
+ARG EXTRA_FILES_LIST=""
 ARG COPS_SYSTEM=suse
 ARG FOREGO_RELEASE=latest
 ARG GOSU_RELEASE=latest
@@ -18,10 +18,11 @@ ADD \
     helpers/setup_locales.sh \
     helpers/cops_pkgmgr_install.sh \
     helpers/suse_up.sh \
+    rootfs/ \
     packages/packages_suse.txt \
     packages/optional_packages_supervisors.txt \
     packages/optional_packages_suse.txt \
-    ${EXTRA_PACKAGES_LIST} \
+    ${EXTRA_FILES_LIST} \
     /tmp/corpusopssteroids/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
@@ -34,7 +35,7 @@ RUN sh -c 'set -ex \
     && ./add_gosu.sh \
     && ./add_forego.sh \
     && DEBUG=1 ./setup_locales.sh \
-    && cp -v cops_pkgmgr_install.sh /bin \
+    && cp -v bin/* cops_pkgmgr_install.sh /bin \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go
