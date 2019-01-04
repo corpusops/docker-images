@@ -94,7 +94,8 @@ You better have to read the entrypoints to understand how they work.
     - envsubst is done on Procfiles for all vars beginning by ``FOREGO_``
 - As you may know, forego uses a Procfile to configure itself.
     - You can either use this entrypoint directly by giving args including the Procfile
-    - Or, easier, you can use The ``FOREGO_PROCFILE`` env var pointing to your config.
+    - Or, easier, you can use The ``PROCFILE`` env var pointing to your config.
+
       - This config file will be parsed by envsubst.
 
     ```yaml
@@ -120,6 +121,24 @@ You better have to read the entrypoints to understand how they work.
       - FOREGO_PROCFILE=/etc/procfiles/nginx_logrotate.Procfile
       - NGINX_FOOBAR=footruc
     ```
+
+### traefik helper: /bin/traefik.sh
+- [/bin/traefic.sh](./rootfs/bin/traefic.sh): helper to dockerize traefic
+- As you may know, forego uses a Procfile to configure itself.
+    - You can either use this entrypoint directly by giving args including the traefic config
+    - Or, easier, you can use either
+        - the ``TRAEFIC_CONFIG`` env var pointing to your config.
+        - mount a file to ``/traefic.toml``
+    - This config file will be parsed by envsubst.
+
+        ```yaml
+        traefic:
+          image: "corpusops/traefic"
+          entrypoint: /bin/traefic.sh
+          environment:
+          # if this file exists, it will be used as the config automatically
+          - TRAEFIC_CONFIG=/traefic.toml
+        ```
 
 ## Support development
 - Ethereum: ``0xa287d95530ba6dcb6cd59ee7f571c7ebd532814e``
