@@ -153,6 +153,7 @@ maroilles-nanoserver-sac2016
 morbier 1.2
 morbier-alpine
 nanoserver
+nanoserver-sac2016
 raclette-alpine
 reblochon
 roquefort
@@ -343,5 +344,4 @@ v1.7.5-nanoserver-sac2016 1.7.5-nanoserver
 v1.7.6
 v1.7.6-alpine
 v1.7.6-nanoserver
-v1.7.6-nanoserver-sac2016
- nanoserver-sac2016
+ v1.7.6-nanoserver-sac2016

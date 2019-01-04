@@ -12,8 +12,9 @@
 1-stretch
 1-wheezy
 1-windowsservercore
-1-windowsservercore-1709
+1-windowsservercore-1709 1.11-windowsservercore-1709
 1-windowsservercore-1803
+1-windowsservercore-1809
 1-windowsservercore-ltsc2016
 1.2
 1.2-cross
@@ -421,6 +422,7 @@
 1.9.7-windowsservercore
 1.9.7-windowsservercore-1709
 1.9.7-windowsservercore-ltsc2016
+1.10
 1.10beta1
 1.10beta1-alpine
 1.10beta1-alpine3.7
@@ -466,11 +468,11 @@
 1.10-rc-windowsservercore
 1.10-rc-windowsservercore-1709
 1.10-rc-windowsservercore-ltsc2016 1.10rc2-windowsservercore-ltsc2016
-1.10-stretch 1.10.7-stretch
+1.10-stretch
 1.10-windowsservercore
+1.10-windowsservercore-1709
 1.10-windowsservercore-1803
 1.10-windowsservercore-1809
-1.10-windowsservercore-ltsc2016
 1.10.0
 1.10.0-alpine
 1.10.0-alpine3.7
@@ -543,11 +545,11 @@
 1.10.7-alpine3.8
 1.10.7-nanoserver
 1.10.7-nanoserver-sac2016
-1.10.7-windowsservercore windowsservercore
-1.10.7-windowsservercore-1709
-1.10.7-windowsservercore-1803 1.10-windowsservercore-1709
+1.10.7-stretch
+1.10.7-windowsservercore
+1.10.7-windowsservercore-1709 1.10-windowsservercore-ltsc2016
+1.10.7-windowsservercore-1803
 1.10.7-windowsservercore-1809
-1.10.7-windowsservercore-ltsc2016
 1.11
 1.11beta1
 1.11beta1-alpine
@@ -616,10 +618,8 @@
 1.11-rc-windowsservercore-ltsc2016
 1.11-stretch
 1.11-windowsservercore
-1.11-windowsservercore-1709
-1.11-windowsservercore-1803 1.11.4-windowsservercore-1803
-1.11-windowsservercore-1809
-1.11-windowsservercore-ltsc2016
+1.11-windowsservercore-1803
+1.11-windowsservercore-ltsc2016 1.10.7-windowsservercore-ltsc2016
 1.11.0
 1.11.0-alpine
 1.11.0-alpine3.7
@@ -662,32 +662,32 @@
 1.11.4
 1.11.4-alpine
 1.11.4-alpine3.8
-1.11.4-nanoserver rc-nanoserver
+1.11.4-nanoserver
 1.11.4-nanoserver-sac2016
 1.11.4-stretch
 1.11.4-windowsservercore
 1.11.4-windowsservercore-1709
+1.11.4-windowsservercore-1803
 1.11.4-windowsservercore-1809
 1.11.4-windowsservercore-ltsc2016
 1.12beta1
 1.12beta1-alpine
 1.12beta1-alpine3.8
-1.12beta1-nanoserver
+1.12beta1-nanoserver nanoserver-sac2016
 1.12beta1-nanoserver-sac2016
-1.12beta1-stretch
 1.12beta1-windowsservercore
 1.12beta1-windowsservercore-1709
-1.12beta1-windowsservercore-1803
 1.12beta1-windowsservercore-1809
+1.12beta1-windowsservercore-ltsc2016
 1.12-rc
 1.12-rc-alpine3.8
 1.12-rc-nanoserver
-1.12-rc-stretch
-1.12-rc-windowsservercore
+1.12-rc-nanoserver-sac2016
+1.12-rc-stretch 1.12beta1-stretch
 1.12-rc-windowsservercore-1709
-1.12-rc-windowsservercore-1803
+1.12-rc-windowsservercore-1803 1.12beta1-windowsservercore-1803
 1.12-rc-windowsservercore-1809
-1.12-rc-windowsservercore-ltsc2016 1.12beta1-windowsservercore-ltsc2016
+1.12-rc-windowsservercore-ltsc2016
 alpine
 alpine3.5
 alpine3.6
@@ -695,26 +695,26 @@ alpine3.7
 alpine3.8
 cross
 jessie
-latest
 nanoserver
-nanoserver-sac2016
 rc
 rc-alpine3.6
 rc-alpine3.7
 rc-alpine3.8
 rc-alpine 1.12-rc-alpine
-rc-nanoserver-sac2016 1.12-rc-nanoserver-sac2016
+rc-nanoserver
+rc-nanoserver-sac2016
 rc-onbuild
 rc-stretch
-rc-windowsservercore
+rc-windowsservercore 1.12-rc-windowsservercore
 rc-windowsservercore-1709
 rc-windowsservercore-1803
 rc-windowsservercore-1809
 rc-windowsservercore-ltsc2016
 stretch
 wheezy
+windowsservercore
 windowsservercore-1709
 windowsservercore-1803
-windowsservercore-1809 1-windowsservercore-1809
+windowsservercore-1809 1.11-windowsservercore-1809
 windowsservercore-ltsc2016
- 1.10
+ latest

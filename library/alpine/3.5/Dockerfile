@@ -30,6 +30,8 @@ RUN sh -c 'set -ex \
     && chmod +x *sh \
     && cat optional_packages_*.txt > optional_packages.txt \
     && cat packages_*.txt > packages.txt \
+    && : fix logrorate global conf \
+    && if [ -e /var/log ];then touch /var/log/syslog /var/log/messages;fi \
     && ./alpine_up.sh \
     && ./add_opt_pkgs.sh \
     && ./add_confd.sh \

@@ -281,6 +281,7 @@
 4-bionic
 4-windowsservercore
 4-windowsservercore-1709
+4-windowsservercore-ltsc2016
 4-xenial
 4.0
 4.0-bionic
@@ -368,7 +369,6 @@
 4.1.5-windowsservercore-1803
 4.1.5-windowsservercore-ltsc2016
 4.1.5-xenial
-4.1.6
 4.1.6-windowsservercore
 4.1.6-windowsservercore-1709 unstable-windowsservercore-ltsc2016
 4.1.6-windowsservercore-1803
@@ -393,4 +393,4 @@ windowsservercore-1709
 windowsservercore-1803 4-windowsservercore-1803
 windowsservercore-ltsc2016
 xenial
- 4-windowsservercore-ltsc2016
+ 4.1.6

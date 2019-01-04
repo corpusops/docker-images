@@ -23,6 +23,7 @@ ADD \
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
+    helpers/add_confd.sh \
     helpers/add_dockerize.sh \
     helpers/add_forego.sh \
     helpers/add_opt_pkgs.sh \
@@ -40,8 +41,11 @@ RUN sh -c 'set -ex \
     && chmod +x *sh \
     && cat optional_packages_*.txt > optional_packages.txt \
     && cat packages_*.txt > packages.txt \
+    && : fix logrorate global conf \
+    && if [ -e /var/log ];then touch /var/log/syslog /var/log/messages;fi \
     && ./apt_up.sh \
     && ./add_opt_pkgs.sh \
+    && ./add_confd.sh \
     && ./add_dockerize.sh \
     && ./add_gosu.sh \
     && ./add_forego.sh \
