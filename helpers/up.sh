@@ -27,7 +27,7 @@ fi
 if (echo $DISTRIB_ID | egrep -iq "debian");then
     NAPTMIRROR="http.debian.net|httpredir.debian.org"
 elif ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
-    NAPTMIRROR="archive.ubuntu.com"
+    NAPTMIRROR="archive.ubuntu.com|security.ubuntu.com"
 fi
 if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
     if (echo $DISTRIB_ID|egrep -iq debian);then
@@ -42,6 +42,8 @@ if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
     if ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" ) && \
         ( echo $DISTRIB_RELEASE |egrep -iq $oldubuntu);then
         OAPTMIRROR="old-releases.ubuntu.com"
+        sed -i -r -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
+            $( find /etc/apt/sources.list* -type f; )
     fi
 fi
 if [ "x$OAPTMIRROR" != "x" ];then
