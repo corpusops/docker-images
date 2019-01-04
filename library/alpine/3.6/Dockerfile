@@ -12,6 +12,7 @@ ARG DOCKER_IMAGES_COMMIT=master
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
+    helpers/add_confd.sh \
     helpers/add_dockerize.sh \
     helpers/add_forego.sh \
     helpers/add_opt_pkgs.sh \
@@ -31,6 +32,7 @@ RUN sh -c 'set -ex \
     && cat packages_*.txt > packages.txt \
     && ./alpine_up.sh \
     && ./add_opt_pkgs.sh \
+    && ./add_confd.sh \
     && ./add_dockerize.sh \
     && ./add_gosu.sh \
     && ./add_forego.sh \

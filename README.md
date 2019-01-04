@@ -22,6 +22,7 @@
         - foreman(ruby) & supervisord (python) are not bundled
           as they would add too much dependencies
           therefore make images grow too much.
+    - [confd](https://github.com/kelseyhightower/confd): tool to generates configs from templates when envsubst or basic shell is just not enougth
     - [dockerize](https://github.com/jwilder/dockerize): tool to orchestrate containers between themselves
     - [gosu](https://github.com/tianon/gosu): tool to downgrade privileges, the perfect SUDO.
     - Except for alpine based images (using musl, so no locales): setup sensible locales for: ``fr``, ``en``, ``de``.

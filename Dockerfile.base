@@ -5,6 +5,7 @@ RUN sh -c 'set -ex \
     && cat packages_*.txt > packages.txt \
     && ./${_cops_SYSTEM}_up.sh \
     && ./add_opt_pkgs.sh \
+    && ./add_confd.sh \
     && ./add_dockerize.sh \
     && ./add_gosu.sh \
     && ./add_forego.sh \
