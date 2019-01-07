@@ -791,9 +791,6 @@
 7.0.22-alpine
 7.0.22-apache
 7.0.22-cli
-7.0.22-fpm-alpine 7.0.22-fpm
-7.0.22-zts
-7.0.22-zts-alpine
 7.0.23
 7.0.23-alpine
 7.0.23-apache
@@ -1494,13 +1491,7 @@
 7.2-zts-alpine 7.2.13-zts-alpine
 7.2-zts-stretch
 7.2.0
-7.2.0RC1
-7.2.0RC1-alpine 7.2.0RC1-fpm-alpine
-7.2.0RC1-apache
-7.2.0RC1-cli
-7.2.0RC1-fpm
-7.2.0RC1-zts
-7.2.0RC1-zts-alpine
+7.2.0RC1-alpine  7.0.22-fpm
 7.2.0RC2
 7.2.0RC2-alpine
 7.2.0RC2-apache

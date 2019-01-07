@@ -223,7 +223,8 @@ NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
-SKIP_MINOR="((dejavu|redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|mongo):.*([0-9]\.?){3}(-32bit.*)?)"
+# SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
+SKIP_MINOR="((nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|mongo):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
   SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
 SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu|oldstable|oldoldstable):.*[0-9]{8}.*)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|squeeze))"
@@ -231,7 +232,7 @@ SKIP_OS="$SKIP_OS|(ubuntu:(14.10|12|10|11|13|15))"
 SKIP_OS="$SKIP_OS|(lucid|maverick|natty|precise|quantal|raring|saucy)"
 SKIP_OS="$SKIP_OS|(centos:(centos)?5)"
 SKIP_OS="$SKIP_OS|(fedora.*(modular|21))"
-SKIP_OS="$SKIP_OS|(traefik:(rc.*|(v?([0-9]\.)*[0-9]$)|((latest)$)))"
+SKIP_OS="$SKIP_OS|(traefik:(rc.*|(v?([0-9]+\.)*[0-9]+$)|((latest)$)))"
 SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
@@ -278,6 +279,9 @@ library/alpine/latest\
  mdillon/postgis/11-alpine\
  mdillon/postgis/10-alpine\
  library/traefik/alpine\
+ library/nginx/1-alpine\
+ library/nginx/1.15-alpine\
+ library/nginx/1.14-alpine\
  library/nginx/alpine-perl\
  library/nginx/mainline-alpine-perl\
  library/nginx/stable-alpine-perl\
