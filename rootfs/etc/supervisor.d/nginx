@@ -11,3 +11,4 @@ stopsignal = KILL
 stopwaitsecs = 3
 stdout_logfile=/dev/stdout
 stderr_logfile=/dev/stderr
+startretries=5
