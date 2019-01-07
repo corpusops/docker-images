@@ -13,14 +13,16 @@ get_conf_vars() {
             | sed -re "s/((${CONF_PREFIX})[^=]+)=.*/$\1;/g";); }
 doenvsubst() {
     substsuf=""
-    if [ "x${1-}" ];then substsuf=": $@";fi
+	if [ "x${1-}" ];then substsuf=": $@";fi
     confvars="$CONF_VARS"
     if [ "x$CONF_VARS" != "x" ];then
         confvars="$CONF_VARS;$(get_conf_vars)"
     else
         confvars=$(get_conf_vars)
     fi
-    echo "Running envsubst${substsuf} ($confvars)" >&2
+	tlog="Running envsubst${substsuf}"
+    if [ "x$confvars" != "x" ];then tlog="$tlog ($confvars)";fi
+    echo "$tlog" >&2
     envsubst "$confvars"
 }
 SDEBUG=${SDEBUG-}
