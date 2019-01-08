@@ -9,3 +9,5 @@ wget
 # not default on debian
 ca-certificates
 dirmngr
+# envsubst
+gettext-base
