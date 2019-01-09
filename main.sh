@@ -270,8 +270,27 @@ makinacorpus/pgrouting
 mdillon/postgis
 mailhog/mailhog
 "
+
+find_top_node_() {
+    img=library/node
+    if [ ! -e $img ];then return;fi
+    for i in $(
+        find $img -maxdepth 1 -mindepth 1 -type d \
+        |grep -v chakra|egrep -- "[^0-9.][0-9]+$"|egrep "1."|sort -V)
+    do
+        for j in $(\
+            find $i* -maxdepth 1 -mindepth 0 -type d \
+            |egrep "[0-9]+\.[0-9]+($|-alpine)$"\
+            |sed -re 's!.*/!!'|sort -V|tail -n12);do
+            ls -d $img/$j
+        done
+    done
+}
+find_top_node() { (set +e && find_top_node_ && set -e;); }
+NODE_TOP="$(echo $(find_top_node))"
 BATCHED_IMAGES="\
-library/alpine/latest\
+$NODE_TOP\
+ library/alpine/latest\
  library/alpine/3\
  library/postgres/alpine\
  library/postgres/11-alpine\
@@ -342,7 +361,7 @@ library/alpine/latest\
  minio/mint/edge\
  minio/mint/latest\
  mailhog/mailhog/latest\
- library/solr/7-alpine::71
+ library/solr/7-alpine::51
 library/debian/latest\
  library/debian/slim\
  library/debian/sid\
