@@ -99,12 +99,20 @@ if [ "x${INSTALL_DEFAULT_LOCALE}" != "x" ];then
         if [ -e "$localesenv" ];then
             log "Verifying $localesenv ($INSTALL_DEFAULT_LOCALE)"
             for knob in $ALL_DEFAULT_LANG;do
-                if ! ( grep -q "^$knob=" "$localesenv" );then
+                if ! ( egrep -q "^(export +)?$knob=" "$localesenv" );then
                     log "Installing $knob in $localesenv"
-                    echo "$knob=$INSTALL_DEFAULT_LOCALE" >> "$localesenv"
+                    if [ "x$localesenv" = "x/etc/environment" ];then
+                        echo "$knob=$INSTALL_DEFAULT_LOCALE" >> "$localesenv"
+                    else
+                        echo "export $knob=$INSTALL_DEFAULT_LOCALE" >> "$localesenv"
+                    fi
                 else
                     log "Patching $knob in $localesenv"
-                    sed -i -re "s/^$knob=.*/$knob=$INSTALL_DEFAULT_LOCALE/g" "$localesenv"
+                    if [ "x$localesenv" = "x/etc/environment" ];then
+                        sed -i -re "s/^$knob=.*/$knob=$INSTALL_DEFAULT_LOCALE/g" "$localesenv"
+                    else
+                        sed -i -re "s/^(export +)?$knob=.*/export $knob=$INSTALL_DEFAULT_LOCALE/g" "$localesenv"
+                    fi
                 fi
             done
         fi
