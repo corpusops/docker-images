@@ -55,6 +55,7 @@
 | [library/python](https://hub.docker.com/_/python)([./library/python](./library/python))                                       | [corpusops/python](https://hub.docker.com/r/corpusops/python)                   |
 | [library/ruby](https://hub.docker.com/_/ruby)([./library/ruby](./library/ruby))                                               | [corpusops/ruby](https://hub.docker.com/r/corpusops/ruby)                       |
 | [library/solr](https://hub.docker.com/_/solr)([./library/solr](./library/solr))                                               | [corpusops/solr](https://hub.docker.com/r/corpusops/solr)                       |
+| [library/wordpress](https://hub.docker.com/_/wordpress)([./library/wordpress](./library/wordpress))                           | [corpusops/wordpress](https://hub.docker.com/r/corpusops/wordpress)             |
 | [library/redis](https://hub.docker.com/_/redis)([./library/redis](./library/redis))                                           | [corpusops/redis](https://hub.docker.com/r/corpusops/redis)                     |
 | [library/opensuse](https://hub.docker.com/_/opensuse)([./library/opensuse](./library/opensuse))                               | [corpusops/opensuse-bare](https://hub.docker.com/r/corpusops/opensuse-bare)     |
 | [library/ubuntu](https://hub.docker.com/_/ubuntu)([./library/ubuntu](./library/ubuntu))                                       | [corpusops/ubuntu-bare](https://hub.docker.com/r/corpusops/ubuntu-bare)         |

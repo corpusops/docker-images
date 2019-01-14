@@ -224,7 +224,7 @@ NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
 # SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
-SKIP_MINOR="((nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|mongo):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
+SKIP_MINOR="((wordpress|nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|mongo):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
   SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
 SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu|oldstable|oldoldstable):.*[0-9]{8}.*)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|squeeze))"
@@ -257,6 +257,7 @@ library/nginx
 library/redis
 library/node
 library/php
+library/wordpress
 library/postgres
 library/python
 library/traefik
@@ -361,7 +362,7 @@ $NODE_TOP\
  minio/mint/edge\
  minio/mint/latest\
  mailhog/mailhog/latest\
- library/solr/7-alpine::51
+ library/solr/7-alpine::31
 library/debian/latest\
  library/debian/slim\
  library/debian/sid\
@@ -391,7 +392,7 @@ library/debian/latest\
  minio/k8s-operator/latest\
  minio/mc/edge\
  minio/mc/latest\
- library/elasticsearch/2::39
+ library/elasticsearch/2::15
 library/ubuntu/latest\
  library/ubuntu/bionic\
  library/ubuntu/18.04\
@@ -429,7 +430,7 @@ library/postgres/latest\
  library/elasticsearch/5\
  library/mongo/3\
  library/solr/6\
- library/solr/6-slim::30
+ library/solr/6-slim::20
 library/golang/latest\
  library/python/3\
  library/python/2\
@@ -452,7 +453,7 @@ library/golang/latest\
  library/node/7-slim\
  library/solr/5-slim\
  library/solr/5\
- library/mongo/2::25
+ library/mongo/2::20
 library/php/7\
  library/php/7-cli\
  library/php/7-fpm\
@@ -502,7 +503,7 @@ library/ruby/latest\
  library/ruby/1\
  library/ruby/1-slim\
  library/ruby/1.9\
- library/ruby/1.9-slim::18
+ library/ruby/1.9-slim::15
 library/ruby/2.4-alpine\
  library/ruby/2.4-slim-alpine\
  library/postgres/9-alpine\
@@ -541,7 +542,19 @@ library/ruby/2.4-alpine\
  library/solr/6-slim-alpine\
  library/solr/5-slim-alpine\
  library/elasticsearch/1-alpine\
- library/elasticsearch/2-alpine::50
+ library/elasticsearch/2-alpine\
+ library/wordpress/4-apache\
+ library/wordpress/4-php5.6-apache\
+ library/wordpress/4-php7.0-apache\
+ library/wordpress/4-php7.1-apache\
+ library/wordpress/4-php7.2-apache\
+ library/wordpress/5-apache\
+ library/wordpress/5-php5.6-apache\
+ library/wordpress/5-php7.0-apache\
+ library/wordpress/5-php7.1-apache\
+ library/wordpress/5-php7.2-apache\
+ library/wordpress/5-php7.3-apache\
+ library/wordpress/4.9-php5.6-apache::23
 "
 
 declare -A registry_tokens
