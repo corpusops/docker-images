@@ -5,6 +5,7 @@ env:
   global:
     - |
       RELEASE_DEBUG="" \
+      NBPARALLEL="2" \
       DO_RELEASE="1" \
       RELEASABLE_REPOS="corpusops/" \
       COPS_URL="https://github.com/corpusops/corpusops.bootstrap" \

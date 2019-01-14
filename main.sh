@@ -453,7 +453,7 @@ library/golang/latest\
  library/node/7-slim\
  library/solr/5-slim\
  library/solr/5\
- library/mongo/2::20
+ library/mongo/2::23
 library/php/7\
  library/php/7-cli\
  library/php/7-fpm\
@@ -503,7 +503,7 @@ library/ruby/latest\
  library/ruby/1\
  library/ruby/1-slim\
  library/ruby/1.9\
- library/ruby/1.9-slim::15
+ library/ruby/1.9-slim::20
 library/ruby/2.4-alpine\
  library/ruby/2.4-slim-alpine\
  library/postgres/9-alpine\
@@ -871,9 +871,13 @@ record_build_image() {
         log "Image $itag is update to date, skipping build"
         return
     fi
-    local cmd="docker build -t $itag . -f $image/$df"
-    local cmd="$cmd --build-arg=DOCKER_IMAGES_COMMIT=$git_commit"
-    local run="echo -e \"${RED}$cmd${NORMAL}\" && $cmd"
+    local dbuild="docker build -t $itag . -f $image/$df --build-arg=DOCKER_IMAGES_COMMIT=$git_commit"
+    local retries=${DOCKER_BUILD_RETRIES:-4}
+    local cmd="dret=8 && for i in \$(seq $retries);do if ($dbuild);then dret=0;break;else dret=6;fi;done"
+    local cmd="$cmd && if [ \"x\$dret\" != \"x0\" ];then"
+    local cmd="$cmd      echo \"${RED}$image/$df build: Falling after $retries retries${NORMAL}\" >&2"
+    local cmd="$cmd      && false;fi"
+    local run="echo -e \"${RED}$dbuild${NORMAL}\" && $cmd"
     if [[ -n "$DO_RELEASE" ]];then
         run="$run && ./local/corpusops.bootstrap/hacking/docker_release $itag"
     fi
