@@ -26,7 +26,7 @@ doenvsubst() {
     envsubst "$confvars"
 }
 SDEBUG=${SDEBUG-}
-TEMPLATE_SUFFIXES="\.(in|template)$"
+TEMPLATE_SUFFIXES="\.(in|template|envsubst)$"
 ENVSUBST_DEST="${ENVSUBST_DEST-}"
 NO_ENVSUBST=${NO_ENVSUBST-}
 NO_TEMPLATE=${NO_TEMPLATE-}
