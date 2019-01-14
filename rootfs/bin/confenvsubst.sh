@@ -4,6 +4,8 @@
 #
 # $ echo '$FOO__BAR' | CONF_PREFIX=FOO__ confenvsubst.sh > configfile
 # $ echo '$FOO__BAR' | ENVSUBST_DEST=configfile CONF_PREFIX=FOO__ confenvsubst.sh
+# override mode:
+# $ echo '$FOO__BAR' | ENVSUBST_MODE="" ENVSUBST_DEST=configfile CONF_PREFIX=FOO__ confenvsubst.sh
 #
 set -e
 CONF_PREFIX="${CONF_PREFIX:-CONFIG__}"
@@ -28,6 +30,12 @@ doenvsubst() {
 SDEBUG=${SDEBUG-}
 TEMPLATE_SUFFIXES="\.(in|template|envsubst)$"
 ENVSUBST_DEST="${ENVSUBST_DEST-}"
+if [ "x$ENVSUBST_DEST" = "x" ];then
+    DEFAULT_ENVSUBST_MODE=""
+else
+    DEFAULT_ENVSUBST_MODE="concat"
+fi
+ENVSUBST_MODE=${ENVSUBST_MODE:-$DEFAULT_ENVSUBST_MODE}
 NO_ENVSUBST=${NO_ENVSUBST-}
 NO_TEMPLATE=${NO_TEMPLATE-}
 if [ "x$NO_ENVSUBST" != "x" ];then exit 0;fi
@@ -47,15 +55,19 @@ if [ "x${1-}" != "x" ];then
         if [ ! -e $(dirname "$dest") ];then
             mkdir -p "$(dirname $ENVSUBST_DEST)"
         fi
-        if [ "x$ENVSUBST_DEST" = "x" ];then
-            echo "$content"|doenvsubst "$i -> override-dest: $dest" > "$dest"
+        if [ "x$ENVSUBST_MODE" = "xconcat" ];then
+            echo "$content"|doenvsubst "$i concat -> dest: $dest" >> "$dest"
         else
-            echo "$content"|doenvsubst "$i -> concat-dest: $dest" >> "$dest"
+            echo "$content"|doenvsubst "$i -> dest: $dest" > "$dest"
         fi
     fi;done
 else
     if [ "x$ENVSUBST_DEST" != "x" ];then
-        doenvsubst "STDIN -> $ENVSUBST_DEST" >> "$ENVSUBST_DEST"
+        if [ "x$ENVSUBST_MODE" = "xconcat" ];then
+            doenvsubst "STDIN concat -> $ENVSUBST_DEST" >> "$ENVSUBST_DEST"
+        else
+            doenvsubst "STDIN -> $ENVSUBST_DEST" > "$ENVSUBST_DEST"
+        fi
     else
         doenvsubst "STDIN"
     fi
