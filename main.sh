@@ -978,7 +978,11 @@ do_build() {
         else
             while read cmd;do
                 if [[ -n $cmd ]];then
-                    if ! (  $( [[ -n $DRYRUN ]] && echo "log Would run:" ) $cmd );then rc=123;fi
+                    if [[ -n $DRYRUN ]];then
+                        log "Would have run $cmd"
+                    else
+                        bash -c "$cmd"
+                    fi
                 fi
             done <<< "$book"
         fi
