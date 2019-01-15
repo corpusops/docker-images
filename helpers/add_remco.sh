@@ -19,7 +19,7 @@ install() {
         | egrep -i "($(uname -s).*$arch|sha)" )" \
     && : :: remco: download and unpack artefacts \
     && for u in $urls;do do_curl -sLO $u;done \
-    && unzip remco_*_linux_amd64.zip \
+    && 7z x -y remco_*_linux_amd64.zip >/dev/null \
     && mv -vf remco_linux /usr/bin/remco \
     && chmod +x /usr/bin/remco && cd / && rm -rf /tmp/remco
 }

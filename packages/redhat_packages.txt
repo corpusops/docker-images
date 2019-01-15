@@ -7,3 +7,4 @@ socat
 tar
 tzdata
 wget
+p7zip

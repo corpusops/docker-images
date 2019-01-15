@@ -9,3 +9,4 @@ tzdata
 wget
 # for envsubst
 gettext
+p7zip

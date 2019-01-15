@@ -28,6 +28,7 @@
     - [dockerize](https://github.com/jwilder/dockerize): tool to orchestrate containers between themselves
     - [gosu](https://github.com/tianon/gosu): tool to downgrade privileges, the perfect SUDO.
     - [confenvsubst](./rootfs/bin/confenvsubst.sh): tool to generate configs from env vars with well knows prefixes
+    - [p7zip](http://p7zip.sourceforge.net/): the universal (un)archiver
     - Except for alpine based images (using musl, so no locales): setup sensible locales for: ``fr``, ``en``, ``de``.
 
 - (1): if it is packaged on the underlying distrib (eg: runit is only on alpine>3)
