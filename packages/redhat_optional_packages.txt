@@ -1,3 +1,4 @@
 # fedora locales
 # glibc-all-langpacks
 glibc-locale-source
+p7zip-plugins
