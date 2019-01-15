@@ -24,6 +24,7 @@
           as they would add too much dependencies
           therefore make images grow too much.
     - [confd](https://github.com/kelseyhightower/confd): tool to generates configs from templates when envsubst or basic shell is just not enougth
+    - [remco](https://github.com/HeavyHorst/remco): tool to generates configs from templates when confd is just not enougth
     - [dockerize](https://github.com/jwilder/dockerize): tool to orchestrate containers between themselves
     - [gosu](https://github.com/tianon/gosu): tool to downgrade privileges, the perfect SUDO.
     - [confenvsubst](./rootfs/bin/confenvsubst.sh): tool to generate configs from env vars with well knows prefixes

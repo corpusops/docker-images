@@ -5,6 +5,7 @@ ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"
 ARG EXTRA_FILES_LIST=""
 ARG COPS_SYSTEM=${_cops_SYSTEM}
 ARG FOREGO_RELEASE=latest
+ARG REMCO_RELEASE=latest
 ARG GOSU_RELEASE=latest
 ARG DOCKERIZE_RELEASE=latest
 ARG CURL_SSL_OPTS=--tlsv1
@@ -17,6 +18,7 @@ ADD \
     helpers/add_dockerize.sh \
     helpers/add_forego.sh \
     helpers/add_opt_pkgs.sh \
+    helpers/add_remco.sh \
     helpers/setup_locales.sh \
     helpers/cops_pkgmgr_install.sh \
     helpers/*_up.sh \
@@ -37,6 +39,7 @@ RUN sh -c 'set -ex \
     && if [ -e /var/log ];then touch /var/log/syslog /var/log/messages;fi \
     && ./${_cops_SYSTEM}_up.sh \
     && ./add_opt_pkgs.sh \
+    && ./add_remco.sh \
     && ./add_confd.sh \
     && ./add_dockerize.sh \
     && ./add_gosu.sh \

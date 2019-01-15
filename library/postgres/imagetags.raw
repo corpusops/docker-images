@@ -69,6 +69,7 @@
 9.3.25
 9.3.25-alpine
 9.4
+9.4-alpine
 9.4-beta2
 9.4-beta3
 9.4.0
@@ -102,7 +103,6 @@
 9.4.19
 9.4.19-alpine 11-beta4
 9.4.20
-9.4.20-alpine
 9.5
 9.5-alpha1
 9.5-alpha2
@@ -135,7 +135,7 @@
 9.5.15
 9.5.15-alpine
 9.6
-9.6-alpine
+9.6-alpine 9.6.11-alpine
 9.6-beta1
 9.6-beta3
 9.6-beta4
@@ -159,9 +159,8 @@
 9.6.10
 9.6.10-alpine
 9.6.11
-9.6.11-alpine
-10 10.6
-10-alpine 10.6-alpine
+10
+10-alpine
 10-beta1
 10-beta1-alpine
 10-beta2
@@ -183,8 +182,10 @@
 10.4-alpine
 10.5 11.0
 10.5-alpine
+10.6
+10.6-alpine
 11
-11-alpine
+11-alpine 11.1-alpine
 11-beta1
 11-beta1-alpine 9.6.8
 11-beta2
@@ -196,7 +197,6 @@
 11-rc1-alpine
 11.0-alpine
 11.1
-11.1-alpine
 alpine
 latest
- 9.4-alpine
+ 9.4.20-alpine

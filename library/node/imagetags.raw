@@ -488,11 +488,11 @@
 5.12.0-onbuild 5
 5.12.0-slim
 5.12.0-wheezy
+6
 6-alpine
-6-jessie
 6-jessie-slim
 6-onbuild
-6-slim 6.16-slim
+6-slim
 6-stretch
 6-stretch-slim
 6-wheezy
@@ -765,18 +765,17 @@
 6.15.1-onbuild
 6.15.1-stretch
 6.15.1-stretch-slim
-6.16
+6.16 6.16.0
 6.16-alpine 6.16.0-alpine
 6.16-jessie
 6.16-jessie-slim
 6.16-onbuild
+6.16-slim 6.16.0-slim
 6.16-stretch
 6.16-stretch-slim
-6.16.0
 6.16.0-jessie
 6.16.0-jessie-slim
-6.16.0-onbuild boron-jessie-slim
-6.16.0-slim
+6.16.0-onbuild
 6.16.0-stretch
 6.16.0-stretch-slim
 7
@@ -911,11 +910,9 @@
 8
 8-alpine
 8-jessie
-8-jessie-slim 8.15-jessie-slim
-8-onbuild
+8-onbuild 8.15-onbuild
 8-slim
 8-stretch
-8-stretch-slim
 8-wheezy
 8.0 8.0.0
 8.0-alpine
@@ -1158,8 +1155,8 @@
 8.15
 8.15-alpine
 8.15-jessie
-8.15-onbuild
-8.15-slim 8.15.0-slim
+8.15-jessie-slim
+8.15-slim
 8.15-stretch
 8.15-stretch-slim
 8.15.0
@@ -1167,6 +1164,7 @@
 8.15.0-jessie
 8.15.0-jessie-slim
 8.15.0-onbuild
+8.15.0-slim
 8.15.0-stretch
 8.15.0-stretch-slim
 9
@@ -1340,8 +1338,7 @@
 10-jessie
 10-jessie-slim
 10-slim
-10-stretch
-10-stretch-slim
+10-stretch 10.15-stretch
 10-wheezy
 10.0
 10.0-alpine 10.0.0-alpine
@@ -1504,16 +1501,17 @@
 10.15
 10.15-alpine
 10.15-jessie
+10.15-jessie-slim
 10.15-slim
-10.15-stretch 10.15.0-stretch
 10.15-stretch-slim
 10.15.0
 10.15.0-alpine
 10.15.0-jessie
 10.15.0-jessie-slim
 10.15.0-slim
+10.15.0-stretch
 10.15.0-stretch-slim
-11
+11 11.6
 11-slim
 11-stretch
 11-stretch-slim
@@ -1566,14 +1564,13 @@
 11.5.0-slim
 11.5.0-stretch
 11.5.0-stretch-slim
-11.6
 11.6-alpine
 11.6-slim
 11.6-stretch
 11.6-stretch-slim
 11.6.0
 11.6.0-alpine
-11.6.0-slim
+11.6.0-slim stretch-slim
 11.6.0-stretch
 11.6.0-stretch-slim
 alpine
@@ -1581,24 +1578,25 @@ argon-alpine
 argon-onbuild
 argon-slim
 argon-stretch
-boron 6
+boron
 boron-alpine
-boron-jessie
+boron-jessie 6-jessie
+boron-jessie-slim
 boron-onbuild
 boron-slim
 boron-stretch
 boron-stretch-slim
 boron-wheezy
-carbon
 carbon-alpine
 carbon-jessie
-carbon-jessie-slim
+carbon-jessie-slim 8-jessie-slim
 carbon-onbuild
 carbon-slim
 carbon-stretch
-carbon-stretch-slim
+carbon-stretch-slim 8-stretch-slim
 carbon-wheezy
 chakracore
+chakracore-8
 chakracore-8.9
 chakracore-8.9.4
 chakracore-8.10
@@ -1612,28 +1610,30 @@ chakracore-10.1
 chakracore-10.1.0
 chakracore-10.6
 chakracore-10.6.0
-chakracore-10.13
-chakracore-10.13.0 chakracore-8
+chakracore-10.13 chakracore-10.13.0
+current
 current-alpine 11-alpine
+current-slim
 current-stretch
 current-stretch-slim
 dubnium
 dubnium-alpine
 dubnium-jessie
+dubnium-jessie-slim
+dubnium-slim
 dubnium-stretch
-dubnium-stretch-slim
+dubnium-stretch-slim 10-stretch-slim
 jessie
-latest current
+latest
 lts
 lts-alpine
 lts-jessie
-lts-jessie-slim dubnium-jessie-slim
-lts-slim dubnium-slim
+lts-jessie-slim
+lts-slim
 lts-stretch
 lts-stretch-slim
 onbuild
-slim current-slim
+slim
 stretch
-stretch-slim
 wheezy
- 10.15-jessie-slim
+ carbon

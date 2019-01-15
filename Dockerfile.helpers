@@ -6,6 +6,7 @@ ADD \
     helpers/add_dockerize.sh \
     helpers/add_forego.sh \
     helpers/add_opt_pkgs.sh \
+    helpers/add_remco.sh \
     helpers/setup_locales.sh \
     helpers/cops_pkgmgr_install.sh \
     helpers/*_up.sh \
