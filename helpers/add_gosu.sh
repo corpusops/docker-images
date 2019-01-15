@@ -17,7 +17,7 @@ install() {
     && : one keyserver may fail, try on multiple servers \
     && for k in $GOSU_GPG_KEYS;do \
         touch /tmp/gosu_k_$k \
-        && set -x&&for retry in $(seq 4)
+        && for retry in $(seq 4)
            do if [ -e /tmp/gosu_k_$k ];then for s in $GPG_KEYS_SERVERS;do \
              if ( gpg --batch --keyserver $s --recv-keys $k ) \
              then rm -f /tmp/gosu_k_$k && break; \
