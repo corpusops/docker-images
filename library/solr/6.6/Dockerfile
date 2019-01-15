@@ -15,6 +15,7 @@ ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
     helpers/system_detect.sh \
+    helpers/add_frep.sh \
     helpers/add_confd.sh \
     helpers/add_dockerize.sh \
     helpers/add_forego.sh \
@@ -41,6 +42,7 @@ RUN sh -c 'set -ex \
     && if [ -e /var/log ];then touch /var/log/syslog /var/log/messages;fi \
     && ./${_cops_SYSTEM}_up.sh \
     && ./add_opt_pkgs.sh \
+    && ./add_frep.sh \
     && ./add_remco.sh \
     && ./add_confd.sh \
     && ./add_dockerize.sh \

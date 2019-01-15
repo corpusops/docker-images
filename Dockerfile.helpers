@@ -2,6 +2,7 @@ ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
     helpers/system_detect.sh \
+    helpers/add_frep.sh \
     helpers/add_confd.sh \
     helpers/add_dockerize.sh \
     helpers/add_forego.sh \

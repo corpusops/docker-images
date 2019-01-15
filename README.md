@@ -23,7 +23,8 @@
         - foreman(ruby) & supervisord (python) are not bundled
           as they would add too much dependencies
           therefore make images grow too much.
-    - [confd](https://github.com/kelseyhightower/confd): tool to generates configs from templates when envsubst or basic shell is just not enougth
+    - [frep](https://github.com/subchen/frep): tool to generates configs from templates when envsubst or basic shell is just not enougth
+    - [confd](https://github.com/kelseyhightower/confd): tool to generates configs from templates when frep is just not enougth
     - [remco](https://github.com/HeavyHorst/remco): tool to generates configs from templates when confd is just not enougth
     - [dockerize](https://github.com/jwilder/dockerize): tool to orchestrate containers between themselves
     - [gosu](https://github.com/tianon/gosu): tool to downgrade privileges, the perfect SUDO.
