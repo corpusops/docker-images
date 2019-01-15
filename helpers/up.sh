@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 set -e
+DO_UPDATE=1
+_cops_SYSTEM=$(system_detect.sh)
 DISTRIB_ID=
 DISTRIB_CODENAME=
 DISTRIB_RELEAASE=
@@ -28,6 +30,10 @@ if (echo $DISTRIB_ID | egrep -iq "debian");then
     NAPTMIRROR="http.debian.net|httpredir.debian.org"
 elif ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
     NAPTMIRROR="archive.ubuntu.com|security.ubuntu.com"
+fi
+if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" );then
+    DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="epel-release" ./cops_pkgmgr_install.sh
+    DO_UPDATE=""
 fi
 if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
     if (echo $DISTRIB_ID|egrep -iq debian);then
@@ -67,7 +73,7 @@ pkgs=$(grep -vE '^\s*#' packages.txt | tr "\n" ' ' )
 if [ "x$NOSOCAT" != "x" ];then pkgs=$(echo $pkgs|sed -e "s/socat//g");fi
 if [ -e /etc/fedora-release ];then set -x && pkgs="$pkgs glibc";fi
 export FORCE_INSTALL=y
-DO_UPDATE="1" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
+DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
 install_gpg
 if ! ( echo foo|envsubst >/dev/null 2>&1);then
     echo "envsubst is missing"
