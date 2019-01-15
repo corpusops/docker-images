@@ -290,9 +290,33 @@ find_top_node_() {
 find_top_node() { (set +e && find_top_node_ && set -e;); }
 NODE_TOP="$(echo $(find_top_node))"
 BATCHED_IMAGES="\
-$NODE_TOP\
- library/alpine/latest\
+library/ubuntu/latest\
+ library/ubuntu/bionic\
+ library/ubuntu/18.04\
+ library/ubuntu/16.04\
+ library/ubuntu/xenial\
+ library/ubuntu/14.04\
+ library/ubuntu/trusty\
+ library/solr/latest\
+ library/solr/7\
+ library/solr/7-slim\
+ library/mysql/8\
+ library/mysql/5\
+ library/redis/stretch\
+ library/redis/latest\
+ library/redis/5.0-stretch\
+ library/redis/5.0\
+ library/redis/5-stretch\
+ library/redis/5\
+ library/redis/4.0-stretch\
+ library/redis/4.0\
+ library/redis/4-stretch\
+ library/redis/4\
+ library/mongo/latest\
+ library/mongo/4::40
+library/alpine/latest\
  library/alpine/3\
+ $NODE_TOP\
  library/postgres/alpine\
  library/postgres/11-alpine\
  library/postgres/10-alpine\
@@ -393,30 +417,6 @@ library/debian/latest\
  minio/mc/edge\
  minio/mc/latest\
  library/elasticsearch/2::15
-library/ubuntu/latest\
- library/ubuntu/bionic\
- library/ubuntu/18.04\
- library/ubuntu/16.04\
- library/ubuntu/xenial\
- library/ubuntu/14.04\
- library/ubuntu/trusty\
- library/solr/latest\
- library/solr/7\
- library/solr/7-slim\
- library/mysql/8\
- library/mysql/5\
- library/redis/stretch\
- library/redis/latest\
- library/redis/5.0-stretch\
- library/redis/5.0\
- library/redis/5-stretch\
- library/redis/5\
- library/redis/4.0-stretch\
- library/redis/4.0\
- library/redis/4-stretch\
- library/redis/4\
- library/mongo/latest\
- library/mongo/4::40
 library/postgres/latest\
  mdillon/postgis/latest\
  library/postgres/11\
