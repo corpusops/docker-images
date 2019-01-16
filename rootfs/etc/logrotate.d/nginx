@@ -1,4 +1,4 @@
-# to be processed by envsubst
+# to be processed by frep
 
 /log/nginx/*-error.log
 /log/nginx/*-access.log
@@ -12,15 +12,15 @@
 {
   daily
   missingok
-  rotate $NGINX_ROTATE
+  rotate {{.Env.NGINX_ROTATE}}
   compress
   delaycompress
   notifempty
-  create 0640 $NGINX_USER $NGINX_GROUP
+  create 0640 {{.Env.NGINX_USER}} {{.Env.NGINX_GROUP}}
   sharedscripts
       postrotate
-       if [ -f $NGINX_PIDFILE ];then
-        kill -USR1 `cat $NGINX_PIDFILE` || /bin/true
+       if [ -f {{.Env.NGINX_PIDFILE}} ];then
+        kill -USR1 `cat {{.Env.NGINX_PIDFILE}}` || /bin/true
        fi
       endscript
 }
