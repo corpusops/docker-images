@@ -32,6 +32,10 @@ elif ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
     NAPTMIRROR="archive.ubuntu.com|security.ubuntu.com"
 fi
 if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" ) \
+    && (yum list installed fakesystemd >/dev/null 2>&1);then
+    yum swap -y fakesystemd systemd
+fi
+if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" ) \
     && ! ( echo $DISTRIB_ID | egrep -iq fedora );then
     DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="epel-release" ./cops_pkgmgr_install.sh
     DO_UPDATE=""
