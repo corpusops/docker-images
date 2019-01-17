@@ -10,6 +10,7 @@ ARG GOSU_RELEASE=latest
 ARG DOCKERIZE_RELEASE=latest
 ARG CURL_SSL_OPTS=--tlsv1
 ARG DOCKER_IMAGES_COMMIT=master
+USER root
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
@@ -60,4 +61,5 @@ RUN sh -c 'set -ex \
     && _cops_SYSTEM=$(./system_detect.sh) \
     && ./${_cops_SYSTEM}_clean.sh \
     && cd / && rm -rf /tmp/corpusopssteroids'
+USER www-data
 LABEL com.github.corpusops.docker-images-commit="$DOCKER_IMAGES_COMMIT"

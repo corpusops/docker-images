@@ -798,9 +798,14 @@ do_clean_tags() {
     debug "image: $image tags: $( echo $tags )"
     while read image;do
         local tag=$(basename $image)
+        # hack PATCH back non cli wordpress NON-CLI docker images
+        if ( echo "$image" | grep -q wordpress ) && ! ( echo "$tag" | egrep -q cli );then
+            sed -i -re 's/^USER/#USER/g' $image/Dockerfile
+        fi
         if ! ( echo "$tags" | egrep -q "^$tag$" );then
             rm -rfv "$image"
         fi
+
     done < <(find "$W/$image" -mindepth 1 -maxdepth 1 -type d 2>/dev/null|skip_local)
 }
 
