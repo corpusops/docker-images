@@ -103,7 +103,7 @@ You better have to read the entrypoints to understand how they work.
     - generates its config (read the helper) by concatenating all config (.conf, .ini) files
       found inside subdirectories of <br/>
       ``/etc/supervisor.d``, ``/etc/supervisor``, ``/etc/supervisord``, in t
-    - envsubst is done on config files for all vars beginning by ``SUPERVISORD_``
+    - frep is done on config files for all vars beginning by ``SUPERVISORD_``
     - ``SUPERVISORD_CONFIGS`` can be set to alternate configs to aggregate to supervisord config
     - ``SUPERVISORD_LOGFILE`` can be set up to another path, as we set it to stdout by defaut
 - One usual way to use this providen entrypoint is to launch it through supervisor to gain also logrotate support for free.<br/>
@@ -137,7 +137,7 @@ You better have to read the entrypoints to understand how they work.
 ### nginx helper: /bin/nginx.sh
 - [/bin/nginx.sh](./rootfs/bin/nginx.sh): helper to dockerize nginx
 - One usual way to use this providen entrypoint is to launch it through forego to gain also logrotate support for free.<br/>
-  Remember also that all files in ``/etc/nginx`` will be proccessed by envsubst
+  Remember also that all files in ``/etc/nginx`` will be proccessed by frep
   and all variables prefixed by ``NGINX_`` will be replaced. Also .template files
   will be skipped (eg: /etc/nginx/foo.template). We integrated both supervisord (recommended) and forego configs
     - supervisord example
@@ -146,8 +146,7 @@ You better have to read the entrypoints to understand how they work.
         nginx:
           command: >
             /bin/sh -c "
-            CONF_PREFIX=MYAPP__ confenvsubst.sh /etc/nginx/conf.d/default.conf.template
-            > /etc/nginx/conf.d/default.conf
+            frep /etc/nginx/conf.d/default.conf.template:/etc/nginx/conf.d/default.conf --overwrite
             && exec /bin/supervisord.sh"
           environment:
           - SUPERVISORD_CONFIGS=/etc/supervisor.d/cron /etc/supervisor.d/nginx

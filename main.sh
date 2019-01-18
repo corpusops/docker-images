@@ -210,12 +210,12 @@ rc=0
 THISSCRIPT=$0
 W="$(dirname $(readlinkf $THISSCRIPT))"
 cd "$W"
+SDEBUG=${SDEBUG-}
 if [[ -n $SDEBUG ]];then set -x;fi
 DO_RELEASE=${DO_RELEASE-}
 DEFAULT_REGISTRY=${DEFAULT_REGISTRY:-registry.hub.docker.com}
 DOCKER_REPO=${DOCKER_REPO:-corpusops}
 TOPDIR=$(pwd)
-SDEBUG=${SDEBUG-}
 DEBUG=${DEBUG-}
 FORCE_REBUILD=${FORCE_REBUILD-}
 DRYRUN=${DRYRUN-}
@@ -798,14 +798,9 @@ do_clean_tags() {
     debug "image: $image tags: $( echo $tags )"
     while read image;do
         local tag=$(basename $image)
-        # hack PATCH back non cli wordpress NON-CLI docker images
-        if ( echo "$image" | grep -q wordpress ) && ! ( echo "$tag" | egrep -q cli );then
-            sed -i -re 's/^USER/#USER/g' $image/Dockerfile
-        fi
         if ! ( echo "$tags" | egrep -q "^$tag$" );then
             rm -rfv "$image"
         fi
-
     done < <(find "$W/$image" -mindepth 1 -maxdepth 1 -type d 2>/dev/null|skip_local)
 }
 
@@ -814,13 +809,15 @@ do_clean_tags() {
 #     refresh_images:  (no arg) refresh all images
 #     refresh_images library/ubuntu: only refresh ubuntu images
 do_refresh_images() {
-    local images="${@:-$default_images}"
-    while read image;do
-        if [[ -n $image ]];then
-            make_tags $image
-            do_clean_tags $image
-        fi
-    done <<< "$images"
+    local imagess="${@:-$default_images}"
+    while read images;do
+        for image in $images;do
+            if [[ -n $image ]];then
+                make_tags $image
+                do_clean_tags $image
+            fi
+        done
+    done <<< "$imagess"
 }
 
 char_occurence() {

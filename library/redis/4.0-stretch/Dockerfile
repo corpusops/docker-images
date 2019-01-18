@@ -32,6 +32,10 @@ ADD \
     /etc/supervisor.d/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
+    && : making cron logging pipe \
+    && mkfifo -m 0660 /var/log/cron.log \
+    && ln -s /var/log/cron.log /var/log/crond.log \
+    && : \
     && chmod +x *sh \
     && export PATH=$(pwd):$PATH \
     && _cops_SYSTEM=$(./system_detect.sh) \

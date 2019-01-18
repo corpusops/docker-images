@@ -1,6 +1,7 @@
+
 [program:nginx]
-command = sh -c '\
-    b=nginx \
+command = sh -c 'set -ex\
+    && b=nginx \
     && if [ -e /bin/nginx.sh ];then b=/bin/nginx.sh;fi \
     && echo "Using $b">&2 && exec $b -g "daemon off;"'
 autorestart = true
@@ -10,6 +11,11 @@ killasgroup = true
 stopasgroup = true
 stopsignal = KILL
 stopwaitsecs = 3
-stdout_logfile=/dev/stdout
-stderr_logfile=/dev/stderr
-startretries=5
+startretries = 5
+stdout_logfile = /dev/stdout
+stderr_logfile = /dev/stderr
+stdout_logfile_maxbytes = 0
+stderr_logfile_maxbytes = 0
+stdout_logfile_backups = 0
+stderr_logfile_backups = 0
+

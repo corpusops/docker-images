@@ -459,14 +459,12 @@
 5-php7.0-fpm
 5-php7.1
 5-php7.1-apache
-5-php7.1-fpm 5.0-php7.1-fpm
 5-php7.1-fpm-alpine
 5-php7.2
 5-php7.2-apache 5.0-php7.2-apache
 5-php7.2-fpm
 5-php7.2-fpm-alpine
 5-php7.3
-5-php7.3-apache 5.0-php7.3-apache
 5-php7.3-fpm
 5-php7.3-fpm-alpine
 5.0
@@ -481,14 +479,16 @@
 5.0-php7.0-fpm
 5.0-php7.0-fpm-alpine
 5.0-php7.1
-5.0-php7.1-apache
+5.0-php7.1-apache 5.0.3-php7.1-apache
+5.0-php7.1-fpm
 5.0-php7.1-fpm-alpine
 5.0-php7.2
 5.0-php7.2-fpm
 5.0-php7.2-fpm-alpine
 5.0-php7.3
+5.0-php7.3-apache
 5.0-php7.3-fpm
-5.0-php7.3-fpm-alpine
+5.0-php7.3-fpm-alpine 5.0.3-php7.3-fpm-alpine
 5.0.0
 5.0.0-apache
 5.0.0-fpm
@@ -550,7 +550,6 @@
 5.0.3-fpm
 5.0.3-fpm-alpine
 5.0.3-php7.1
-5.0.3-php7.1-apache php7.1-fpm-alpine
 5.0.3-php7.1-fpm
 5.0.3-php7.1-fpm-alpine
 5.0.3-php7.2
@@ -560,9 +559,8 @@
 5.0.3-php7.3
 5.0.3-php7.3-apache
 5.0.3-php7.3-fpm
-5.0.3-php7.3-fpm-alpine php7.2-fpm
 apache
-cli
+cli cli-2
 cli-1
 cli-1-php5.6
 cli-1-php7.0
@@ -614,7 +612,6 @@ cli-1.5.1
 cli-1.5.1-php5.6
 cli-1.5.1-php7.1
 cli-1.5.1-php7.2
-cli-2 cli-2.1
 cli-2-php5.6
 cli-2-php7.1
 cli-2-php7.2
@@ -633,6 +630,7 @@ cli-2.0.1
 cli-2.0.1-php5.6
 cli-2.0.1-php7.0
 cli-2.0.1-php7.2
+cli-2.1
 cli-2.1-php5.6
 cli-2.1-php7.0
 cli-2.1-php7.1
@@ -658,11 +656,13 @@ php7.0
 php7.0-apache
 php7.1
 php7.1-apache
-php7.1-fpm
+php7.1-fpm 5-php7.1-fpm
+php7.1-fpm-alpine
 php7.2
 php7.2-apache
-php7.2-fpm-alpine
+php7.2-fpm
 php7.3
-php7.3-apache
+php7.3-apache 5-php7.3-apache
+php7.3-fpm
 php7.3-fpm-alpine
- php7.3-fpm
+ php7.2-fpm-alpine

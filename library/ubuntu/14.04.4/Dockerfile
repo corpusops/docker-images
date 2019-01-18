@@ -32,6 +32,7 @@ ADD \
     /etc/supervisor.d/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
+    && : \
     && chmod +x *sh \
     && export PATH=$(pwd):$PATH \
     && _cops_SYSTEM=$(./system_detect.sh) \
