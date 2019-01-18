@@ -5,6 +5,7 @@ if [ "x$SDEBUG" != "x" ];then set -x;fi
 NO_CHOWN=${NO_CHOWN-}
 export NGINX_CONF_DIR="${NGINX_CONF_DIR:-"/etc/nginx"}"
 # French legal http logs retention  is 3 years
+export NGINX_SKIP_CHECK="${NGINX_SKIP_CHECK-}"
 export NGINX_ROTATE=${NGINX_ROTATE-$((365*3))}
 export NGINX_USER=${NGINX_USER-"nginx"}
 export NGINX_GROUP=${NGINX_GROUP-"nginx"}
@@ -20,12 +21,15 @@ export NGINX_CONFIGS="${NGINX_CONFIGS-"$( \
     find $NGINX_CONF_DIR -type f \
     |egrep -v "$NGINX_FREP_SKIP|\.template$")
 /etc/logrotate.d/nginx"}"
-if [[ -z $NGINX_STD_OUTPUT ]];then rm -fv $NGINX_LOGS_DIR/*;fi
+if [ "x$NGINX_STD_OUTPUT" = "x" ];then rm -fv $NGINX_LOGS_DIR/*;fi
 for e in $NGINX_LOGS_DIRS $NGINX_CONF_DIR;do
     if [ ! -e "$e" ];then mkdir -p "$e";fi
     if [ "x$NO_CHOWN" != "x" ] && [ -e "$e" ];then chown "$NGINX_USER" "$e";fi
 done
 for i in $NGINX_CONFIGS;do frep $i:$i --overwrite;done
 chmod 600 /etc/logrotate.d/nginx
+if [ "x$NGINX_SKIP_CHECK" = "x" ];then
+    $NGINX_BIN -t "$@"
+fi
 exec $NGINX_BIN "$@"
 # vim:set et sts=4 ts=4 tw=80:
