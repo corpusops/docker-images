@@ -4,11 +4,12 @@
 - Idea is to inject some tools inside base library images
 - We do not wrap ``ONBUILD`` based images.
 - For all we want:
-    -  the network swissknifes:
+    -  the system and network swissknifes:
         [socat](http://www.dest-unreach.org/socat/),
         [netcat](http://netcat.sourceforge.net/),
         [curl](https://curl.haxx.se/),
         [wget](https://www.gnu.org/software/wget/).
+        [busybox](https://busybox.net/about.html).
     - [cops_pkgmgr_install.sh](https://github.com/corpusops/corpusops.bootstrap/blob/master/bin/cops_pkgmgr_install.sh): arch agnostic package installer
     - [setup_locales.sh](./helpers/setup_locales.sh): helper to build and setup the default locale
     - [cron](https://fr.wikipedia.org/wiki/Cron): isc cron on debian like, cronie on redhat, busybox cron on alpine (dcron).
