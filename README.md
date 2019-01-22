@@ -159,7 +159,6 @@ You better have to read the entrypoints to understand how they work.
           volumes:
           - ./mycrontab:/mycrontab
         ```
-
     - ALT: (not recommanded) without supervisor:
 
         ```yaml
@@ -168,7 +167,6 @@ You better have to read the entrypoints to understand how they work.
           volumes:
           - ./mycrontab:/mycrontab
         ```
-
     - mycrontab
 
         ```cron
