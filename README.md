@@ -134,6 +134,47 @@ You better have to read the entrypoints to understand how they work.
       # This way your procfile can be processed by envsubst !
       - FOREGO_PROCFILE=/my/path/.Procfile
     ```
+
+### cron helper: /bin/cron.sh
+- [/bin/cron.sh](./rootfs/bin/cron.sh): helper to dockerize cron
+- When you use a debian/ubuntu based image, it's impossible to use cron base logging as it is based on syslog.<br>
+    - see [this bug](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=887035)
+- When you use other implementation, you can redirect to a file, but it won't end up into docker logs.
+- So we made an entrypoint
+    - 1. to handle different implementation startup arguments
+    - 2. to handle a named pipe to escalate cron logs up to docker logs inside of a regular log file.
+- What you have to do to log is to redirect output to ``/var/log/cron.log``.
+- Usage is as easy as putting this in your docker-compose file
+
+        ```yaml
+        cron:
+          command: >-
+            - /bin/sh
+            - "-c"
+            - >-
+              frep /mycrontab.frep:/etc/cron.d/mycrontab --overwrite
+              && chmod 0700 mycrontab.frep:/etc/cron.d/mycrontab
+              && exec /bin/supervisord.sh"
+          - SUPERVISORD_CONFIGS=/etc/supervisor.d/cron
+          volumes:
+          - ./mycrontab:/mycrontab
+        ```
+
+    - ALT: (not recommanded) without supervisor:
+
+        ```yaml
+        cron:
+          command: "/bin/cron.sh"
+          volumes:
+          - ./mycrontab:/mycrontab
+        ```
+
+    - mycrontab
+
+        ```cron
+        1 * * * * * myuser /bin/sh -c "backup 2>&1 | tee -a /var/log/cron.log"
+        ```
+
 ### nginx helper: /bin/nginx.sh
 - [/bin/nginx.sh](./rootfs/bin/nginx.sh): helper to dockerize nginx
 - One usual way to use this providen entrypoint is to launch it through forego to gain also logrotate support for free.<br/>
