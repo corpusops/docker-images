@@ -13,6 +13,9 @@ CRONIE_ARGS=${CRONIE_CRON_ARGS:-"-n -s"}
 CRON_CMD=${CRON_CMD-}
 CRON_IMPLEMENTATION=${CRON_IMPLEMENTATION-}
 # update default values of PAM environment variables (used by CRON scripts)
+if [ -e /etc/pam.d/cron ];then
+    sed -i -re "s/^session    required     pam_loginuid.so/#session    required   pam_loginuid.so/g" /etc/pam.d/cron
+fi
 if [ -e /etc/security/pam_env.conf ];then
     env | grep -- = | while read -r line; do  # read STDIN by line
         # split LINE by "="
