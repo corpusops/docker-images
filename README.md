@@ -148,6 +148,7 @@ You better have to read the entrypoints to understand how they work.
 
         ```yaml
         cron:
+          image: corpusops/ubuntu-bare:bionic
           command: >-
             - /bin/sh
             - "-c"
