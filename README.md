@@ -142,7 +142,7 @@ You better have to read the entrypoints to understand how they work.
 - When you use other implementation, you can redirect to a file, but it won't end up into docker logs.
 - So we made an entrypoint
     - 1. to handle different implementation startup arguments
-    - 2. to handle a named pipe to escalate cron logs up to docker logs inside of a regular log file.
+    - 2. to handle a named pipe to escalate cron logs up to docker logs instead of a regular log file.
 - What you have to do to log is to redirect output to ``/var/log/cron.log``.
     - Usage is as easy as putting this in your docker-compose file
 
