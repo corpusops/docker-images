@@ -154,7 +154,7 @@ You better have to read the entrypoints to understand how they work.
             - "-c"
             - >-
               frep /mycrontab.frep:/etc/cron.d/mycrontab --overwrite
-              && chmod 0700 mycrontab.frep:/etc/cron.d/mycrontab
+              && chmod 0700 /etc/cron.d/mycrontab
               && exec /bin/supervisord.sh
           environment:
           - SUPERVISORD_CONFIGS=/etc/supervisor.d/cron
