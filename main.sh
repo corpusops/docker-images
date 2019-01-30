@@ -401,7 +401,7 @@ library/alpine/latest\
  minio/mint/edge\
  minio/mint/latest\
  mailhog/mailhog/latest\
- library/solr/7-alpine::31
+ library/solr/7-alpine::34
 library/debian/latest\
  library/debian/slim\
  library/debian/sid\
