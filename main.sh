@@ -238,7 +238,8 @@ SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
 SKIP_MISC="(-?(on.?build)|pgrouting.*old)"
-SKIPPED_TAGS="($SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
+SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
+SKIPPED_TAGS="($SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
 CURRENT_TS=$(date +%s)
 default_images="
 appbaseio/dejavu
@@ -271,6 +272,7 @@ library/elasticsearch
 makinacorpus/pgrouting
 mdillon/postgis
 mailhog/mailhog
+mailu/postfix
 "
 
 find_top_node_() {
@@ -325,6 +327,9 @@ library/ubuntu/latest\
  library/mongo/4::40
 library/alpine/latest\
  library/alpine/3\
+ mailu/postfix/1.6\
+ mailu/postfix/latest\
+ mailu/postfix/master\
  $NODE_TOP\
  library/postgres/alpine\
  library/postgres/11-alpine\
