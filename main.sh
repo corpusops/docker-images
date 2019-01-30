@@ -274,6 +274,7 @@ makinacorpus/pgrouting
 mdillon/postgis
 mailhog/mailhog
 mailu/postfix
+mailu/rspamd
 "
 
 find_top_node_() {
@@ -293,6 +294,7 @@ find_top_node_() {
 }
 find_top_node() { (set +e && find_top_node_ && set -e;); }
 NODE_TOP="$(echo $(find_top_node))"
+MAILU_VERSiON=1.6
 BATCHED_IMAGES="\
 library/ubuntu/latest\
  library/ubuntu/bionic\
@@ -328,7 +330,10 @@ library/ubuntu/latest\
  library/mongo/4::40
 library/alpine/latest\
  library/alpine/3\
- mailu/postfix/1.6\
+ mailu/rspamd/$MAILU_VERSiON\
+ mailu/rspamd/latest\
+ mailu/rspamd/master\
+ mailu/postfix/$MAILU_VERSiON\
  mailu/postfix/latest\
  mailu/postfix/master\
  $NODE_TOP\
@@ -401,7 +406,7 @@ library/alpine/latest\
  minio/mint/edge\
  minio/mint/latest\
  mailhog/mailhog/latest\
- library/solr/7-alpine::34
+ library/solr/7-alpine::37
 library/debian/latest\
  library/debian/slim\
  library/debian/sid\

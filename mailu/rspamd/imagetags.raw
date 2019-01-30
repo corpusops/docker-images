@@ -1,0 +1,19 @@
+1.2 
+1.3
+1.4
+1.5
+1.6
+HorayNarea-patch-1
+feat-abstract-db
+feat-docs-docker
+feat-reply-startdate
+fix-admin-volumes
+latest
+mergify-1 feat-ldap-auth
+pr-template
+refactor-config
+revert-799-fix-domain-negative-values-1
+revert-835-schema-maxUserQuota-1
+stable
+upgrade-pyyaml
+ master
