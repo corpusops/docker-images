@@ -63,16 +63,16 @@
 | [library/rabbitmq](https://hub.docker.com/_/rabbitmq)([./library/rabbitmq](./library/rabbitmq))                                           | [corpusops/rabbitmq](https://hub.docker.com/r/corpusops/rabbitmq)   |
 | [library/opensuse](https://hub.docker.com/_/opensuse)([./library/opensuse](./library/opensuse))                               | [corpusops/opensuse-bare](https://hub.docker.com/r/corpusops/opensuse-bare)     |
 | [library/ubuntu](https://hub.docker.com/_/ubuntu)([./library/ubuntu](./library/ubuntu))                                       | [corpusops/ubuntu-bare](https://hub.docker.com/r/corpusops/ubuntu-bare)         |
-| [makinacorpus/pgrouting](https://hub.docker.com/makinacorpus/pgrouting)([./makinacorpus/pgrouting](./makinacorpus/pgrouting)) | [corpusops/pgrouting](https://hub.docker.com/r/corpusops/pgrouting)             |
-| [mdillon/postgis](https://hub.docker.com/mdillon/postgis)([./mdillon/postgis](./mdillon/postgis))                             | [corpusops/postgis](https://hub.docker.com/r/corpusops/postgis)                 |
-| [mailhog/mailhog](https://hub.docker.com/mailhog/mailhog)([./mailhog/mailhog](./mailhog/mailhog))                             | [corpusops/mailhog](https://hub.docker.com/r/corpusops/mailhog)                 |
-| [minio/k8s-operator](https://hub.docker.com/minio/k8s-operator)([./minio/k8s-operator](./minio/k8s-operator))                 | [corpusops/minio-k8s-operator](https://hub.docker.com/r/corpusops/minio-k8s-operator)       |
-| [minio/doctor](https://hub.docker.com/minio/doctor)([./minio/doctor](./minio/doctor))                                         | [corpusops/minio-doctor](https://hub.docker.com/r/corpusops/minio-doctor)                   |
-| [minio/mint](https://hub.docker.com/minio/mint)([./minio/mint](./minio/mint))                                                 | [corpusops/minio-mint](https://hub.docker.com/r/corpusops/minio-mint)                       |
-| [minio/minio](https://hub.docker.com/minio/minio)([./minio/minio](./minio/minio))                                             | [corpusops/minio](https://hub.docker.com/r/corpusops/minio)                     |
-| [minio/mc](https://hub.docker.com/minio/mc)([./minio/mc](./minio/mc))                                                         | [corpusops/mc](https://hub.docker.com/r/corpusops/mc)                           |
-| [mailu/postfix](https://hub.docker.com/mailu/postfix)([./mailu/postfix](./mailu/postfix))                                     | [corpusops/mailu-postfix](https://hub.docker.com/r/corpusops/mailu-postfix)     |
-| [appbaseio/dejavu](https://hub.docker.com/appbaseio/dejavu)([./appbaseio/dejavu](./appbaseio/dejavu))                         | [corpusops/dejavu](https://hub.docker.com/r/corpusops/dejavu)                   |
+| [makinacorpus/pgrouting](https://hub.docker.com/r/makinacorpus/pgrouting)([./makinacorpus/pgrouting](./makinacorpus/pgrouting)) | [corpusops/pgrouting](https://hub.docker.com/r/corpusops/pgrouting)             |
+| [mdillon/postgis](https://hub.docker.com/r/mdillon/postgis)([./mdillon/postgis](./mdillon/postgis))                             | [corpusops/postgis](https://hub.docker.com/r/corpusops/postgis)                 |
+| [mailhog/mailhog](https://hub.docker.com/r/mailhog/mailhog)([./mailhog/mailhog](./mailhog/mailhog))                             | [corpusops/mailhog](https://hub.docker.com/r/corpusops/mailhog)                 |
+| [minio/k8s-operator](https://hub.docker.com/r/minio/k8s-operator)([./minio/k8s-operator](./minio/k8s-operator))                 | [corpusops/minio-k8s-operator](https://hub.docker.com/r/corpusops/minio-k8s-operator)       |
+| [minio/doctor](https://hub.docker.com/r/minio/doctor)([./minio/doctor](./minio/doctor))                                         | [corpusops/minio-doctor](https://hub.docker.com/r/corpusops/minio-doctor)                   |
+| [minio/mint](https://hub.docker.com/r/minio/mint)([./minio/mint](./minio/mint))                                                 | [corpusops/minio-mint](https://hub.docker.com/r/corpusops/minio-mint)                       |
+| [minio/minio](https://hub.docker.com/r/minio/minio)([./minio/minio](./minio/minio))                                             | [corpusops/minio](https://hub.docker.com/r/corpusops/minio)                     |
+| [minio/mc](https://hub.docker.com/r/minio/mc)([./minio/mc](./minio/mc))                                                         | [corpusops/mc](https://hub.docker.com/r/corpusops/mc)                           |
+| [mailu/postfix](https://hub.docker.com/r/mailu/postfix)([./mailu/postfix](./mailu/postfix))                                     | [corpusops/mailu-postfix](https://hub.docker.com/r/corpusops/mailu-postfix)     |
+| [appbaseio/dejavu](https://hub.docker.com/r/appbaseio/dejavu)([./appbaseio/dejavu](./appbaseio/dejavu))                         | [corpusops/dejavu](https://hub.docker.com/r/corpusops/dejavu)                   |
 
 - Those helpers (docker entrypoints) are added:
 
