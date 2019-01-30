@@ -72,6 +72,7 @@
 | [minio/minio](https://hub.docker.com/r/minio/minio)([./minio/minio](./minio/minio))                                             | [corpusops/minio](https://hub.docker.com/r/corpusops/minio)                     |
 | [minio/mc](https://hub.docker.com/r/minio/mc)([./minio/mc](./minio/mc))                                                         | [corpusops/mc](https://hub.docker.com/r/corpusops/mc)                           |
 | [mailu/postfix](https://hub.docker.com/r/mailu/postfix)([./mailu/postfix](./mailu/postfix))                                     | [corpusops/mailu-postfix](https://hub.docker.com/r/corpusops/mailu-postfix)     |
+| [mailu/rspamd](https://hub.docker.com/r/mailu/rspamd)([./mailu/rspamd](./mailu/rspamd))                                     | [corpusops/mailu-rspamd](https://hub.docker.com/r/corpusops/mailu-rspamd)     |
 | [appbaseio/dejavu](https://hub.docker.com/r/appbaseio/dejavu)([./appbaseio/dejavu](./appbaseio/dejavu))                         | [corpusops/dejavu](https://hub.docker.com/r/corpusops/dejavu)                   |
 
 - Those helpers (docker entrypoints) are added:
