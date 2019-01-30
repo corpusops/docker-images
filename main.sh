@@ -241,11 +241,12 @@ SKIP_MISC="(-?(on.?build)|pgrouting.*old)"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
 SKIPPED_TAGS="($SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
 CURRENT_TS=$(date +%s)
+IMAGES_SKIP_NS="((mailhog|postgis|pgrouting|^library|dejavu|(minio/(minio|mc))))"
 default_images="
 appbaseio/dejavu
-minio/mint
 minio/minio
 minio/mc
+minio/mint
 minio/doctor
 minio/k8s-operator
 library/alpine
@@ -765,6 +766,28 @@ skip_local() {
     egrep -v "(.\/)?local"
 }
 
+#  get_namespace_tag libary/foo/bar : get image tag with its final namespace
+do_get_namespace_tag() {
+    local i=
+    for image in $@;do
+        local version=$(basename $image)
+        local repo=$DOCKER_REPO
+        local tag=$(basename $(dirname $image))
+        if ! ( echo $image|egrep -q "$IMAGES_SKIP_NS" );then
+            local tag="$(dirname $(dirname $image))-$tag"
+        fi
+        for i in $image $image/.. $image/../../..;do
+            # corpusops / foobar
+            if [ -e $i/repo ];then repo=$( cat $i/repo );break;fi
+        done
+        for i in $image $image/.. $image/../../..;do
+            # ubuntu-bare / postgis
+            if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
+        done
+        echo "$repo/$tag:$version"
+    done
+}
+
 get_image_tags() {
     local n=$1
     local results="" result=""
@@ -860,26 +883,10 @@ is_same_commit_label() {
 record_build_image() {
     # library/ubuntu/latest / mdillon/postgis/latest
     local image=$1
-    # ubuntu/latest / mdillon/postgis/latest
-    local nimage=$(echo $image / sed -re "s/^library\///g")
-    # corpusops
-    local repo=$DOCKER_REPO
-    # ubuntu / postgis
-    local tag=$(basename $(dirname $image))
     # latest / latest
-    local version=$(basename $image)
-    local i=
-    for i in $image $image/.. $image/../../..;do
-        # ubuntu-bare / postgis
-        if [ -e $i/repo ];then repo=$( cat $i/repo );break;fi
-    done
-    for i in $image $image/.. $image/../../..;do
-        # ubuntu-bare / postgis
-        if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
-    done
     local git_commit="${git_commit:-$(get_git_changeset "$W")}"
     local df=${df:-Dockerfile}
-    local itag="$repo/$tag:$version"
+    local itag="$(do_get_namespace_tag $image)"
     local lancestor=$(get_image_from "$image/$df")
     if [[ -z "$FORCE_REBUILD" ]] && \
         ( is_an_image_ancestor $lancestor $itag ) && \
@@ -1129,7 +1136,7 @@ do_usage() {
 
 do_main() {
     local args=${@:-usage}
-    local actions="refresh_corpusops|refresh_images|build|gen_travis|gen|list_images|clean_tags"
+    local actions="refresh_corpusops|refresh_images|build|gen_travis|gen|list_images|clean_tags|get_namespace_tag"
     actions="@($actions)"
     action=${1-};
     if [[ -n "$@" ]];then shift;fi
