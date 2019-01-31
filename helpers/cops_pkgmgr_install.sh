@@ -930,7 +930,7 @@ apk_upgrade() {
 }
 
 apk_install() {
-    vvv apk add -u ${@}
+    vvv apk add --no-cache -u ${@}
 }
 
 apk_setup() {
