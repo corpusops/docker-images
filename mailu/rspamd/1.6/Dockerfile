@@ -10,6 +10,7 @@ ARG GOSU_RELEASE=latest
 ARG DOCKERIZE_RELEASE=latest
 ARG CURL_SSL_OPTS=--tlsv1
 ARG DOCKER_IMAGES_COMMIT=master
+ARG EXTRA_FILES_LIST="mailu/rspamd/*packages*.txt"
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
