@@ -32,9 +32,6 @@ ADD \
     /etc/supervisor.d/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
-    && : making cron logging pipe \
-    && mkfifo -m 0660 /var/log/cron.log \
-    && ln -s /var/log/cron.log /var/log/crond.log \
     && : \
     && chmod +x *sh \
     && export PATH=$(pwd):$PATH \
@@ -54,6 +51,7 @@ RUN sh -c 'set -ex \
     && DEBUG=1 ./setup_locales.sh \
     && cp -v bin/* system_detect.sh setup_locales.sh \
         cops_pkgmgr_install.sh /bin \
+    && ./${_cops_SYSTEM}_clean.sh \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go

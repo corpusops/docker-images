@@ -1,6 +1,7 @@
-1
+1 mainline
 1-alpine
 1-alpine-perl
+1-perl
 1.7 
 1.7.1
 1.7.5
@@ -125,9 +126,8 @@
 1.13.12-alpine
 1.13.12-alpine-perl
 1.13.12-perl
-1.14
-1.14-alpine stable-alpine
-1.14-alpine-perl
+1.14 stable
+1.14-alpine
 1.14-perl
 1.14.0
 1.14.0-alpine-perl 1.14.0-alpine
@@ -138,9 +138,10 @@
 1.14.2
 1.14.2-alpine
 1.14.2-alpine-perl
-1.14.2-perl perl
+1.14.2-perl
 1.15
 1.15-alpine
+1.15-alpine-perl
 1.15-perl
 1.15.0-alpine
 1.15.0-alpine-perl
@@ -174,16 +175,15 @@
 1.15.7-perl
 1.15.8
 1.15.8-alpine
-1.15.8-alpine-perl
 1.15.8-perl
 alpine
-alpine-perl 1.15-alpine-perl
+alpine-perl
 latest
-mainline
 mainline-alpine
-mainline-alpine-perl
+mainline-alpine-perl 1.15.8-alpine-perl
 mainline-perl
-stable
+perl
+stable-alpine
 stable-alpine-perl
 stable-perl
- 1-perl
+ 1.14-alpine-perl
