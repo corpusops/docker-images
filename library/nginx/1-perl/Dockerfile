@@ -61,6 +61,7 @@ RUN sh -c 'set -ex \
     && DEBUG=1 ./setup_locales.sh \
     && cp -v bin/* system_detect.sh setup_locales.sh \
         cops_pkgmgr_install.sh /bin \
+    && ./${_cops_SYSTEM}_clean.sh \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go

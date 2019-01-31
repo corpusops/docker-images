@@ -106,12 +106,13 @@
 3.2.100-windowsservercore
 4
 4-32bit
-4-alpine3.8
-4-alpine 4.0-alpine
+4-32bit-stretch
+4-alpine
 4-stretch
 4.0
 4.0-32bit
-4.0-32bit-stretch
+4.0-32bit-stretch 4.0.12-32bit-stretch
+4.0-alpine
 4.0-alpine3.8
 4.0-stretch
 4.0.0
@@ -148,22 +149,21 @@
 4.0.11-32bit-stretch
 4.0.11-alpine
 4.0.11-alpine3.8
-4.0.12
-4.0.12-32bit 32bit-stretch
-4.0.12-32bit-stretch
+4.0.12 stretch
+4.0.12-32bit
 4.0.12-alpine
 4.0.12-alpine3.8
 4.0.12-stretch
 5
-5-32bit
+5-32bit 5.0-32bit
 5-32bit-stretch
 5-alpine
-5-alpine3.8 5.0-alpine3.8
+5-alpine3.8
 5-stretch
 5.0
-5.0-32bit
 5.0-32bit-stretch
 5.0-alpine
+5.0-alpine3.8
 5.0-rc
 5.0-rc3
 5.0-rc3-32bit 4.0.9
@@ -191,7 +191,7 @@
 5.0-rc-32bit
 5.0-rc-alpine
 5.0-rc-alpine3.8
-5.0-stretch 5.0.3-stretch
+5.0-stretch
 5.0.0
 5.0.0-32bit
 5.0.0-32bit-stretch
@@ -213,11 +213,11 @@
 5.0.3-32bit
 5.0.3-32bit-stretch
 5.0.3-alpine
-5.0.3-alpine3.8
+5.0.3-alpine3.8 alpine
+5.0.3-stretch
 32bit
-alpine
+32bit-stretch
 alpine3.8
 latest
 nanoserver
-stretch
- 4-32bit-stretch
+ 4-alpine3.8

@@ -10,7 +10,7 @@ ARG GOSU_RELEASE=latest
 ARG DOCKERIZE_RELEASE=latest
 ARG CURL_SSL_OPTS=--tlsv1
 ARG DOCKER_IMAGES_COMMIT=master
-#USER root
+USER root
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
@@ -33,9 +33,6 @@ ADD \
     /etc/supervisor.d/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
-    && : making cron logging pipe \
-    && mkfifo -m 0660 /var/log/cron.log \
-    && ln -s /var/log/cron.log /var/log/crond.log \
     && : \
     && chmod +x *sh \
     && export PATH=$(pwd):$PATH \
@@ -55,6 +52,7 @@ RUN sh -c 'set -ex \
     && DEBUG=1 ./setup_locales.sh \
     && cp -v bin/* system_detect.sh setup_locales.sh \
         cops_pkgmgr_install.sh /bin \
+    && ./${_cops_SYSTEM}_clean.sh \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go
@@ -65,5 +63,5 @@ RUN sh -c 'set -ex \
     && _cops_SYSTEM=$(./system_detect.sh) \
     && ./${_cops_SYSTEM}_clean.sh \
     && cd / && rm -rf /tmp/corpusopssteroids'
-#USER www-data
+USER www-data
 LABEL com.github.corpusops.docker-images-commit="$DOCKER_IMAGES_COMMIT"
