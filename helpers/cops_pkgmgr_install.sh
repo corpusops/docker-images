@@ -931,7 +931,7 @@ apk_upgrade() {
 
 apk_install() {
     nocache="--no-cache"
-    if ( apk add --help|grep -q -- --no-cache );then
+    if ! ( apk add --help|grep -q -- --no-cache );then
         nocache=""
     fi
     vvv apk add $nocache -u ${@}
