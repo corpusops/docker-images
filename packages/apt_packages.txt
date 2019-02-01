@@ -12,3 +12,4 @@ dirmngr
 # envsubst
 gettext-base
 p7zip-full
+rsyslog

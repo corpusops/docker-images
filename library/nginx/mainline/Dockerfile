@@ -33,11 +33,16 @@ ADD \
     helpers/setup_locales.sh \
     helpers/cops_pkgmgr_install.sh \
     helpers/*_up.sh \
+    helpers/*_clean.sh \
     rootfs/ \
     packages/*packages*.txt \
     ${EXTRA_FILES_LIST} \
     /tmp/corpusopssteroids/
 ADD \
+    rootfs/etc/rsyslog.conf.frep \
+    /etc/rsyslog.conf.frep
+ADD \
+    rootfs/etc/supervisor.d/rsyslog \
     rootfs/etc/supervisor.d/cron \
     /etc/supervisor.d/
 RUN sh -c 'set -ex \
@@ -59,6 +64,10 @@ RUN sh -c 'set -ex \
     && ./add_gosu.sh \
     && ./add_forego.sh \
     && DEBUG=1 ./setup_locales.sh \
+    && sed -i -re "/var\\/log\\/messages \\{\\}/d" /etc/logrotate.conf\
+    && sed -i -re "s/ dateext/nodateext/g" /etc/logrotate.conf\
+    && if ! (grep -q /var/log/messages /etc/logrotate.conf);then\
+           printf "\\n/var/log/messages {\\nmissingok\\n}\\n\\n" >>/etc/logrotate.conf;fi\
     && cp -v bin/* system_detect.sh setup_locales.sh \
         cops_pkgmgr_install.sh /bin \
     && ./${_cops_SYSTEM}_clean.sh \

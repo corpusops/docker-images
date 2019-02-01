@@ -66,7 +66,6 @@ if [ "x$CRON_IMPLEMENTATION" = "x" ];then
     :
 elif [ "x$CRON_IMPLEMENTATION" = "xvixie" ];then
     variant_args=$DEB_ARGS
-    ln -sfv $CROND_LOG /dev/log
 elif [ "x$CRON_IMPLEMENTATION" = "xdcron" ];then
     variant_args=$DCRON_ARGS
 elif [ "x$CRON_IMPLEMENTATION" = "xcronie" ];then

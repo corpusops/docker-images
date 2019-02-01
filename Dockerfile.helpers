@@ -11,10 +11,15 @@ ADD \
     helpers/setup_locales.sh \
     helpers/cops_pkgmgr_install.sh \
     helpers/*_up.sh \
+    helpers/*_clean.sh \
     rootfs/ \
     packages/*packages*.txt \
     ${EXTRA_FILES_LIST} \
     /tmp/corpusopssteroids/
 ADD \
+    rootfs/etc/rsyslog.conf.frep \
+    /etc/rsyslog.conf.frep
+ADD \
+    rootfs/etc/supervisor.d/rsyslog \
     rootfs/etc/supervisor.d/cron \
     /etc/supervisor.d/
