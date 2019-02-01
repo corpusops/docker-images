@@ -10,3 +10,4 @@ tar
 glibc-locale
 glibc-i18ndata
 p7zip
+rsyslog

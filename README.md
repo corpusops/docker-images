@@ -12,6 +12,7 @@
     - [cops_pkgmgr_install.sh](https://github.com/corpusops/corpusops.bootstrap/blob/master/bin/cops_pkgmgr_install.sh): arch agnostic package installer
     - [setup_locales.sh](./helpers/setup_locales.sh): helper to build and setup the default locale
     - [cron](https://fr.wikipedia.org/wiki/Cron): isc cron on debian like, cronie on redhat, busybox cron on alpine (dcron).
+    - [rsyslog](https://www.rsyslog.com/): the system logger
     - [logrotate](https://github.com/logrotate/logrotate): the venerable but still useful versatile logrotator
     - [bash](https://www.gnu.org/software/bash/): the venerable shell
     - ca certificates: bundle of ROOT cas for SSL connections.
@@ -149,32 +150,51 @@ You better have to read the entrypoints to understand how they work.
     - Usage is as easy as putting this in your docker-compose file
 
         ```yaml
-        cron:
-          image: corpusops/ubuntu-bare:bionic
-          command: >-
+        ```
+    - ALT: (not recommanded) without supervisor:
+
+        ```yaml
+        ---
+        version: "3.6"
+        services:
+          # for alpine
+          alpinecron:
+            image: corpusops/alpine-bare
+            command:
+            - /bin/sh
+            - "-c"
+            - >-
+              frep /mycrontab.frep:/etc/crontabs/mycrontab --overwrite
+              && chmod 0700 /etc/crontabs/mycrontab
+              && exec /bin/supervisord.sh
+            environment:
+            - SUPERVISORD_CONFIGS=/etc/supervisor.d/cron /etc/supervisor.d/rsyslog
+            volumes:
+            - ./mycrontab:/mycrontab.frep
+            - ../rootfs/etc/rsyslog.conf.frep:/etc/rsyslog.conf.frep
+          # for debian/redhat alike
+          ubuntucron:
+            image: corpusops/ubuntu-bare
+            command:
             - /bin/sh
             - "-c"
             - >-
               frep /mycrontab.frep:/etc/cron.d/mycrontab --overwrite
               && chmod 0700 /etc/cron.d/mycrontab
               && exec /bin/supervisord.sh
-          environment:
-          - SUPERVISORD_CONFIGS=/etc/supervisor.d/cron
-          volumes:
-          - ./mycrontab:/mycrontab
-        ```
-    - ALT: (not recommanded) without supervisor:
-
-        ```yaml
-        cron:
-          command: "/bin/cron.sh"
-          volumes:
-          - ./mycrontab:/mycrontab
+            environment:
+            - SUPERVISORD_CONFIGS=/etc/supervisor.d/cron /etc/supervisor.d/rsyslog
+            volumes:
+            - ./umycrontab:/mycrontab.frep
+            - ../rootfs/etc/rsyslog.conf.frep:/etc/rsyslog.conf.frep
         ```
     - mycrontab
 
         ```cron
-        1 * * * * * myuser /bin/sh -c "backup 2>&1 | tee -a /var/log/cron.log"
+        # debian / ubuntu / centos: /etc/crond.d/mycrontab
+        1 * * * * * root gosu myuser /bin/sh -c "backup 2>&1 | tee -a /var/log/cron.log"
+        # alpine: /etc/crontabs/mycrontab
+        1 * * * * * gosu myuser /bin/sh -c "backup 2>&1 | tee -a /var/log/cron.log"
         ```
 
 ### nginx helper: /bin/nginx.sh
