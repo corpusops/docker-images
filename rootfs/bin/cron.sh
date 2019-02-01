@@ -8,8 +8,8 @@ if [ "x$SDEBUG" != "x" ];then set -x;fi
 if [ -e $CROND_LOG ];then rm -f $CROND_LOG;fi
 DCRON_VERBOSE=${DCRON_VERBOSE:-2}
 DEB_ARGS=${DEB_CRON_ARGS:-"-L 15 -f"}
-DCRON_ARGS=${DCRON_CRON_ARGS:-"-b -l $DCRON_VERBOSE -L $CROND_LOG -f"}
-CRONIE_ARGS=${CRONIE_CRON_ARGS:-"-n -s"}
+DCRON_ARGS=${DCRON_ARGS:-"-b -l $DCRON_VERBOSE -S -f"}
+CRONIE_ARGS=${CRONIE_ARGS:-"-n -s"}
 CRON_CMD=${CRON_CMD-}
 CRON_IMPLEMENTATION=${CRON_IMPLEMENTATION-}
 # update default values of PAM environment variables (used by CRON scripts)
