@@ -930,7 +930,11 @@ apk_upgrade() {
 }
 
 apk_install() {
-    vvv apk add --no-cache -u ${@}
+    nocache="--no-cache"
+    if ( apk add --help|grep -q -- --no-cache );then
+        nocache=""
+    fi
+    vvv apk add $nocache -u ${@}
 }
 
 apk_setup() {
