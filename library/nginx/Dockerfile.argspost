@@ -8,3 +8,4 @@ ADD \
 ADD \
     rootfs/etc/supervisor.d/nginx \
     /etc/supervisor.d/
+VOLUME ["/certs"]

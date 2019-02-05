@@ -20,6 +20,7 @@ ADD \
 ADD \
     rootfs/etc/supervisor.d/nginx \
     /etc/supervisor.d/
+VOLUME ["/certs"]
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
