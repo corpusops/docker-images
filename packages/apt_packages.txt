@@ -13,3 +13,4 @@ dirmngr
 gettext-base
 p7zip-full
 rsyslog
+openssl

@@ -11,3 +11,4 @@ wget
 gettext
 p7zip
 rsyslog
+openssl

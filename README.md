@@ -11,6 +11,7 @@
         [wget](https://www.gnu.org/software/wget/).
     - [cops_pkgmgr_install.sh](https://github.com/corpusops/corpusops.bootstrap/blob/master/bin/cops_pkgmgr_install.sh): arch agnostic package installer
     - [setup_locales.sh](./helpers/setup_locales.sh): helper to build and setup the default locale
+    - [openssl](https://www.openssl.org/): The SSL toolkit.
     - [cron](https://fr.wikipedia.org/wiki/Cron): isc cron on debian like, cronie on redhat, busybox cron on alpine (dcron).
     - [rsyslog](https://www.rsyslog.com/): the system logger
     - [logrotate](https://github.com/logrotate/logrotate): the venerable but still useful versatile logrotator
