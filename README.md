@@ -234,6 +234,28 @@ You better have to read the entrypoints to understand how they work.
           - ./myvhost.conf:/etc/nginx/conf.d/default.conf.template
         ```
 
+### SSL Certificate Helper: /bin/cops_gen_cert.sh
+- see [script](./rootfs/bin/cops_gen_cert.sh)
+- controlled via env vars:
+
+    ```sh
+    SSL_COMMON_NAME=  # default: $hostname
+    SSL_ALT_NAMES=  # default: $hostname www.$hostname
+    SSL_CERT_BASENAME=  # default to hostname and "cert" through nginx script
+    SSL_CERT_PATH=
+    SSL_KEY_PATH=
+	SSL_KEY_VALIDITY=  # cert validity in days
+	SSL_CERT_VALIDITY=  # cert validity in days
+	SSL_DIR_MODuE=  # directory perms mode
+	SSL_CERT_MODE=  # cert perms mode
+	SSL_KEY_MODE=  # key perms mode
+    SSL_CERT=  # x509 cert value if you want to give it
+    SSL_KEY=   # x509 cert key value if you want to give it
+    ```
+
+- If ``SSL_CERT`` is empty, a SSL key will be generated
+- If ``SSL_KEY`` is empty, a selfsigned cert will be generated
+
 ### traefik helper: /bin/traefik.sh
 - [/bin/traefik.sh](./rootfs/bin/traefik.sh): helper to dockerize traefik
 - As you may know, forego uses a Procfile to configure itself.
