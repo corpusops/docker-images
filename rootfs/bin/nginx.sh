@@ -5,6 +5,8 @@ if [ "x$SDEBUG" != "x" ];then set -x;fi
 NO_CHOWN=${NO_CHOWN-}
 export NGINX_CONF_DIR="${NGINX_CONF_DIR:-"/etc/nginx"}"
 # French legal http logs retention  is 3 years
+export NO_SSL=${NO_SSL-}
+export SSL_CERT_BASENAME="${SSL_CERT_BASENAME:-"cert"}"
 export NGINX_SKIP_CHECK="${NGINX_SKIP_CHECK-}"
 export NGINX_ROTATE=${NGINX_ROTATE-$((365*3))}
 export NGINX_USER=${NGINX_USER-"nginx"}
@@ -17,6 +19,7 @@ export NGINX_LOGS_DIRS="/logs /log $NGINX_LOGS_DIR"
 export NGINX_SOCKET_DIR="$(dirname "$NGINX_SOCKET_PATH")"
 export NGINX_BIN=${NGINX_BIN:-"nginx"}
 export NGINX_FREP_SKIP=${NGINX_FREP_SKIP:-"(\.skip|\.skipped)$"}
+export NGINX_DH_FILE=${NGINX_DH_FILE:-"/certs/dhparams.pem"}
 export NGINX_CONFIGS="${NGINX_CONFIGS-"$( \
     find $NGINX_CONF_DIR -type f \
     |egrep -v "$NGINX_FREP_SKIP|\.template$")
@@ -28,6 +31,21 @@ for e in $NGINX_LOGS_DIRS $NGINX_CONF_DIR;do
 done
 for i in $NGINX_CONFIGS;do frep $i:$i --overwrite;done
 chmod 600 /etc/logrotate.d/nginx
+if [ "x$NO_SSL" != "x" ];then
+    log "no ssl setup"
+else
+    cops_gen_cert.sh
+    if !(openssl version >/dev/null 2>&1);then
+        log "try to install openssl"
+        WANT_UPDATE="1" cops_pkgmgr_install.sh openssl
+    fi
+    if [ ! -e "$NGINX_DH_FILE" ];then
+        ddhparams=$(dirname $NGINX_DH_FILE)
+        if [ ! -e "$ddhparams" ];then mkdir -pv "$ddhparams";fi
+		openssl dhparam -out "$NGINX_DH_FILE" 2048
+		chmod 644 "$NGINX_DH_FILE"
+	fi
+fi
 if [ "x$NGINX_SKIP_CHECK" = "x" ];then
     $NGINX_BIN -t "$@"
 fi
