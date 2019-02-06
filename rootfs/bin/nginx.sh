@@ -45,7 +45,7 @@ else
         log "try to install openssl"
         WANT_UPDATE="1" cops_pkgmgr_install.sh openssl
     fi
-    if [ "$NGINX_DH_FILE" != "x" ];then
+    if [ "x$NGINX_DH_FILE" != "x" ];then
         if [ ! -e "$NGINX_DH_FILE" ];then
             ddhparams=$(dirname $NGINX_DH_FILE)
             if [ ! -e "$ddhparams" ];then mkdir -pv "$ddhparams";fi
