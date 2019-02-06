@@ -885,6 +885,18 @@ is_same_commit_label() {
     return $ret
 }
 
+get_docker_squash_args() {
+    DOCKER_DO_SQUASH=${DOCKER_DO_SQUASH-init}
+    if [[ "$DOCKER_DO_SQUASH" = init ]];then
+        DOCKER_DO_SQUASH="--squash"
+        if ! (printf "FROM alpine\nRUN touch foo\n" | docker build --squash - >/dev/null 2>&1 );then
+            DOCKER_DO_SQUASH=
+            log "docker squash isnt not supported"
+        fi
+    fi
+    echo $DOCKER_DO_SQUASH
+}
+
 record_build_image() {
     # library/ubuntu/latest / mdillon/postgis/latest
     local image=$1
@@ -899,7 +911,8 @@ record_build_image() {
         log "Image $itag is update to date, skipping build"
         return
     fi
-    local dbuild="docker build -t $itag . -f $image/$df --build-arg=DOCKER_IMAGES_COMMIT=$git_commit"
+    dargs="${DOCKER_BUILD_ARGS-} $(get_docker_squash_args)"
+    local dbuild="docker build ${dargs-}  -t $itag . -f $image/$df --build-arg=DOCKER_IMAGES_COMMIT=$git_commit"
     local retries=${DOCKER_BUILD_RETRIES:-4}
     local cmd="dret=8 && for i in \$(seq $retries);do if ($dbuild);then dret=0;break;else dret=6;fi;done"
     local cmd="$cmd && if [ \"x\$dret\" != \"x0\" ];then"
