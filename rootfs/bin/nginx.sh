@@ -23,6 +23,8 @@ export NGINX_CONFIGS="${NGINX_CONFIGS-"$( \
     find $NGINX_CONF_DIR -type f \
     |egrep -v "$NGINX_FREP_SKIP|\.template$")
 /etc/logrotate.d/nginx"}"
+log() { echo "$@" >&2; }
+vv() { log "$@";"$@"; }
 if [ "x$NGINX_STD_OUTPUT" = "x" ];then rm -fv $NGINX_LOGS_DIR/*;fi
 for e in $NGINX_LOGS_DIRS $NGINX_CONF_DIR;do
     if [ ! -e "$e" ];then mkdir -p "$e";fi
