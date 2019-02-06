@@ -76,8 +76,8 @@ setup_ssl() {
             echo "$SSL_KEY" > "$SSL_KEY_PATH"
         else
             log "Generating SSL key: $SSL_KEY_PATH"
-            openssl genrsa -des3 -passout pass:x -out "$SSL_KEY_PATH".pass 2048
-            openssl rsa -passin pass:x -in "$SSL_KEY_PATH".pass -out "$SSL_KEY_PATH"
+            openssl genrsa -des3 -passout pass:p4ssw0rd -out "$SSL_KEY_PATH".pass 2048
+            openssl rsa -passin pass:p4ssw0rd -in "$SSL_KEY_PATH".pass -out "$SSL_KEY_PATH"
             rm "$SSL_KEY_PATH".pass
         fi
     fi
