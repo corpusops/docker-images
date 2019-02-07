@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 set -e
+log() { echo "${@}" >&2; }
+vv() { log "${@}";"${@}"; }
 DO_UPDATE=1
 _cops_SYSTEM=$(system_detect.sh)
 DISTRIB_ID=
@@ -76,7 +78,14 @@ install_gpg() {
 pkgs=$(grep -vE '^\s*#' packages.txt | tr "\n" ' ' )
 # only disable socat on CENTOS 6
 if [ "x$NOSOCAT" != "x" ];then pkgs=$(echo $pkgs|sed -e "s/socat//g");fi
-if [ -e /etc/fedora-release ];then set -x && pkgs="$pkgs glibc";fi
+DISTRO_SYNC=${DISTRO_SYNC-}
+if [ -e /etc/fedora-release ];then
+    pkgs="$pkgs glibc"
+    if ( echo $DISTRO_RELEASE|egrep -q "20|heisenbug" );then
+        DISTRO_SYNC=1
+    fi
+    if [ "x$DISTRO_SYNC" != "x" ];then vv yum -y distro-sync;fi
+fi
 export FORCE_INSTALL=y
 DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
 install_gpg
