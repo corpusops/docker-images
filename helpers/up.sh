@@ -80,8 +80,7 @@ pkgs=$(grep -vE '^\s*#' packages.txt | tr "\n" ' ' )
 if [ "x$NOSOCAT" != "x" ];then pkgs=$(echo $pkgs|sed -e "s/socat//g");fi
 DISTRO_SYNC=${DISTRO_SYNC-}
 if [ -e /etc/fedora-release ];then
-    pkgs="$pkgs glibc"
-    if ( echo $DISTRO_RELEASE|egrep -q "20|heisenbug" );then
+    if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME"|egrep -iq "20|heisenbug" );then
         DISTRO_SYNC=1
     fi
     if [ "x$DISTRO_SYNC" != "x" ];then vv yum -y distro-sync;fi
