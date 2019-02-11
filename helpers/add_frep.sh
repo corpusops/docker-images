@@ -4,8 +4,8 @@ GITHUB_PAT="${GITHUB_PAT:-$(echo 'OGUzNjkwMDZlMzNhYmNmMGRiNmE5Yjg1NWViMmJkNWVlNj
 REMCO_RELEASE="${REMCO_RELEASE:-latest}"
 CURL_SSL_OPTS="${CURL_SSL_OPTS:-"--tlsv1"}"
 # original but does not work on alpine
-PKG="subchen/frep"
 PKG="corpusops/frep"
+PKG="subchen/frep"
 do_curl() { if ! ( curl "$@" );then curl $CURL_SSL_OPTS "$@";fi; }
 install() {
     if [ "x${SDEBUG}" != "x" ];then set -x;fi
