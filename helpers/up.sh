@@ -3,6 +3,14 @@ set -e
 log() { echo "${@}" >&2; }
 vv() { log "${@}";"${@}"; }
 DO_UPDATE=1
+ARCH_BASE_PACKAGES="${ARCH_BASE_PACKAGES:-"tar gnutls systemd packer base-devel file libpsl openssl python-docutils glibc curl binutils gawk grep"}"
+if [ -e /etc/arch-release ];then
+    # fix archlinux baseimage minimal tools
+    pacman -Sy --noconfirm
+    pacman -Su  --force --noconfirm
+    pacman -S libidn2 --force --noconfirm
+    pacman -S --noconfirm $ARCH_BASE_PACKAGES
+fi
 _cops_SYSTEM=$(system_detect.sh)
 DISTRIB_ID=
 DISTRIB_CODENAME=
@@ -90,6 +98,9 @@ fi
 export FORCE_INSTALL=y
 DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
 install_gpg
+if ! ( echo foo|envsubst >/dev/null 2>&1);then
+    echo "envsubst is missing"
+fi
 if ! ( echo foo|envsubst >/dev/null 2>&1);then
     echo "envsubst is missing"
 fi

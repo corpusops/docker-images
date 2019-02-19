@@ -92,7 +92,8 @@
 3.7-alpine
 3.7-management
 3.7-management-alpine
-3.7-rc
+3.7-rc-alpine
+3.7-rc-management
 3.7-rc-management-alpine
 3.7.0
 3.7.0-alpine 3.7.0-management
@@ -147,15 +148,32 @@
 3.7.8
 3.7.8-alpine 3.7.8-management
 3.7.8-management-alpine
-3.7.10 3.7-rc-management
+3.7.9
+3.7.9-alpine
+3.7.9-management
+3.7.10
 3.7.10-alpine
-3.7.10-management
 3.7.10-management-alpine
+3.7.11
+3.7.11-alpine management
+3.7.11-management
+3.7.11-management-alpine
 3.7.11-rc.2
-3.7.11-rc.2-alpine
+3.7.11-rc.2-alpine 3.7.10-management
 3.7.11-rc.2-management
-3.7.11-rc.2-management-alpine 3.7-rc-alpine
+3.7.11-rc.2-management-alpine
+3.7.12-rc.2
+3.7.12-rc.2-alpine
+3.7.12-rc.2-management 3.7-rc
+3.7.12-rc.2-management-alpine
+3.8-rc
+3.8-rc-management
+3.8-rc-management-alpine
+3.8.0-beta.2
+3.8.0-beta.2-alpine
+3.8.0-beta.2-management
+3.8.0-beta.2-management-alpine 3.8-rc-alpine
 alpine
 latest
-management
- management-alpine
+management-alpine
+ 3.7.9-management-alpine

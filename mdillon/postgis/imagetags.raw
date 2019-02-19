@@ -5,12 +5,12 @@
 9.3
 9.3-alpine
 9.4
+9.4-alpine
 9.5
-9.5-alpine
 9.6
-9.6-alpine 9.4-alpine
+9.6-alpine
 10
 10-alpine
 11-alpine
-latest
- 11
+latest 11
+ 9.5-alpine

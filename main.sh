@@ -238,8 +238,9 @@ SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
 SKIP_MISC="(-?(on.?build)|pgrouting.*old)"
+SKIP_MINIO="(minio:[0-9]{4}-.{7})"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
-SKIPPED_TAGS="($SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
+SKIPPED_TAGS="($SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
 CURRENT_TS=$(date +%s)
 IMAGES_SKIP_NS="((mailhog|postgis|pgrouting|^library|dejavu|(minio/(minio|mc))))"
 default_images="
@@ -450,7 +451,8 @@ library/postgres/latest\
  library/elasticsearch/5\
  library/mongo/3\
  library/solr/6\
- library/solr/6-slim::20
+ library/solr/6-slim\
+ archlinux/base::21
 library/golang/latest\
  library/python/3\
  library/python/2\
