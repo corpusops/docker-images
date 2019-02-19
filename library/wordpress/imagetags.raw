@@ -449,7 +449,7 @@
 5 5.0
 5-apache
 5-fpm
-5-fpm-alpine
+5-fpm-alpine 5.0-fpm-alpine
 5-php5.6
 5-php5.6-apache
 5-php5.6-fpm
@@ -458,20 +458,19 @@
 5-php7.0-apache 5.0-php7.0-apache
 5-php7.0-fpm
 5-php7.1
-5-php7.1-apache
+5-php7.1-apache 5.0-php7.1-apache
 5-php7.1-fpm
 5-php7.1-fpm-alpine
 5-php7.2
 5-php7.2-apache
 5-php7.2-fpm
-5-php7.2-fpm-alpine 5.0-php7.2-fpm-alpine
+5-php7.2-fpm-alpine
 5-php7.3
-5-php7.3-apache 5.0-php7.3-apache
+5-php7.3-apache
 5-php7.3-fpm
-5-php7.3-fpm-alpine
+5-php7.3-fpm-alpine 5.0-php7.3-fpm-alpine
 5.0-apache
 5.0-fpm
-5.0-fpm-alpine
 5.0-php5.6
 5.0-php5.6-apache
 5.0-php5.6-fpm
@@ -480,15 +479,15 @@
 5.0-php7.0-fpm
 5.0-php7.0-fpm-alpine
 5.0-php7.1
-5.0-php7.1-apache
 5.0-php7.1-fpm
 5.0-php7.1-fpm-alpine
 5.0-php7.2
 5.0-php7.2-apache
 5.0-php7.2-fpm
+5.0-php7.2-fpm-alpine
 5.0-php7.3
+5.0-php7.3-apache
 5.0-php7.3-fpm
-5.0-php7.3-fpm-alpine
 5.0.0
 5.0.0-apache
 5.0.0-fpm
@@ -547,17 +546,17 @@
 5.0.2-php7.2-fpm-alpine
 5.0.3
 5.0.3-apache
-5.0.3-fpm php7.2
+5.0.3-fpm php7.1-fpm
 5.0.3-fpm-alpine
 5.0.3-php7.1
 5.0.3-php7.1-apache
-5.0.3-php7.1-fpm php7.1
+5.0.3-php7.1-fpm
 5.0.3-php7.1-fpm-alpine 5-php7.0-fpm-alpine
 5.0.3-php7.2
 5.0.3-php7.2-apache
 5.0.3-php7.2-fpm
 5.0.3-php7.2-fpm-alpine
-5.0.3-php7.3
+5.0.3-php7.3 php7.3-apache
 5.0.3-php7.3-apache
 5.0.3-php7.3-fpm
 5.0.3-php7.3-fpm-alpine
@@ -618,7 +617,7 @@ cli-2
 cli-2-php5.6
 cli-2-php7.1
 cli-2-php7.2
-cli-2-php7.3 cli-2.1-php7.3
+cli-2-php7.3
 cli-2.0
 cli-2.0-php5.6
 cli-2.0-php7.0
@@ -638,15 +637,16 @@ cli-2.1-php5.6
 cli-2.1-php7.0
 cli-2.1-php7.1
 cli-2.1-php7.2
-cli-2.1.0 cli-php7.1
+cli-2.1-php7.3
+cli-2.1.0
 cli-2.1.0-php5.6
 cli-2.1.0-php7.0
 cli-2.1.0-php7.1
 cli-2.1.0-php7.2
-cli-2.1.0-php7.3
+cli-2.1.0-php7.3 cli-php7.2
 cli-php5.6
 cli-php7.0 cli-2-php7.0
-cli-php7.2
+cli-php7.1
 cli-php7.3
 fpm
 fpm-alpine
@@ -656,13 +656,13 @@ php5.6-fpm
 php5.6-fpm-alpine
 php7.0
 php7.0-apache
+php7.1
 php7.1-apache
-php7.1-fpm
 php7.1-fpm-alpine
 php7.2-apache
 php7.2-fpm
 php7.2-fpm-alpine
 php7.3
-php7.3-apache
+php7.3-fpm
 php7.3-fpm-alpine
- php7.3-fpm
+ php7.2

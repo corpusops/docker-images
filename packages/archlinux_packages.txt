@@ -1,0 +1,14 @@
+cronie
+glibc
+curl
+gnu-netcat
+logrotate
+socat
+tzdata
+wget
+# not default on debian
+ca-certificates
+# envsubst
+gettext
+p7zip
+openssl

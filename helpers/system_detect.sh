@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
-system=generic
-if [ -e /etc/alpine-release ];then
+system=generic 
+if [ -e /etc/arch-release ];then
+    system=archlinux
+elif [ -e /etc/alpine-release ];then
     system=alpine
 elif ( egrep -iq "suse" $(find /etc/ImageVersion /etc/*-release 2>/dev/null||/bin/true 2>/dev/null) 2>/dev/null);then
     system=suse

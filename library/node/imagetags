@@ -518,6 +518,11 @@
 11.8-slim
 11.8-stretch
 11.8-stretch-slim
+11.9
+11.9-alpine
+11.9-slim
+11.9-stretch
+11.9-stretch-slim
 alpine
 argon
 argon-alpine
