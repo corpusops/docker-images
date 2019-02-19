@@ -84,6 +84,8 @@ if [ -e /etc/fedora-release ];then
         DISTRO_SYNC=1
     fi
     if [ "x$DISTRO_SYNC" != "x" ];then vv yum -y distro-sync;fi
+    # be sure to install locales
+    yum install --allowerasing --best -y glibc-common
 fi
 export FORCE_INSTALL=y
 DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
