@@ -88,12 +88,18 @@ pkgs=$(grep -vE '^\s*#' packages.txt | tr "\n" ' ' )
 if [ "x$NOSOCAT" != "x" ];then pkgs=$(echo $pkgs|sed -e "s/socat//g");fi
 DISTRO_SYNC=${DISTRO_SYNC-}
 if [ -e /etc/fedora-release ];then
+    yumopts=""
+    for opt in allowerasing best;do
+        if (yum install --help 2>&1|grep -q -- --$opt);then
+            yumopts="$yumopts --$opt"
+        fi
+    done
     if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME"|egrep -iq "20|heisenbug" );then
         DISTRO_SYNC=1
     fi
     if [ "x$DISTRO_SYNC" != "x" ];then vv yum -y distro-sync;fi
     # be sure to install locales
-    yum install --allowerasing --best -y glibc-common
+    yum install $yumopts -y glibc-common
 fi
 export FORCE_INSTALL=y
 DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
