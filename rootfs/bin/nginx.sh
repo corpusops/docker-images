@@ -39,7 +39,7 @@ if [ "x$NGINX_CONFIGS" != "x" ];then
 fi
 export NGINX_DH_FILE=${NGINX_DH_FILE:-"$DEFAULT_NGINX_DH_FILE"}
 chmod 600 /etc/logrotate.d/nginx
-if [ "x$NO_SSL" != "x" ];then
+if [ "x$NO_SSL" = "x1" ];then
     log "no ssl setup"
 else
     cops_gen_cert.sh
