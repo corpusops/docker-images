@@ -70,6 +70,7 @@ DEFAULT_SUPERVISORD_CONFIG_TEMPLATE="$DEFAULT_SUPERVISORD_CONFIG_TEMPLATE
 
 "
 isodate() { date --utc '+%FT%TZ';  }
+SUPERVISORD_LOGGER_TEMPO=${SUPERVISORD_LOGGER_TEMPO-10}
 consume_pipes() {
     tag="${1}"
     shift
@@ -84,6 +85,7 @@ consume_pipes() {
           && if ( echo "$tag"|grep -iq out);then echo "$tlog">&1;fi \
         ;done && rm $lock; )
     done
+    sleep $SUPERVISORD_LOGGER_TEMPO
 }
 if [ "x${NO_SUPERVISORD_LOGTAIL}" = "x" ];then
     for i in $SUPERVISORD_LOGFILE $SUPERVISORD_LOGFILE_ERR;do
