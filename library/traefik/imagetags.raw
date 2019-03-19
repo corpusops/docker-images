@@ -104,7 +104,7 @@
 1.6.6-nanoserver
 1.7-alpine
 1.7-nanoserver
-1.7-nanoserver-sac2016
+1.7-nanoserver-sac2016 v1.7-nanoserver-sac2016
 1.7.0
 1.7.0-alpine
 1.7.0-nanoserver-sac2016
@@ -150,8 +150,8 @@
 1.7.8-nanoserver-sac2016
 1.7.9
 1.7.9-alpine
+1.7.9-nanoserver
 1.7.9-nanoserver-sac2016
-alpine
 camembert
 cancoillotte
 cancoillotte-alpine
@@ -163,6 +163,7 @@ maroilles-nanoserver-sac2016
 morbier
 morbier-alpine
 nanoserver
+nanoserver-sac2016
 raclette
 raclette-alpine
 reblochon
@@ -310,8 +311,7 @@ v1.6.6-nanoserver
 v1.6.6-nanoserver-sac2016
 v1.7
 v1.7-alpine
-v1.7-nanoserver 1.7.9-nanoserver
-v1.7-nanoserver-sac2016
+v1.7-nanoserver
 v1.7.0
 v1.7.0-alpine
 v1.7.0-nanoserver
@@ -366,4 +366,4 @@ v1.7.9
 v1.7.9-alpine
 v1.7.9-nanoserver
 v1.7.9-nanoserver-sac2016
- nanoserver-sac2016
+ alpine

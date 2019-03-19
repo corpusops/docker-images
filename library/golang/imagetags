@@ -56,6 +56,10 @@
 1.11-alpine3.8
 1.11-alpine3.9
 1.11-stretch
+1.12
+1.12-alpine
+1.12-alpine3.9
+1.12-stretch
 alpine
 alpine3.5
 alpine3.6

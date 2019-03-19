@@ -68,7 +68,7 @@
 9.3.24-alpine
 9.3.25
 9.3.25-alpine
-9.4-alpine
+9.4
 9.4-beta2
 9.4-beta3
 9.4.0
@@ -165,8 +165,8 @@
 9.6.11-alpine
 9.6.12
 9.6.12-alpine
-10
-10-alpine 10.7-alpine
+10 10.7
+10-alpine
 10-beta1
 10-beta1-alpine
 10-beta2
@@ -190,8 +190,8 @@
 10.5-alpine
 10.6
 10.6-alpine
-10.7
-11-alpine
+10.7-alpine
+11
 11-beta1
 11-beta1-alpine 9.6.8
 11-beta2
@@ -206,6 +206,6 @@
 11.1-alpine
 11.2
 11.2-alpine
-alpine
-latest 11
- 9.4
+alpine 11-alpine
+latest
+ 9.4-alpine
