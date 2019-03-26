@@ -55,7 +55,7 @@ if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
         sed -i -r -e '/(((squeeze)-(lts))|testing-backports)/d' \
             $( find /etc/apt/sources.list* -type f; )
     fi
-    if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -lt 7 ];then
+    if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -lt 8 ];then
         OAPTMIRROR="archive.debian.org"
         sed -i -r -e '/-updates|security.debian.org/d' \
             $( find /etc/apt/sources.list* -type f; )
