@@ -5,9 +5,11 @@
 1.5-alpine
 1.6-alpine
 1.7-alpine
+2.0-alpine
 alpine
 camembert-alpine
 cancoillotte-alpine
+faisselle-alpine
 maroilles-alpine
 morbier-alpine
 raclette-alpine
@@ -20,3 +22,4 @@ v1.4-alpine
 v1.5-alpine
 v1.6-alpine
 v1.7-alpine
+v2.0-alpine

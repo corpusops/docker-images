@@ -26,11 +26,10 @@
 2.8.0-rc3
 2.8.0-rc4
 2.8.0-rc5
-3
 3-jessie
 3-stretch
-3-windowsservercore 3.6-windowsservercore
-3-windowsservercore-1709 3.6-windowsservercore-1709
+3-windowsservercore
+3-windowsservercore-1709
 3-windowsservercore-ltsc2016
 3.0
 3.0-wheezy
@@ -135,11 +134,10 @@
 3.3.15 3.4-rc
 3.3.15-windowsservercore
 3.4
-3.4-jessie 3.4.20-jessie
+3.4-jessie
 3.4-rc-windowsservercore
 3.4-windowsservercore
 3.4-windowsservercore-1709
-3.4-windowsservercore-ltsc2016
 3.4.0
 3.4.0-rc2
 3.4.0-rc2-windowsservercore
@@ -196,8 +194,9 @@
 3.4.19-windowsservercore-1709
 3.4.19-windowsservercore-ltsc2016
 3.4.20
+3.4.20-jessie
 3.4.20-windowsservercore
-3.4.20-windowsservercore-1709
+3.4.20-windowsservercore-1709 3.4-windowsservercore-ltsc2016
 3.4.20-windowsservercore-ltsc2016
 3.5
 3.5-jessie
@@ -228,6 +227,8 @@
 3.6-rc-jessie
 3.6-rc-windowsservercore-1709
 3.6-stretch
+3.6-windowsservercore
+3.6-windowsservercore-1709
 3.6-windowsservercore-ltsc2016
 3.6.0
 3.6.0-jessie 3.4.10-jessie
@@ -279,7 +280,7 @@
 3.6.10-windowsservercore-ltsc2016
 3.6.11
 3.6.11-stretch 3.4.19-jessie
-3.6.11-windowsservercore
+3.6.11-windowsservercore 3
 3.6.11-windowsservercore-1709
 3.6.11-windowsservercore-ltsc2016
 3.7-jessie
@@ -300,7 +301,7 @@
 4-bionic
 4-windowsservercore
 4-windowsservercore-1709
-4-windowsservercore-1803
+4-windowsservercore-1803 4.0-windowsservercore-1803
 4-windowsservercore-ltsc2016
 4-xenial
 4.0
@@ -309,7 +310,6 @@
 4.0-rc-xenial
 4.0-windowsservercore
 4.0-windowsservercore-1709
-4.0-windowsservercore-1803 4.0.6-windowsservercore-1803
 4.0-windowsservercore-ltsc2016
 4.0-xenial
 4.0.0
@@ -357,13 +357,19 @@
 4.0.5-xenial
 4.0.6
 4.0.6-windowsservercore
-4.0.6-windowsservercore-1709
+4.0.6-windowsservercore-1803 4.0.6-windowsservercore-1709
 4.0.6-windowsservercore-ltsc2016
 4.0.6-xenial
+4.0.7
+4.0.7-windowsservercore
+4.0.7-windowsservercore-1709
+4.0.7-windowsservercore-1803
+4.0.7-windowsservercore-ltsc2016 xenial
+4.0.7-xenial
 4.1
-4.1-windowsservercore 4.1.8-windowsservercore
+4.1-windowsservercore
 4.1-windowsservercore-1709
-4.1-windowsservercore-1803 4.1.8-windowsservercore-1803
+4.1-windowsservercore-1803
 4.1-windowsservercore-ltsc2016
 4.1-xenial
 4.1.1
@@ -404,11 +410,17 @@
 4.1.7-windowsservercore-1803
 4.1.7-xenial
 4.1.8
+4.1.8-windowsservercore
 4.1.8-windowsservercore-1709
+4.1.8-windowsservercore-1803
 4.1.8-windowsservercore-ltsc2016
 4.1.8-xenial
-4.1.9
-4.1.9-xenial
+4.1.9 unstable-windowsservercore-1803
+4.1.9-windowsservercore
+4.1.9-windowsservercore-1709
+4.1.9-windowsservercore-1803
+4.1.9-windowsservercore-ltsc2016
+4.1.9-xenial unstable-xenial
 bionic
 jessie 3.6.5-jessie
 latest
@@ -417,16 +429,13 @@ rc-jessie
 rc-windowsservercore
 rc-windowsservercore-1709
 rc-xenial
+unstable
 unstable-bionic 4.1-bionic
 unstable-jessie
 unstable-windowsservercore
 unstable-windowsservercore-1709
-unstable-windowsservercore-1803
 unstable-windowsservercore-ltsc2016
-unstable-xenial
-windowsservercore
 windowsservercore-1709
 windowsservercore-1803
 windowsservercore-ltsc2016
-xenial
- unstable
+ windowsservercore
