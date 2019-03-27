@@ -918,7 +918,7 @@ record_build_image() {
     local retries=${DOCKER_BUILD_RETRIES:-4}
     local cmd="dret=8 && for i in \$(seq $retries);do if ($dbuild);then dret=0;break;else dret=6;fi;done"
     local cmd="$cmd && if [ \"x\$dret\" != \"x0\" ];then"
-    local cmd="$cmd      echo \"${RED}$image/$df build: Falling after $retries retries${NORMAL}\" >&2"
+    local cmd="$cmd      echo \"${RED}$image/$df build: Failing after $retries retries${NORMAL}\" >&2"
     local cmd="$cmd      && false;fi"
     local run="echo -e \"${RED}$dbuild${NORMAL}\" && $cmd"
     if [[ -n "$DO_RELEASE" ]];then
