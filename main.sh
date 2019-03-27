@@ -242,7 +242,7 @@ SKIP_MINIO="(minio:[0-9]{4}-.{7})"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
 SKIPPED_TAGS="($SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
 CURRENT_TS=$(date +%s)
-IMAGES_SKIP_NS="((mailhog|postgis|pgrouting|^library|dejavu|(minio/(minio|mc))))"
+IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
 default_images="
 appbaseio/dejavu
 minio/minio
@@ -271,7 +271,7 @@ library/opensuse
 library/solr
 library/mongo
 library/elasticsearch
-makinacorpus/pgrouting
+corpusops/pgrouting
 corpusops/postgis-bare
 mailhog/mailhog
 mailu/postfix
@@ -441,7 +441,7 @@ library/debian/latest\
 library/postgres/latest\
  corpusops/postgis-bare/latest\
  library/postgres/11\
- makinacorpus/pgrouting\
+ corpusops/pgrouting\
  library/postgres/10\
  library/postgres/9\
  corpusops/postgis-bare/11\

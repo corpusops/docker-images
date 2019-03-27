@@ -1,4 +1,4 @@
-FROM makinacorpus/pgrouting:10-2.5-2.6
+FROM corpusops/pgrouting-bare:9.6-2.5-2.5
 ARG DO_UPDATE=y
 ARG NONINTERACTIVE=y
 ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"
