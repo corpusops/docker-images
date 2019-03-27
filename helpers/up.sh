@@ -33,6 +33,11 @@ elif [ -e /etc/debian_version ];then
     DISTRIB_CODENAME=$(head -n1  /etc/apt/sources.list | awk  '{print $3}')
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print substr($3,1,1)}')
 fi
+DEBIAN_OLDSTABLE=8
+DEBIAN_LTS_SOURCELIST="
+deb http://security.debian.org/     $DISTRIB_CODENAME/updates main contrib non-free
+deb-src http://security.debian.org/ $DISTRIB_CODENAME/updates main contrib non-free
+"
 if ( grep -q "release 6" /etc/redhat-release >/dev/null 2>&1 );then
     NOSOCAT=1
 fi
@@ -55,10 +60,14 @@ if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
         sed -i -r -e '/(((squeeze)-(lts))|testing-backports)/d' \
             $( find /etc/apt/sources.list* -type f; )
     fi
-    if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -lt 8 ];then
+    if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ];then
         OAPTMIRROR="archive.debian.org"
         sed -i -r -e '/-updates|security.debian.org/d' \
             $( find /etc/apt/sources.list* -type f; )
+        if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -eq $DEBIAN_OLDSTABLE ];then
+            log "Using debian LTS packages"
+            echo "$DEBIAN_LTS_SOURCELIST" >> /etc/apt/sources.list
+        fi
     fi
     if ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" ) && \
         ( echo $DISTRIB_RELEASE |egrep -iq $oldubuntu);then
