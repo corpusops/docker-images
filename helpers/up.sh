@@ -11,7 +11,8 @@ if [ -e /etc/arch-release ];then
     pacman -S libidn2 --force --noconfirm
     pacman -S --noconfirm $ARCH_BASE_PACKAGES
 fi
-_cops_SYSTEM=$(system_detect.sh)
+W="$(dirname $(readlink -f "$0"))"
+_cops_SYSTEM=$(system_detect.sh||./system_detect.sh||"$W/system_detect.sh")
 DISTRIB_ID=
 DISTRIB_CODENAME=
 DISTRIB_RELEAASE=
