@@ -43,7 +43,7 @@ if ( grep -q "release 6" /etc/redhat-release >/dev/null 2>&1 );then
     NOSOCAT=1
 fi
 if (echo $DISTRIB_ID | egrep -iq "debian");then
-    NAPTMIRROR="http.debian.net|httpredir.debian.org"
+    NAPTMIRROR="http.debian.net|httpredir.debian.org|deb.debian.org"
 elif ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
     NAPTMIRROR="archive.ubuntu.com|security.ubuntu.com"
 fi
