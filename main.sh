@@ -271,7 +271,7 @@ library/opensuse
 library/solr
 library/mongo
 library/elasticsearch
-corpusops/pgrouting
+corpusops/pgrouting-bare
 corpusops/postgis-bare
 mailhog/mailhog
 mailu/postfix
@@ -441,7 +441,6 @@ library/debian/latest\
 library/postgres/latest\
  corpusops/postgis-bare/latest\
  library/postgres/11\
- corpusops/pgrouting\
  library/postgres/10\
  library/postgres/9\
  corpusops/postgis-bare/11\
@@ -525,7 +524,21 @@ library/ruby/latest\
  library/ruby/1\
  library/ruby/1-slim\
  library/ruby/1.9\
- library/ruby/1.9-slim::20
+ corpusops/pgrouting-bare/latest\
+ corpusops/pgrouting-bare/10\
+ corpusops/pgrouting-bare/11\
+ corpusops/pgrouting-bare/11-2.5\
+ corpusops/pgrouting-bare/9.6-2.5-2.6\
+ corpusops/pgrouting-bare/9.6-2.5\
+ corpusops/pgrouting-bare/9.6-2.4-2.6\
+ corpusops/pgrouting-bare/9.6-2.4\
+ corpusops/pgrouting-bare/9.6\
+ corpusops/pgrouting-bare/11-2.5-2.6\
+ corpusops/pgrouting-bare/10-2.5-2.6\
+ corpusops/pgrouting-bare/10-2.5\
+ corpusops/pgrouting-bare/10-2.4-2.6\
+ corpusops/pgrouting-bare/10-2.4\
+ library/ruby/1.9-slim::37
 library/ruby/2.4-alpine\
  library/ruby/2.4-slim-alpine\
  library/postgres/9-alpine\
