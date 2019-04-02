@@ -15,7 +15,7 @@ W="$(dirname $(readlink -f "$0"))"
 _cops_SYSTEM=$(system_detect.sh||./system_detect.sh||"$W/system_detect.sh")
 DISTRIB_ID=
 DISTRIB_CODENAME=
-DISTRIB_RELEAASE=
+DISTRIB_RELEASE=
 oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04)"
 # oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04)"
 NOSOCAT=""
@@ -62,6 +62,8 @@ if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
             $( find /etc/apt/sources.list* -type f; )
     fi
     if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ];then
+        # fix old debian unstable images
+        sed -i -re "s!sid(/)?!$DISTRIB_CODENAME\1!" $(find /etc/apt/sources.list* -type f)
         OAPTMIRROR="archive.debian.org"
         sed -i -r -e '/-updates|security.debian.org/d' \
             $( find /etc/apt/sources.list* -type f; )
