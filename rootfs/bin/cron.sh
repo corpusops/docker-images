@@ -54,12 +54,17 @@ elif ( which busybox >/dev/null 2>&1 );then
     CRON_CMD="busybox crond"
     CRON_IMPLEMENTATION=dcron
 elif ( which crond >/dev/null 2>&1 );then
-    if ( ( crond -V 2>&1 || /bin/true )|grep -q cronie );then
-        CRON_CMD=cronie
+    if ( ( yum list installed 2>&1 || /bin/true )|grep -q cronie ); then
+        CRON_CMD=crond
         CRON_IMPLEMENTATION=cronie
     else
-        CRON_CMD=crond
-        CRON_IMPLEMENTATION=dcron
+        if ( ( crond -V 2>&1 || /bin/true )|grep -q cronie );then
+             CRON_CMD=cronie
+             CRON_IMPLEMENTATION=cronie
+        else
+             CRON_CMD=crond
+             CRON_IMPLEMENTATION=dcron
+        fi
     fi
 fi
 if [ "x$CRON_IMPLEMENTATION" = "x" ];then
