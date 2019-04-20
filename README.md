@@ -273,8 +273,3 @@ You better have to read the entrypoints to understand how they work.
           # if this file exists, it will be used as the config automatically
           - TRAEFIK_CONFIG=/traefik.toml
         ```
-
-## Support development
-- [paypal](https://paypal.me/kiorky)
-
-
