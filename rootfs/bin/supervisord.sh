@@ -2,7 +2,7 @@
 set -e
 SDEBUG=${SDEBUG-}
 if [ "x$SDEBUG" != "x" ];then set -x;fi
-export NO_SUPERVISORD_LOGTAIL="${NO_SUPERVISORD_LOGTAIL-}"
+export NO_SUPERVISORD_LOGTAIL="${NO_SUPERVISORD_LOGTAIL-1}"
 export SUPERVISORD_USER="${SUPERVISORD_USER:-supervisord}"
 export SUPERVISORD_PASSWORD="${SUPERVISORD_PASSWORD:-supervisord}"
 export SUPERVISORD_DIR="${SUPERVISORD_DIR:-"/etc/supervisord-go"}"
