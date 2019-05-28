@@ -95,6 +95,17 @@ if [ "x${INSTALL_DEFAULT_LOCALE}" != "x" ];then
         vv update-locale LANG="$INSTALL_DEFAULT_LOCALE"
     fi
     touch "$OS_ENV"
+    # some OS has case sensitive locale spelling,
+    # try to autodetect it
+    AUTODETECTED_LOCALE=$(locale -a\
+        |egrep -i "^$( echo $INSTALL_DEFAULT_LOCALE \
+                        | awk '{print tolower($0)}' \
+                        |sed -re "s/([-_.])/\1?/g" )$" \
+        |head -n1)
+    if [[ -n "$AUTODETECTED_LOCALE" ]];then
+        log "Installing autodetected locale: $AUTODETECTED_LOCALE"
+        INSTALL_DEFAULT_LOCALE="$AUTODETECTED_LOCALE"
+    fi
     for localesenv in $LOCALEENVSFILES;do
         if [ -e "$localesenv" ];then
             log "Verifying $localesenv ($INSTALL_DEFAULT_LOCALE)"
