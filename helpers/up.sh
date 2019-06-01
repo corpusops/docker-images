@@ -33,6 +33,10 @@ elif [ -e /etc/debian_version ];then
     DISTRIB_ID=debian
     DISTRIB_CODENAME=$(head -n1  /etc/apt/sources.list | awk  '{print $3}')
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print substr($3,1,1)}')
+elif [ -e /etc/redhat-release ];then
+    DISTRIB_ID=$(echo $(head  /etc/issue)|awk '{print tolower($1)}')
+    DISTRIB_CODENAME=$(echo $(head  /etc/issue)|awk '{print substr(substr($4,2),1,length($4)-2)}');echo $DISTRIB_RELEASE
+    DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print tolower($3)}')
 fi
 DEBIAN_OLDSTABLE=8
 DEBIAN_LTS_SOURCELIST="
@@ -53,7 +57,14 @@ if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" ) \
 fi
 if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" ) \
     && ! ( echo $DISTRIB_ID | egrep -iq fedora );then
+    if ( echo $DISTRIB_ID | egrep -iq "centos|red|fedora" );then
+        vv yum --disablerepo=epel -y update ca-certificates \
+            || vv yum -y update ca-certificates
+    fi
     DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="epel-release" ./cops_pkgmgr_install.sh
+    if ( echo $DISTRIB_RELEASE | egrep -iq "^6\." );then
+        sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/*repos*/epel*.repo
+    fi
     DO_UPDATE=""
 fi
 if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
@@ -80,6 +91,7 @@ if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
             $( find /etc/apt/sources.list* -type f; )
     fi
 fi
+
 if [ "x$OAPTMIRROR" != "x" ];then
     echo "Patchig APT to use $OAPTMIRROR" >&2
     printf 'Acquire::Check-Valid-Until "0";\n' \
