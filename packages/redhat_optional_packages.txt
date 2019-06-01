@@ -5,3 +5,4 @@ p7zip-plugins
 busybox
 acl
 iproute
+cronie
