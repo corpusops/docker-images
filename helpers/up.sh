@@ -43,6 +43,9 @@ DEBIAN_LTS_SOURCELIST="
 deb http://security.debian.org/     $DISTRIB_CODENAME/updates main contrib non-free
 deb-src http://security.debian.org/ $DISTRIB_CODENAME/updates main contrib non-free
 "
+find /etc -name "*.reactivate" | while read f;do
+    mv -fv "$f" "$(basename $f .reactivate)"
+done
 if ( grep -q "release 6" /etc/redhat-release >/dev/null 2>&1 );then
     NOSOCAT=1
 fi

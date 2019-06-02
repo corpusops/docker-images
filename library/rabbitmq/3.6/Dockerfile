@@ -10,6 +10,10 @@ ARG GOSU_RELEASE=latest
 ARG DOCKERIZE_RELEASE=latest
 ARG CURL_SSL_OPTS=--tlsv1
 ARG DOCKER_IMAGES_COMMIT=master
+RUN sh -exc ': \
+    && sed -i -re "s/http:/https:/g" /etc/apt/sources.list.d/rabbit* \
+    && : will be reactivated when repos are fixed in preinstall \
+    && find  /etc/apt/sources.list.d -type f|while read f;do mv $f $f.reactivate;done'
 ADD \
     helpers/up.sh \
     helpers/add_gosu.sh \
