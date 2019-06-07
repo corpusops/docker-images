@@ -80,12 +80,12 @@ if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
             DISTRIB_RELEASE=$(cat /etc/debian_version)
         fi
     fi
-    if (echo $DISTRIB_RELEASE | egrep -iq jessie );then DISTRIB_RELEASE="8";DEBIAN_OLDSTABLE=$(($DISTRIB_RELEASE-1));fi
-    if (echo $DISTRIB_RELEASE | egrep -iq squeeze );then DISTRIB_RELEASE="6";DEBIAN_OLDSTABLE=$(($DISTRIB_RELEASE-1));fi
-    if (echo $DISTRIB_RELEASE | egrep -iq wheezy );then DISTRIB_RELEASE="7";DEBIAN_OLDSTABLE=$(($DISTRIB_RELEASE-1));fi
-    if (echo $DISTRIB_RELEASE | egrep -iq stretch );then DISTRIB_RELEASE="9";DEBIAN_OLDSTABLE=$(($DISTRIB_RELEASE-1));fi
-    if (echo $DISTRIB_RELEASE | egrep -iq buster );then DISTRIB_RELEASE="10";DEBIAN_OLDSTABLE=$(($DISTRIB_RELEASE-1));fi
-    if (echo $DISTRIB_RELEASE | egrep -iq bullseye );then DISTRIB_RELEASE="11";DEBIAN_OLDSTABLE=$(($DISTRIB_RELEASE-1));fi
+    if (echo $DISTRIB_RELEASE | egrep -iq squeeze );then  DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="6" ;fi
+    if (echo $DISTRIB_RELEASE | egrep -iq wheezy );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="7" ;fi
+    if (echo $DISTRIB_RELEASE | egrep -iq jessie );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="8" ;fi
+    if (echo $DISTRIB_RELEASE | egrep -iq stretch );then  DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="9" ;fi
+    if (echo $DISTRIB_RELEASE | egrep -iq buster );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="10";fi
+    if (echo $DISTRIB_RELEASE | egrep -iq bullseye );then DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="11";fi
     if (echo $DISTRIB_ID|egrep -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ];then
         # fix old debian unstable images
         sed -i -re "s!sid(/)?!$DISTRIB_CODENAME\1!" $(find /etc/apt/sources.list* -type f)
