@@ -39,10 +39,6 @@ elif [ -e /etc/redhat-release ];then
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print tolower($3)}')
 fi
 DEBIAN_OLDSTABLE=8
-DEBIAN_LTS_SOURCELIST="
-deb http://security.debian.org/     $DISTRIB_CODENAME/updates main contrib non-free
-deb-src http://security.debian.org/ $DISTRIB_CODENAME/updates main contrib non-free
-"
 find /etc -name "*.reactivate" | while read f;do
     mv -fv "$f" "$(basename $f .reactivate)"
 done
@@ -52,7 +48,7 @@ fi
 if (echo $DISTRIB_ID | egrep -iq "debian");then
     if [ "x$DISTRIB_RELEASE" = "x" ];then
         if [ -e /etc/debian_version ];then
-            DISTRIB_RELEASE=$(cat /etc/debian_version)
+            DISTRIB_RELEASE=$(cat /etc/debian_version|sed -re "s!/sid!!")
         fi
         if (echo $DISTRIB_RELEASE | egrep -iq squeeze );then  DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="6" ;fi
         if (echo $DISTRIB_RELEASE | egrep -iq wheezy );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="7" ;fi
@@ -65,6 +61,10 @@ if (echo $DISTRIB_ID | egrep -iq "debian");then
 elif ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
     NAPTMIRROR="archive.ubuntu.com|security.ubuntu.com"
 fi
+DEBIAN_LTS_SOURCELIST="
+deb http://security.debian.org/     $DISTRIB_CODENAME/updates main contrib non-free
+deb-src http://security.debian.org/ $DISTRIB_CODENAME/updates main contrib non-free
+"
 if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" ) \
     && (yum list installed fakesystemd >/dev/null 2>&1);then
     yum swap -y fakesystemd systemd
