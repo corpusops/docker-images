@@ -69,16 +69,23 @@ if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" ) \
     && (yum list installed fakesystemd >/dev/null 2>&1);then
     yum swap -y fakesystemd systemd
 fi
+fix_epel() {
+    if ( echo $DISTRIB_RELEASE | egrep -iq "^(6|7)(\.|$)" ) &&\
+        [ "x$(find /etc/*repos* -name '*epel*.repo' 2>/dev/null | wc -l)" != "x0" ];then
+        log "Patching epel repo to use http"
+        sed -i "s/https/http/" /etc/*repos*/$epel*.repo
+    fi
+}
 if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" ) \
     && ! ( echo $DISTRIB_ID | egrep -iq fedora );then
+set -x
+    fix_epel
     if ( echo $DISTRIB_ID | egrep -iq "centos|red|fedora" );then
         vv yum --disablerepo=epel -y update ca-certificates \
             || vv yum -y update ca-certificates
     fi
+    fix_epel
     DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="epel-release" ./cops_pkgmgr_install.sh
-    if ( echo $DISTRIB_RELEASE | egrep -iq "^6\." );then
-        sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/*repos*/epel*.repo
-    fi
     DO_UPDATE=""
 fi
 if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
