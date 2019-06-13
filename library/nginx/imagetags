@@ -27,6 +27,14 @@
 1.15-alpine
 1.15-alpine-perl
 1.15-perl
+1.16
+1.16-alpine
+1.16-alpine-perl
+1.16-perl
+1.17
+1.17-alpine
+1.17-alpine-perl
+1.17-perl
 alpine
 alpine-perl
 latest
