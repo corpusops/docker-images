@@ -56,6 +56,14 @@
 7.7
 7.7-alpine
 7.7-slim
+8
+8-alpine
+8-slim
+8.0
+8.0-alpine
+8.0-slim
+8.1
+8.1-slim
 alpine
 latest
 slim

@@ -43,7 +43,10 @@
 9.7-slim
 9.8
 9.8-slim
+9.9
+9.9-slim
 buster
+buster-backports
 buster-slim
 experimental
 jessie

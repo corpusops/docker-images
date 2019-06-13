@@ -32,6 +32,8 @@
 10.6-alpine
 10.7
 10.7-alpine
+10.8
+10.8-alpine
 11
 11-alpine
 11.0
@@ -40,5 +42,9 @@
 11.1-alpine
 11.2
 11.2-alpine
+11.3
+11.3-alpine
+12
+12-alpine
 alpine
 latest
