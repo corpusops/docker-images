@@ -59,7 +59,7 @@ fi
 DEFAULT_NGINX_DEBUG_BIN=$(which nginx-debug 2>/dev/null )
 NGINX_DEBUG_BIN=${NGINX_DEBUG_BIN-$DEFAULT_NGINX_DEBUG_BIN}
 # if debug is enabled, try to see if we need to switch binary
-if ( egrep -rq "error_log .* debug" $NGINX_CONF_DIR ) && \
+if ( egrep -rvh "^(\s|\t| )*#" $NGINX_CONF_DIR | egrep -rq "error_log .* debug" ) && \
     [ "x$NGINX_DEBUG_BIN" != "x" ];then
     NGINX_BIN="$NGINX_DEBUG_BIN"
 fi
