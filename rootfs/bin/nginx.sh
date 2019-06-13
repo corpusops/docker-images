@@ -56,6 +56,13 @@ else
         fi
     fi
 fi
+DEFAULT_NGINX_DEBUG_BIN=$(which nginx-debug 2>/dev/null )
+NGINX_DEBUG_BIN=${NGINX_DEBUG_BIN-$DEFAULT_NGINX_DEBUG_BIN}
+# if debug is enabled, try to see if we need to switch binary
+if ( egrep -rq "error_log .* debug" $NGINX_CONF_DIR ) && \
+    [ "x$NGINX_DEBUG_BIN" != "x" ];then
+    NGINX_BIN="$NGINX_DEBUG_BIN"
+fi
 if [ "x$NGINX_SKIP_CHECK" = "x" ];then
     $NGINX_BIN -t "$@"
 fi
