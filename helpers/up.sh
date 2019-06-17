@@ -73,20 +73,17 @@ fix_epel() {
     if ( echo $DISTRIB_RELEASE | egrep -iq "^(6|7)(\.|$)" ) &&\
         [ "x$(find /etc/*repos* -name '*epel*.repo' 2>/dev/null | wc -l)" != "x0" ];then
         log "Patching epel repo to use http"
-        sed -i "s/https/http/" /etc/*repos*/$epel*.repo
+        sed -i "s/https/http/" /etc/*repos*/*epel*.repo
     fi
 }
-if ( echo $_cops_SYSTEM | egrep -iq "red.?hat" ) \
-    && ! ( echo $DISTRIB_ID | egrep -iq fedora );then
-set -x
+PRE_PACKAGES="ca-certificates epel-release"
+if ( echo $DISTRIB_ID | egrep -iq "centos|red|fedora" ) && ! ( echo $DISTRIB_ID | egrep -iq fedora );then
     fix_epel
-    if ( echo $DISTRIB_ID | egrep -iq "centos|red|fedora" );then
-        vv yum --disablerepo=epel -y update ca-certificates \
-            || vv yum -y update ca-certificates
-    fi
+    for pkg in $PRE_PACKAGES;do
+        ( vv yum -y install $pkg || vv yum --disablerepo=epel -y install $pkg ) || /bin/true
+        ( vv yum -y update  $pkg || vv yum --disablerepo=epel -y update  $pkg )
+    done
     fix_epel
-    DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="epel-release" ./cops_pkgmgr_install.sh
-    DO_UPDATE=""
 fi
 if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
     if (echo $DISTRIB_ID|egrep -iq debian);then
@@ -153,9 +150,10 @@ export FORCE_INSTALL=y
 DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
 install_gpg
 if ! ( echo foo|envsubst >/dev/null 2>&1);then
-    echo "envsubst is missing"
-fi
-if ! ( echo foo|envsubst >/dev/null 2>&1);then
-    echo "envsubst is missing"
+    DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="gettext" \
+        ./cops_pkgmgr_install.sh
+    if ! ( echo foo|envsubst >/dev/null 2>&1);then
+        echo "envsubst is missing"
+    fi
 fi
 # vim:set et sts=4 ts=4 tw=0:
