@@ -1,6 +1,6 @@
 $ModLoad imuxsock
 $outchannel rsyslog_outfile,{{ .Env.RSYSLOG_OUTFILE|default "/var/log/messages" }}, {{ .Env.RSYSLOG_OUTFILE_SIZE|default "500000000" }},/etc/periodic/daily/logrotate
-$template dockerFormat,"{{ .Env.RSYSLOG_LOGFORMAT|default "<%PRI%>%timegenerated%%HOSTNAME% %syslogtag%%msg%\\n" }}"
+$template dockerFormat,"{{ .Env.RSYSLOG_LOGFORMAT|default "<%PRI%> %timegenerated% %HOSTNAME% %syslogtag% %msg%\\n" }}"
 $ActionFileDefaultTemplate dockerFormat
 {{ $outstdout  := .Env.RSYSLOG_OUT_SDTOUT |default "notset" }}
 {{ $outlogfile := .Env.RSYSLOG_OUT_LOGFILE|default "notset" }}
