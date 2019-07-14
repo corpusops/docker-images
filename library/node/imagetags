@@ -604,6 +604,16 @@
 12.4-slim
 12.4-stretch
 12.4-stretch-slim
+12.5
+12.5-alpine
+12.5-slim
+12.5-stretch
+12.5-stretch-slim
+12.6
+12.6-alpine
+12.6-slim
+12.6-stretch
+12.6-stretch-slim
 alpine
 argon
 argon-alpine
