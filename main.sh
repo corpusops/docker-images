@@ -224,7 +224,7 @@ NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
 # SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
-SKIP_MINOR="((wordpress|nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|mongo|rabbitmq):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
+SKIP_MINOR="((memcached|wordpress|nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|mongo|rabbitmq):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
   SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo|rabbitmq):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
 SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu|oldstable|oldoldstable):.*[0-9]{8}.*)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|squeeze))"
@@ -250,6 +250,7 @@ minio/mc
 minio/mint
 minio/doctor
 minio/k8s-operator
+library/memcached
 library/alpine
 library/centos
 library/debian
@@ -327,8 +328,10 @@ library/ubuntu/latest\
  library/redis/4.0\
  library/redis/4-stretch\
  library/redis/4\
+ library/memcached/latest\
+ library/memcached/alpine\
  library/mongo/latest\
- library/mongo/4::40
+ library/mongo/4::42
 library/alpine/latest\
  library/alpine/3\
  mailu/rspamd/$MAILU_VERSiON\
