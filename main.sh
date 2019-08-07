@@ -224,8 +224,8 @@ NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
 # SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
-SKIP_MINOR="((memcached|wordpress|nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|mongo|rabbitmq):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
-  SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mysql|postgres|solr|elasticsearch|mongo|rabbitmq):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
+SKIP_MINOR="((memcached|wordpress|nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mariadb|mysql|postgres|solr|mongo|rabbitmq):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
+  SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mariadb|mysql|postgres|solr|elasticsearch|mongo|rabbitmq):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
 SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu|oldstable|oldoldstable):.*[0-9]{8}.*)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|squeeze))"
 SKIP_OS="$SKIP_OS|(ubuntu:(14.10|12|10|11|13|15))"
@@ -257,6 +257,7 @@ library/debian
 library/fedora
 library/golang
 library/mysql
+library/mariadb
 library/nginx
 library/redis
 library/rabbitmq
@@ -454,7 +455,13 @@ library/postgres/latest\
  library/mongo/3\
  library/solr/6\
  library/solr/6-slim\
- archlinux/base::21
+ library/mariadb/latest\
+ library/mariadb/10\
+ library/mariadb/10.1\
+ library/mariadb/10.2\
+ library/mariadb/10.3\
+ library/mariadb/10.4\
+ archlinux/base::27
 library/golang/latest\
  library/python/3\
  library/python/2\
