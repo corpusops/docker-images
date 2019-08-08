@@ -247,7 +247,6 @@ default_images="
 appbaseio/dejavu
 minio/minio
 minio/mc
-minio/mint
 minio/doctor
 minio/k8s-operator
 library/memcached
@@ -407,11 +406,8 @@ library/alpine/latest\
  library/redis/4-alpine\
  minio/minio/edge\
  minio/minio/latest\
- minio/mint/1.0.0\
- minio/mint/edge\
- minio/mint/latest\
  mailhog/mailhog/latest\
- library/solr/7-alpine::37
+ library/solr/7-alpine::34
 library/debian/latest\
  library/debian/slim\
  library/debian/sid\
