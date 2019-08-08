@@ -277,6 +277,7 @@ corpusops/postgis-bare
 mailhog/mailhog
 mailu/postfix
 mailu/rspamd
+seafileltd/seafile-mc
 "
 
 find_top_node_() {
@@ -595,7 +596,8 @@ library/ruby/2.4-alpine\
  library/wordpress/5-php7.1-apache\
  library/wordpress/5-php7.2-apache\
  library/wordpress/5-php7.3-apache\
- library/wordpress/4.9-php5.6-apache::23
+ library/wordpress/4.9-php5.6-apache\
+ seafileltd/seafile-mc/7.0.4::24
 "
 
 declare -A registry_tokens
