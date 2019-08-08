@@ -1,0 +1,2 @@
+RUN sh -c ': \
+    && apt-get -yqq update && apt-get install -yqq syslog-ng-core && apt-get -yqq clean'
