@@ -57,6 +57,7 @@ if (echo $DISTRIB_ID | egrep -iq "debian");then
         if (echo $DISTRIB_RELEASE | egrep -iq buster );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="10";fi
         if (echo $DISTRIB_RELEASE | egrep -iq bullseye );then DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="11";fi
     fi
+    sed -i -re "s/(old)?oldstable/$DISTRIB_CODENAME/g" $(find /etc/apt/sources.list* -type f)
     NAPTMIRROR="http.debian.net|httpredir.debian.org|deb.debian.org"
 elif ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" );then
     NAPTMIRROR="archive.ubuntu.com|security.ubuntu.com"
@@ -111,7 +112,7 @@ if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
 fi
 
 if [ "x$OAPTMIRROR" != "x" ];then
-    echo "Patchig APT to use $OAPTMIRROR" >&2
+    echo "Patching APT to use $OAPTMIRROR" >&2
     printf 'Acquire::Check-Valid-Until "0";\n' \
         > /etc/apt/apt.conf.d/noreleaseexpired.conf
     sed -i -r -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
