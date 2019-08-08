@@ -64,6 +64,8 @@ RUN sh -c 'set -ex \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go
+RUN sh -c ': \
+    && apt-get -yqq update && apt-get install -yqq syslog-ng-core && apt-get -yqq clean'
 ADD helpers/*_clean.sh /tmp/corpusopssteroids/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
