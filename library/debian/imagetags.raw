@@ -1,7 +1,8 @@
 6
-6.0 6.0.10
+6.0
 6.0.8
 6.0.9
+6.0.10 8.2
 7
 7-slim
 7.3
@@ -9,61 +10,71 @@
 7.5
 7.6
 7.7
-7.8 
 7.9
 7.10
 7.11
 7.11-slim
 8
 8-slim
-8.0 8.1
-8.2
+8.0
+8.1 7.8 
 8.3
 8.4
 8.5
-8.6
+8.7 8.6
 8.8
 8.9
 8.10
-8.10-slim
 8.11
 8.11-slim
 9
 9-slim
 9.0
 9.1
-9.2 stretch-20171009
+9.2
 9.3
+9.3-slim jessie-20180213
 9.4
 9.4-slim
+9.5 stretch-20181011
 9.5-slim
 9.6
+9.6-slim stretch-20190122-slim
 9.7
 9.7-slim
 9.8
-9.9
-buster 9.9-slim
+9.8-slim
+9.9-slim 9.9
+10-slim 10
+10.0
+10.0-slim
+bullseye
+bullseye-20190708
+bullseye-20190708-slim
+bullseye-backports
+bullseye-slim
+buster
 buster-20170620
 buster-20170723
 buster-20170907
-buster-20171009 wheezy-20170907
+buster-20171009
 buster-20171210
 buster-20180213
-buster-20180312 9.3-slim
+buster-20180312
 buster-20180426
 buster-20180625
-buster-20180716 wheezy-20180625
+buster-20180716
 buster-20180831
 buster-20181011
 buster-20181011-slim
-buster-20181112
-buster-20181226 wheezy-20181112-slim
+buster-20181112-slim buster-20181112
+buster-20181226
 buster-20181226-slim
 buster-20190122
 buster-20190122-slim
 buster-20190204
 buster-20190204-slim
-buster-20190228 wheezy-20190204-slim
+buster-20190228
 buster-20190228-slim
 buster-20190326
 buster-20190326-slim
@@ -71,40 +82,38 @@ buster-20190506
 buster-20190506-slim
 buster-20190610
 buster-20190610-slim
-buster-backports
-buster-slim
+buster-20190708
+buster-20190708-slim
+buster-slim buster-backports
 experimental
-experimental-20170606 8.7
+experimental-20170606
 experimental-20170620
 experimental-20170723
-experimental-20170907
 experimental-20171009
 experimental-20171210
 experimental-20180213
-experimental-20180312 wheezy-20180312
+experimental-20180312
 experimental-20180426
 experimental-20180625
 experimental-20180716
 experimental-20180831
-experimental-20181011
-experimental-20181112 buster-20181112-slim
+experimental-20181112
 experimental-20181226
 experimental-20190122
-experimental-20190204
 experimental-20190228
 experimental-20190326
 experimental-20190506
 experimental-20190610
+experimental-20190708
 jessie
 jessie-20170606
 jessie-20170620
 jessie-20170723
+jessie-20170907 experimental-20170907
 jessie-20171009
 jessie-20171210
-jessie-20180213
 jessie-20180312
 jessie-20180426
-jessie-20180625
 jessie-20180716
 jessie-20180831
 jessie-20181011
@@ -115,7 +124,8 @@ jessie-20181226
 jessie-20181226-slim
 jessie-20190122
 jessie-20190122-slim
-jessie-20190204-slim jessie-20190204
+jessie-20190204 experimental-20190204
+jessie-20190204-slim
 jessie-20190228
 jessie-20190228-slim
 jessie-20190326
@@ -123,41 +133,45 @@ jessie-20190326-slim
 jessie-20190506
 jessie-20190506-slim
 jessie-20190610
+jessie-20190610-slim
+jessie-20190708
+jessie-20190708-slim
 jessie-backports
-jessie-slim jessie-20190610-slim
+jessie-slim
 latest
 oldoldstable
 oldoldstable-20170620
-oldoldstable-20170723
-oldoldstable-20170907 jessie-20170907
+oldoldstable-20170907
 oldoldstable-20171009
 oldoldstable-20171210
 oldoldstable-20180213
 oldoldstable-20180312
 oldoldstable-20180426
+oldoldstable-20180625 jessie-20180625
 oldoldstable-20180716
 oldoldstable-20180831
-oldoldstable-20181011-slim oldoldstable-20181011
+oldoldstable-20181011 experimental-20181011
+oldoldstable-20181011-slim
 oldoldstable-20181112
 oldoldstable-20181112-slim
 oldoldstable-20181226
 oldoldstable-20181226-slim
 oldoldstable-20190122
-oldoldstable-20190122-slim
 oldoldstable-20190204
 oldoldstable-20190204-slim
 oldoldstable-20190228
-oldoldstable-20190228-slim oldoldstable-slim
+oldoldstable-20190708-slim oldoldstable-20190708
 oldoldstable-backports
+oldoldstable-slim
 oldstable
 oldstable-20170606
 oldstable-20170620
+oldstable-20170723 oldoldstable-20170723
 oldstable-20170907
 oldstable-20171009
-oldstable-20171210
-oldstable-20180213
 oldstable-20180312
-oldstable-20180625 oldoldstable-20180625
+oldstable-20180426 8.10-slim
+oldstable-20180625
 oldstable-20180716
 oldstable-20180831
 oldstable-20181011
@@ -165,54 +179,58 @@ oldstable-20181011-slim
 oldstable-20181112
 oldstable-20181112-slim
 oldstable-20181226
-oldstable-20181226-slim
-oldstable-20190122-slim oldstable-20190122
+oldstable-20190122 oldoldstable-20190122-slim
+oldstable-20190122-slim
 oldstable-20190204
 oldstable-20190204-slim
-oldstable-20190228
+oldstable-20190228 oldoldstable-20190228-slim
 oldstable-20190228-slim
-oldstable-20190326-slim oldstable-20190326
-oldstable-20190506-slim oldstable-20190506
+oldstable-20190326
+oldstable-20190506
 oldstable-20190610
 oldstable-20190610-slim
+oldstable-20190708
+oldstable-20190708-slim
 oldstable-backports
 oldstable-slim
 rc-buggy
 rc-buggy-20170606
 rc-buggy-20170620
-rc-buggy-20170723 oldstable-20170723
+rc-buggy-20170723
 rc-buggy-20170907
 rc-buggy-20171009
+rc-buggy-20171210 oldstable-20171210
 rc-buggy-20180213
 rc-buggy-20180312
-rc-buggy-20180426 oldstable-20180426
+rc-buggy-20180426
 rc-buggy-20180625
 rc-buggy-20180716
 rc-buggy-20180831
 rc-buggy-20181011
 rc-buggy-20181112
+rc-buggy-20181226 oldstable-20181226-slim
 rc-buggy-20190122
 rc-buggy-20190204
 rc-buggy-20190228
-rc-buggy-20190326
-rc-buggy-20190506
+rc-buggy-20190326 oldstable-20190326-slim
+rc-buggy-20190506 oldstable-20190506-slim
 rc-buggy-20190610
+rc-buggy-20190708
 sid
 sid-20170606
-sid-20170620
 sid-20170723
 sid-20170907
 sid-20171009
-sid-20171210 rc-buggy-20171210
+sid-20171210
+sid-20180213 oldstable-20180213
 sid-20180312
 sid-20180426
 sid-20180625
 sid-20180716
-sid-20180831
 sid-20181011
 sid-20181011-slim
-sid-20181112
-sid-20181226 rc-buggy-20181226
+sid-20181112-slim sid-20181112
+sid-20181226
 sid-20181226-slim
 sid-20190122
 sid-20190122-slim
@@ -225,28 +243,30 @@ sid-20190326-slim
 sid-20190506
 sid-20190506-slim
 sid-20190610-slim sid-20190610
+sid-20190708-slim sid-20190708
 sid-slim
 squeeze
 stable
 stable-20170606
+stable-20170620 sid-20170620
 stable-20170723
 stable-20170907
-stable-20171009
 stable-20171210
-stable-20180213 sid-20180213
+stable-20180213
 stable-20180312
 stable-20180426
 stable-20180625
 stable-20180716
+stable-20180831 sid-20180831
 stable-20181011
 stable-20181011-slim
-stable-20181112 sid-20181112-slim
+stable-20181112
 stable-20181112-slim
 stable-20181226
 stable-20181226-slim
 stable-20190122
 stable-20190122-slim
-stable-20190204
+stable-20190204-slim stable-20190204
 stable-20190228
 stable-20190228-slim
 stable-20190326
@@ -255,38 +275,39 @@ stable-20190506
 stable-20190506-slim
 stable-20190610
 stable-20190610-slim
+stable-20190708
+stable-20190708-slim
 stable-backports
 stable-slim
 stretch
 stretch-20170606
-stretch-20170620 stable-20170620
+stretch-20170620
 stretch-20170723
 stretch-20170907
+stretch-20171009 stable-20171009
 stretch-20171210
 stretch-20180213
 stretch-20180312
 stretch-20180426
 stretch-20180625
-stretch-20180716
-stretch-20180831 stable-20180831
-stretch-20181011
-stretch-20181011-slim 9.5
+stretch-20180831
+stretch-20181011-slim
 stretch-20181112
 stretch-20181112-slim
 stretch-20181226
 stretch-20181226-slim
 stretch-20190122
-stretch-20190122-slim
-stretch-20190204 stable-20190204-slim
+stretch-20190204
 stretch-20190204-slim
-stretch-20190228-slim stretch-20190228
+stretch-20190228
 stretch-20190326
 stretch-20190326-slim
 stretch-20190506
 stretch-20190506-slim
 stretch-20190610
-stretch-backports stretch-20190610-slim
-stretch-slim
+stretch-20190610-slim
+stretch-20190708
+stretch-backports stretch-20190708-slim
 testing
 testing-20170606
 testing-20170620
@@ -298,6 +319,7 @@ testing-20180213
 testing-20180312
 testing-20180426
 testing-20180625
+testing-20180716 stretch-20180716
 testing-20180831
 testing-20181011
 testing-20181011-slim
@@ -305,36 +327,35 @@ testing-20181112
 testing-20181112-slim
 testing-20181226
 testing-20181226-slim
-testing-20190122 9.6-slim
+testing-20190122
 testing-20190122-slim
 testing-20190204
 testing-20190204-slim
-testing-20190228
+testing-20190228 stretch-20190228-slim
 testing-20190228-slim
-testing-20190326 9.8-slim
-testing-20190326-slim
+testing-20190326-slim testing-20190326
 testing-20190506
+testing-20190506-slim
 testing-20190610
 testing-20190610-slim
-testing-backports
+testing-20190708
+testing-20190708-slim
 testing-slim
 unstable
+unstable-20170606 testing-backports
 unstable-20170620
 unstable-20170723
-unstable-20170907
 unstable-20171009
 unstable-20171210
 unstable-20180213
-unstable-20180312
 unstable-20180426
-unstable-20180625
-unstable-20180716 testing-20180716
+unstable-20180716
 unstable-20180831
 unstable-20181011
 unstable-20181011-slim
 unstable-20181112
 unstable-20181112-slim
-unstable-20181226
+unstable-20181226-slim unstable-20181226
 unstable-20190122
 unstable-20190122-slim
 unstable-20190204
@@ -343,29 +364,34 @@ unstable-20190228
 unstable-20190228-slim
 unstable-20190326
 unstable-20190326-slim
-unstable-20190506 testing-20190506-slim
-unstable-20190506-slim
+unstable-20190506-slim unstable-20190506
 unstable-20190610
 unstable-20190610-slim
+unstable-20190708
+unstable-20190708-slim
+unstable-slim
 wheezy
-wheezy-20170606 unstable-20170606
+wheezy-20170606
 wheezy-20170620
 wheezy-20170723
+wheezy-20170907 unstable-20170907
 wheezy-20171009
 wheezy-20171210
 wheezy-20180213
+wheezy-20180312 unstable-20180312
 wheezy-20180426
+wheezy-20180625 unstable-20180625
 wheezy-20180716
 wheezy-20180831
 wheezy-20181011
 wheezy-20181011-slim
-wheezy-20181112
-wheezy-20181226 unstable-20181226-slim
+wheezy-20181112-slim wheezy-20181112
+wheezy-20181226
 wheezy-20181226-slim
 wheezy-20190122
 wheezy-20190122-slim
-wheezy-20190204
+wheezy-20190204-slim wheezy-20190204
 wheezy-20190228
-wheezy-20190228-slim
-wheezy-slim wheezy-backports
- unstable-slim
+wheezy-20190228-slim wheezy-slim
+wheezy-backports
+ stretch-slim

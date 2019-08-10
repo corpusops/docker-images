@@ -128,5 +128,5 @@ before_install:
 script:
 - echo "building $IMAGES" >&2
 # for any released tags from where we did our last maintenance, get a chance to discover and build it
-- cd "$TRAVIS_BUILD_DIR" && if ( echo $IMAGES | grep -q leftover );then  $silent ./refresh_images.sh;fi
+- cd "$TRAVIS_BUILD_DIR" && if ( echo $IMAGES | grep -q leftover );then  rm -f */*/*/Dockerfile && $silent ./refresh_images.sh;fi
 - cd "$TRAVIS_BUILD_DIR" && export DO_RELEASE=1 && $silent ./build.sh $IMAGES

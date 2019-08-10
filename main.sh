@@ -272,6 +272,8 @@ library/opensuse
 library/solr
 library/mongo
 library/elasticsearch
+opensuse/tumbleweed
+opensuse/leap
 corpusops/pgrouting-bare
 corpusops/postgis-bare
 mailhog/mailhog
