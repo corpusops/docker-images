@@ -30,6 +30,8 @@ ver_ge() { [  "$2" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]; }
 ver_gt() { [ "$1" = "$2" ] && return 1 || ver_ge $1 $2; }
 ver_le() { [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]; }
 ver_lt() { [ "$1" = "$2" ] && return 1 || ver_le $1 $2; }
+join_by() { a="";s=$1;shift;for i in $@;do if [[ -z $a ]];then a="$(printf "$i")";else a="$(printf "$a$s$i")";fi;done;echo "$a"; }
+filter_last_line_but_keep_at_least_once() { lines="$@";if [ $( echo "$lines" | wc -l ) -gt 1 ];then echo "$lines"|sed -re '$ d';else echo "$lines";fi; }
 uniquify_string() {
     local pattern=$1
     shift
@@ -267,7 +269,10 @@ PROTECTED_VERSIONS=""
 default_images="
 corpusops/rsyslog
 "
-ONLY_ONE_MINOR="postgres|nginx|opensearch|elasticsearch"
+ONLY_LAST_MINOR="y"
+ONLY_ONE_MINOR="postgres|elasticsearch|nginx|bitwardenrs/server(-(mysql|postgresql))?"
+ONE_MINOR="elasticsearch"
+PROTECTED_VERSIONS=""
 PROTECTED_TAGS="corpusops/rsyslog"
 find_top_node_() {
     img=library/node
@@ -555,47 +560,72 @@ get_image_tags() {
         if [ ! -e "$TOPDIR/$n" ];then mkdir -p "$TOPDIR/$n";fi
         printf "$results\n" | xargs -n 1 | sed -e "s/ //g" | sort -V > "$t.raw"
     fi
-    # cleanup elastic minor images (keep latest)
-    atags="$(filter_tags "$(cat $t.raw)")"
-    changed=
+    atags="$(filter_tags "$(cat $t.raw|xargs -n1)")"
+    # cleanup minor images (keep latest minor only)
+    # if $ONLY_ONE_MINOR is set,  then for each flavor, test for each a.b.c version:
+    #   if $ONLY_LAST_MINOR is set:     keep only one minor amongst all subminors a.b version
+    #   if $ONLY_LAST_MINOR is not set: keep only one minor for all subminors a.b
+    # This works by calling this func which will update the $SKIPPED_TAGS variable,
+    #   then further calls to `is_skipped $tags` or `filter_tags $tags` will filter appropriate minor tags
+    local fatags="$(echo $atags | xargs -n1 | grep -E "^[0-9]+\.[0-9]+\.")"
+    debug "$n: initial atags/fatags: $(echo $atags)     ////     $(echo $fatags)"
+    local NB_LOOPS=1000; local EARLY_QUIT=30
     if [[ "x${ONLY_ONE_MINOR}" != "x" ]] && ( echo $n | grep -E -q "$ONLY_ONE_MINOR" );then
-        oomt=""
-        for ix in $(seq 0 99);do
-            if ! ( echo "$atags" | grep -E -q "^$ix\." );then continue;fi
-            for j in $(seq 0 99);do
-                if ! ( echo "$atags" | grep -E -q "^$ix\.${j}\." );then continue;fi
-                for flavor in "" \
-                    alpine alpine3.13 alpine3.14 alpine3.15 alpine3.16 alpine3.5 \
-                    trusty xenial bionic focal jammy noble \
-                    bookworm bullseye stretch buster jessie \
-                    ;do
-                    selected=""
-                    if [[ -z "$flavor" ]];then
-                        selected="$( (( echo "$atags" | grep -E "$ix\.$j\.[0-9]+$" )    || true )|sort -V )"
-                    else
-                        if ! ( echo "$atags" | grep -E -q "$ix\.$j\..*$flavor$" );then continue;fi
-                        for k in $(seq 0 99);do
-                            v=$( (( echo "$atags" | grep -E "$ix\.$j\.${k}.*$flavor$" ) || true )|sort -V )
-                            if [[ -n $v ]];then
-                                if [[ -n $selected ]];then selected="$selected $v";else selected="$v";fi
-                            fi
-                        done
+        flavors="alpine|alpine3.16|alpine3.15|alpine3.14|alpine3.13|alpine3.5|noble|jammy|focal|bionic|xenial|trusty|bookworm|bullseye|stretch|buster|jessie"
+        for flavor in $(echo $flavors | sed -re "s/[|]/ /g") "";do
+            notselected=""
+            if [[ -n $flavor ]];then
+                fvatags="$( ( echo "$fatags" | grep  -E ".*$flavor$"    || true ) | sort -V )"
+            else
+                fvatags="$( ( echo "$fatags" | grep -vE "^.*($flavors)$" || true ) | sort -V )"
+            fi
+            if [[ -z "$fvatags" ]];then debug "---> flavor: $flavor is nul / $(echo $fatags) / $(echo $fvatags)"; continue;fi
+            for ix in $(seq 0 $NB_LOOPS);do
+                f1atags="$( ( echo "$fvatags" | grep -E "^$ix\." ) || true )"
+                if [[ -z $f1atags ]];then
+                    # break ASAP first level loop, but do not overoptimize: only after a long while
+                    if [[ $ix -gt $EARLY_QUIT ]];then
+                        f1ratags="$(echo "$f1atags" | grep -E "^($(echo $(seq $ix $NB_LOOPS)|sed -re "s/ /|/g"))\.")"
+                        if [[ -z $f1ratags ]];then debug "Quit earlier1: $n/$flavor/$ix";break;fi
                     fi
-                    if [[ -n "$selected" ]];then
-                        for l in $(echo "$selected"|sed -e "$ d");do
-                            if [[ -z "${PROTECTED_VERSIONS}" ]] || ! ( echo "$n:$l" | grep "${PROTECTED_VERSIONS}" );then
-                                if [[ -z $oomt ]];then
-                                    oomt="$l$"
-                                else
-                                    oomt="$oomt|$l"
-                                fi
+                    continue
+                fi
+                for j in $(seq 0 $NB_LOOPS);do
+                    f2atags="$( ( echo "$f1atags" | grep -E "^$ix\.$j\." ) || true )"
+                    if [[ -z $f2atags ]];then
+                        # break ASAP second level loop, but do not overoptimize: only after a long while
+                        if [[ $j -gt $EARLY_QUIT ]];then
+                            f2ratags="$( ( echo "$f1atags" | grep -E "^$ix\.($(echo $(seq $j $NB_LOOPS)|sed -re "s/ /|/g"))\." ) || true)"
+                            if [[ -z $f2ratags ]];then debug "Quit earlier2: $n/$flavor/$ix/$j";break;fi
+                        fi
+                        continue
+                    fi
+                    mnotselected=""
+                    for k in $(seq 0 $NB_LOOPS);do
+                        f3atags="$( ( ( echo "$f2atags" | grep -E "^$ix\.$j\.${k}([^0-9].*$|$)" ) || true ) | xargs -n1 )"
+                        if [[ -z $f3atags ]];then
+                            # break ASAP third level loop, but do not overoptimize: only after a long while
+                            if [[ $k -gt $EARLY_QUIT ]];then
+                                f3ratags="$( ( echo "$f2atags" | grep -E "^$ix\.($(echo $(seq $j $NB_LOOPS)|sed -re "s/ /|/g"))\.($(echo $(seq $k $NB_LOOPS)|sed -re "s/ /|/g"))" ) || true)"
+                                if [[ -z $f3ratags ]];then debug "Quit earlier3: $n/$flavor/$ix/$j/$k";break;fi
                             fi
-                        done
+                            continue
+                        fi
+                        mnotselected="$(join_by " " "$mnotselected" $( for pt in $f3atags;do if [[ -z "${PROTECTED_VERSIONS}" ]] || ! ( echo "$n:$pt" | grep -q "${PROTECTED_VERSIONS}" );then echo $pt;fi;done ) )"
+                    done
+                    # if ONLY_ONE_MINOR is not set: keep one subminor per minor release
+                    if [[ -z "${ONLY_LAST_MINOR}" ]];then mnotselected=$(filter_last_line_but_keep_at_least_once "$(echo "${mnotselected}" | xargs -n1)");fi
+                    if [[ -n $mnotselected ]];then
+                        debug "mnotselected FOR $flavor $ix $j: $(echo $mnotselected)"
+                        notselected="$(join_by " " "$notselected" "${mnotselected}")"
                     fi
                 done
+                # if ONLY_ONE_MINOR is set: keep the latest subminor amongst all releases
+                if [[ -n "${ONLY_LAST_MINOR}" ]];then notselected=$(filter_last_line_but_keep_at_least_once "$(echo "${notselected}" | xargs -n1)");fi
             done
-            if [[ -n $oomt ]];then
-                SKIPPED_TAGS="$SKIPPED_TAGS|(($ONLY_ONE_MINOR):($oomt)$)"
+            if [[ -n $notselected ]];then
+                debug "flavor $flavor: notselected: $(echo $notselected)"
+                SKIPPED_TAGS="$SKIPPED_TAGS|(($ONLY_ONE_MINOR):($(join_by '|' $notselected ))$)"
             fi
         done
     fi
