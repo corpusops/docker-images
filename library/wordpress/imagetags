@@ -227,6 +227,10 @@ cli-2.2
 cli-2.2-php7.1
 cli-2.2-php7.2
 cli-2.2-php7.3
+cli-2.3
+cli-2.3-php7.1
+cli-2.3-php7.2
+cli-2.3-php7.3
 cli-php5.6
 cli-php7.0
 cli-php7.1

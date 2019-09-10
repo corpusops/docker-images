@@ -147,6 +147,10 @@ if [ -e /etc/fedora-release ];then
     # be sure to install locales
     yum install $yumopts -y glibc-common
 fi
+if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME" | egrep -iq alpine );then
+    log "Upgrading alpine"
+    apk upgrade --update-cache --available
+fi
 export FORCE_INSTALL=y
 DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
 install_gpg
