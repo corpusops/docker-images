@@ -1,4 +1,4 @@
-2 alpine3.9
+2
 2-alpine
 2-alpine3.4
 2-alpine3.6
@@ -10,7 +10,8 @@
 2-slim
 2-slim-buster
 2-slim-jessie 2-jessie
-2-stretch 2-slim-stretch
+2-slim-stretch
+2-stretch
 2-wheezy
 2-windowsservercore
 2-windowsservercore-1709
@@ -24,9 +25,8 @@
 2.7-alpine3.8 2-alpine3.8
 2.7-alpine3.9
 2.7-alpine3.10
-2.7-buster
 2.7-jessie
-2.7-slim
+2.7-slim 2.7-buster
 2.7-slim-buster
 2.7-slim-jessie
 2.7-slim-stretch
@@ -95,29 +95,29 @@
 2.7.15-windowsservercore-1803 2.7.15-windowsservercore-1709
 2.7.15-windowsservercore-1809
 2.7.15-windowsservercore-ltsc2016
-2.7.16 2.7-windowsservercore-ltsc2016
+2.7.16
+2.7.16-alpine
 2.7.16-alpine3.8
-2.7.16-alpine3.9
-2.7.16-alpine3.10 2.7.16-alpine
+2.7.16-alpine3.10
 2.7.16-buster
 2.7.16-jessie
 2.7.16-slim
 2.7.16-slim-buster
 2.7.16-slim-jessie
 2.7.16-slim-stretch
-2.7.16-stretch
-2.7.16-windowsservercore
+2.7.16-windowsservercore 2.7-windowsservercore-ltsc2016
 2.7.16-windowsservercore-1709
 2.7.16-windowsservercore-1803
 2.7.16-windowsservercore-1809
 2.7.16-windowsservercore-ltsc2016
-3
-3-alpine
+3 2.7.16-stretch
 3-alpine3.6
 3-alpine3.7
 3-alpine3.8
+3-alpine3.9
 3-alpine3.10
-3-buster 3-alpine3.9
+3-alpine 2.7.16-alpine3.9
+3-buster
 3-jessie 3.7-rc-windowsservercore
 3-onbuild
 3-slim
@@ -130,6 +130,7 @@
 3-windowsservercore-1709 3.7-windowsservercore-1709
 3-windowsservercore-1803
 3-windowsservercore-1809
+3-windowsservercore-ltsc2016
 3.2
 3.2-onbuild 3.2.6-onbuild
 3.2-slim
@@ -251,12 +252,12 @@
 3.5-alpine3.8
 3.5-alpine3.9
 3.5-alpine3.10
+3.5-buster
 3.5-jessie
 3.5-onbuild
-3.5-slim 3.5-buster
-3.5-slim-buster
+3.5-slim
 3.5-slim-jessie
-3.5-slim-stretch
+3.5-slim-stretch 3.5-slim-buster
 3.5-stretch
 3.5-windowsservercore
 3.5-windowsservercore-1709
@@ -319,19 +320,18 @@
 3.5.7-alpine3.10
 3.5.7-buster
 3.5.7-jessie
-3.5.7-slim-buster 3.5.7-slim
+3.5.7-slim
+3.5.7-slim-buster
 3.5.7-slim-jessie
 3.5.7-slim-stretch
 3.5.7-stretch
 3.6
-3.6-alpine
 3.6-alpine3.4
 3.6-alpine3.6
 3.6-alpine3.7
 3.6-alpine3.8
 3.6-alpine3.9
-3.6-alpine3.10
-3.6-buster
+3.6-alpine3.10 3.6-alpine
 3.6-onbuild
 3.6-rc
 3.6-rc-alpine
@@ -339,9 +339,10 @@
 3.6-rc-onbuild
 3.6-rc-slim
 3.6-rc-windowsservercore
-3.6-slim
+3.6-slim 3.6-buster
+3.6-slim-buster
 3.6-slim-jessie 3.6-jessie
-3.6-slim-stretch 3.6-slim-buster
+3.6-slim-stretch
 3.6-stretch
 3.6-windowsservercore
 3.6-windowsservercore-1709
@@ -500,12 +501,12 @@
 3.6.9-slim
 3.6.9-slim-buster
 3.6.9-slim-jessie
-3.6.9-stretch 3.6.9-slim-stretch
+3.6.9-slim-stretch
 3.6.9-windowsservercore
 3.6.9-windowsservercore-1803
 3.6.9-windowsservercore-1809
 3.6.9-windowsservercore-ltsc2016
-3.7 3-windowsservercore-ltsc2016
+3.7 3.6.9-stretch
 3.7-alpine
 3.7-alpine3.7
 3.7-alpine3.8
@@ -525,8 +526,7 @@
 3.7-slim-stretch
 3.7-stretch
 3.7-windowsservercore
-3.7-windowsservercore-1803
-3.7-windowsservercore-1809
+3.7-windowsservercore-1809 3.7-windowsservercore-1803
 3.7-windowsservercore-ltsc2016
 3.7.0
 3.7.0a1 3.7.0a1-windowsservercore
@@ -644,16 +644,16 @@
 3.7.3-windowsservercore-1809
 3.7.3-windowsservercore-ltsc2016
 3.7.4
-3.7.4-alpine3.9
-3.7.4-alpine3.10 3.7.4-alpine
+3.7.4-alpine
+3.7.4-alpine3.9 3.7.4-alpine3.10
 3.7.4-buster
 3.7.4-slim
-3.7.4-slim-buster
-3.7.4-slim-stretch
+3.7.4-slim-stretch 3.7.4-slim-buster
 3.7.4-stretch
 3.7.4-windowsservercore
 3.7.4-windowsservercore-1803
 3.7.4-windowsservercore-1809
+3.7.4-windowsservercore-ltsc2016
 3.8-rc
 3.8-rc-alpine
 3.8-rc-alpine3.9
@@ -663,11 +663,10 @@
 3.8-rc-slim-buster
 3.8-rc-slim-stretch
 3.8-rc-stretch
-3.8-rc-windowsservercore windowsservercore-ltsc2016
+3.8-rc-windowsservercore
 3.8-rc-windowsservercore-1709
 3.8-rc-windowsservercore-1803
 3.8-rc-windowsservercore-1809
-3.8-rc-windowsservercore-ltsc2016
 3.8.0a1
 3.8.0a1-alpine
 3.8.0a1-alpine3.9
@@ -717,55 +716,65 @@
 3.8.0b1-windowsservercore-1803 3.8.0b1-windowsservercore
 3.8.0b1-windowsservercore-1809
 3.8.0b1-windowsservercore-ltsc2016
-3.8.0b2 3.7.4-windowsservercore-ltsc2016
+3.8.0b2
 3.8.0b2-alpine
 3.8.0b2-alpine3.10
 3.8.0b2-buster
 3.8.0b2-slim
 3.8.0b2-slim-buster
-3.8.0b2-windowsservercore
-3.8.0b2-windowsservercore-1803
+3.8.0b2-windowsservercore-1803 3.8.0b2-windowsservercore
 3.8.0b2-windowsservercore-1809
 3.8.0b2-windowsservercore-ltsc2016
 3.8.0b3
-3.8.0b3-alpine3.10 3.8.0b3-alpine
+3.8.0b3-alpine
+3.8.0b3-alpine3.10
 3.8.0b3-buster
 3.8.0b3-slim
 3.8.0b3-slim-buster
 3.8.0b3-windowsservercore
 3.8.0b3-windowsservercore-1803
-3.8.0b3-windowsservercore-1809
-3.8.0b3-windowsservercore-ltsc2016
+3.8.0b3-windowsservercore-ltsc2016 3.8.0b3-windowsservercore-1809
+3.8.0b4
+3.8.0b4-alpine
+3.8.0b4-buster
+3.8.0b4-slim
+3.8.0b4-windowsservercore 3.8-rc-windowsservercore-ltsc2016
+3.8.0b4-windowsservercore-1803
+3.8.0b4-windowsservercore-1809
+3.8.0b4-windowsservercore-ltsc2016
 alpine
 alpine3.4 3-alpine3.4
 alpine3.8
+alpine3.9
 alpine3.10
-buster
+buster 3.8.0b4-slim-buster
 jessie
 latest
 onbuild
 rc
-rc-alpine
 rc-alpine3.6
 rc-alpine3.7
 rc-alpine3.9
 rc-alpine3.10
+rc-alpine 3.8.0b4-alpine3.10
 rc-buster
 rc-onbuild
 rc-slim
+rc-slim-buster
 rc-slim-stretch 3.8.0b1-slim-stretch
 rc-stretch
 rc-windowsservercore
 rc-windowsservercore-1709
-rc-windowsservercore-1809 rc-windowsservercore-1803
+rc-windowsservercore-1803
+rc-windowsservercore-1809
 rc-windowsservercore-ltsc2016
-slim-buster slim
+slim
+slim-buster
 slim-jessie
 slim-stretch
-stretch
 wheezy 
 windowsservercore
 windowsservercore-1709
-windowsservercore-1803
-windowsservercore-1809
- rc-slim-buster
+windowsservercore-1809 windowsservercore-1803
+windowsservercore-ltsc2016
+ stretch

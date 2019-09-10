@@ -111,7 +111,8 @@
 9.4.22-alpine
 9.4.23
 9.4.24
-9.5 9.4.24-alpine
+9.4.24-alpine
+9.5
 9.5-alpha1
 9.5-alpine
 9.5-beta1 9.5-alpha2
@@ -149,7 +150,6 @@
 9.5.19
 9.5.19-alpine
 9.6
-9.6-alpine
 9.6-beta1 9.5.2
 9.6-beta2
 9.6-beta3
@@ -181,7 +181,7 @@
 9.6.14
 9.6.14-alpine
 9.6.15
-9.6.15-alpine
+9.6.15-alpine 9.6-alpine
 10
 10-alpine
 10-beta1
@@ -232,8 +232,8 @@
 11.3-alpine
 11.4
 11.4-alpine
-11.5
-12 11.5-alpine
+11.5-alpine
+12 11.5
 12-alpine
 12-beta1 11.3
 12-beta1-alpine

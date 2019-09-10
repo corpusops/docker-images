@@ -66,6 +66,11 @@
 1.12-alpine3.10
 1.12-buster
 1.12-stretch
+1.13
+1.13-alpine
+1.13-alpine3.10
+1.13-buster
+1.13-stretch
 alpine
 alpine3.5
 alpine3.6
