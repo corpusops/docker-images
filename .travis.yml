@@ -1,6 +1,7 @@
 ---
 services: [docker]
 language: python
+git: {lfs_skip_smudge: true}
 env:
   global:
     - |
