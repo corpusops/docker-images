@@ -863,6 +863,7 @@ do_clean_tags() {
     log "Cleaning on $image"
     local tags=$(get_image_tags $image )
     debug "image: $image tags: $( echo $tags )"
+    if [[ -z "$1" ]];then echo "no image";exit 1;fi
     while read image;do
         local tag=$(basename $image)
         if ! ( echo "$tags" | egrep -q "^$tag$" );then
@@ -1167,6 +1168,10 @@ do_gen() {
     do_gen_travis
 }
 
+do_make_tags() {
+    make_tags $@
+}
+
 #  usage: show this help
 do_usage() {
     echo "$0:"
@@ -1177,9 +1182,10 @@ do_usage() {
     echo ""
 }
 
+
 do_main() {
     local args=${@:-usage}
-    local actions="refresh_corpusops|refresh_images|build|gen_travis|gen|list_images|clean_tags|get_namespace_tag"
+    local actions="make_tags|refresh_corpusops|refresh_images|build|gen_travis|gen|list_images|clean_tags|get_namespace_tag"
     actions="@($actions)"
     action=${1-};
     if [[ -n "$@" ]];then shift;fi
