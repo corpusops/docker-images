@@ -240,7 +240,8 @@ SKIP_WINDOWS="(.*(nanoserver|windows))"
 SKIP_MISC="(-?(on.?build)|pgrouting.*old)"
 SKIP_MINIO="(minio:[0-9]{4}-.{7})"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
-SKIPPED_TAGS="($SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
+SKIP_DOCKER="docker(\/|:)([0-9]+\.[0-9]+\.|17|18.0[1-6]|1$|1(\.|-)).*"
+SKIPPED_TAGS="($SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
 CURRENT_TS=$(date +%s)
 IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
 default_images="
@@ -600,6 +601,25 @@ library/ruby/2.4-alpine\
  library/wordpress/5-php7.3-apache\
  library/wordpress/4.9-php5.6-apache\
  seafileltd/seafile-mc/7.0.4::24
+library/docker/dind\
+ library/docker/dind-rootless\
+ library/docker/edge\
+ library/docker/edge-dind\
+ library/docker/experimental\
+ library/docker/experimental-dind\
+ library/docker/git\
+ library/docker/latest\
+ library/docker/rc\
+ library/docker/rc-dind\
+ library/docker/rc-dind-rootless\
+ library/docker/rc-experimental\
+ library/docker/rc-experimental-dind\
+ library/docker/stable\
+ library/docker/stable-dind\
+ library/docker/stable-dind-rootless\
+ library/docker/test\
+ library/docker/test-dind\
+ library/docker/test-dind-rootless::19
 "
 
 declare -A registry_tokens
