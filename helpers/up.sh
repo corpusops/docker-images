@@ -118,6 +118,25 @@ if [ "x$OAPTMIRROR" != "x" ];then
     sed -i -r -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
         $( find /etc/apt/sources.list* -type f; )
 fi
+# fix broken curl if needed
+curl_updated=
+if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
+    if ( dpkg -l libcurl3 );then
+        set -x
+        for i in curl libcurl3;do
+            if ( dpkg -l $i );then
+                dpkg --purge --force-all $i
+                if [ "x$curl_updated" = "x" ];then
+                    apt-get update -yqq
+                    curl_updated=1
+                fi
+            fi
+        done
+        if [ "x$curl_updated" != "x" ];then
+            apt-get -f -yqq install && apt-get install -yqq curl
+        fi
+    fi
+fi
 install_gpg() {
     ret=1
     for i in gpg gnupg
