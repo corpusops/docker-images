@@ -45,6 +45,7 @@
 
 | original  | corpusops  |
 |------------|-----------|
+| [library/docker](https://hub.docker.com/_/docker)([./library/docker](./library/docker))                                       | [corpusops/docker](https://hub.docker.com/r/corpusops/docke)         |
 | [library/alpine](https://hub.docker.com/_/alpine)([./library/alpine](./library/alpine))                                       | [corpusops/alpine-bare](https://hub.docker.com/r/corpusops/alpine-bare)         |
 | [library/centos](https://hub.docker.com/_/centos)([./library/centos](./library/centos))                                       | [corpusops/centos-bare](https://hub.docker.com/r/corpusops/centos-bare)         |
 | [library/debian](https://hub.docker.com/_/debian)([./library/debian](./library/debian))                                       | [corpusops/debian-bare](https://hub.docker.com/r/corpusops/debian-bare)         |
