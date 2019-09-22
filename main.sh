@@ -224,7 +224,7 @@ NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
 # SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
-SKIP_MINOR="((memcached|wordpress|nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mariadb|mysql|postgres|solr|mongo|rabbitmq):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
+SKIP_MINOR="((redmine|memcached|wordpress|nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mariadb|mysql|postgres|solr|mongo|rabbitmq):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
   SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mariadb|mysql|postgres|solr|elasticsearch|mongo|rabbitmq):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
 SKIP_OS="(((suse|centos|fedora|redhat|alpine|debian|ubuntu|oldstable|oldoldstable):.*[0-9]{8}.*)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|squeeze))"
@@ -619,7 +619,8 @@ library/docker/dind\
  library/docker/stable-dind-rootless\
  library/docker/test\
  library/docker/test-dind\
- library/docker/test-dind-rootless::19
+ library/docker/test-dind-rootless\
+ library/redmine/4-passenger::20
 "
 
 declare -A registry_tokens
