@@ -7,8 +7,8 @@ ARCH_BASE_PACKAGES="${ARCH_BASE_PACKAGES:-"tar gnutls systemd packer base-devel 
 if [ -e /etc/arch-release ];then
     # fix archlinux baseimage minimal tools
     pacman -Sy --noconfirm
-    pacman -Su  --force --noconfirm
-    pacman -S libidn2 --force --noconfirm
+    pacman -Su --noconfirm
+    pacman -S libidn2 --noconfirm
     pacman -S --noconfirm $ARCH_BASE_PACKAGES
 fi
 W="$(dirname $(readlink -f "$0"))"
