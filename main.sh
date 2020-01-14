@@ -303,7 +303,9 @@ NODE_TOP="$(echo $(find_top_node))"
 MAILU_VERSiON=1.6
 BATCHED_IMAGES="\
 library/ubuntu/latest\
+ library/ubuntu/focal\
  library/ubuntu/bionic\
+ library/ubuntu/20.04\
  library/ubuntu/18.04\
  library/ubuntu/16.04\
  library/ubuntu/xenial\
@@ -856,7 +858,7 @@ get_image_tags() {
             result=$( curl "${u}?page=${i}" 2>/dev/null \
                 | jq -r '."results"[]["name"]' 2>/dev/null )
             has_more=$?
-            if [[ -n "${result}}" ]];then results="${results} ${result}";fi
+            if [[ -n "${result}" ]];then results="${results} ${result}";else has_more=256;fi
         done
         if [ ! -e "$TOPDIR/$n" ];then mkdir -p "$TOPDIR/$n";fi
         printf "$results\n" | sort -V > "$t.raw"
