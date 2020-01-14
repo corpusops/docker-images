@@ -238,10 +238,11 @@ SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
 SKIP_MISC="(-?(on.?build)|pgrouting.*old)"
-SKIP_MINIO="(minio:[0-9]{4}-.{7})"
+SKIP_NODE="((node):.*alpine3\..?.?)"
+SKIP_MINIO="((minio|mc):(RELEASE.)?[0-9]{4}-.{7})"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
 SKIP_DOCKER="docker(\/|:)([0-9]+\.[0-9]+\.|17|18.0[1-6]|1$|1(\.|-)).*"
-SKIPPED_TAGS="($SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
+SKIPPED_TAGS="($SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
 CURRENT_TS=$(date +%s)
 IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
 default_images="
@@ -368,10 +369,10 @@ library/alpine/latest\
  library/node/lts-alpine\
  library/node/lts-slim-alpine\
  library/node/slim-alpine\
- library/node/10-alpine\
- library/node/10-slim-alpine\
- library/node/11-alpine\
- library/node/11-slim-alpine\
+ library/node/12-alpine\
+ library/node/12-slim-alpine\
+ library/node/13-alpine\
+ library/node/13-slim-alpine\
  library/ruby/alpine\
  library/ruby/slim-alpine\
  library/ruby/1-alpine\

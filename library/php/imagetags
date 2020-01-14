@@ -83,6 +83,7 @@
 7-alpine3.8
 7-alpine3.9
 7-alpine3.10
+7-alpine3.11
 7-apache
 7-apache-buster
 7-apache-jessie
@@ -96,6 +97,7 @@
 7-cli-alpine3.8
 7-cli-alpine3.9
 7-cli-alpine3.10
+7-cli-alpine3.11
 7-cli-buster
 7-cli-jessie
 7-cli-stretch
@@ -107,6 +109,7 @@
 7-fpm-alpine3.8
 7-fpm-alpine3.9
 7-fpm-alpine3.10
+7-fpm-alpine3.11
 7-fpm-buster
 7-fpm-jessie
 7-fpm-stretch
@@ -120,6 +123,7 @@
 7-zts-alpine3.8
 7-zts-alpine3.9
 7-zts-alpine3.10
+7-zts-alpine3.11
 7-zts-buster
 7-zts-jessie
 7-zts-stretch
@@ -201,6 +205,7 @@
 7.2-alpine3.8
 7.2-alpine3.9
 7.2-alpine3.10
+7.2-alpine3.11
 7.2-apache
 7.2-apache-buster
 7.2-apache-stretch
@@ -212,6 +217,7 @@
 7.2-cli-alpine3.8
 7.2-cli-alpine3.9
 7.2-cli-alpine3.10
+7.2-cli-alpine3.11
 7.2-cli-buster
 7.2-cli-stretch
 7.2-fpm
@@ -221,6 +227,7 @@
 7.2-fpm-alpine3.8
 7.2-fpm-alpine3.9
 7.2-fpm-alpine3.10
+7.2-fpm-alpine3.11
 7.2-fpm-buster
 7.2-fpm-stretch
 7.2-stretch
@@ -231,6 +238,7 @@
 7.2-zts-alpine3.8
 7.2-zts-alpine3.9
 7.2-zts-alpine3.10
+7.2-zts-alpine3.11
 7.2-zts-buster
 7.2-zts-stretch
 7.3
@@ -238,6 +246,7 @@
 7.3-alpine3.8
 7.3-alpine3.9
 7.3-alpine3.10
+7.3-alpine3.11
 7.3-apache
 7.3-apache-buster
 7.3-apache-stretch
@@ -247,6 +256,7 @@
 7.3-cli-alpine3.8
 7.3-cli-alpine3.9
 7.3-cli-alpine3.10
+7.3-cli-alpine3.11
 7.3-cli-buster
 7.3-cli-stretch
 7.3-fpm
@@ -254,6 +264,7 @@
 7.3-fpm-alpine3.8
 7.3-fpm-alpine3.9
 7.3-fpm-alpine3.10
+7.3-fpm-alpine3.11
 7.3-fpm-buster
 7.3-fpm-stretch
 7.3-stretch
@@ -262,8 +273,31 @@
 7.3-zts-alpine3.8
 7.3-zts-alpine3.9
 7.3-zts-alpine3.10
+7.3-zts-alpine3.11
 7.3-zts-buster
 7.3-zts-stretch
+7.4
+7.4-alpine
+7.4-alpine3.10
+7.4-alpine3.11
+7.4-apache
+7.4-apache-buster
+7.4-buster
+7.4-cli
+7.4-cli-alpine
+7.4-cli-alpine3.10
+7.4-cli-alpine3.11
+7.4-cli-buster
+7.4-fpm
+7.4-fpm-alpine
+7.4-fpm-alpine3.10
+7.4-fpm-alpine3.11
+7.4-fpm-buster
+7.4-zts
+7.4-zts-alpine
+7.4-zts-alpine3.10
+7.4-zts-alpine3.11
+7.4-zts-buster
 alpine
 alpine3.4
 alpine3.6
@@ -271,6 +305,7 @@ alpine3.7
 alpine3.8
 alpine3.9
 alpine3.10
+alpine3.11
 apache
 apache-buster
 apache-jessie
@@ -284,6 +319,7 @@ cli-alpine3.7
 cli-alpine3.8
 cli-alpine3.9
 cli-alpine3.10
+cli-alpine3.11
 cli-buster
 cli-jessie
 cli-stretch
@@ -295,6 +331,7 @@ fpm-alpine3.7
 fpm-alpine3.8
 fpm-alpine3.9
 fpm-alpine3.10
+fpm-alpine3.11
 fpm-buster
 fpm-jessie
 fpm-stretch
@@ -309,6 +346,7 @@ zts-alpine3.7
 zts-alpine3.8
 zts-alpine3.9
 zts-alpine3.10
+zts-alpine3.11
 zts-buster
 zts-jessie
 zts-stretch
