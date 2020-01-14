@@ -1,7 +1,6 @@
 1.1
-1.1-alpine v1.1-alpine
+1.1-alpine
 1.1.2
-1.1.2-alpine
 1.2
 1.2-alpine
 1.2.0
@@ -9,27 +8,34 @@
 1.2.0-rc1
 1.2.0-rc1-alpine
 1.2.0-rc2
+1.2.0-rc2-alpine v1.2.0-rc2-alpine
 1.2.1
 1.2.1-alpine
+1.2.2 v1.2.2
 1.2.2-alpine
 1.2.3
-1.2.3-alpine v1.2.3-alpine
+1.2.3-alpine
 1.3
+1.3-alpine v1.3-alpine
 1.3.0
 1.3.0-alpine
 1.3.0-rc1
 1.3.0-rc1-alpine
 1.3.0-rc2
+1.3.0-rc2-alpine v1.3.0-rc2-alpine
 1.3.0-rc3
 1.3.0-rc3-alpine
+1.3.1 v1.3.1
 1.3.1-alpine
 1.3.2
 1.3.2-alpine
 1.3.3
+1.3.3-alpine v1.3.3-alpine
 1.3.4
 1.3.4-alpine
 1.3.5
 1.3.5-alpine
+1.3.6 v1.3.6
 1.3.6-alpine
 1.3.7
 1.3.7-alpine
@@ -37,38 +43,45 @@
 1.3.8-alpine
 1.4
 1.4-alpine
+1.4.0 v1.4.0
 1.4.0-alpine
 1.4.0-rc1
+1.4.0-rc1-alpine v1.4.0-rc1-alpine
 1.4.0-rc2
 1.4.0-rc2-alpine
 1.4.0-rc3
 1.4.0-rc3-alpine
 1.4.0-rc4
+1.4.0-rc4-alpine v1.4.0-rc4-alpine
 1.4.0-rc5
 1.4.0-rc5-alpine
 1.4.1
 1.4.1-alpine
 1.4.2
 1.4.2-alpine
+1.4.3 v1.4.3
 1.4.3-alpine
 1.4.4
+1.4.4-alpine v1.4.4-alpine
 1.4.5
 1.4.5-alpine
 1.4.6
 1.4.6-alpine
-1.5-alpine
+1.5 v1.5
 1.5.0
 1.5.0-alpine
 1.5.0-rc1
 1.5.0-rc1-alpine
 1.5.0-rc2
 1.5.0-rc2-alpine
+1.5.0-rc3 v1.5.0-rc3
 1.5.0-rc3-alpine
-1.5.0-rc4
-1.5.0-rc4-alpine v1.5.0-rc4-alpine
+1.5.0-rc4-alpine
 1.5.0-rc5
+1.5.0-rc5-alpine v1.5.0-rc5-alpine
 1.5.1
 1.5.1-alpine
+1.5.2 v1.5.2
 1.5.2-alpine
 1.5.3
 1.5.3-alpine
@@ -76,7 +89,6 @@
 1.5.4-alpine
 1.6
 1.6-alpine
-1.6-nanoserver
 1.6-nanoserver-sac2016
 1.6.0
 1.6.0-alpine
@@ -86,35 +98,42 @@
 1.6.0-rc2-alpine
 1.6.0-rc3
 1.6.0-rc3-alpine
+1.6.0-rc4 v1.6.0-rc4
 1.6.0-rc4-alpine
 1.6.0-rc5
 1.6.0-rc5-alpine
 1.6.0-rc6
+1.6.0-rc6-alpine v1.6.0-rc6-alpine
 1.6.1
 1.6.1-alpine
+1.6.2 v1.6.2
 1.6.2-alpine
 1.6.3
 1.6.3-alpine
+1.6.4 v1.6.4
 1.6.4-alpine
 1.6.5
 1.6.5-alpine
 1.6.6
-1.6.6-alpine
 1.6.6-nanoserver
 1.6.6-nanoserver-sac2016
 1.7
-1.7-alpine
 1.7-nanoserver
 1.7-nanoserver-sac2016
+1.7-windowsservercore-1809
 1.7.0
+1.7.0-alpine v1.7.0-alpine
 1.7.0-nanoserver
 1.7.0-nanoserver-sac2016
 1.7.0-rc1
 1.7.0-rc1-alpine
 1.7.0-rc2
+1.7.0-rc2-alpine v1.7.0-rc2-alpine
 1.7.0-rc3
 1.7.0-rc3-alpine
 1.7.0-rc3-nanoserver
+1.7.0-rc3-nanoserver-sac2016 v1.7.0-rc3-nanoserver-sac2016
+1.7.0-rc4 v1.7.0-rc4
 1.7.0-rc4-alpine
 1.7.0-rc4-nanoserver
 1.7.0-rc4-nanoserver-sac2016
@@ -124,57 +143,81 @@
 1.7.0-rc5-nanoserver-sac2016
 1.7.1
 1.7.1-alpine
+1.7.1-nanoserver v1.7.1-nanoserver
 1.7.1-nanoserver-sac2016
 1.7.2
 1.7.2-alpine
 1.7.2-nanoserver
+1.7.2-nanoserver-sac2016 v1.7.2-nanoserver-sac2016
 1.7.3
 1.7.3-alpine
 1.7.3-nanoserver
 1.7.3-nanoserver-sac2016
 1.7.4
 1.7.4-alpine
+1.7.4-nanoserver v1.7.4-nanoserver
 1.7.4-nanoserver-sac2016
 1.7.5
 1.7.5-alpine
 1.7.5-nanoserver
+1.7.5-nanoserver-sac2016 v1.7.5-nanoserver-sac2016
 1.7.6
 1.7.6-alpine
-1.7.6-nanoserver-sac2016 1.7.6-nanoserver
+1.7.6-nanoserver v1.7.6-nanoserver
+1.7.6-nanoserver-sac2016
 1.7.7
+1.7.7-alpine v1.7.7-alpine
 1.7.7-nanoserver
 1.7.7-nanoserver-sac2016
 1.7.8
 1.7.8-alpine
 1.7.8-nanoserver
 1.7.8-nanoserver-sac2016
+1.7.9 v1.7.9
 1.7.9-alpine
 1.7.9-nanoserver
 1.7.9-nanoserver-sac2016
 1.7.10
 1.7.10-alpine
 1.7.10-nanoserver
+1.7.10-nanoserver-sac2016 v1.7.10-nanoserver-sac2016
 1.7.11
 1.7.11-alpine
-1.7.11-nanoserver
-1.7.11-nanoserver-sac2016
-1.7.12-alpine
-1.7.12-nanoserver 1.7.12
+1.7.12 1.7.11-nanoserver-sac2016
+1.7.12-nanoserver
 1.7.13
 1.7.13-alpine
-1.7.13-nanoserver
+1.7.13-nanoserver-sac2016 1.7.13-nanoserver
 1.7.14
+1.7.14-alpine
 1.7.14-nanoserver
 1.7.14-nanoserver-sac2016
-2.0 v2.0.0-rc2-nanoserver-sac2016
+1.7.15 v2.0.0-rc3-alpine
+1.7.15-alpine
+1.7.16
+1.7.16-alpine
+1.7.16-windowsservercore-1809
+1.7.17-alpine 1.7.17
+1.7.17-windowsservercore-1809
+1.7.18
+1.7.18-alpine
+1.7.19
+1.7.19-alpine
+1.7.19-windowsservercore-1809
+1.7.20 1.7-alpine
+1.7.20-alpine
+2.0
 2.0-alpine
-2.0-nanoserver
-2.0-nanoserver-sac2016
+2.0-nanoserver-sac2016 2.0-nanoserver
+2.0-windowsservercore-1809 1.7.20-windowsservercore-1809
+2.0.0
 2.0.0-alpha1
+2.0.0-alpha1-alpine v2.0.0-alpha1-alpine
 2.0.0-alpha1-nanoserver
 2.0.0-alpha1-nanoserver-sac2016
 2.0.0-alpha2
 2.0.0-alpha2-alpine
+2.0.0-alpha2-nanoserver v2.0.0-alpha2-nanoserver
 2.0.0-alpha2-nanoserver-sac2016
 2.0.0-alpha3
 2.0.0-alpha3-alpine
@@ -182,14 +225,16 @@
 2.0.0-alpha3-nanoserver-sac2016
 2.0.0-alpha4
 2.0.0-alpha4-alpine
-2.0.0-alpha4-nanoserver-sac2016 2.0.0-alpha4-nanoserver
-2.0.0-alpha6-alpine 2.0.0-alpha6
+2.0.0-alpha4-nanoserver 1.7.11-nanoserver
+2.0.0-alpha4-nanoserver-sac2016
+2.0.0-alpha6 1.7.12-alpine
+2.0.0-alpha6-alpine
 2.0.0-alpha6-nanoserver
 2.0.0-alpha6-nanoserver-sac2016
 2.0.0-alpha7
 2.0.0-alpha7-alpine
-2.0.0-alpha7-nanoserver
-2.0.0-alpha8 v2.0.0-alpha8-nanoserver-sac2016
+2.0.0-alpha7-nanoserver-sac2016 2.0.0-alpha7-nanoserver
+2.0.0-alpha8
 2.0.0-alpha8-alpine
 2.0.0-alpha8-nanoserver
 2.0.0-alpha8-nanoserver-sac2016
@@ -200,192 +245,202 @@
 2.0.0-rc1
 2.0.0-rc1-alpine
 2.0.0-rc1-nanoserver
+2.0.0-rc1-nanoserver-sac2016
 2.0.0-rc2
-2.0.0-rc2-nanoserver 2.0.0-rc2-alpine
+2.0.0-rc2-alpine
+2.0.0-rc2-nanoserver
 2.0.0-rc2-nanoserver-sac2016
 2.0.0-rc3
 2.0.0-rc3-alpine
-alpine 1.7.14-alpine
+2.0.0-rc4
+2.0.0-rc4-windowsservercore-1809
+2.0.0-windowsservercore-1809
+2.0.1
+2.0.1-windowsservercore-1809
+2.0.2
+2.0.2-windowsservercore-1809 1.7.18-windowsservercore-1809
+2.0.4
+2.0.5
+2.0.6-windowsservercore-1809
+2.0.7
+2.0.7-windowsservercore-1809
+2.1
+2.1.0 v2.1.0-rc3-windowsservercore-1809
+2.1.0-rc2
+2.1.0-rc2-windowsservercore-1809
+2.1.0-rc3 2.0.6
+2.1.0-rc3-windowsservercore-1809
+2.1.0-windowsservercore-1809
+2.1.1
+2.1.1-windowsservercore-1809
+2.1.2 2.1-windowsservercore-1809
+2.1.2-windowsservercore-1809
+alpine
 camembert
 camembert-alpine
-cancoillotte 1.5
-faisselle
-faisselle-nanoserver faisselle-alpine
+cancoillotte
+cancoillotte-alpine 1.5-alpine
+cantal
+cantal-windowsservercore-1809
+faisselle-alpine faisselle
+faisselle-nanoserver
 faisselle-nanoserver-sac2016
-latest
 maroilles
 maroilles-alpine
-maroilles-nanoserver
+maroilles-nanoserver-sac2016 maroilles-nanoserver
+maroilles-windowsservercore-1809
 montdor
 montdor-alpine
 montdor-nanoserver
 montdor-nanoserver-sac2016
-morbier
+montdor-windowsservercore-1809
 morbier-alpine
-nanoserver maroilles-nanoserver-sac2016
+nanoserver
 nanoserver-sac2016
 raclette
-raclette-alpine 1.3-alpine
-reblochon v1.1.1-alpine
+raclette-alpine
+reblochon
 roquefort
 roquefort-alpine
 tetedemoine
-tetedemoine-alpine v1.6-alpine
+tetedemoine-alpine
+tetedemoine-nanoserver 1.6-nanoserver
 tetedemoine-nanoserver-sac2016
+v1.0.0 v1.0.0-rc3
 v1.0.0-beta.392
 v1.0.0-beta.404
 v1.0.0-beta.704
-v1.0.0-rc1 
+v1.0.0-rc1
 v1.0.0-rc2
-v1.0.0-rc3
-v1.0.1 v1.0.0
+v1.0.1
 v1.0.2
 v1.0.3
 v1.1
+v1.1-alpine 1.1.2-alpine
 v1.1.0
 v1.1.0-alpine
 v1.1.0-rc1
 v1.1.0-rc2
 v1.1.0-rc3
 v1.1.0-rc4
-v1.1.1
+v1.1.1-alpine v1.1.1
 v1.1.2
 v1.1.2-alpine
 v1.2
 v1.2-alpine
-v1.2.0 1.2.0-rc2-alpine
+v1.2.0
 v1.2.0-alpine
 v1.2.0-rc1
 v1.2.0-rc1-alpine
 v1.2.0-rc2
-v1.2.0-rc2-alpine
 v1.2.1
 v1.2.1-alpine
-v1.2.2
-v1.2.2-alpine 1.2.2
+v1.2.2-alpine
 v1.2.3
+v1.2.3-alpine morbier
 v1.3
-v1.3-alpine
 v1.3.0
 v1.3.0-alpine
 v1.3.0-rc1
 v1.3.0-rc1-alpine
 v1.3.0-rc2
-v1.3.0-rc2-alpine
-v1.3.0-rc3 1.3.0-rc2-alpine
+v1.3.0-rc3
 v1.3.0-rc3-alpine
-v1.3.1
-v1.3.1-alpine 1.3.1
+v1.3.1-alpine
 v1.3.2
 v1.3.2-alpine
 v1.3.3
-v1.3.3-alpine
-v1.3.4 1.3.3-alpine
+v1.3.4
 v1.3.4-alpine
 v1.3.5
 v1.3.5-alpine
-v1.3.6
-v1.3.6-alpine 1.3.6
+v1.3.6-alpine
 v1.3.7
 v1.3.7-alpine
 v1.3.8
 v1.3.8-alpine
 v1.4
 v1.4-alpine
-v1.4.0
 v1.4.0-alpine
 v1.4.0-rc1
-v1.4.0-rc1-alpine
-v1.4.0-rc2 1.4.0-rc1-alpine
+v1.4.0-rc2
 v1.4.0-rc2-alpine
 v1.4.0-rc3
 v1.4.0-rc3-alpine
-v1.4.0-rc4 1.4.0-rc4-alpine
-v1.4.0-rc4-alpine
+v1.4.0-rc4
 v1.4.0-rc5
 v1.4.0-rc5-alpine
-v1.4.1 1.4.0
+v1.4.1
 v1.4.1-alpine
 v1.4.2
 v1.4.2-alpine
-v1.4.3
-v1.4.3-alpine 1.4.3
+v1.4.3-alpine
 v1.4.4
-v1.4.4-alpine
 v1.4.5
 v1.4.5-alpine
 v1.4.6
 v1.4.6-alpine
-v1.5
 v1.5-alpine
-v1.5.0 1.5.0-rc5-alpine
+v1.5.0
 v1.5.0-alpine
 v1.5.0-rc1
 v1.5.0-rc1-alpine
-v1.5.0-rc2 1.4.4-alpine
+v1.5.0-rc2
 v1.5.0-rc2-alpine
-v1.5.0-rc3
-v1.5.0-rc3-alpine 1.5.0-rc3
+v1.5.0-rc3-alpine
 v1.5.0-rc4
+v1.5.0-rc4-alpine 1.5.0-rc4
 v1.5.0-rc5
-v1.5.0-rc5-alpine
 v1.5.1
 v1.5.1-alpine
-v1.5.2
-v1.5.2-alpine 1.5.2
+v1.5.2-alpine
 v1.5.3
 v1.5.3-alpine
 v1.5.4
 v1.5.4-alpine
 v1.6
+v1.6-alpine 1.6.6-alpine
 v1.6-nanoserver
 v1.6-nanoserver-sac2016
-v1.6.0 1.6.0-rc6-alpine
+v1.6.0
 v1.6.0-alpine
 v1.6.0-rc1
 v1.6.0-rc1-alpine
-v1.6.0-rc2 cancoillotte-alpine
+v1.6.0-rc2
 v1.6.0-rc2-alpine
 v1.6.0-rc3
 v1.6.0-rc3-alpine
-v1.6.0-rc4
-v1.6.0-rc4-alpine 1.6.0-rc4
+v1.6.0-rc4-alpine
 v1.6.0-rc5
 v1.6.0-rc5-alpine
 v1.6.0-rc6
-v1.6.0-rc6-alpine
 v1.6.1
 v1.6.1-alpine
-v1.6.2
-v1.6.2-alpine 1.6.2
+v1.6.2-alpine
 v1.6.3
 v1.6.3-alpine
-v1.6.4
 v1.6.4-alpine
 v1.6.5
 v1.6.5-alpine
-v1.6.6 1.7.0-rc3-nanoserver-sac2016
+v1.6.6
 v1.6.6-alpine
 v1.6.6-nanoserver
-v1.6.6-nanoserver-sac2016 tetedemoine-nanoserver
+v1.6.6-nanoserver-sac2016
 v1.7
 v1.7-alpine
 v1.7-nanoserver
 v1.7-nanoserver-sac2016
+v1.7-windowsservercore-1809
 v1.7.0
-v1.7.0-alpine
-v1.7.0-nanoserver 1.7.0-alpine
+v1.7.0-nanoserver
 v1.7.0-nanoserver-sac2016
-v1.7.0-rc1 1.6.4
+v1.7.0-rc1
 v1.7.0-rc1-alpine
 v1.7.0-rc2
-v1.7.0-rc2-alpine
-v1.7.0-rc3 1.7.0-rc2-alpine
+v1.7.0-rc3
 v1.7.0-rc3-alpine
 v1.7.0-rc3-nanoserver
-v1.7.0-rc3-nanoserver-sac2016
-v1.7.0-rc4
-v1.7.0-rc4-alpine 1.7.0-rc4
+v1.7.0-rc4-alpine
 v1.7.0-rc4-nanoserver
 v1.7.0-rc4-nanoserver-sac2016
 v1.7.0-rc5
@@ -394,44 +449,36 @@ v1.7.0-rc5-nanoserver
 v1.7.0-rc5-nanoserver-sac2016
 v1.7.1
 v1.7.1-alpine
-v1.7.1-nanoserver
-v1.7.1-nanoserver-sac2016 1.7.1-nanoserver
+v1.7.1-nanoserver-sac2016
 v1.7.2
 v1.7.2-alpine
 v1.7.2-nanoserver
-v1.7.2-nanoserver-sac2016
-v1.7.3 1.7.2-nanoserver-sac2016
+v1.7.3
 v1.7.3-alpine
 v1.7.3-nanoserver
 v1.7.3-nanoserver-sac2016
 v1.7.4
 v1.7.4-alpine
-v1.7.4-nanoserver
-v1.7.4-nanoserver-sac2016 1.7.4-nanoserver
-v1.7.5 1.7.5-nanoserver-sac2016
+v1.7.4-nanoserver-sac2016
+v1.7.5
 v1.7.5-alpine
 v1.7.5-nanoserver
-v1.7.5-nanoserver-sac2016
 v1.7.6
 v1.7.6-alpine
-v1.7.6-nanoserver
 v1.7.6-nanoserver-sac2016
 v1.7.7
-v1.7.7-alpine
 v1.7.7-nanoserver
 v1.7.7-nanoserver-sac2016
 v1.7.8
 v1.7.8-alpine
-v1.7.8-nanoserver 1.7.7-alpine
+v1.7.8-nanoserver
 v1.7.8-nanoserver-sac2016
-v1.7.9
 v1.7.9-alpine
-v1.7.9-nanoserver 1.7.9
+v1.7.9-nanoserver
 v1.7.9-nanoserver-sac2016
 v1.7.10
 v1.7.10-alpine
 v1.7.10-nanoserver
-v1.7.10-nanoserver-sac2016
 v1.7.11
 v1.7.11-alpine
 v1.7.11-nanoserver
@@ -439,27 +486,42 @@ v1.7.11-nanoserver-sac2016
 v1.7.12
 v1.7.12-alpine
 v1.7.12-nanoserver
-v1.7.13 1.7.13-nanoserver-sac2016
+v1.7.13
 v1.7.13-alpine
 v1.7.13-nanoserver
 v1.7.13-nanoserver-sac2016
-v1.7.14
-v1.7.14-alpine
+v1.7.14-alpine v1.7.14
 v1.7.14-nanoserver
 v1.7.14-nanoserver-sac2016
+v1.7.15
+v1.7.15-alpine
+v1.7.16
+v1.7.16-windowsservercore-1809
+v1.7.17
+v1.7.17-alpine
+v1.7.17-windowsservercore-1809
+v1.7.18
+v1.7.18-alpine
+v1.7.18-windowsservercore-1809
+v1.7.19
+v1.7.19-alpine
+v1.7.19-windowsservercore-1809 2.0.5-windowsservercore-1809
+v1.7.20
+v1.7.20-alpine
+v1.7.20-windowsservercore-1809
 v2.0
 v2.0-alpine
 v2.0-nanoserver
 v2.0-nanoserver-sac2016
+v2.0-windowsservercore-1809
+v2.0.0
 v2.0.0-alpha1
-v2.0.0-alpha1-alpine
-v2.0.0-alpha1-nanoserver 2.0.0-alpha1-alpine
+v2.0.0-alpha1-nanoserver
 v2.0.0-alpha1-nanoserver-sac2016
 v2.0.0-alpha2
 v2.0.0-alpha2-alpine
-v2.0.0-alpha2-nanoserver
-v2.0.0-alpha2-nanoserver-sac2016 2.0.0-alpha2-nanoserver
-v2.0.0-alpha3 1.7.10-nanoserver-sac2016
+v2.0.0-alpha2-nanoserver-sac2016
+v2.0.0-alpha3
 v2.0.0-alpha3-alpine
 v2.0.0-alpha3-nanoserver
 v2.0.0-alpha3-nanoserver-sac2016
@@ -471,23 +533,50 @@ v2.0.0-alpha6
 v2.0.0-alpha6-alpine
 v2.0.0-alpha6-nanoserver
 v2.0.0-alpha6-nanoserver-sac2016
-v2.0.0-alpha7 2.0.0-alpha7-nanoserver-sac2016
+v2.0.0-alpha7
 v2.0.0-alpha7-alpine
 v2.0.0-alpha7-nanoserver
 v2.0.0-alpha7-nanoserver-sac2016
 v2.0.0-alpha8
 v2.0.0-alpha8-alpine
-v2.0.0-alpha8-nanoserver
+v2.0.0-alpha8-nanoserver-sac2016 v2.0.0-alpha8-nanoserver
 v2.0.0-beta1
 v2.0.0-beta1-alpine
 v2.0.0-beta1-nanoserver
 v2.0.0-beta1-nanoserver-sac2016
 v2.0.0-rc1
 v2.0.0-rc1-alpine
-v2.0.0-rc1-nanoserver 2.0.0-rc1-nanoserver-sac2016
+v2.0.0-rc1-nanoserver
 v2.0.0-rc1-nanoserver-sac2016
-v2.0.0-rc2
-v2.0.0-rc2-alpine
+v2.0.0-rc2-alpine v2.0.0-rc2
 v2.0.0-rc2-nanoserver
+v2.0.0-rc2-nanoserver-sac2016
 v2.0.0-rc3
- v2.0.0-rc3-alpine
+v2.0.0-rc4 v1.7.16-alpine
+v2.0.0-rc4-windowsservercore-1809
+v2.0.0-windowsservercore-1809
+v2.0.1
+v2.0.1-windowsservercore-1809
+v2.0.2
+v2.0.2-windowsservercore-1809
+v2.0.4
+v2.0.4-windowsservercore-1809 2.0.4-windowsservercore-1809
+v2.0.5
+v2.0.5-windowsservercore-1809
+v2.0.6
+v2.0.6-windowsservercore-1809
+v2.0.7
+v2.0.7-windowsservercore-1809
+v2.1
+v2.1-windowsservercore-1809
+v2.1.0
+v2.1.0-rc2
+v2.1.0-rc2-windowsservercore-1809
+v2.1.0-rc3
+v2.1.0-windowsservercore-1809
+v2.1.1
+v2.1.1-windowsservercore-1809
+v2.1.2
+v2.1.2-windowsservercore-1809
+windowsservercore-1809
+ latest

@@ -6,6 +6,7 @@
 1-alpine3.8
 1-alpine3.9
 1-alpine3.10
+1-alpine3.11
 1-buster
 1-cross
 1-jessie
@@ -64,11 +65,13 @@
 1.12-alpine
 1.12-alpine3.9
 1.12-alpine3.10
+1.12-alpine3.11
 1.12-buster
 1.12-stretch
 1.13
 1.13-alpine
 1.13-alpine3.10
+1.13-alpine3.11
 1.13-buster
 1.13-stretch
 alpine
@@ -78,6 +81,7 @@ alpine3.7
 alpine3.8
 alpine3.9
 alpine3.10
+alpine3.11
 buster
 cross
 jessie
