@@ -1,8 +1,6 @@
 0
 0-onbuild
-0-slim 0.12-slim
 0-wheezy
-0.8 0.12.3-onbuild
 0.8-onbuild
 0.8-slim
 0.8-wheezy
@@ -12,37 +10,35 @@
 0.8.28-wheezy
 0.10
 0.10-onbuild
-0.10-slim 0.10.48-slim
 0.10-wheezy
-0.10.28
+0.10.28 0.10.34-slim
 0.10.30
 0.10.30-onbuild
 0.10.31
 0.10.31-onbuild
 0.10.32
 0.10.32-onbuild
-0.10.33 0.12.0
-0.10.33-onbuild
+0.10.32-slim
+0.10.33-onbuild 0.10.33
+0.10.33-slim
 0.10.34
 0.10.34-onbuild
-0.10.34-slim 0.10.33-slim
-0.10.35 0.10.32-slim
 0.10.35-onbuild
 0.10.35-slim
+0.10.36
 0.10.36-onbuild
-0.10.36-slim 0.10.36
 0.10.36-wheezy
 0.10.37
 0.10.37-onbuild
-0.10.37-slim
+0.10.37-slim 0.10.36-slim
 0.10.37-wheezy
 0.10.38
-0.10.38-slim 0.10.38-onbuild
+0.10.38-onbuild
 0.10.38-wheezy
 0.10.39
-0.10.39-slim 0.10.39-onbuild
-0.10.39-wheezy
-0.10.40
+0.10.39-onbuild
+0.10.39-wheezy 0.10.39-slim
+0.10.40 0.12.7-wheezy
 0.10.40-onbuild
 0.10.40-slim
 0.10.40-wheezy
@@ -50,14 +46,14 @@
 0.10.41-onbuild
 0.10.41-slim
 0.10.41-wheezy
+0.10.42
 0.10.42-onbuild
-0.10.42-slim 0.10.42
-0.10.42-wheezy
+0.10.42-wheezy 0.10.42-slim
 0.10.43
 0.10.43-onbuild
-0.10.43-wheezy 0.10.43-slim
-0.10.44-onbuild 0.10.44
-0.10.44-slim
+0.10.43-slim
+0.10.44
+0.10.44-slim 0.10.44-onbuild
 0.10.44-wheezy
 0.10.45
 0.10.45-onbuild
@@ -73,8 +69,9 @@
 0.10.47-wheezy
 0.10.48
 0.10.48-onbuild
-0.10.48-wheezy
-0.11
+0.10.48-slim
+0.10.48-wheezy 0.10-slim
+0.11 0.10.35
 0.11-onbuild
 0.11-slim
 0.11.13
@@ -90,7 +87,9 @@
 0.11.16-slim
 0.12
 0.12-onbuild
-0.12-wheezy
+0.12-slim
+0.12-wheezy 0-slim
+0.12.0
 0.12.0-onbuild
 0.12.0-slim
 0.12.0-wheezy
@@ -102,13 +101,14 @@
 0.12.2-onbuild
 0.12.2-slim
 0.12.2-wheezy
-0.12.3
+0.12.3 0.8
+0.12.3-onbuild
 0.12.3-slim
 0.12.3-wheezy
 0.12.4
 0.12.4-onbuild
 0.12.4-slim
-0.12.4-wheezy
+0.12.4-wheezy 0.10.38-slim
 0.12.5
 0.12.5-onbuild
 0.12.5-slim
@@ -116,15 +116,16 @@
 0.12.6
 0.12.6-onbuild
 0.12.6-slim
+0.12.6-wheezy
 0.12.7
 0.12.7-onbuild
-0.12.7-wheezy 0.12.7-slim
+0.12.7-slim
 0.12.8
 0.12.8-onbuild
 0.12.8-slim
 0.12.8-wheezy
-0.12.9-onbuild 0.12.9
-0.12.9-slim
+0.12.9
+0.12.9-slim 0.12.9-onbuild
 0.12.9-wheezy
 0.12.10
 0.12.10-onbuild
@@ -132,8 +133,8 @@
 0.12.10-wheezy
 0.12.11
 0.12.11-onbuild
-0.12.11-wheezy 0.12.11-slim
-0.12.12
+0.12.11-slim
+0.12.12 0.10.43-wheezy
 0.12.12-onbuild
 0.12.12-slim
 0.12.12-wheezy
@@ -143,11 +144,11 @@
 0.12.13-wheezy
 0.12.14
 0.12.14-onbuild
-0.12.14-wheezy 0.12.14-slim
-0.12.15-onbuild 0.12.15
+0.12.14-slim
+0.12.15
 0.12.15-slim
-0.12.15-wheezy
-0.12.16
+0.12.15-wheezy 0.12.15-onbuild
+0.12.16 4.6.0-wheezy
 0.12.16-onbuild
 0.12.16-slim
 0.12.16-wheezy
@@ -160,77 +161,75 @@
 0.12.18-slim
 0.12.18-wheezy
 4
+4-alpine
 4-onbuild
 4-slim
-4-stretch 4.9-stretch
 4-wheezy
-4.0
+4.0 4.0.0
 4.0-onbuild
 4.0-slim
 4.0-wheezy
-4.0.0 0.12.6-wheezy
 4.0.0-onbuild
 4.0.0-slim
 4.0.0-wheezy
-4.1-onbuild
+4.1
+4.1-onbuild 4.1.0-onbuild
 4.1-slim
 4.1-wheezy
 4.1.0
-4.1.0-onbuild 4.1
 4.1.0-slim
 4.1.0-wheezy
 4.1.1
 4.1.1-onbuild
 4.1.1-slim
-4.1.2 4.1.1-wheezy
-4.1.2-onbuild
+4.1.1-wheezy
+4.1.2-onbuild 4.1.2
 4.1.2-slim
 4.1.2-wheezy
 4.2
 4.2-onbuild
 4.2-slim
-4.2-wheezy 4.2.6-wheezy
 4.2.0
 4.2.0-onbuild
 4.2.0-slim
 4.2.0-wheezy
 4.2.1
-4.2.1-slim 4.2.1-onbuild
-4.2.1-wheezy
-4.2.2-onbuild 4.2.2
-4.2.2-slim
+4.2.1-onbuild
+4.2.1-wheezy 4.2.1-slim
+4.2.2
+4.2.2-slim 4.2.2-onbuild
 4.2.2-wheezy
 4.2.3
 4.2.3-onbuild
 4.2.3-slim
 4.2.3-wheezy
-4.2.4-onbuild 4.2.4
-4.2.4-slim
+4.2.4
+4.2.4-slim 4.2.4-onbuild
 4.2.4-wheezy
-4.2.5
+4.2.5 5.4-wheezy
 4.2.5-onbuild
 4.2.5-slim
 4.2.5-wheezy
 4.2.6
 4.2.6-onbuild
 4.2.6-slim
+4.2.6-wheezy
 4.3
 4.3-onbuild
 4.3-slim
 4.3-wheezy
-4.3.0-onbuild 4.3.0
-4.3.0-slim
+4.3.0
+4.3.0-slim 4.3.0-onbuild
 4.3.0-wheezy
 4.3.1
 4.3.1-onbuild
 4.3.1-slim
 4.3.1-wheezy
-4.3.2
+4.3.2 0.12.11-wheezy
 4.3.2-onbuild
 4.3.2-slim
 4.3.2-wheezy
-4.4
-4.4-onbuild 4.4.7
+4.4 4.4-onbuild
 4.4-slim
 4.4-wheezy
 4.4.0
@@ -243,15 +242,15 @@
 4.4.1-wheezy
 4.4.2
 4.4.2-onbuild
-4.4.2-wheezy 4.4.2-slim
+4.4.2-slim
 4.4.3
 4.4.3-onbuild
-4.4.3-wheezy 4.4.3-slim
-4.4.4
+4.4.3-slim
+4.4.4 6.1-wheezy
 4.4.4-onbuild
 4.4.4-slim
 4.4.4-wheezy
-4.4.5
+4.4.5 0.12.14-wheezy
 4.4.5-onbuild
 4.4.5-slim
 4.4.5-wheezy
@@ -259,50 +258,51 @@
 4.4.6-onbuild
 4.4.6-slim
 4.4.6-wheezy
+4.4.7
 4.4.7-onbuild
 4.4.7-slim
 4.4.7-wheezy
 4.5
 4.5-onbuild
 4.5-slim
-4.5-wheezy 4.5.0-wheezy
 4.5.0
 4.5.0-onbuild
 4.5.0-slim
+4.5.0-wheezy
 4.6
 4.6-alpine
 4.6-onbuild
-4.6-slim 4.6.2-slim
 4.6-wheezy
 4.6.0
 4.6.0-onbuild
-4.6.0-wheezy 4.6.0-slim
-4.6.1-onbuild 4.6.1
+4.6.0-slim
+4.6.1
 4.6.1-slim
-4.6.1-wheezy
+4.6.1-wheezy 4.6.1-onbuild
 4.6.2
 4.6.2-alpine
 4.6.2-onbuild
-4.6.2-wheezy
-4.7
+4.6.2-slim
+4.6.2-wheezy 4.6-slim
+4.7 4.7.3
 4.7-alpine
 4.7-onbuild
+4.7-slim
 4.7-wheezy
 4.7.0
 4.7.0-alpine
-4.7.0-slim 4.7.0-onbuild
-4.7.0-wheezy
+4.7.0-onbuild
+4.7.0-wheezy 4.7.0-slim
 4.7.1
 4.7.1-alpine
 4.7.1-onbuild
 4.7.1-slim
 4.7.1-wheezy
 4.7.2
-4.7.2-alpine
+4.7.2-alpine 6.9.4-alpine
 4.7.2-onbuild
 4.7.2-slim
 4.7.2-wheezy
-4.7.3 4.7-slim
 4.7.3-alpine
 4.7.3-onbuild
 4.7.3-slim
@@ -310,6 +310,7 @@
 4.8
 4.8-alpine
 4.8-onbuild
+4.8-slim
 4.8-stretch
 4.8-wheezy
 4.8.0
@@ -323,27 +324,29 @@
 4.8.1-slim
 4.8.1-wheezy
 4.8.2
-4.8.2-alpine
+4.8.2-alpine 6.10.2-alpine
 4.8.2-onbuild
 4.8.2-slim
 4.8.2-wheezy
 4.8.3
-4.8.3-onbuild 4.8.3-alpine
-4.8.3-slim
+4.8.3-alpine
+4.8.3-slim 4.8.3-onbuild
 4.8.3-wheezy
 4.8.4
 4.8.4-alpine
 4.8.4-onbuild
 4.8.4-slim
 4.8.4-stretch
+4.8.4-wheezy
 4.8.5
 4.8.5-alpine
-4.8.5-slim 4.8.5-onbuild
-4.8.5-stretch
+4.8.5-onbuild
+4.8.5-stretch 4.8.5-slim
 4.8.5-wheezy
+4.8.6
 4.8.6-alpine
-4.8.6-onbuild 4.8.6
-4.8.6-slim
+4.8.6-slim 4.8.6-onbuild
+4.8.6-stretch
 4.8.6-wheezy
 4.8.7
 4.8.7-alpine
@@ -351,35 +354,33 @@
 4.8.7-slim
 4.8.7-stretch
 4.8.7-wheezy
-4.9
+4.9 4.9.1
 4.9-alpine
 4.9-onbuild
 4.9-slim
-4.9-wheezy
-4.9.0 6.14.0-stretch
+4.9-stretch
+4.9-wheezy 4.9.1-wheezy
 4.9.0-alpine
-4.9.0-onbuild
+4.9.0-onbuild 4.9.0
 4.9.0-slim
 4.9.0-stretch
 4.9.0-wheezy
-4.9.1 10.0-stretch
 4.9.1-alpine
 4.9.1-onbuild
 4.9.1-slim
 4.9.1-stretch
-4.9.1-wheezy boron-wheezy
 5
 5-onbuild
+5-slim
 5-wheezy
-5.0 5.0.0
 5.0-onbuild
 5.0-slim
 5.0-wheezy
-5.0.0-onbuild
+5.0.0
+5.0.0-onbuild 5.0
 5.0.0-slim
 5.0.0-wheezy
 5.1
-5.1-onbuild 5.1.1-onbuild
 5.1-slim
 5.1-wheezy
 5.1.0
@@ -387,26 +388,26 @@
 5.1.0-slim
 5.1.0-wheezy
 5.1.1
-5.1.1-slim
+5.1.1-onbuild
+5.1.1-slim 5.1-onbuild
 5.1.1-wheezy
 5.2
 5.2-onbuild
-5.2-slim 5.2.0-slim
 5.2-wheezy
 5.2.0
 5.2.0-onbuild
-5.2.0-wheezy
+5.2.0-slim
+5.2.0-wheezy 5.2-slim
 5.3
-5.3-onbuild 5.3.0-onbuild
 5.3-slim
 5.3-wheezy
 5.3.0
-5.3.0-slim
+5.3.0-onbuild
+5.3.0-slim 5.3-onbuild
 5.3.0-wheezy
 5.4
 5.4-onbuild
 5.4-slim
-5.4-wheezy 5.4.1-wheezy
 5.4.0
 5.4.0-onbuild
 5.4.0-slim
@@ -414,22 +415,22 @@
 5.4.1
 5.4.1-onbuild
 5.4.1-slim
+5.4.1-wheezy
 5.5
 5.5-onbuild
 5.5-slim
 5.5-wheezy
-5.5.0
+5.5.0 4.2-wheezy
 5.5.0-onbuild
 5.5.0-slim
 5.5.0-wheezy
 5.6
-5.6-onbuild 5.6.0-onbuild
 5.6-slim
 5.6-wheezy
 5.6.0
-5.6.0-slim
+5.6.0-onbuild
+5.6.0-slim 5.6-onbuild
 5.6.0-wheezy
-5.7 5.7.1
 5.7-onbuild
 5.7-slim
 5.7-wheezy
@@ -437,24 +438,25 @@
 5.7.0-onbuild
 5.7.0-slim
 5.7.0-wheezy
-5.7.1-onbuild
+5.7.1
+5.7.1-onbuild 5.7
 5.7.1-slim
 5.7.1-wheezy
 5.8
-5.8-onbuild 5.8.0-onbuild
 5.8-slim
 5.8-wheezy
 5.8.0
-5.8.0-slim
+5.8.0-onbuild
+5.8.0-slim 5.8-onbuild
 5.8.0-wheezy
-5.9 5.9.1
 5.9-onbuild
 5.9-slim
 5.9-wheezy
-5.9.0-onbuild 5.9.0
-5.9.0-slim
+5.9.0
+5.9.0-slim 5.9.0-onbuild
 5.9.0-wheezy
-5.9.1-onbuild
+5.9.1
+5.9.1-onbuild 5.9
 5.9.1-slim
 5.9.1-wheezy
 5.10
@@ -465,66 +467,66 @@
 5.10.0-onbuild
 5.10.0-slim
 5.10.0-wheezy
-5.10.1
+5.10.1 4.4.2-wheezy
 5.10.1-onbuild
 5.10.1-slim
 5.10.1-wheezy
 5.11
 5.11-onbuild
-5.11-slim 5.11.1-slim
 5.11-wheezy
-5.11.0
+5.11.0 4.4.3-wheezy
 5.11.0-onbuild
 5.11.0-slim
 5.11.0-wheezy
 5.11.1
 5.11.1-onbuild
-5.11.1-wheezy
+5.11.1-slim
+5.11.1-wheezy 5.11-slim
 5.12
 5.12-onbuild
 5.12-slim
-5.12-wheezy
-5.12.0
+5.12-wheezy 5.12.0-wheezy
+5.12.0 6.5-slim
 5.12.0-onbuild
 5.12.0-slim
-5.12.0-wheezy 5-slim
-6
+6 6.17
 6-alpine
 6-jessie
+6-jessie-slim
 6-onbuild
+6-slim
 6-stretch
 6-stretch-slim
 6-wheezy
 6.0
 6.0-onbuild
-6.0-slim 6.0.0-slim
 6.0-wheezy
 6.0.0
 6.0.0-onbuild
-6.0.0-wheezy
+6.0.0-slim
+6.0.0-wheezy 6.0-slim
 6.1
 6.1-onbuild
 6.1-slim
-6.1-wheezy 6.1.0-wheezy
 6.1.0
 6.1.0-onbuild
 6.1.0-slim
+6.1.0-wheezy
 6.2
-6.2-onbuild 6.2.2-onbuild
 6.2-slim
 6.2-wheezy
 6.2.0
 6.2.0-onbuild
 6.2.0-slim
 6.2.0-wheezy
-6.2.1-onbuild 6.2.1
-6.2.1-slim
+6.2.1
+6.2.1-slim 6.2.1-onbuild
 6.2.1-wheezy
 6.2.2
-6.2.2-slim
+6.2.2-onbuild
+6.2.2-slim 6.2-onbuild
 6.2.2-wheezy
 6.3
-6.3-onbuild 6.3.1-onbuild
 6.3-slim
 6.3-wheezy
 6.3.0
@@ -532,38 +534,38 @@
 6.3.0-slim
 6.3.0-wheezy
 6.3.1
-6.3.1-slim
+6.3.1-onbuild
+6.3.1-slim 6.3-onbuild
 6.3.1-wheezy
-6.4
+6.4 6.4-wheezy
 6.4-onbuild
 6.4-slim
-6.4-wheezy 6.4.0-wheezy
 6.4.0
 6.4.0-onbuild
 6.4.0-slim
+6.4.0-wheezy
 6.5
 6.5-onbuild
-6.5-slim 6.5.0-onbuild
 6.5-wheezy
 6.5.0
+6.5.0-onbuild
 6.5.0-slim
 6.5.0-wheezy
 6.6
 6.6-onbuild
 6.6-slim
 6.6-wheezy
-6.6.0
+6.6.0 4.5-wheezy
 6.6.0-onbuild
 6.6.0-slim
 6.6.0-wheezy
 6.7
-6.7-onbuild 6.7.0-onbuild
 6.7-slim
 6.7-wheezy
 6.7.0
-6.7.0-slim
+6.7.0-onbuild
+6.7.0-slim 6.7-onbuild
 6.7.0-wheezy
-6.8 6.8.1
 6.8-onbuild
 6.8-slim
 6.8-wheezy
@@ -571,15 +573,17 @@
 6.8.0-onbuild
 6.8.0-slim
 6.8.0-wheezy
-6.8.1-onbuild
+6.8.1
+6.8.1-onbuild 6.8
 6.8.1-slim
 6.8.1-wheezy
 6.9
 6.9-alpine
+6.9-onbuild
 6.9-slim
-6.9-wheezy
-6.9.0-onbuild 6.9.0
-6.9.0-slim
+6.9-wheezy 6.9.5-wheezy
+6.9.0
+6.9.0-slim 6.9.0-onbuild
 6.9.0-wheezy
 6.9.1
 6.9.1-alpine
@@ -592,40 +596,39 @@
 6.9.2-slim
 6.9.2-wheezy
 6.9.3
-6.9.3-onbuild 6.9.3-alpine
-6.9.3-slim
+6.9.3-alpine
+6.9.3-slim 6.9.3-onbuild
 6.9.3-wheezy
 6.9.4
-6.9.4-alpine 7.4-alpine
 6.9.4-onbuild
 6.9.4-slim
+6.9.4-wheezy
 6.9.5
 6.9.5-alpine
 6.9.5-onbuild
 6.9.5-slim
-6.9.5-wheezy 6.9-onbuild
 6.10
 6.10-alpine
 6.10-onbuild
-6.10-slim 6.10.3-slim
 6.10-wheezy
 6.10.0
-6.10.0-onbuild 6.10.0-alpine
-6.10.0-slim
+6.10.0-alpine
+6.10.0-slim 6.10.0-onbuild
 6.10.0-wheezy
 6.10.1
-6.10.1-onbuild 6.10.1-alpine
-6.10.1-slim
+6.10.1-alpine
+6.10.1-slim 6.10.1-onbuild
 6.10.1-wheezy
 6.10.2
-6.10.2-alpine 7.9-alpine
 6.10.2-onbuild
 6.10.2-slim
+6.10.2-wheezy
 6.10.3
 6.10.3-alpine
 6.10.3-onbuild
-6.10.3-wheezy
-6.11
+6.10.3-slim
+6.10.3-wheezy 6.10-slim
+6.11 6.11.5
 6.11-alpine
 6.11-onbuild
 6.11-slim
@@ -637,16 +640,16 @@
 6.11.0-slim
 6.11.0-wheezy
 6.11.1
-6.11.1-onbuild 6.11.1-alpine
-6.11.1-slim
+6.11.1-alpine
+6.11.1-slim 6.11.1-onbuild
 6.11.1-stretch
 6.11.1-wheezy
-6.11.2 6.11.2-slim
 6.11.2-alpine
-6.11.2-onbuild
+6.11.2-onbuild 6.11.2
+6.11.2-slim
 6.11.2-stretch
 6.11.2-wheezy
-6.11.3
+6.11.3 8.6-alpine
 6.11.3-alpine
 6.11.3-onbuild
 6.11.3-slim
@@ -658,29 +661,29 @@
 6.11.4-slim
 6.11.4-stretch
 6.11.4-wheezy
-6.11.5 8.9.0-stretch
 6.11.5-alpine
 6.11.5-onbuild
 6.11.5-slim
 6.11.5-stretch
 6.11.5-wheezy
 6.12
+6.12-alpine
 6.12-onbuild
-6.12-stretch
-6.12-wheezy
+6.12-slim
+6.12-stretch 6.12.3-stretch
+6.12-wheezy 6.12.3-wheezy
 6.12.0
 6.12.0-alpine
 6.12.0-onbuild
 6.12.0-slim
 6.12.0-stretch
 6.12.0-wheezy
-6.12.1 6.12.1-wheezy
 6.12.1-alpine
-6.12.1-onbuild
+6.12.1-onbuild 6.12.1
 6.12.1-slim
 6.12.1-stretch
+6.12.1-wheezy
 6.12.2
-6.12.2-alpine 8.9.2-stretch
 6.12.2-onbuild
 6.12.2-slim
 6.12.2-stretch
@@ -689,13 +692,13 @@
 6.12.3-alpine
 6.12.3-onbuild
 6.12.3-slim
-6.12.3-stretch 6.12-slim
-6.12.3-wheezy 6.12-alpine
+6.13
 6.13-alpine
-6.13-onbuild
+6.13-onbuild 6.13.1-onbuild
 6.13-slim
-6.13-wheezy
-6.13.0
+6.13-stretch
+6.13-wheezy 6.13.1-wheezy
+6.13.0 8.9-stretch
 6.13.0-alpine
 6.13.0-onbuild
 6.13.0-slim
@@ -703,27 +706,26 @@
 6.13.0-wheezy
 6.13.1
 6.13.1-alpine
-6.13.1-onbuild 6.13
 6.13.1-slim
 6.13.1-stretch
-6.13.1-wheezy 6.13-stretch
 6.14
 6.14-alpine
 6.14-jessie
 6.14-onbuild
-6.14-slim 6.14.4-slim
 6.14-stretch
 6.14-wheezy
 6.14.0
 6.14.0-alpine
 6.14.0-onbuild
 6.14.0-slim
+6.14.0-stretch
 6.14.0-wheezy
 6.14.1
 6.14.1-alpine
 6.14.1-onbuild
 6.14.1-slim
 6.14.1-stretch
+6.14.1-wheezy
 6.14.2
 6.14.2-alpine
 6.14.2-jessie
@@ -735,14 +737,14 @@
 6.14.3-alpine
 6.14.3-jessie
 6.14.3-onbuild
-6.14.3-slim
+6.14.3-slim 10.8-stretch
 6.14.3-stretch
 6.14.4
 6.14.4-alpine
 6.14.4-jessie
 6.14.4-onbuild
-6.14.4-stretch
-6.15 6.15.1
+6.14.4-slim
+6.14.4-stretch 6.14-slim
 6.15-alpine
 6.15-jessie
 6.15-jessie-slim
@@ -750,35 +752,35 @@
 6.15-slim
 6.15-stretch
 6.15-stretch-slim
+6.15.0
 6.15.0-alpine
 6.15.0-jessie
 6.15.0-jessie-slim
 6.15.0-onbuild
-6.15.0-slim
+6.15.0-slim 6.15.0-stretch-slim
 6.15.0-stretch
-6.15.0-stretch-slim 6.15.0
-6.15.1-alpine
+6.15.1
+6.15.1-alpine 11.4.0-stretch
 6.15.1-jessie
 6.15.1-jessie-slim
 6.15.1-onbuild
 6.15.1-slim
 6.15.1-stretch
-6.15.1-stretch-slim
+6.15.1-stretch-slim 6.15
 6.16
-6.16-alpine 6.16.0-alpine
 6.16-jessie
 6.16-jessie-slim
 6.16-onbuild
 6.16-slim
-6.16-stretch 6.16.0-stretch
 6.16-stretch-slim
-6.16.0
+6.16.0 6.16-stretch
+6.16.0-alpine
 6.16.0-jessie
 6.16.0-jessie-slim
 6.16.0-onbuild
 6.16.0-slim
+6.16.0-stretch
 6.16.0-stretch-slim
-6.17 6.17.1
 6.17-alpine
 6.17-jessie
 6.17-jessie-slim
@@ -790,21 +792,21 @@
 6.17.0-alpine
 6.17.0-jessie
 6.17.0-jessie-slim
-6.17.0-onbuild 11.12
 6.17.0-slim
-6.17.0-stretch
+6.17.0-stretch 6.17.0-onbuild
 6.17.0-stretch-slim
+6.17.1
 6.17.1-alpine
 6.17.1-jessie
 6.17.1-jessie-slim
-6.17.1-onbuild
+6.17.1-onbuild boron-jessie-slim
 6.17.1-slim
 6.17.1-stretch
 6.17.1-stretch-slim
 7
 7-alpine
 7-onbuild
-7-slim
+7-slim 7.10-slim
 7-stretch
 7-wheezy
 7.0
@@ -817,68 +819,69 @@
 7.0.0-wheezy
 7.1
 7.1-alpine
-7.1-onbuild 7.1.0-onbuild
 7.1-slim
 7.1-wheezy
 7.1.0
 7.1.0-alpine
-7.1.0-slim
+7.1.0-onbuild
+7.1.0-slim 7.1-onbuild
 7.1.0-wheezy
-7.2 7.2.1
 7.2-alpine
 7.2-onbuild
 7.2-slim
 7.2-wheezy
 7.2.0
-7.2.0-onbuild 7.2.0-alpine
-7.2.0-slim
+7.2.0-alpine
+7.2.0-slim 7.2.0-onbuild
 7.2.0-wheezy
+7.2.1
 7.2.1-alpine
-7.2.1-onbuild
+7.2.1-onbuild 7.2
 7.2.1-slim
 7.2.1-wheezy
 7.3
 7.3-alpine
-7.3-slim
+7.3-slim 7.3.0-slim
 7.3-wheezy
 7.3.0
 7.3.0-alpine
-7.3.0-slim 7.3.0-onbuild
+7.3.0-onbuild
 7.3.0-wheezy
-7.4
+7.4 7.4.0
+7.4-alpine
 7.4-onbuild
 7.4-slim
 7.4-wheezy
-7.4.0 6.9.4-wheezy
 7.4.0-alpine
 7.4.0-onbuild
 7.4.0-slim
 7.4.0-wheezy
 7.5
+7.5-alpine
 7.5-onbuild
-7.5-slim
+7.5-slim 7.5.0-slim
 7.5-wheezy
 7.5.0
 7.5.0-alpine
 7.5.0-onbuild
-7.5.0-slim 7.5-alpine
 7.5.0-wheezy
-7.6-alpine
+7.6
+7.6-alpine 7.6.0-alpine
 7.6-onbuild
 7.6-slim
 7.6-wheezy
 7.6.0
-7.6.0-alpine 7.6
 7.6.0-onbuild
 7.6.0-slim
 7.6.0-wheezy
-7.7
+7.7 7.7.4
+7.7-alpine
 7.7-onbuild
 7.7-slim
 7.7-wheezy
+7.7.0
 7.7.0-alpine
-7.7.0-onbuild 7.7.0
-7.7.0-slim
+7.7.0-slim 7.7.0-onbuild
 7.7.0-wheezy
 7.7.1
 7.7.1-alpine
@@ -886,57 +889,55 @@
 7.7.1-slim
 7.7.1-wheezy
 7.7.2
-7.7.2-onbuild 7.7.2-alpine
-7.7.2-slim
+7.7.2-alpine
+7.7.2-slim 7.7.2-onbuild
 7.7.2-wheezy
 7.7.3
 7.7.3-alpine
 7.7.3-onbuild
 7.7.3-slim
 7.7.3-wheezy
-7.7.4 7.7-alpine
 7.7.4-alpine
 7.7.4-onbuild
 7.7.4-slim
 7.7.4-wheezy
-7.8-alpine
+7.8
+7.8-alpine 7.8.0-alpine
 7.8-onbuild
 7.8-slim
 7.8-wheezy
 7.8.0
-7.8.0-alpine 7.8
 7.8.0-onbuild
 7.8.0-slim
 7.8.0-wheezy
-7.9
+7.9 7.9.0
+7.9-alpine
 7.9-onbuild
 7.9-slim
 7.9-wheezy
-7.9.0 6.10.2-wheezy
 7.9.0-alpine
 7.9.0-onbuild
 7.9.0-slim
 7.9.0-wheezy
-7.10
+7.10 7.10.1
 7.10-alpine
 7.10-onbuild
-7.10-slim 7.10.1-slim
 7.10-stretch
 7.10-wheezy
 7.10.0
-7.10.0-onbuild 7.10.0-alpine
-7.10.0-slim
+7.10.0-alpine
+7.10.0-slim 7.10.0-onbuild
 7.10.0-wheezy
-7.10.1 8.4-alpine
 7.10.1-alpine
 7.10.1-onbuild
+7.10.1-slim
 7.10.1-stretch
 7.10.1-wheezy
+8
+8-alpine
 8-alpine3.9
-8-alpine3.10
-8-alpine3.11 8-alpine
-8-buster 8
-8-buster-slim
+8-alpine3.10 13.4.0-alpine3.10
+8-buster-slim 8-buster
 8-jessie
 8-jessie-slim
 8-onbuild
@@ -947,16 +948,15 @@
 8.0
 8.0-alpine
 8.0-onbuild
-8.0-slim 8.0.0-slim
 8.0-wheezy
 8.0.0
 8.0.0-alpine
 8.0.0-onbuild
-8.0.0-wheezy
+8.0.0-slim
+8.0.0-wheezy 8.0-slim
 8.1
 8.1-alpine
 8.1-onbuild
-8.1-slim 8.1.4-slim
 8.1-wheezy
 8.1.0
 8.1.0-alpine
@@ -964,8 +964,8 @@
 8.1.0-slim
 8.1.0-wheezy
 8.1.1
-8.1.1-onbuild 8.1.1-alpine
-8.1.1-slim
+8.1.1-alpine
+8.1.1-slim 8.1.1-onbuild
 8.1.1-wheezy
 8.1.2
 8.1.2-alpine
@@ -973,16 +973,18 @@
 8.1.2-slim
 8.1.2-wheezy
 8.1.3
-8.1.3-onbuild 8.1.3-alpine
-8.1.3-slim
+8.1.3-alpine
+8.1.3-slim 8.1.3-onbuild
 8.1.3-wheezy
 8.1.4
 8.1.4-alpine
 8.1.4-onbuild
-8.1.4-wheezy
+8.1.4-slim
+8.1.4-wheezy 8.1-slim
 8.2
 8.2-alpine
-8.2-slim
+8.2-onbuild
+8.2-slim 8.2.1-slim
 8.2-stretch
 8.2-wheezy
 8.2.0
@@ -993,75 +995,74 @@
 8.2.1
 8.2.1-alpine
 8.2.1-onbuild
-8.2.1-slim 8.2-onbuild
 8.2.1-stretch
 8.2.1-wheezy
 8.3
-8.3-onbuild
+8.3-alpine
+8.3-onbuild 8.3.0-onbuild
 8.3-slim
 8.3-stretch
 8.3-wheezy
 8.3.0
 8.3.0-alpine
-8.3.0-onbuild 8.3-alpine
 8.3.0-slim
 8.3.0-stretch
 8.3.0-wheezy
 8.4
+8.4-alpine
 8.4-onbuild
-8.4-stretch
+8.4-slim
+8.4-stretch 8.4.0-stretch
 8.4-wheezy
 8.4.0
 8.4.0-alpine
 8.4.0-onbuild
 8.4.0-slim
-8.4.0-stretch 8.4-slim
 8.4.0-wheezy
 8.5
 8.5-alpine
 8.5-onbuild
 8.5-slim
 8.5-stretch
-8.5-wheezy 8.5.0-wheezy
-8.5.0
+8.5.0 8.5-wheezy
 8.5.0-alpine
 8.5.0-onbuild
 8.5.0-slim
 8.5.0-stretch
-8.6-alpine 8.6.0-alpine
-8.6-onbuild
-8.6-slim
+8.5.0-wheezy
+8.6
+8.6-onbuild 8.6.0-onbuild
+8.6-slim 8.6.0-slim
 8.6-stretch
 8.6-wheezy
 8.6.0
-8.6.0-onbuild 8.6
-8.6.0-slim 4.8.4-wheezy
+8.6.0-alpine
 8.6.0-stretch
 8.6.0-wheezy
-8.7
+8.7 8.7.0
 8.7-alpine
 8.7-onbuild
 8.7-slim
 8.7-stretch
-8.7.0 8.7-wheezy
+8.7-wheezy
 8.7.0-alpine
 8.7.0-onbuild
 8.7.0-slim
 8.7.0-stretch
 8.7.0-wheezy
+8.8
 8.8-alpine
-8.8-onbuild
+8.8-onbuild 8.8.1-onbuild
 8.8-slim
 8.8-stretch
 8.8-wheezy
-8.8.0 8.8.0-alpine
-8.8.0-onbuild
+8.8.0-alpine
+8.8.0-onbuild 8.8.0
 8.8.0-slim
 8.8.0-stretch
 8.8.0-wheezy
 8.8.1
 8.8.1-alpine
-8.8.1-onbuild 8.8
 8.8.1-slim
 8.8.1-stretch
 8.8.1-wheezy
@@ -1069,16 +1070,15 @@
 8.9-alpine
 8.9-onbuild
 8.9-slim
-8.9-stretch 8.9.4-stretch
 8.9-wheezy
 8.9.0
 8.9.0-alpine
 8.9.0-onbuild
 8.9.0-slim
-8.9.0-wheezy
-8.9.1 9.1-stretch
+8.9.0-stretch
+8.9.0-wheezy 9.0-wheezy
 8.9.1-alpine
-8.9.1-onbuild
+8.9.1-onbuild 8.9.1
 8.9.1-slim
 8.9.1-stretch
 8.9.1-wheezy
@@ -1086,25 +1086,26 @@
 8.9.2-alpine
 8.9.2-onbuild
 8.9.2-slim
+8.9.2-stretch
 8.9.2-wheezy
 8.9.3
 8.9.3-alpine
-8.9.3-slim 8.9.3-onbuild
-8.9.3-stretch
+8.9.3-onbuild
+8.9.3-stretch 8.9.3-slim
 8.9.3-wheezy
 8.9.4
 8.9.4-alpine
 8.9.4-onbuild
 8.9.4-slim
+8.9.4-stretch
 8.9.4-wheezy
 8.10
-8.10-alpine
+8.10-alpine 8.10.0-alpine
 8.10-onbuild
 8.10-slim
 8.10-stretch
 8.10-wheezy
 8.10.0
-8.10.0-alpine 9.8-wheezy
 8.10.0-onbuild
 8.10.0-slim
 8.10.0-stretch
@@ -1113,26 +1114,24 @@
 8.11-alpine
 8.11-jessie
 8.11-onbuild
-8.11-slim 8.11.4-slim
 8.11-stretch
 8.11-wheezy
-8.11.0
+8.11.0 9.10.0-stretch
 8.11.0-alpine
 8.11.0-onbuild
 8.11.0-slim
 8.11.0-stretch
-8.11.0-wheezy
+8.11.0-wheezy 9.10.0-wheezy
 8.11.1
-8.11.1-alpine
+8.11.1-alpine 9.10-stretch
 8.11.1-onbuild
 8.11.1-slim
 8.11.1-stretch
 8.11.1-wheezy
-8.11.2-alpine 9.11.1-alpine
+8.11.2
 8.11.2-jessie
-8.11.2-onbuild 8.11.2
-8.11.2-slim
-8.11.2-stretch
+8.11.2-slim 8.11.2-alpine
+8.11.2-stretch 8.11.2-onbuild
 8.11.3
 8.11.3-alpine
 8.11.3-jessie
@@ -1143,14 +1142,16 @@
 8.11.4-alpine
 8.11.4-jessie
 8.11.4-onbuild
-8.11.4-stretch
+8.11.4-slim
+8.11.4-stretch 8.11-slim
 8.12
-8.12-jessie 8.12.0-jessie
+8.12-alpine
 8.12-onbuild
 8.12-slim
 8.12-stretch
-8.12.0
+8.12.0 8.12-jessie
 8.12.0-alpine
+8.12.0-jessie
 8.12.0-onbuild
 8.12.0-slim
 8.12.0-stretch
@@ -1158,14 +1159,13 @@
 8.13-alpine
 8.13-jessie
 8.13-onbuild
-8.13-slim 8.13.0-slim
 8.13-stretch
 8.13.0
 8.13.0-alpine
 8.13.0-jessie
 8.13.0-onbuild
-8.13.0-stretch
-8.14 8.14.1
+8.13.0-slim
+8.13.0-stretch 8.13-slim
 8.14-alpine
 8.14-jessie
 8.14-jessie-slim
@@ -1173,33 +1173,36 @@
 8.14-slim
 8.14-stretch
 8.14-stretch-slim
-8.14.0 8.14.0-stretch
 8.14.0-alpine
 8.14.0-jessie
+8.14.0-jessie-slim
 8.14.0-onbuild
 8.14.0-slim
-8.14.0-stretch-slim
+8.14.0-stretch
+8.14.0-stretch-slim 8.14.0
+8.14.1
 8.14.1-alpine
-8.14.1-jessie
+8.14.1-jessie 10.14-jessie
 8.14.1-jessie-slim
 8.14.1-onbuild
 8.14.1-slim
 8.14.1-stretch
-8.14.1-stretch-slim
+8.14.1-stretch-slim 8.14
+8.15
 8.15-alpine
 8.15-jessie
 8.15-jessie-slim
 8.15-onbuild
 8.15-slim
 8.15-stretch
-8.15-stretch-slim
-8.15.0 8.15.0-stretch
+8.15-stretch-slim 8.15.1-stretch-slim
 8.15.0-alpine
 8.15.0-jessie
 8.15.0-jessie-slim
 8.15.0-onbuild
 8.15.0-slim
-8.15.0-stretch-slim
+8.15.0-stretch
+8.15.0-stretch-slim 8.15.0
 8.15.1
 8.15.1-alpine
 8.15.1-jessie
@@ -1207,31 +1210,28 @@
 8.15.1-onbuild
 8.15.1-slim
 8.15.1-stretch
-8.15.1-stretch-slim 8.15
-8.16
-8.16-alpine3.9
-8.16-alpine3.10 8.16-alpine
+8.16 13.1.0-stretch
+8.16-alpine
+8.16-alpine3.9 8.16-alpine3.10
 8.16-buster
-8.16-buster-slim
-8.16-jessie
+8.16-buster-slim 13.1.0-stretch-slim
+8.16-jessie 10.17.0-jessie
 8.16-jessie-slim
 8.16-onbuild
 8.16-slim
 8.16-stretch
 8.16-stretch-slim
-8.16.0 12.8.0-stretch
 8.16.0-alpine
-8.16.0-buster
-8.16.0-buster-slim 12.8.0-stretch-slim
+8.16.0-buster 8.16.0
 8.16.0-jessie
 8.16.0-jessie-slim
 8.16.0-onbuild
-8.16.0-slim
+8.16.0-slim 8.16.0-buster-slim
 8.16.0-stretch
 8.16.0-stretch-slim
+8.16.1
 8.16.1-alpine
-8.16.1-buster 8.16.1
-8.16.1-buster-slim
+8.16.1-buster-slim 8.16.1-buster
 8.16.1-jessie
 8.16.1-jessie-slim
 8.16.1-onbuild
@@ -1251,12 +1251,12 @@
 8.16.2-stretch
 8.16.2-stretch-slim
 8.17
-8.17-alpine
 8.17-alpine3.9
 8.17-alpine3.10
 8.17-alpine3.11
-8.17-buster-slim 8.17-buster
-8.17-jessie
+8.17-alpine 8-alpine3.11
+8.17-buster
+8.17-jessie 8.17-buster-slim
 8.17-jessie-slim
 8.17-onbuild
 8.17-slim
@@ -1268,8 +1268,8 @@
 8.17.0-alpine3.10
 8.17.0-alpine3.11
 8.17.0-buster
-8.17.0-jessie 8.17.0-buster-slim
-8.17.0-jessie-slim
+8.17.0-buster-slim
+8.17.0-jessie-slim 8.17.0-jessie
 8.17.0-onbuild
 8.17.0-slim
 8.17.0-stretch
@@ -1279,22 +1279,22 @@
 9-jessie
 9-onbuild
 9-slim
-9-stretch 9.11-stretch
 9-wheezy
 9.0
 9.0-alpine
-9.0-onbuild 9.0.0-onbuild
 9.0-slim
 9.0-stretch
-9.0-wheezy 9.0.0-wheezy
 9.0.0
 9.0.0-alpine
-9.0.0-slim
+9.0.0-onbuild
+9.0.0-slim 9.0-onbuild
 9.0.0-stretch
+9.0.0-wheezy
 9.1
 9.1-alpine
 9.1-onbuild
 9.1-slim
+9.1-stretch
 9.1-wheezy
 9.1.0
 9.1.0-alpine
@@ -1302,40 +1302,39 @@
 9.1.0-slim
 9.1.0-stretch
 9.1.0-wheezy
+9.2
 9.2-alpine
-9.2-onbuild
+9.2-onbuild 9.2.1-onbuild
 9.2-slim
 9.2-stretch
 9.2-wheezy
-9.2.0 4.8.6-stretch
 9.2.0-alpine
-9.2.0-onbuild
+9.2.0-onbuild 9.2.0
 9.2.0-slim
 9.2.0-stretch
 9.2.0-wheezy
 9.2.1
-9.2.1-alpine
-9.2.1-onbuild 9.2
+9.2.1-alpine 6.12.2-alpine
 9.2.1-slim
 9.2.1-stretch
 9.2.1-wheezy
 9.3
 9.3-alpine
-9.3-slim
+9.3-onbuild
+9.3-slim 9.3.0-slim
 9.3-stretch
 9.3-wheezy
 9.3.0
 9.3.0-alpine
 9.3.0-onbuild
-9.3.0-slim 9.3-onbuild
 9.3.0-stretch
 9.3.0-wheezy
-9.4
+9.4 9.4.0
+9.4-alpine
 9.4-onbuild
 9.4-slim
 9.4-stretch
 9.4-wheezy
-9.4.0 9.4-alpine
 9.4.0-alpine
 9.4.0-onbuild
 9.4.0-slim
@@ -1343,98 +1342,100 @@
 9.4.0-wheezy
 9.5
 9.5-alpine
-9.5-slim
+9.5-onbuild
+9.5-slim 9.5.0-slim
 9.5-stretch
 9.5-wheezy
 9.5.0
 9.5.0-alpine
 9.5.0-onbuild
-9.5.0-slim 9.5-onbuild
 9.5.0-stretch
 9.5.0-wheezy
 9.6
 9.6-alpine
 9.6-onbuild
-9.6-slim 9.6.1-slim
 9.6-stretch
 9.6-wheezy
 9.6.0
 9.6.0-alpine
-9.6.0-slim 9.6.0-onbuild
-9.6.0-stretch
+9.6.0-onbuild
+9.6.0-stretch 9.6.0-slim
 9.6.0-wheezy
 9.6.1
 9.6.1-alpine
 9.6.1-onbuild
-9.6.1-stretch
+9.6.1-slim
+9.6.1-stretch 9.6-slim
 9.6.1-wheezy
+9.7
 9.7-alpine
-9.7-onbuild
+9.7-onbuild 9.7.1-onbuild
 9.7-slim
 9.7-stretch
 9.7-wheezy
-9.7.0-alpine 9.7.0
-9.7.0-onbuild
+9.7.0
+9.7.0-onbuild 9.7.0-alpine
 9.7.0-slim
 9.7.0-stretch
 9.7.0-wheezy
 9.7.1
 9.7.1-alpine
-9.7.1-onbuild 9.7
 9.7.1-slim
 9.7.1-stretch
 9.7.1-wheezy
-9.8-alpine
+9.8
+9.8-alpine 9.8.0-alpine
 9.8-onbuild
 9.8-slim
 9.8-stretch
+9.8-wheezy
 9.8.0
-9.8.0-alpine 9.8
 9.8.0-onbuild
 9.8.0-slim
 9.8.0-stretch
 9.8.0-wheezy
 9.9
 9.9-alpine
-9.9-slim
+9.9-onbuild
+9.9-slim 9.9.0-slim
 9.9-stretch
+9.9-wheezy
 9.9.0
 9.9.0-alpine
 9.9.0-onbuild
-9.9.0-slim 9.9-onbuild
 9.9.0-stretch
 9.9.0-wheezy
 9.10
 9.10-alpine
 9.10-onbuild
 9.10-slim
-9.10-stretch 9.10.1-stretch
 9.10-wheezy
 9.10.0
 9.10.0-alpine
 9.10.0-onbuild
-9.10.0-stretch 9.10.0-slim
-9.10.0-wheezy 4.8-slim
-9.10.1
+9.10.0-slim
+9.10.1 argon-alpine
 9.10.1-alpine
 9.10.1-onbuild
 9.10.1-slim
+9.10.1-stretch
 9.10.1-wheezy
+9.11
 9.11-alpine
 9.11-jessie
-9.11-onbuild
+9.11-onbuild 9.11.2-onbuild
 9.11-slim
-9.11-wheezy
+9.11-stretch
+9.11-wheezy 9.11.1-wheezy
 9.11.1
+9.11.1-alpine
 9.11.1-jessie
 9.11.1-onbuild
-9.11.1-slim
+9.11.1-slim 10.4.0-stretch
 9.11.1-stretch
-9.11.1-wheezy 6.14.1-wheezy
 9.11.2
 9.11.2-alpine
 9.11.2-jessie
-9.11.2-onbuild 9.11
 9.11.2-slim
 9.11.2-stretch
 10
@@ -1446,13 +1447,13 @@
 10-buster-slim
 10-jessie
 10-jessie-slim
-10-slim
-10-stretch
+10-stretch 10-slim
 10-stretch-slim
-10-wheezy
+10-wheezy 10.1-wheezy
 10.0
 10.0-alpine
 10.0-slim
+10.0-stretch
 10.0-wheezy
 10.0.0
 10.0.0-alpine
@@ -1461,28 +1462,28 @@
 10.0.0-wheezy
 10.1
 10.1-alpine
-10.1-stretch
-10.1-wheezy 10.1.0-wheezy
+10.1-slim
+10.1-stretch 10.1.0-stretch
 10.1.0
 10.1.0-alpine
 10.1.0-slim
-10.1.0-stretch 10.1-slim
+10.1.0-wheezy
 10.2
 10.2-alpine
 10.2-slim
 10.2-stretch
 10.2.0
 10.2.0-alpine
-10.2.0-stretch 10.2.0-slim
-10.2.1
+10.2.0-slim
+10.2.1 10.2.0-stretch
 10.2.1-alpine
 10.2.1-slim
 10.2.1-stretch
-10.3
+10.3 10.3.0
 10.3-alpine
+10.3-jessie
 10.3-slim
 10.3-stretch
-10.3.0 10.3-jessie
 10.3.0-alpine
 10.3.0-jessie
 10.3.0-slim
@@ -1490,104 +1491,103 @@
 10.4
 10.4-alpine
 10.4-jessie
-10.4-slim
+10.4-slim 10.4.1-slim
 10.4-stretch
 10.4.0
 10.4.0-alpine
 10.4.0-jessie
-10.4.0-stretch 10.4.0-slim
+10.4.0-slim
 10.4.1
 10.4.1-alpine
-10.4.1-slim 10.4.1-jessie
+10.4.1-jessie
 10.4.1-stretch
 10.5
 10.5-alpine
 10.5-jessie
-10.5-stretch
+10.5-slim
+10.5-stretch 10.5.0-stretch
 10.5.0
 10.5.0-alpine
 10.5.0-jessie
 10.5.0-slim
-10.5.0-stretch 10.5-slim
 10.6
 10.6-alpine
-10.6-jessie 10.6.0-jessie
 10.6-slim
 10.6-stretch
-10.6.0
+10.6.0 10.6-jessie
 10.6.0-alpine
+10.6.0-jessie
 10.6.0-slim
-10.6.0-stretch
+10.6.0-stretch 9-stretch
 10.7
-10.7-alpine 10.7.0-alpine
 10.7-jessie
 10.7-slim
 10.7-stretch
 10.7.0
+10.7.0-alpine
 10.7.0-jessie
 10.7.0-slim
-10.7.0-stretch
+10.7.0-stretch 10.7-alpine
 10.8
 10.8-alpine
-10.8-jessie
-10.8-stretch 10.8.0-stretch
+10.8-jessie 10.8.0-jessie
+10.8-slim
 10.8.0
 10.8.0-alpine
-10.8.0-jessie 10.8-slim
 10.8.0-slim
+10.8.0-stretch
+10.9
 10.9-alpine
 10.9-jessie
 10.9-slim
-10.9-stretch
+10.9-stretch 10.9.0-stretch
 10.9.0
 10.9.0-alpine
 10.9.0-jessie
 10.9.0-slim
-10.9.0-stretch 10.9
 10.10
 10.10-alpine
-10.10-jessie 10.10.0-jessie
 10.10-slim
 10.10-stretch
-10.10.0
+10.10.0 10.10-jessie
 10.10.0-alpine
+10.10.0-jessie
 10.10.0-slim
 10.10.0-stretch
+10.11
 10.11-alpine
 10.11-jessie
-10.11-slim
+10.11-slim 10.11.0-slim
 10.11-stretch
 10.11.0
 10.11.0-alpine
 10.11.0-jessie
-10.11.0-slim 10.11
 10.11.0-stretch
 10.12
 10.12-alpine
-10.12-jessie
+10.12-jessie 10.12.0-jessie
 10.12-slim
-10.12-stretch 10.12.0-stretch
 10.12.0
 10.12.0-alpine
-10.12.0-jessie 8.12-alpine
 10.12.0-slim
+10.12.0-stretch
 10.13
 10.13-alpine
-10.13-jessie 10.13.0-jessie
 10.13-slim
-10.13-stretch 10.13.0-stretch
-10.13.0
+10.13.0 10.13-stretch
 10.13.0-alpine
-10.13.0-slim
+10.13.0-jessie
+10.13.0-slim 10.13-jessie
+10.13.0-stretch
 10.14
 10.14-alpine
-10.14-jessie 10.14.2-jessie
 10.14-jessie-slim
-10.14-slim
+10.14-slim 10.14.2-slim
 10.14-stretch
+10.14-stretch-slim
 10.14.0
-10.14.0-alpine
-10.14.0-slim 10.14.0-jessie
+10.14.0-alpine 10.14.0-slim
+10.14.0-jessie
 10.14.0-stretch
 10.14.1
 10.14.1-alpine
@@ -1598,20 +1598,19 @@
 10.14.1-stretch-slim
 10.14.2
 10.14.2-alpine
+10.14.2-jessie
 10.14.2-jessie-slim
-10.14.2-slim 10.14-stretch-slim
 10.14.2-stretch
 10.14.2-stretch-slim
 10.15
 10.15-alpine
-10.15-jessie-slim 10.15-jessie
+10.15-jessie
 10.15-slim
 10.15-stretch
 10.15-stretch-slim
 10.15.0
 10.15.0-alpine
-10.15.0-jessie 11.7
-10.15.0-jessie-slim
+10.15.0-jessie-slim 10.15.0-jessie
 10.15.0-slim
 10.15.0-stretch
 10.15.0-stretch-slim
@@ -1619,36 +1618,38 @@
 10.15.1-alpine
 10.15.1-jessie
 10.15.1-jessie-slim
-10.15.1-slim 10.15.1-stretch-slim
 10.15.1-stretch
+10.15.1-stretch-slim
 10.15.2
 10.15.2-alpine
-10.15.2-jessie-slim 10.15.2-jessie
+10.15.2-jessie
 10.15.2-slim
-10.15.2-stretch
-10.15.2-stretch-slim
+10.15.2-stretch 11.10
+10.15.2-stretch-slim 10.15.2-jessie-slim
 10.15.3
-10.15.3-jessie
+10.15.3-alpine
+10.15.3-jessie 10.15-jessie-slim
 10.15.3-jessie-slim
-10.15.3-slim 10.15.3-alpine
-10.15.3-stretch
+10.15.3-stretch 10.15.3-slim
 10.15.3-stretch-slim
 10.16
+10.16-alpine
 10.16-buster
 10.16-buster-slim
 10.16-jessie
+10.16-jessie-slim
 10.16-slim
 10.16-stretch
 10.16-stretch-slim
 10.16.0
 10.16.0-alpine
-10.16.0-buster
+10.16.0-buster 12.6.0-stretch
 10.16.0-buster-slim
+10.16.0-jessie
 10.16.0-jessie-slim
 10.16.0-slim
-10.16.0-stretch 10.16.0-jessie
 10.16.0-stretch-slim
-10.16.1
+10.16.1 12.7.0-stretch-slim
 10.16.1-alpine
 10.16.1-buster
 10.16.1-buster-slim
@@ -1656,8 +1657,8 @@
 10.16.1-jessie-slim
 10.16.1-slim
 10.16.1-stretch
+10.16.1-stretch-slim
 10.16.2
-10.16.2-alpine 10.16.1-stretch-slim
 10.16.2-buster
 10.16.2-buster-slim
 10.16.2-jessie
@@ -1666,29 +1667,27 @@
 10.16.2-stretch
 10.16.2-stretch-slim
 10.16.3
-10.16.3-alpine 10.16-alpine
+10.16.3-buster
 10.16.3-buster-slim
-10.16.3-jessie 10.16.3-buster
-10.16.3-jessie-slim 10.16-jessie-slim
 10.16.3-slim
-10.16.3-stretch
+10.16.3-stretch 10.16.3-jessie
 10.16.3-stretch-slim
 10.17
 10.17-alpine
-10.17-alpine3.9 10.17-alpine3.10
+10.17-alpine3.10
 10.17-buster
-10.17-buster-slim
+10.17-buster-slim 12.13.1-alpine3.9
+10.17-jessie
 10.17-jessie-slim
 10.17-slim
 10.17-stretch
 10.17-stretch-slim
 10.17.0
-10.17.0-alpine
 10.17.0-alpine3.9
 10.17.0-alpine3.10
+10.17.0-alpine 10.17-alpine3.9
 10.17.0-buster
 10.17.0-buster-slim
-10.17.0-jessie 10.17-jessie
 10.17.0-jessie-slim
 10.17.0-slim
 10.17.0-stretch
@@ -1696,24 +1695,25 @@
 10.18
 10.18-alpine
 10.18-alpine3.9
-10.18-alpine3.11 10.18-alpine3.10
+10.18-alpine3.10
+10.18-alpine3.11
 10.18-buster
-10.18-jessie 10.18-buster-slim
+10.18-buster-slim
+10.18-jessie
 10.18-jessie-slim
 10.18-slim
 10.18-stretch
 10.18-stretch-slim
 10.18.0
-10.18.0-alpine
 10.18.0-alpine3.9
 10.18.0-alpine3.10
 10.18.0-alpine3.11
+10.18.0-alpine 13.5.0-alpine3.10
 10.18.0-buster
 10.18.0-buster-slim
+10.18.0-jessie
 10.18.0-jessie-slim
-10.18.0-slim
-10.18.0-stretch 10.18.0-jessie
-10.18.0-stretch-slim
+10.18.0-stretch-slim 10.18.0-slim
 10.18.1
 10.18.1-alpine
 10.18.1-alpine3.9
@@ -1722,26 +1722,105 @@
 10.18.1-buster
 10.18.1-buster-slim
 10.18.1-jessie
-10.18.1-slim 10.18.1-jessie-slim
+10.18.1-jessie-slim
+10.18.1-slim
 10.18.1-stretch
 10.18.1-stretch-slim
-11
+10.19
+10.19-alpine
+10.19-alpine3.9
+10.19-alpine3.10
+10.19-alpine3.11
+10.19-buster
+10.19-buster-slim
+10.19-jessie
+10.19-jessie-slim
+10.19-slim
+10.19-stretch
+10.19-stretch-slim
+10.19.0
+10.19.0-alpine
+10.19.0-alpine3.9
+10.19.0-alpine3.10
+10.19.0-alpine3.11
+10.19.0-buster
+10.19.0-jessie-slim 10.19.0-jessie
+10.19.0-slim 10.19.0-buster-slim
+10.19.0-stretch
+10.19.0-stretch-slim
+10.20
+10.20-alpine3.9
+10.20-alpine3.10
+10.20-alpine3.11
+10.20-alpine 14.0.0-alpine3.11
+10.20-buster
+10.20-buster-slim
+10.20-jessie-slim 10.20-jessie
+10.20-slim
+10.20-stretch
+10.20-stretch-slim
+10.20.0
+10.20.0-alpine
+10.20.0-alpine3.9
+10.20.0-alpine3.10
+10.20.0-alpine3.11
+10.20.0-buster
+10.20.0-buster-slim
+10.20.0-jessie
+10.20.0-slim 10.20.0-jessie-slim
+10.20.0-stretch
+10.20.0-stretch-slim
+10.20.1-alpine
+10.20.1-alpine3.9
+10.20.1-alpine3.10
+10.20.1-alpine3.11
+10.20.1-buster 10.20.1
+10.20.1-buster-slim
+10.20.1-jessie
+10.20.1-jessie-slim
+10.20.1-slim
+10.20.1-stretch
+10.20.1-stretch-slim
+10.21
+10.21-alpine3.9
+10.21-alpine3.10 10.21-alpine
+10.21-alpine3.11
+10.21-buster
+10.21-buster-slim
+10.21-jessie
+10.21-jessie-slim
+10.21-slim
+10.21-stretch
+10.21.0 10.21-stretch-slim
+10.21.0-alpine
+10.21.0-alpine3.9
+10.21.0-alpine3.10
+10.21.0-alpine3.11
+10.21.0-buster
+10.21.0-buster-slim
+10.21.0-jessie
+10.21.0-jessie-slim
+10.21.0-slim
+10.21.0-stretch
+10.21.0-stretch-slim
+11 10.16.0-stretch
 11-alpine
 11-slim
 11-stretch
+11-stretch-slim
 11.0
 11.0-alpine
 11.0-slim
 11.0-stretch
 11.0.0
-11.0.0-alpine
+11.0.0-alpine 10.12-stretch
 11.0.0-slim
 11.0.0-stretch
 11.1
-11.1-alpine 11.1.0-alpine
 11.1-slim
 11.1-stretch
 11.1.0
+11.1.0-alpine
 11.1.0-slim
 11.1.0-stretch
 11.2
@@ -1752,43 +1831,44 @@
 11.2.0-alpine
 11.2.0-slim
 11.2.0-stretch
+11.3
 11.3-alpine
 11.3-slim
 11.3-stretch
-11.3-stretch-slim
+11.3-stretch-slim 11.3.0-stretch-slim
 11.3.0
 11.3.0-alpine
 11.3.0-slim
 11.3.0-stretch
-11.3.0-stretch-slim 11.3
 11.4
+11.4-alpine
 11.4-slim
-11.4-stretch 11.4-alpine
 11.4-stretch-slim
-11.4.0
+11.4.0 11.4-stretch
 11.4.0-alpine
 11.4.0-slim
-11.4.0-stretch 8.14.0-jessie-slim
 11.4.0-stretch-slim
 11.5
 11.5-alpine
 11.5-slim
 11.5-stretch
-11.5-stretch-slim 11.5.0-stretch-slim
 11.5.0
 11.5.0-alpine
-11.5.0-slim
+11.5.0-slim 11.5-stretch-slim
 11.5.0-stretch
+11.5.0-stretch-slim
 11.6
 11.6-alpine
-11.6-stretch
+11.6-slim
+11.6-stretch 11.6.0-stretch
 11.6-stretch-slim
 11.6.0
 11.6.0-alpine
 11.6.0-slim
-11.6.0-stretch 11.6-slim
 11.6.0-stretch-slim
+11.7
 11.7-alpine
+11.7-slim
 11.7-stretch
 11.7-stretch-slim
 11.7.0
@@ -1799,94 +1879,96 @@
 11.8
 11.8-alpine
 11.8-slim
-11.8-stretch
+11.8-stretch 11.8.0-stretch
 11.8-stretch-slim
 11.8.0
-11.8.0-alpine
+11.8.0-alpine 6.16-alpine
 11.8.0-slim
-11.8.0-stretch 11.7-slim
 11.8.0-stretch-slim
-11.9 11.9.0
 11.9-alpine
 11.9-slim
 11.9-stretch
 11.9-stretch-slim
+11.9.0
 11.9.0-alpine
 11.9.0-slim
 11.9.0-stretch
-11.9.0-stretch-slim
-11.10 11.10.1
+11.9.0-stretch-slim 11.9
 11.10-alpine
 11.10-slim
 11.10-stretch
 11.10-stretch-slim
 11.10.0
-11.10.0-alpine
+11.10.0-alpine 10.15.1-slim
 11.10.0-slim
 11.10.0-stretch
 11.10.0-stretch-slim
+11.10.1
 11.10.1-alpine
 11.10.1-slim
 11.10.1-stretch
 11.10.1-stretch-slim
 11.11
 11.11-alpine
-11.11-slim 11.11.0-slim
 11.11-stretch
 11.11-stretch-slim
 11.11.0
 11.11.0-alpine
-11.11.0-stretch
+11.11.0-slim
+11.11.0-stretch 11.11-slim
 11.11.0-stretch-slim
+11.12
 11.12-alpine
-11.12-slim
+11.12-slim 11.12.0-slim
 11.12-stretch
+11.12-stretch-slim
 11.12.0
 11.12.0-alpine
-11.12.0-slim 11.12-stretch-slim
 11.12.0-stretch
 11.12.0-stretch-slim
 11.13
 11.13-alpine
-11.13-slim
+11.13-slim 11.13.0-slim
 11.13-stretch
+11.13-stretch-slim
 11.13.0
 11.13.0-alpine
-11.13.0-slim 11.13-stretch-slim
 11.13.0-stretch
 11.13.0-stretch-slim
-11.14 11.14.0
-11.14-alpine 11.14.0-alpine
 11.14-slim
 11.14-stretch
 11.14-stretch-slim
+11.14.0
+11.14.0-alpine
 11.14.0-slim
 11.14.0-stretch
-11.14.0-stretch-slim
+11.14.0-stretch-slim 11.14
 11.15
 11.15-alpine
-11.15-slim 11-stretch-slim
 11.15-stretch
-11.15-stretch-slim
+11.15-stretch-slim 11.15-slim
 11.15.0
+11.15.0-alpine
 11.15.0-slim
 11.15.0-stretch
 11.15.0-stretch-slim
-12
+12 lts-alpine3.12
 12-alpine
+12-alpine3.9
 12-alpine3.10
 12-alpine3.11
+12-alpine3.12
 12-buster
 12-buster-slim
-12-stretch 12-slim
-12-stretch-slim
+12-slim
+12-stretch
 12.0
 12.0-alpine
-12.0-slim 12.0.0-slim
 12.0-stretch
 12.0-stretch-slim
 12.0.0
-12.0.0-alpine
+12.0.0-alpine 11.14-alpine
+12.0.0-slim
 12.0.0-stretch
 12.0.0-stretch-slim
 12.1
@@ -1895,22 +1977,22 @@
 12.1-stretch
 12.1-stretch-slim
 12.1.0
-12.1.0-alpine
+12.1.0-alpine 12.0-slim
 12.1.0-slim
-12.1.0-stretch
+12.1.0-stretch boron-slim
 12.1.0-stretch-slim
 12.2
-12.2-alpine
+12.2-alpine 12.2.0-stretch-slim
 12.2-slim
 12.2-stretch
 12.2-stretch-slim
 12.2.0
 12.2.0-alpine
 12.2.0-slim
-12.2.0-stretch-slim 12.2.0-stretch
+12.2.0-stretch
 12.3
-12.3-slim 12.3-alpine
-12.3-stretch
+12.3-alpine
+12.3-stretch 12.3-slim
 12.3-stretch-slim
 12.3.0
 12.3.0-alpine
@@ -1923,22 +2005,21 @@
 12.3.1-stretch
 12.3.1-stretch-slim
 12.4
-12.4-alpine 11.15.0-alpine
 12.4-slim
 12.4-stretch
+12.4-stretch-slim
 12.4.0
-12.4.0-alpine
-12.4.0-slim 12.4-stretch-slim
+12.4.0-alpine 12.4-alpine
 12.4.0-stretch
-12.4.0-stretch-slim
+12.4.0-stretch-slim 12.4.0-slim
 12.5
 12.5-alpine
 12.5-slim
 12.5-stretch
 12.5-stretch-slim
 12.5.0
-12.5.0-slim 12.5.0-alpine
-12.5.0-stretch
+12.5.0-alpine
+12.5.0-stretch 12.5.0-slim
 12.5.0-stretch-slim
 12.6
 12.6-alpine
@@ -1947,16 +2028,16 @@
 12.6-slim
 12.6-stretch
 12.6-stretch-slim
+12.6.0
 12.6.0-alpine
 12.6.0-buster
 12.6.0-buster-slim
 12.6.0-slim
-12.6.0-stretch 12.6.0
 12.6.0-stretch-slim
 12.7
 12.7-alpine
-12.7-buster-slim 12.7-buster
-12.7-slim
+12.7-buster
+12.7-slim 12.7-buster-slim
 12.7-stretch
 12.7-stretch-slim
 12.7.0
@@ -1964,32 +2045,34 @@
 12.7.0-buster
 12.7.0-buster-slim
 12.7.0-slim
-12.7.0-stretch-slim 12.7.0-stretch
+12.7.0-stretch
 12.8
 12.8-alpine
 12.8-buster
 12.8-buster-slim
 12.8-slim
-12.8-stretch-slim 12.8-stretch
+12.8-stretch
 12.8.0
-12.8.0-alpine
+12.8.0-alpine 10.16.2-alpine
 12.8.0-buster
 12.8.0-buster-slim
 12.8.0-slim
-12.8.1
+12.8.0-stretch
+12.8.0-stretch-slim
+12.8.1 12.8-stretch-slim
 12.8.1-alpine
 12.8.1-buster
 12.8.1-buster-slim
 12.8.1-slim
 12.8.1-stretch
 12.8.1-stretch-slim
-12.9-alpine 12.9
-12.9-buster
+12.9
+12.9-buster 12.9-alpine
 12.9-buster-slim
 12.9-slim
 12.9-stretch
 12.9-stretch-slim
-12.9.0
+12.9.0 10.16.3-alpine
 12.9.0-alpine
 12.9.0-buster
 12.9.0-buster-slim
@@ -1999,14 +2082,14 @@
 12.9.1
 12.9.1-alpine
 12.9.1-buster
-12.9.1-slim 12.9.1-buster-slim
-12.9.1-stretch
+12.9.1-buster-slim
+12.9.1-stretch 12.9.1-slim
 12.9.1-stretch-slim
 12.10
 12.10-alpine
 12.10-buster
-12.10-slim 12.10-buster-slim
-12.10-stretch
+12.10-buster-slim
+12.10-stretch 12.10-slim
 12.10-stretch-slim
 12.10.0
 12.10.0-alpine
@@ -2021,14 +2104,14 @@
 12.11-buster-slim
 12.11-slim
 12.11-stretch
+12.11-stretch-slim
 12.11.0
 12.11.0-alpine
 12.11.0-buster
-12.11.0-slim 12.11.0-buster-slim
-12.11.0-stretch
+12.11.0-buster-slim
+12.11.0-stretch 12.11.0-slim
 12.11.0-stretch-slim
-12.11.1 12.11-stretch-slim
-12.11.1-alpine
+12.11.1-alpine 12.11.1
 12.11.1-buster
 12.11.1-buster-slim
 12.11.1-slim
@@ -2038,49 +2121,46 @@
 12.12-alpine
 12.12-buster
 12.12-buster-slim
+12.12-slim
 12.12-stretch
-12.12-stretch-slim 12.12-slim
 12.12.0
 12.12.0-alpine
 12.12.0-buster
-12.12.0-buster-slim
+12.12.0-buster-slim 12.12-stretch-slim
 12.12.0-slim
 12.12.0-stretch
 12.12.0-stretch-slim
+12.13
 12.13-alpine
 12.13-alpine3.9
 12.13-alpine3.10
-12.13-buster 12.13
-12.13-slim 12.13-buster-slim
-12.13-stretch
-12.13-stretch-slim
+12.13-buster-slim
+12.13-stretch 12.13-buster
+12.13-stretch-slim 12.13-slim
+12.13.0
 12.13.0-alpine
 12.13.0-alpine3.9
 12.13.0-alpine3.10
-12.13.0-buster 12.13.0
-12.13.0-buster-slim
+12.13.0-buster-slim 12.13.0-buster
 12.13.0-slim
 12.13.0-stretch
 12.13.0-stretch-slim
 12.13.1
 12.13.1-alpine
-12.13.1-alpine3.9 12.13.1-alpine3.10
+12.13.1-alpine3.10
 12.13.1-buster
 12.13.1-buster-slim
 12.13.1-slim
 12.13.1-stretch
 12.13.1-stretch-slim
-12.14
 12.14-alpine3.9
 12.14-alpine3.10
-12.14-alpine3.11
-12.14-alpine 12-alpine3.9
-12.14-buster
-12.14-buster-slim
-12.14-slim
+12.14-alpine3.11 12.14-alpine
+12.14-buster 12.14
+12.14-slim 12.14-buster-slim
 12.14-stretch
 12.14-stretch-slim
-12.14.0
+12.14.0 10.18.0-stretch
 12.14.0-alpine
 12.14.0-alpine3.9
 12.14.0-alpine3.10
@@ -2095,17 +2175,140 @@
 12.14.1-alpine3.9
 12.14.1-alpine3.10
 12.14.1-alpine3.11
-12.14.1-buster-slim 12.14.1-buster
+12.14.1-buster
+12.14.1-buster-slim
 12.14.1-slim
 12.14.1-stretch
 12.14.1-stretch-slim
+12.15
+12.15-alpine
+12.15-alpine3.9
+12.15-alpine3.10
+12.15-alpine3.11
+12.15-buster
+12.15-buster-slim
+12.15-slim
+12.15-stretch
+12.15-stretch-slim
+12.15.0
+12.15.0-alpine
+12.15.0-alpine3.9 12.15.0-alpine3.11
+12.15.0-alpine3.10
+12.15.0-buster
+12.15.0-slim 12.15.0-buster-slim
+12.15.0-stretch
+12.15.0-stretch-slim
+12.16
+12.16-alpine
+12.16-alpine3.9
+12.16-alpine3.11 12.16-alpine3.10
+12.16-buster
+12.16-buster-slim
+12.16-slim
+12.16-stretch-slim 12.16-stretch
+12.16.0
+12.16.0-alpine
+12.16.0-alpine3.9
+12.16.0-alpine3.10
+12.16.0-alpine3.11
+12.16.0-buster
+12.16.0-buster-slim
+12.16.0-slim
+12.16.0-stretch-slim 12.16.0-stretch
+12.16.1
+12.16.1-alpine
+12.16.1-alpine3.9
+12.16.1-alpine3.10
+12.16.1-alpine3.11
+12.16.1-buster
+12.16.1-buster-slim
+12.16.1-slim
+12.16.1-stretch
+12.16.1-stretch-slim
+12.16.2 14.0.0-stretch-slim
+12.16.2-alpine
+12.16.2-alpine3.9
+12.16.2-alpine3.11 12.16.2-alpine3.10
+12.16.2-buster
+12.16.2-buster-slim
+12.16.2-slim
+12.16.2-stretch
+12.16.2-stretch-slim
+12.16.3
+12.16.3-alpine
+12.16.3-alpine3.9
+12.16.3-alpine3.10
+12.16.3-alpine3.11
+12.16.3-buster
+12.16.3-buster-slim
+12.16.3-slim
+12.16.3-stretch
+12.16.3-stretch-slim
+12.17
+12.17-alpine
+12.17-alpine3.10
+12.17-alpine3.11
+12.17-buster 12.17-alpine3.9
+12.17-buster-slim
+12.17-slim
+12.17-stretch
+12.17-stretch-slim
+12.17.0
+12.17.0-alpine
+12.17.0-alpine3.10
+12.17.0-alpine3.11
+12.17.0-buster 12.17.0-alpine3.9
+12.17.0-buster-slim
+12.17.0-slim
+12.17.0-stretch
+12.17.0-stretch-slim
+12.18 12-stretch-slim
+12.18-alpine
+12.18-alpine3.9
+12.18-alpine3.10
+12.18-alpine3.11
+12.18-alpine3.12
+12.18-buster
+12.18-buster-slim
+12.18-slim
+12.18-stretch
+12.18.0
+12.18.0-alpine
+12.18.0-alpine3.9 12.18.0-alpine3.11
+12.18.0-alpine3.10
+12.18.0-alpine3.12
+12.18.0-buster-slim 12.18.0-buster
+12.18.0-slim
+12.18.0-stretch
+12.18.0-stretch-slim
+12.18.1
+12.18.1-alpine
+12.18.1-alpine3.10
+12.18.1-alpine3.11
+12.18.1-alpine3.12
+12.18.1-buster 12.18.1-alpine3.9
+12.18.1-buster-slim
+12.18.1-slim
+12.18.1-stretch
+12.18.1-stretch-slim
+12.18.2 12.18-stretch-slim
+12.18.2-alpine
+12.18.2-alpine3.9
+12.18.2-alpine3.10
+12.18.2-alpine3.11
+12.18.2-alpine3.12
+12.18.2-buster
+12.18.2-buster-slim
+12.18.2-slim
+12.18.2-stretch
 13
 13-alpine
-13-alpine3.11 13-alpine3.10
+13-alpine3.10
+13-alpine3.11
 13-buster
-13-buster-slim
-13-slim
+13-slim 13-buster-slim
 13-stretch
+13-stretch-slim
 13.0
 13.0-alpine
 13.0-buster
@@ -2117,12 +2320,12 @@
 13.0.0-alpine
 13.0.0-buster
 13.0.0-buster-slim
-13.0.0-stretch 13.0.0-slim
-13.0.0-stretch-slim
+13.0.0-slim
+13.0.0-stretch-slim 13.0.0-stretch
 13.0.1
 13.0.1-alpine
-13.0.1-buster-slim 13.0.1-buster
-13.0.1-slim
+13.0.1-buster
+13.0.1-slim 13.0.1-buster-slim
 13.0.1-stretch
 13.0.1-stretch-slim
 13.1
@@ -2136,11 +2339,11 @@
 13.1.0
 13.1.0-alpine
 13.1.0-alpine3.10
+13.1.0-buster
 13.1.0-buster-slim
-13.1.0-stretch 13.1.0-buster
-13.1.0-stretch-slim 13.1.0-slim
-13.2-alpine3.10
-13.2-alpine 13.2
+13.1.0-slim
+13.2
+13.2-alpine3.10 13.2-alpine
 13.2-buster
 13.2-buster-slim
 13.2-slim
@@ -2148,8 +2351,8 @@
 13.2-stretch-slim
 13.2.0
 13.2.0-alpine
-13.2.0-buster 13.2.0-alpine3.10
-13.2.0-buster-slim
+13.2.0-alpine3.10
+13.2.0-buster-slim 13.2.0-buster
 13.2.0-slim
 13.2.0-stretch
 13.2.0-stretch-slim
@@ -2157,8 +2360,8 @@
 13.3-alpine
 13.3-alpine3.10
 13.3-buster
-13.3-slim 13.3-buster-slim
-13.3-stretch
+13.3-buster-slim
+13.3-stretch 13.3-slim
 13.3-stretch-slim
 13.3.0
 13.3.0-alpine
@@ -2166,8 +2369,8 @@
 13.3.0-buster
 13.3.0-buster-slim
 13.3.0-slim
-13.3.0-stretch-slim 13.3.0-stretch
-13.4
+13.3.0-stretch
+13.4 13.3.0-stretch-slim
 13.4-alpine
 13.4-alpine3.10
 13.4-buster
@@ -2176,28 +2379,28 @@
 13.4-stretch
 13.4-stretch-slim
 13.4.0
-13.4.0-alpine3.10 13.4.0-alpine
+13.4.0-alpine
 13.4.0-buster
-13.4.0-slim 13.4.0-buster-slim
-13.4.0-stretch
+13.4.0-buster-slim
+13.4.0-stretch 13.4.0-slim
 13.4.0-stretch-slim
 13.5
 13.5-alpine
+13.5-alpine3.10
 13.5-alpine3.11
 13.5-buster
-13.5-slim 13.5-buster-slim
-13.5-stretch
+13.5-buster-slim
+13.5-stretch 13.5-slim
 13.5-stretch-slim
 13.5.0
 13.5.0-alpine
-13.5.0-alpine3.10 13.5-alpine3.10
 13.5.0-alpine3.11
 13.5.0-buster
 13.5.0-buster-slim
 13.5.0-slim
 13.5.0-stretch
 13.5.0-stretch-slim
-13.6 13-stretch-slim
+13.6
 13.6-alpine
 13.6-alpine3.10
 13.6-alpine3.11
@@ -2211,25 +2414,245 @@
 13.6.0-alpine3.10
 13.6.0-alpine3.11
 13.6.0-buster
-13.6.0-buster-slim
-13.6.0-stretch 13.6.0-slim
+13.6.0-slim 13.6.0-buster-slim
+13.6.0-stretch
 13.6.0-stretch-slim
-alpine
+13.7
+13.7-alpine
+13.7-alpine3.11
+13.7-buster
+13.7-buster-slim
+13.7-slim
+13.7-stretch
+13.7-stretch-slim
+13.7.0
+13.7.0-alpine3.10 13.7-alpine3.10
+13.7.0-alpine3.11 13.7.0-alpine
+13.7.0-buster-slim
+13.7.0-stretch 13.7.0-buster
+13.7.0-stretch-slim 13.7.0-slim
+13.8
+13.8-alpine
+13.8-alpine3.10
+13.8-buster
+13.8-slim 13.8-buster-slim
+13.8-stretch
+13.8-stretch-slim
+13.8.0
+13.8.0-alpine3.10
+13.8.0-alpine3.11
+13.8.0-alpine 13.8-alpine3.11
+13.8.0-buster
+13.8.0-buster-slim
+13.8.0-slim
+13.8.0-stretch
+13.8.0-stretch-slim
+13.10-alpine3.10 13.10
+13.10-alpine3.11 13.10-alpine
+13.10-buster
+13.10-buster-slim
+13.10-slim
+13.10-stretch
+13.10-stretch-slim
+13.10.1
+13.10.1-alpine
+13.10.1-alpine3.10
+13.10.1-alpine3.11
+13.10.1-buster
+13.10.1-slim 13.10.1-buster-slim
+13.10.1-stretch
+13.10.1-stretch-slim
+13.11
+13.11-alpine
+13.11-alpine3.10
+13.11-alpine3.11
+13.11-buster
+13.11-buster-slim
+13.11-slim
+13.11-stretch
+13.11-stretch-slim
+13.11.0-alpine
+13.11.0-alpine3.11 13.11.0-alpine3.10
+13.11.0-buster 13.11.0
+13.11.0-buster-slim
+13.11.0-slim
+13.11.0-stretch
+13.11.0-stretch-slim
+13.12-alpine
+13.12-alpine3.10
+13.12-alpine3.11
+13.12-buster 13.12
+13.12-buster-slim
+13.12-slim
+13.12-stretch
+13.12-stretch-slim
+13.12.0
+13.12.0-alpine
+13.12.0-alpine3.10
+13.12.0-alpine3.11
+13.12.0-buster
+13.12.0-buster-slim
+13.12.0-slim
+13.12.0-stretch-slim 13.12.0-stretch
+13.13
+13.13-alpine
+13.13-alpine3.10
+13.13-alpine3.11
+13.13-buster
+13.13-buster-slim
+13.13-stretch 13.13-slim
+13.13-stretch-slim
+13.13.0
+13.13.0-alpine
+13.13.0-alpine3.10
+13.13.0-alpine3.11
+13.13.0-buster
+13.13.0-buster-slim
+13.13.0-slim
+13.13.0-stretch
+13.13.0-stretch-slim
+13.14
+13.14-alpine3.10 13.14-alpine
+13.14-alpine3.11
+13.14-buster
+13.14-buster-slim
+13.14-slim
+13.14-stretch
+13.14-stretch-slim
+13.14.0-alpine
+13.14.0-alpine3.10
+13.14.0-alpine3.11
+13.14.0-buster 13.14.0
+13.14.0-buster-slim
+13.14.0-slim
+13.14.0-stretch
+13.14.0-stretch-slim
+14 lts-stretch-slim
+14-alpine
+14-alpine3.10
+14-alpine3.11
+14-alpine3.12
+14-buster
+14-buster-slim
+14-slim
+14-stretch
+14.0
+14.0-alpine
+14.0-alpine3.10
+14.0-alpine3.11
+14.0-buster-slim
+14.0-slim
+14.0-stretch 14.0-buster
+14.0-stretch-slim
+14.0.0
+14.0.0-alpine
+14.0.0-alpine3.10
+14.0.0-buster
+14.0.0-buster-slim
+14.0.0-slim
+14.0.0-stretch
+14.1
+14.1-alpine
+14.1-alpine3.10
+14.1-alpine3.11
+14.1-buster-slim 14.1-buster
+14.1-slim
+14.1-stretch
+14.1-stretch-slim
+14.1.0
+14.1.0-alpine
+14.1.0-alpine3.10
+14.1.0-alpine3.11
+14.1.0-buster
+14.1.0-slim 14.1.0-buster-slim
+14.1.0-stretch
+14.1.0-stretch-slim
+14.2
+14.2-alpine
+14.2-alpine3.10
+14.2-alpine3.11
+14.2-buster
+14.2-buster-slim
+14.2-slim
+14.2-stretch-slim 14.2-stretch
+14.2.0
+14.2.0-alpine
+14.2.0-alpine3.10
+14.2.0-alpine3.11
+14.2.0-buster
+14.2.0-buster-slim
+14.2.0-slim
+14.2.0-stretch
+14.2.0-stretch-slim
+14.3
+14.3-alpine
+14.3-alpine3.11 14.3-alpine3.10
+14.3-buster
+14.3-buster-slim
+14.3-slim
+14.3-stretch
+14.3-stretch-slim
+14.3.0
+14.3.0-alpine
+14.3.0-alpine3.10
+14.3.0-buster 14.3.0-alpine3.11
+14.3.0-buster-slim
+14.3.0-slim
+14.3.0-stretch
+14.3.0-stretch-slim
+14.4
+14.4-alpine
+14.4-alpine3.10
+14.4-alpine3.11
+14.4-alpine3.12
+14.4-buster
+14.4-buster-slim
+14.4-slim
+14.4-stretch
+14.4.0 14.4-stretch-slim
+14.4.0-alpine
+14.4.0-alpine3.10
+14.4.0-alpine3.11
+14.4.0-alpine3.12
+14.4.0-buster
+14.4.0-buster-slim
+14.4.0-slim
+14.4.0-stretch
+14.4.0-stretch-slim
+14.5 14-stretch-slim
+14.5-alpine
+14.5-alpine3.10
+14.5-alpine3.11
+14.5-alpine3.12
+14.5-buster
+14.5-buster-slim
+14.5-slim
+14.5-stretch
+14.5.0 14.5-stretch-slim
+14.5.0-alpine
+14.5.0-alpine3.10
+14.5.0-alpine3.11
+14.5.0-alpine3.12
+14.5.0-buster
+14.5.0-buster-slim
+14.5.0-slim
+14.5.0-stretch
 alpine3.10
+alpine3.11
+alpine3.12
+alpine 14.5.0-stretch-slim
 argon
-argon-alpine 4-alpine
 argon-onbuild
 argon-slim
-argon-stretch
+argon-stretch 4-stretch
 argon-wheezy
 boron
 boron-alpine
 boron-jessie
-boron-jessie-slim 6-jessie-slim
 boron-onbuild
-boron-slim 6-slim
 boron-stretch
 boron-stretch-slim
+boron-wheezy
 buster
 buster-slim
 carbon
@@ -2239,18 +2662,18 @@ carbon-alpine3.10
 carbon-alpine3.11
 carbon-buster
 carbon-buster-slim
-carbon-jessie-slim carbon-jessie
-carbon-onbuild
+carbon-jessie
+carbon-onbuild carbon-jessie-slim
 carbon-slim
 carbon-stretch
 carbon-stretch-slim
 carbon-wheezy
 chakracore
+chakracore-8
 chakracore-8.9
 chakracore-8.9.4
-chakracore-8.10
-chakracore-8.10.0 9.9-wheezy
-chakracore-8.11 chakracore-8
+chakracore-8.10 chakracore-8.10.0
+chakracore-8.11
 chakracore-8.11.1
 chakracore-10
 chakracore-10.0
@@ -2258,53 +2681,54 @@ chakracore-10.0.0
 chakracore-10.1
 chakracore-10.1.0
 chakracore-10.6
-chakracore-10.6.0
+chakracore-10.6.0 11.1-alpine
 chakracore-10.13
 chakracore-10.13.0
 current
+current-alpine
 current-alpine3.9
 current-alpine3.10
-current-alpine3.11
-current-alpine alpine3.11
+current-alpine3.12 current-alpine3.11
 current-buster
 current-buster-slim
 current-slim
 current-stretch
+current-stretch-slim
 dubnium
 dubnium-alpine
+dubnium-alpine3.9 dubnium-alpine3.11
 dubnium-alpine3.10
-dubnium-alpine3.11
 dubnium-buster
 dubnium-buster-slim
-dubnium-jessie
-dubnium-jessie-slim
+dubnium-jessie-slim dubnium-jessie
 dubnium-slim
-dubnium-stretch-slim dubnium-stretch
-erbium current-stretch-slim
+dubnium-stretch
+dubnium-stretch-slim
+erbium 12.18.2-stretch-slim
 erbium-alpine
 erbium-alpine3.9
 erbium-alpine3.10
 erbium-alpine3.11
+erbium-alpine3.12
 erbium-buster
 erbium-buster-slim
 erbium-slim
 erbium-stretch
-erbium-stretch-slim
 jessie
-lts
+lts erbium-stretch-slim
 lts-alpine
 lts-alpine3.9
-lts-alpine3.11 lts-alpine3.10
+lts-alpine3.10
+lts-alpine3.11
 lts-buster
 lts-buster-slim
 lts-jessie
-lts-jessie-slim
-lts-slim latest
+lts-jessie-slim 10.16.3-jessie-slim
+lts-slim
 lts-stretch
-lts-stretch-slim
 onbuild
 slim
 stretch
 stretch-slim
 wheezy
- dubnium-alpine3.9
+ latest

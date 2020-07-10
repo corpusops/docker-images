@@ -6,6 +6,7 @@
 5.5-wheezy
 10
 10-bionic
+10-focal
 10-jessie
 10.0
 10.0-jessie
@@ -18,9 +19,15 @@
 10.2-jessie
 10.3
 10.3-bionic
+10.3-focal
 10.3-jessie
 10.4
 10.4-bionic
+10.4-focal
+10.5
+10.5-bionic
+10.5-focal
 bionic
+focal
 jessie
 latest
