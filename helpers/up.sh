@@ -5,6 +5,8 @@ vv() { log "${@}";"${@}"; }
 DO_UPDATE=1
 ARCH_BASE_PACKAGES="${ARCH_BASE_PACKAGES:-"tar gnutls systemd packer base-devel file libpsl openssl python-docutils glibc curl binutils gawk grep"}"
 if [ -e /etc/arch-release ];then
+    # restore locales
+    sed -i -re "s/(NoExt.*locale)/#\1/g" /etc/pacman.conf
     # fix archlinux baseimage minimal tools
     pacman -Sy --noconfirm
     pacman -Su --noconfirm
