@@ -224,9 +224,15 @@ NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
 # SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
-SKIP_MINOR="((redmine|memcached|wordpress|nginx|dejavu|redis|traefik|node|ruby|php|golang|python|mariadb|mysql|postgres|solr|mongo|rabbitmq):.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?)"
-  SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mariadb|mysql|postgres|solr|elasticsearch|mongo|rabbitmq):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
+MINOR_IMAGES="(golang|mariadb|memcached|mongo|mysql|nginx|node|php|postgres|python|rabbitmq|redis|redmine|ruby|solr|traefik|wordpress)"
+SKIP_MINOR_OS="$MINOR_IMAGES:.*alpine[0-9].*"
+SKIP_MINOR="$MINOR_IMAGES:.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?"
+SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mariadb|mysql|postgres|solr|elasticsearch|mongo|rabbitmq):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
 SKIP_OS="(((archlinux|suse|centos|fedora|redhat|alpine|debian|ubuntu|oldstable|oldoldstable):.*[0-9]{8}.*)"
+SKIP_OS="$SKIP_OS|((node):[0-9]+[0-9]+\.[0-9]+.*)"
+SKIP_OS="$SKIP_OS|((debian|redis|k8s-operator):[0-9]+\.[0-9]+.*)"
+SKIP_OS="$SKIP_OS|(centos:.\..\.....|centos.\..\.....)"
+SKIP_OS="$SKIP_OS|(alpine:.\.[0-9]+\.[0-9]+)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|squeeze))"
 SKIP_OS="$SKIP_OS|(ubuntu:(14.10|12|10|11|13|15))"
 SKIP_OS="$SKIP_OS|(lucid|maverick|natty|precise|quantal|raring|saucy)"
@@ -237,12 +243,12 @@ SKIP_OS="$SKIP_OS|(minio.*(armhf|aarch))"
 SKIP_OS="$SKIP_OS)"
 SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
-SKIP_MISC="(-?(on.?build)|pgrouting.*old)"
+SKIP_MISC="(-?(on.?build)|pgrouting.*old)|seafile-mc:(7.0.1|7.0.2|7.0.3|7.0.4|7.0.5|7.1.3)|(dejavu:(v.*|1\..\.?.?|2\..\..)|3\.[1-3]\..|3.0.0|.*alpha.*$)"
 SKIP_NODE="((node):.*alpine3\..?.?)"
 SKIP_MINIO="((minio|mc):(RELEASE.)?[0-9]{4}-.{7})"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
 SKIP_DOCKER="docker(\/|:)([0-9]+\.[0-9]+\.|17|18.0[1-6]|1$|1(\.|-)).*"
-SKIPPED_TAGS="($SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC)"
+SKIPPED_TAGS="$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC"
 CURRENT_TS=$(date +%s)
 IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
 default_images="
@@ -301,7 +307,7 @@ find_top_node_() {
 }
 find_top_node() { (set +e && find_top_node_ && set -e;); }
 NODE_TOP="$(echo $(find_top_node))"
-MAILU_VERSiON=1.6
+MAILU_VERSiON=1.7
 BATCHED_IMAGES="\
 library/ubuntu/latest\
  library/ubuntu/focal\
@@ -327,12 +333,8 @@ library/ubuntu/latest\
  library/rabbitmq/management-alpine\
  library/redis/stretch\
  library/redis/latest\
- library/redis/5.0-stretch\
- library/redis/5.0\
  library/redis/5-stretch\
  library/redis/5\
- library/redis/4.0-stretch\
- library/redis/4.0\
  library/redis/4-stretch\
  library/redis/4\
  library/memcached/latest\
@@ -407,9 +409,7 @@ library/alpine/latest\
  library/elasticsearch/6.5.0\
  library/solr/alpine\
  library/redis/alpine\
- library/redis/5.0-alpine\
  library/redis/5-alpine\
- library/redis/4.0-alpine\
  library/redis/4-alpine\
  minio/minio/edge\
  minio/minio/latest\
@@ -853,6 +853,7 @@ get_image_tags() {
     if [ -e "$t.raw" ] && [ $(($CURRENT_TS-$last_modified)) -lt $((24*60*60)) ];then
         has_more=1
     fi
+    has_more=1
     if [ $has_more -eq 0 ];then
         while [ $has_more -eq 0 ];do
             i=$((i+1))

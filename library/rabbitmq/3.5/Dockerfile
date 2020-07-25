@@ -35,6 +35,9 @@ ADD \
     ${EXTRA_FILES_LIST} \
     /tmp/corpusopssteroids/
 ADD \
+    rootfs/etc/rsyslog.d/ \
+    /etc/rsyslog.d/
+ADD \
     rootfs/etc/rsyslog.conf.frep \
     /etc/rsyslog.conf.frep
 ADD \
