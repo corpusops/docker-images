@@ -10,3 +10,4 @@ $ActionFileDefaultTemplate dockerFormat
 {{ if ne $outlogfile "n" }}
 *.*;auth,authpriv.none :omfile:$rsyslog_outfile
 {{ end }}
+$IncludeConfig /etc/rsyslog.d/*.conf
