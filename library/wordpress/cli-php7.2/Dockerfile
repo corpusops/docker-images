@@ -68,7 +68,8 @@ ADD \
     rootfs/etc/supervisor.d/rsyslog \
     rootfs/etc/supervisor.d/cron \
     /etc/supervisor.d/
-ADD rootfs/etc/logrotate* /etc/
+ADD rootfs/etc/logrotate.conf /etc/
+ADD rootfs/etc/logrotate.d/* /etc/logrotate.d/
 ADD helpers/*_clean.sh /tmp/corpusopssteroids/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
