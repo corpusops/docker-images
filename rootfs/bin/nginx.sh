@@ -19,12 +19,17 @@ export NGINX_LOGS_DIRS="/logs /log $NGINX_LOGS_DIR"
 export NGINX_SOCKET_DIR="$(dirname "$NGINX_SOCKET_PATH")"
 export NGINX_BIN=${NGINX_BIN:-"nginx"}
 export NGINX_FREP_SKIP=${NGINX_FREP_SKIP:-"(\.skip|\.skipped)$"}
+export NGINX_SKIP_EXPOSE_HOST="${NGINX_SKIP_EXPOSE_HOST-}"
 export NGINX_CONFIGS="${NGINX_CONFIGS-"$( \
     find $NGINX_CONF_DIR -type f \
     |egrep -v "$NGINX_FREP_SKIP|\.template$")
 /etc/logrotate.d/nginx"}"
 log() { echo "$@" >&2; }
 vv() { log "$@";"$@"; }
+if [[ -z ${NGINX_SKIP_EXPOSE_HOST} ]];then
+    ip -4 route list match 0/0 \
+        | awk '{print $3" host.docker.internal"}' >> /etc/hosts
+fi
 if [ "x$NGINX_STD_OUTPUT" = "x" ];then rm -fv $NGINX_LOGS_DIR/*;fi
 for e in $NGINX_LOGS_DIRS $NGINX_CONF_DIR;do
     if [ ! -e "$e" ];then mkdir -p "$e";fi
