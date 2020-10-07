@@ -245,10 +245,11 @@ SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
 SKIP_MISC="(-?(on.?build)|pgrouting.*old)|seafile-mc:(7.0.1|7.0.2|7.0.3|7.0.4|7.0.5|7.1.3)|(dejavu:(v.*|1\..\.?.?|2\..\..)|3\.[1-3]\..|3.0.0|.*alpha.*$)"
 SKIP_NODE="((node):.*alpine3\..?.?)"
+SKIP_TF="(tensorflow.serving:[0-9].*)"
 SKIP_MINIO="((minio|mc):(RELEASE.)?[0-9]{4}-.{7})"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
 SKIP_DOCKER="docker(\/|:)([0-9]+\.[0-9]+\.|17|18.0[1-6]|1$|1(\.|-)).*"
-SKIPPED_TAGS="$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC"
+SKIPPED_TAGS="$SKIP_TF|$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC"
 CURRENT_TS=$(date +%s)
 IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
 default_images="
@@ -622,8 +623,17 @@ library/docker/dind\
  library/docker/stable-dind-rootless\
  library/docker/test\
  library/docker/test-dind\
+ library/tensorflow/serving/nightly-devel\
+ library/tensorflow/serving/nightly-devel-gpu\
+ library/tensorflow/serving/nightly\
+ library/tensorflow/serving/nightly-gpu\
+ library/tensorflow/serving/nightl-gpu\
+ library/tensorflow/serving/latest-devel\
+ library/tensorflow/serving/latest-devel-gpu\
+ library/tensorflow/serving/latest\
+ library/tensorflow/serving/latest-gpu\
  library/docker/test-dind-rootless\
- library/redmine/4-passenger::20
+ library/redmine/4-passenger::21
 "
 
 declare -A registry_tokens
@@ -852,8 +862,9 @@ get_image_tags() {
     local last_modified=$(stat -c "%Y" "$t.raw" 2>/dev/null )
     if [ -e "$t.raw" ] && [ $(($CURRENT_TS-$last_modified)) -lt $((24*60*60)) ];then
         has_more=1
+    else
+        has_more=0
     fi
-    has_more=1
     if [ $has_more -eq 0 ];then
         while [ $has_more -eq 0 ];do
             i=$((i+1))
