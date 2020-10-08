@@ -1,0 +1,11 @@
+ADD \
+    rootfs/etc/rsyslog.d/ \
+    /etc/rsyslog.d/
+ADD \
+    rootfs/etc/rsyslog.conf.frep \
+    /etc/rsyslog.conf.frep
+ADD \
+    rootfs/etc/supervisor.d/rsyslog \
+    rootfs/etc/supervisor.d/cron \
+    /etc/supervisor.d/
+ADD rootfs/etc/logrotate* /etc/
