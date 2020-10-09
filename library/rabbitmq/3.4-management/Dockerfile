@@ -34,16 +34,6 @@ ADD \
     packages/*packages*.txt \
     ${EXTRA_FILES_LIST} \
     /tmp/corpusopssteroids/
-ADD \
-    rootfs/etc/rsyslog.d/ \
-    /etc/rsyslog.d/
-ADD \
-    rootfs/etc/rsyslog.conf.frep \
-    /etc/rsyslog.conf.frep
-ADD \
-    rootfs/etc/supervisor.d/rsyslog \
-    rootfs/etc/supervisor.d/cron \
-    /etc/supervisor.d/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
     && : \
@@ -73,6 +63,17 @@ RUN sh -c 'set -ex \
     '
 COPY --from=ochinchina/supervisord:latest \
     /usr/local/bin/supervisord /bin/supervisord-go
+ADD \
+    rootfs/etc/rsyslog.d/ \
+    /etc/rsyslog.d/
+ADD \
+    rootfs/etc/rsyslog.conf.frep \
+    /etc/rsyslog.conf.frep
+ADD \
+    rootfs/etc/supervisor.d/rsyslog \
+    rootfs/etc/supervisor.d/cron \
+    /etc/supervisor.d/
+ADD rootfs/etc/logrotate* /etc/
 ADD helpers/*_clean.sh /tmp/corpusopssteroids/
 RUN sh -c 'set -ex \
     && cd /tmp/corpusopssteroids \
