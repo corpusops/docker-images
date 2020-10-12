@@ -14,7 +14,6 @@ install() {
     && cd /tmp/gosu \
     && : :: gosu: search latest artefacts and SHA files \
     && arch=$( uname -m|sed -re "s/x86_64/amd64/g" ) \
-    && : one keyserver may fail, try on multiple servers \
     && urls="$(do_curl -s -H "Authorization: token $GITHUB_PAT" \
         "https://api.github.com/repos/tianon/gosu/releases/$GOSU_RELEASE" \
                | grep browser_download_url | cut -d "\"" -f 4\
