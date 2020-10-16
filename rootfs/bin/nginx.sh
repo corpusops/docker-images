@@ -6,10 +6,15 @@ NO_CHOWN=${NO_CHOWN-}
 export NGINX_CONF_DIR="${NGINX_CONF_DIR:-"/etc/nginx"}"
 # French legal http logs retention  is 3 years
 export OPENSSL_INSTALL=${OPENSSL_INSTALL-}
-export FORCE_SKIP_OPENSSL_INSTALL=${FORCE_SKIP_OPENSSL_INSTALL-}
+export SKIP_EXTRA_CONF=${SKIP_EXTRA_CONF-}
+export SKIP_CONF_RENDER=${SKIP_CONF_RENDER-}
+export SKIP_OPENSSL_INSTALL=${SKIP_OPENSSL_INSTALL-}
 export NO_DIFFIR=${NO_DIFFIE-}
 export NO_SSL=${NO_SSL-1}
+export SSL_CERTS_PATH=${SSL_CERTS_PATH:-"/certs"}
 export SSL_CERT_BASENAME="${SSL_CERT_BASENAME:-"cert"}"
+export SSL_CERT_PATH=${SSL_CERT_PATH:-"${SSL_CERTS_PATH}/$SSL_CERT_BASENAME.crt"}
+export SSL_KEY_PATH=${SSL_KEY_PATH:-"${SSL_CERTS_PATH}/$SSL_CERT_BASENAME.key"}
 export NGINX_HTTP_PROTECT_USER=${NGINX_HTTP_PROTECT_USER:-root}
 export NGINX_HTTP_PROTECT_PASSWORD=${NGINX_HTTP_PROTECT_PASSWORD-}
 export NGINX_SKIP_CHECK="${NGINX_SKIP_CHECK-}"
@@ -27,8 +32,9 @@ export NGINX_FREP_SKIP=${NGINX_FREP_SKIP:-"(\.skip|\.skipped)$"}
 export NGINX_SKIP_EXPOSE_HOST="${NGINX_SKIP_EXPOSE_HOST-}"
 export NGINX_DH_FILE="${NGINX_DH_FILE-/certs/dhparams.pem}"
 export NGINX_DH_FILES="$NGINX_DH_FILE"
+export NGINX_CONF_RENDER_DIR="${NGINX_CONF_RENDER_DIR:-"/tmp/nginxconf"}"
 export NGINX_CONFIGS="${NGINX_CONFIGS-"$( \
-    find $NGINX_CONF_DIR -type f \
+    find "$NGINX_CONF_DIR" -type f \
     |egrep -v "$NGINX_FREP_SKIP|\.template$")
 /etc/logrotate.d/nginx"}"
 log() { echo "$@" >&2; }
@@ -49,10 +55,29 @@ for e in $NGINX_LOGS_DIRS $NGINX_CONF_DIR;do
     if [ ! -e "$e" ];then mkdir -p "$e";fi
     if [ "x$NO_CHOWN" != "x" ] && [ -e "$e" ];then chown "$NGINX_USER" "$e";fi
 done
-for i in $NGINX_CONFIGS;do frep $i:$i --overwrite;done
+if [ "x$SKIP_CONF_RENDER" = "x" ];then
+    for i in $NGINX_CONFIGS;do frep $i:$i --overwrite;done
+fi
+# also render an eventual /nginx.d folder
+if [ "x$SKIP_EXTRA_CONF" = "x" ] && [ -e /nginx.d ];then
+    log "Nginx conf injection directory present, processing"
+    if [ -e "$NGINX_CONF_RENDER_DIR" ];then
+        rm -rf "$NGINX_CONF_RENDER_DIR"
+    fi
+    mkdir -p "$NGINX_CONF_RENDER_DIR"
+    cp -rf /nginx.d/* "$NGINX_CONF_RENDER_DIR"
+    if [ "x$SKIP_CONF_RENDER" = "x" ];then
+        for v in $(cd "$NGINX_CONF_RENDER_DIR" && find . -type f);do
+            if (echo "$f" |egrep -v "$NGINX_FREP_SKIP");then
+                vv frep "$NGINX_CONF_RENDER_DIR/$v:$NGINX_CONF_RENDER_DIR/$v" --overwrite
+            fi
+        done
+    fi
+    cp -rvf $NGINX_CONF_RENDER_DIR/* /etc/nginx
+fi
 chmod 600 /etc/logrotate.d/nginx
 if [ "x$NO_SSL" != "x1" ] || [ "x$NO_DIFFIE" != "x1" ] ;then OPENSSL_INSTALL=1;fi
-if [ "x$FORCE_SKIP_OPENSSL_INSTALL" != "x" ];then
+if [ "x$SKIP_OPENSSL_INSTALL" != "x" ];then
     log "skip install openssl"
     OPENSSL_INSTALL=""
 fi
@@ -89,7 +114,10 @@ fi
 if [ "x$NO_SSL" = "x1" ];then
     log "no ssl setup"
 else
-    cops_gen_cert.sh
+    if [ ! -e "$SSL_CERT_PATH" ] || [ ! -e "$SSL_KEY_PATH" ];then
+        cops_gen_cert.sh
+    fi
+    log "$SSL_CERT_PATH found as SSL certificate"
 fi
 DEFAULT_NGINX_DEBUG_BIN=$(which nginx-debug 2>/dev/null )
 NGINX_DEBUG_BIN=${NGINX_DEBUG_BIN-$DEFAULT_NGINX_DEBUG_BIN}
@@ -101,5 +129,6 @@ fi
 if [ "x$NGINX_SKIP_CHECK" = "x" ];then
     $NGINX_BIN -t "$@"
 fi
+set -x
 exec $NGINX_BIN "$@"
 # vim:set et sts=4 ts=4 tw=80:

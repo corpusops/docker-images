@@ -111,7 +111,21 @@ $( (find \
     /etc/supervisor $SUPERVISORD_DIR /etc/supervisord \
     -type f -and \( -name '*.conf' -or -name '*.ini' \) -and min-depth 2\
     2>/dev/null|grep -v $SUPERVISORD_CFG ||/bin/true)|sort -d| awk '!seen[$0]++')"
-SUPERVISORD_CONFIGS="${SUPERVISORD_CONFIGS-${DEFAULT_SUPERVISORD_CONFIGS}}"
+SUPERVISORD_CONFIGS="${SUPERVISORD_CONFIGS-${@:-${DEFAULT_SUPERVISORD_CONFIGS}}}"
+
+SUPERVISORD_CONFIGS_=
+for i in $SUPERVISORD_CONFIGS;do
+    j=$i
+    if ! ( echo $i | egrep -q ^/ );then
+        j=/etc/supervisor.d/$j
+    fi
+    if [ "x$SUPERVISORD_CONFIGS_" != "x" ];then
+        SUPERVISORD_CONFIGS_="${SUPERVISORD_CONFIGS_} "
+    fi
+    SUPERVISORD_CONFIGS_="${SUPERVISORD_CONFIGS_}${j}"
+done
+SUPERVISORD_CONFIGS="$SUPERVISORD_CONFIGS_"
+
 export SUPERVISORD_CONFIG_TEMPLATE="${SUPERVISORD_CONFIG_TEMPLATE:-${DEFAULT_SUPERVISORD_CONFIG_TEMPLATE}}"
 if [ ! -e $SUPERVISORD_CFG ];then
     echo "${SUPERVISORD_CONFIG_TEMPLATE}" \
