@@ -111,16 +111,31 @@ You better have to read the entrypoints to understand how they work.
       found inside subdirectories of <br/>
       ``/etc/supervisor.d``, ``/etc/supervisor``, ``/etc/supervisord``, in t
     - frep is done on config files for all vars beginning by ``SUPERVISORD_``
-    - ``SUPERVISORD_CONFIGS`` can be set to alternate configs to aggregate to supervisord config
+    - ``SUPERVISORD_CONFIGS`` can be set to alternate configs to aggregate to supervisord config, if the file is with a relative path, it will be searched inside /etc/supervisord.d
     - ``SUPERVISORD_LOGFILE`` can be set up to another path, as we set it to stdout by defaut
 - One usual way to use this providen entrypoint is to launch it through supervisor to gain also logrotate support for free.<br/>
 
     ```yaml
+    # configs can be given on CLI, v2
+    supervisord:
+      image: "corpusops/supervisord"
+      command:  /bin/supervisord.sh s.conf
+    # configs can be given on CLI, v1
+    supervisord:
+      image: "corpusops/supervisord"
+      entrypoint: /bin/supervisord.sh
+      command: [s.conf]
+    # /etc/supervisor.d/s.conf is a valid supervisord config snipped
     supervisord:
       image: "corpusops/supervisord"
       entrypoint: /bin/supervisord.sh
       environment:
-      - export SUPERVISORD_LOGFILE=/dev/stdout
+      - SUPERVISORD_CONFIGS=s.conf
+    # /foo/s.conf is a valid supervisord config snipped
+    supervisord:
+      image: "corpusops/supervisord"
+      entrypoint: /bin/supervisord.sh
+      environment:
       - SUPERVISORD_CONFIGS=/foo/s.conf
     ```
 
@@ -203,38 +218,46 @@ You better have to read the entrypoints to understand how they work.
 
 ### nginx helper: /bin/nginx.sh
 - [/bin/nginx.sh](./rootfs/bin/nginx.sh): helper to dockerize nginx
-- One usual way to use this providen entrypoint is to launch it through forego to gain also logrotate support for free.<br/>
-  Remember also that all files in ``/etc/nginx`` will be proccessed by frep
-  and all variables prefixed by ``NGINX_`` will be replaced. Also .template files
-  will be skipped (eg: /etc/nginx/foo.template). We integrated both supervisord (recommended) and forego configs
+- One usual way to use this providen entrypoint is to launch it through supervisord-go to gain also logrotate support for free.
+- Remember also that all files in ``/etc/nginx`` will be proccessed by frep<br/>
+- Remember also that all files in ``/nginx.d`` if existing will be proccessed by frep with same rules and copied to /etc/nginx<br/>
+- Also ".skip|.template" files will be skipped from processing (eg: /etc/nginx/foo.template) but you can adapt the `NGINX_FREP_SKIP` envvar to any regex to skip other files from frep processing
+- if `NO_SSL` is not set, generate a self signed certificate if the certificate provided path is not already existing.
+- Useful vars:
+    - `NGINX_FREP_SKIP=.skip|.template|.skipped`: skip rendering files matching regex
+    - `SKIP_EXTRA_CONF=`: set to 1 to skip extra conf in /nginx.d copy
+    - `SKIP_CONF_RENDER=`: set to 1 skip frep rendering
+    - `SKIP_OPENSSL_INSTALL=`: set to 1 skip openssl autoinstall if not installed
+    - `NGINX_HTTP_PROTECT_USER/NGINX_HTTP_PROTECT_PASSWORD`: generate `/etc/htpasswd-protect` htpasswd file  with those credentials
+    - `NO_SSL=1`: set to 1 not to generate a selfisgned certificate for `SSL_CERT_BASENAME` and `SSL_ALT_NAMES` (space sparated)
+    - `SSL_CERT_PATH=/certs/cert.pem`: ssl certificate path (also used when using the selfsigned certificate generator)
+    - `SSL_KEY_PATH=/certs/cert.key`: ssl certificate key path
+- examples
     - supervisord example
 
         ```yaml
         nginx:
-          command: >
-            /bin/sh -c "
-            frep /etc/nginx/conf.d/default.conf.template:/etc/nginx/conf.d/default.conf --overwrite
-            && exec /bin/supervisord.sh"
-          environment:
-          - SUPERVISORD_CONFIGS=/etc/supervisor.d/cron /etc/supervisor.d/nginx
+          image: corpusops/nginx:1-alpine
+          command: /bin/supervisord.sh
+          environment: [SUPERVISORD_CONFIGS=cron nginx rsyslog]
           volumes:
-          - ./myvhost.conf:/etc/nginx/conf.d/default.conf.template
+          - ./nginx:/nginx.d
 
         ```
 
-    - forego example
+    - supervisord custom example
 
         ```yaml
         nginx:
+          image: corpusops/nginx:1-alpine
           command: >
-            /bin/sh -c "
-            CONF_PREFIX=MYAPP__ confenvsubst.sh /etc/nginx/conf.d/default.conf.template
-            > /etc/nginx/conf.d/default.conf
-            && : exec /bin/forego.sh"
-          environment:
-          - FOREGO_PROCFILE=/etc/procfiles/nginx_logrotate.Procfile
+            /bin/sh -exc "
+            frep /etc/nginx/conf.d/default.conf.template:/etc/nginx/conf.d/default.conf --overwrite
+            && exec /bin/supervisord.sh"
+          environment: [SUPERVISORD_CONFIGS=cron nginx rsyslog]
           volumes:
           - ./myvhost.conf:/etc/nginx/conf.d/default.conf.template
+
         ```
 
 ### SSL Certificate Helper: /bin/cops_gen_cert.sh

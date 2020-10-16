@@ -5,13 +5,13 @@ command = sh -c 'set -ex\
     && if [ -e /bin/nginx.sh ];then b=/bin/nginx.sh;fi \
     && echo "Using $b">&2 && exec $b -g "daemon off;"'
 autorestart = true
+restartpause = 5
 startretries = 3
+stopwaitsecs = 3
 startsecs = 20
 killasgroup = true
 stopasgroup = true
 stopsignal = KILL
-stopwaitsecs = 3
-startretries = 5
 stdout_logfile = /dev/stdout
 stderr_logfile = /dev/stderr
 stdout_logfile_maxbytes = 0
