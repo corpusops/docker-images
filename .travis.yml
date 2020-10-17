@@ -125,6 +125,7 @@ before_install:
 - sudo apt-get install -qq -y --force-yes parallel
 - sudo service docker stop
 - ./main.sh refresh_corpusops
+- echo "$DOCKER_PASSWORD" | docker login --password-stdin --username="$DOCKER_RELEASER"
 - sh -c "$apply_role */*/roles/corpusops.roles/services_virt_docker/role.yml"
 - i=$(whoami) && sudo chown -Rf $i $COPS_ROOT
 script:
