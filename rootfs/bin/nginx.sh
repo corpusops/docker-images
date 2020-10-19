@@ -22,6 +22,7 @@ export NGINX_ROTATE=${NGINX_ROTATE-$((365*3))}
 export NGINX_USER=${NGINX_USER-"nginx"}
 export NGINX_GROUP=${NGINX_GROUP-"nginx"}
 export NGINX_STD_OUTPUT=${NGINX_STD_OUTPUT-}
+export NGINX_AUTOCLEANUP_LOGS=${NGINX_AUTOCLEANUP_LOGS-}
 export NGINX_RUN_DIR="${NGINX_RUN_DIR:-"/var/run"}"
 export NGINX_PIDFILE="${NGINX_PIDFILE:-"${NGINX_RUN_DIR}/nginx.pid"}"
 export NGINX_LOGS_DIR="${NGINX_LOGS_DIR:-"/var/log/nginx"}"
@@ -50,7 +51,9 @@ if [[ -z ${NGINX_SKIP_EXPOSE_HOST} ]];then
     ip -4 route list match 0/0 \
         | awk '{print $3" host.docker.internal"}' >> /etc/hosts
 fi
-if [ "x$NGINX_STD_OUTPUT" = "x" ];then rm -fv $NGINX_LOGS_DIR/*;fi
+if [ "x$NGINX_STD_OUTPUT" = "x" ] && [ "x$NGINX_AUTOCLEANUP_LOGS" != "x" ];then
+    for i in $NGINX_LOGS_DIR;do rm -fv $NGINX_LOGS_DIR/*;done
+fi
 for e in $NGINX_LOGS_DIRS $NGINX_CONF_DIR;do
     if [ ! -e "$e" ];then mkdir -p "$e";fi
     if [ "x$NO_CHOWN" != "x" ] && [ -e "$e" ];then chown "$NGINX_USER" "$e";fi
