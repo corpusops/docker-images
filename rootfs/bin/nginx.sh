@@ -89,19 +89,38 @@ if [ "x$NO_DIFFIE" = "x1" ];then
      log "no diffie setup"
 else
     if ( $NGINX_BIN -h 2>&1|grep -q -- -T; );then
-        if ($NGINX_BIN -T | egrep -q "\s*ssl_dhparam");then
+        if ( nginx -t &>/dev/null );then
             for i in $($NGINX_BIN -T \
                 | egrep "\s*ssl_dhparam"\
-                | awk '{print $2}'|sed -re "s/;//g" );do
+                | awk '{print $2}'|sed -re "s/;//g"|awk '!seen[$0]++' );do
                 NGINX_DH_FILES="$NGINX_DH_FILES $i"
             done
+        else
+            nginxconfs="$(find /etc/nginx/ -type f|xargs cat)"
+            if [ "x$nginxconfs" != "x0" ];then
+                for i in $( echo "$nginxconfs"\
+                    | egrep "\s*ssl_dhparam"\
+                    | awk '{print $2}'|sed -re "s/;//g"|awk '!seen[$0]++' );do
+                    NGINX_DH_FILES="$NGINX_DH_FILES $i"
+                done
+            fi
         fi
     fi
+    NGINX_DH_FILES="$(echo $NGINX_DH_FILES|xargs -n1|awk '!seen[$0]++')"
     for nginx_dh_file in $NGINX_DH_FILES;do
         if [ "x$NGINX_DH_FILE" = "x" ];then
             NGINX_DH_FILE="$nginx_dh_file"
         fi
+        dodifcert=
+        if [ -e "$nginx_dh_file" ];then
+            if [ "x$(cat $nginx_dh_file)" = "x" ];then
+            dodifcert=1
+            fi
+        fi
         if [ ! -e "$nginx_dh_file" ];then
+            dodifcert=1
+        fi
+        if [ "x$dodifcert" != "x" ];then
             ddhparams=$(dirname $nginx_dh_file)
             if [ ! -e "$ddhparams" ];then mkdir -pv "$ddhparams";fi
             echo "Generating dhparams ($nginx_dh_file)" >&2
