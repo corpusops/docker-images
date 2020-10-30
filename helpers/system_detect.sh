@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+#!/bin/sh
+set -ex
 system=generic 
 if [ -e /etc/arch-release ];then
     system=archlinux
