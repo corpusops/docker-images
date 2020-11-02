@@ -351,6 +351,8 @@ library/alpine/latest\
  mailu/postfix/master\
  $NODE_TOP\
  library/postgres/alpine\
+ library/postgres/12-alpine\
+ library/postgres/13-alpine\
  library/postgres/11-alpine\
  library/postgres/10-alpine\
  corpusops/postgis-bare/alpine\
@@ -443,9 +445,11 @@ library/debian/latest\
  minio/doctor/latest\
  minio/mc/edge\
  minio/mc/latest\
- library/elasticsearch/2::15
+ library/elasticsearch/2::17
 library/postgres/latest\
  corpusops/postgis-bare/latest\
+ library/postgres/12\
+ library/postgres/13\
  library/postgres/11\
  library/postgres/10\
  library/postgres/9\
@@ -463,7 +467,7 @@ library/postgres/latest\
  library/mariadb/10.2\
  library/mariadb/10.3\
  library/mariadb/10.4\
- library/archlinux/latest::27
+ library/archlinux/latest::29
 library/golang/latest\
  library/python/3\
  library/python/2\
