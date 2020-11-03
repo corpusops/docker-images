@@ -224,7 +224,7 @@ NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
 # SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
-MINOR_IMAGES="(golang|mariadb|memcached|mongo|mysql|nginx|node|php|postgres|python|rabbitmq|redis|redmine|ruby|solr|traefik|wordpress)"
+MINOR_IMAGES="(golang|mariadb|memcached|mongo|mysql|nginx|node|php|postgres|python|rabbitmq|redis|redmine|ruby|solr|traefik)"
 SKIP_MINOR_OS="$MINOR_IMAGES:.*alpine[0-9].*"
 SKIP_MINOR="$MINOR_IMAGES:.*[0-9]+\.([0-9]+\.)[0-9]+(-32bit.*)?"
 SKIP_PRE="((redis|traefik|node|ruby|php|golang|python|mariadb|mysql|postgres|solr|elasticsearch|mongo|rabbitmq):.*(alpha|beta|rc)[0-9]*(-32bit.*)?)"
@@ -270,7 +270,6 @@ library/redis
 library/rabbitmq
 library/node
 library/php
-library/wordpress
 library/postgres
 library/python
 library/traefik
@@ -594,19 +593,7 @@ library/ruby/2.4-alpine\
  library/solr/5-slim-alpine\
  library/elasticsearch/1-alpine\
  library/elasticsearch/2-alpine\
- library/wordpress/4-apache\
- library/wordpress/4-php5.6-apache\
- library/wordpress/4-php7.0-apache\
- library/wordpress/4-php7.1-apache\
- library/wordpress/4-php7.2-apache\
- library/wordpress/5-apache\
- library/wordpress/5-php5.6-apache\
- library/wordpress/5-php7.0-apache\
- library/wordpress/5-php7.1-apache\
- library/wordpress/5-php7.2-apache\
- library/wordpress/5-php7.3-apache\
- library/wordpress/4.9-php5.6-apache\
- seafileltd/seafile-mc/7.1.4::24
+ seafileltd/seafile-mc/7.1.4::12
 library/docker/dind\
  library/docker/dind-rootless\
  library/docker/edge\
