@@ -135,7 +135,7 @@ if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
             fi
         done
         if [ "x$curl_updated" != "x" ];then
-            apt-get -f -yqq install && apt-get install -yqq curl
+            apt-get -f -yqq install && apt-get install -yqq --force-yes curl
         fi
     fi
 fi
