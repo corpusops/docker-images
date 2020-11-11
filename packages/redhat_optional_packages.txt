@@ -6,3 +6,4 @@ busybox
 acl
 iproute
 cronie
+jq

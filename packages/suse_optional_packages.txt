@@ -5,3 +5,4 @@ busybox
 acl
 gzip
 bzip2
+jq
