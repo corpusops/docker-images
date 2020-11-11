@@ -2,3 +2,4 @@ busybox
 acl
 iproute2
 apt-tranport-https
+jq

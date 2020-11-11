@@ -2,3 +2,4 @@ libcurl
 dcron
 busybox
 acl
+jq
