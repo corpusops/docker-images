@@ -972,7 +972,7 @@ record_build_image() {
     local run="echo -e \"${RED}$dbuild${NORMAL}\" && $cmd"
     if [[ -n "$DO_RELEASE" ]];then
         run="$run && ./local/corpusops.bootstrap/hacking/docker_release $itag"
-        if -n [[ "${GITHUB_REF-}" ]];then
+        if [[ -n "${GITHUB_REF-}" ]];then
             run="$run && docker rmi $itag"
             run="$run && ./local/corpusops.bootstrap/bin/cops_docker_cleanup.sh"
         fi
