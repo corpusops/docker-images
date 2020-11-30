@@ -18,7 +18,7 @@ _cops_SYSTEM=$(system_detect.sh||./system_detect.sh||"$W/system_detect.sh")
 DISTRIB_ID=
 DISTRIB_CODENAME=
 DISTRIB_RELEASE=
-oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04|17\.10|18\.10|19\.04|19\.10)"
+oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04|17\.10|18\.10|19\.04)"
 # oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04)"
 NOSOCAT=""
 OAPTMIRROR="${OAPTMIRROR:-}"
@@ -108,7 +108,9 @@ if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
     if ( echo $DISTRIB_ID | egrep -iq "mint|ubuntu" ) && \
         ( echo $DISTRIB_RELEASE |egrep -iq $oldubuntu);then
         OAPTMIRROR="old-releases.ubuntu.com"
-        sed -i -r -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
+        sed -i -r \
+            -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
+            -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
             $( find /etc/apt/sources.list* -type f; )
     fi
 fi
