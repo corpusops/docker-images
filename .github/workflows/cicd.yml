@@ -166,5 +166,5 @@ jobs:
         - "zleftover:91/91"
 on:
   push:
-  pull_request:
+  workflow_dispatch:
   schedule: [{cron: '1 0 1,3,5,15,17,19 * *'}]
