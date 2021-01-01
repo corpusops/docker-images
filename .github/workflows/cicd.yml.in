@@ -61,6 +61,7 @@ jobs:
              ./build.sh $IMAGES
 # ${{steps.v.outputs.silent}} ./build.sh $IMAGES
     strategy:
+      max-parallel: 5
       fail-fast: false
       matrix:
         IMAGES:$__IMAGES
