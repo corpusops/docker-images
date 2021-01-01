@@ -62,6 +62,7 @@ jobs:
 # ${{steps.v.outputs.silent}} ./build.sh $IMAGES
     strategy:
       fail-fast: false
+      max-parallel: 5
       matrix:
         IMAGES:
         - "library/ubuntu/latest library/ubuntu/focal library/ubuntu/bionic library/ubuntu/20.04 library/ubuntu/18.04 library/ubuntu/16.04 library/ubuntu/xenial library/ubuntu/14.04 library/ubuntu/trusty library/solr/latest library/solr/7 library/solr/7-slim library/mysql/8 library/mysql/5 library/rabbitmq/3 library/rabbitmq/3-alpine library/rabbitmq/3-management library/rabbitmq/3-management-alpine library/rabbitmq/alpine library/rabbitmq/latest library/rabbitmq/management library/rabbitmq/management-alpine library/redis/stretch library/redis/latest library/redis/5-stretch library/redis/5 library/redis/4-stretch library/redis/4 library/memcached/latest library/memcached/alpine library/mongo/latest library/mongo/4"
