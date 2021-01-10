@@ -989,14 +989,16 @@ load_all_batched_images() {
 #     build:  (no arg) refresh all images
 #     build library/ubuntu: only refresh ubuntu images
 #     build library/ubuntu/latest: only refresh ubuntu:latest image
-#     build leftover:BATCH_QUARTED/BATCH_SIZE find images that wont be explictly built and build them per batch
+#     build zleftover:BATCH_QUARTED/BATCH_SIZE find images that wont be explictly built and build them per batch
 #     If DO_RELEASE is set, image will be pushed using corpusops.bootstrap/hacking/docker_release
 #     If FORCE_REBUILD is set, image will be rebuilt even if commit label of any existing remote image matches
+# zleftover because of https://github.com/actions/runner/issues/483 , we want
+# first jobs that produces specific images to run
 do_build() {
     local images_args="${@:-$default_images}" images="" allcandidates=""
-    # batch then all leftover images that werent batched at first
+    # batch then all zleftover images that werent batched at first
     local i=
-    if ( echo "$@" |egrep -q leftover: ) && [[ -z "${SKIP_IMAGES_SCAN}" ]];then
+    if ( echo "$@" |egrep -q zleftover: ) && [[ -z "${SKIP_IMAGES_SCAN}" ]];then
         load_all_batched_images
         for k in $(do_list_images);do
             for l in $(do_list_image $k);do
@@ -1008,11 +1010,11 @@ do_build() {
         done
     fi
     for imagepart in $images_args;do
-        if ( echo $imagepart|grep -q leftover);then
+        if ( echo $imagepart|grep -q zleftover);then
             local candidates=""
-            local leftover_re="leftover:\([0-9]\+\)[/]\([0-9]\+\)"
-            local part=$(  echo $imagepart|sed -e "s/$leftover_re/\1/g" )
-            local chunks=$(echo $imagepart|sed -e "s/$leftover_re/\2/g" )
+            local zleftover_re="zleftover:\([0-9]\+\)[/]\([0-9]\+\)"
+            local part=$(  echo $imagepart|sed -e "s/$zleftover_re/\1/g" )
+            local chunks=$(echo $imagepart|sed -e "s/$zleftover_re/\2/g" )
             local size=$(echo "$allcandidates"|wc -w)
             local chunksize="$(($size/$chunks))"
             local c=0 inf=$(($part-1)) sup=$part
@@ -1090,6 +1092,7 @@ is_image() {
 #  [SKIP_CORPUSOPS=] refresh_corpusops: install & upgrade corpusops
 do_refresh_corpusops() {
     if [[ -z ${SKIP_CORPUSOPS-} ]];then
+        if [[ -n $COPS_ROOT ]] && [ ! -e "$COPS_ROOT" ];then mkdir -p "$COPS_ROOT";fi
         vv .ansible/scripts/download_corpusops.sh
         vv .ansible/scripts/setup_corpusops.sh
     fi
@@ -1134,6 +1137,7 @@ is_in_images() {
 
 reset_images() {
     _images_=""
+    _ghimages_=""
     _images_list_=""
 }
 
@@ -1141,6 +1145,7 @@ reset_images() {
 load_batched_images() {
     local i=
     local batch="  - IMAGES=\""
+    local ghbatch="        - \""
     local counter=0
     local default_batchsize=$1
     shift
@@ -1149,8 +1154,10 @@ load_batched_images() {
         local batchsize=$default_batchsize
         if $(echo $i|grep -q ::);then batchsize=${i//*::};fi
         debug "_batch_images_($imgs :: $batchsize): $batch"
+        debug "_ghbatch_images_($imgs :: $batchsize): $ghbatch"
         for img in $imgs;do
             debug "_batch_image_($img :: $batchsize): $batch"
+            debug "_ghbatch_image_($img :: $batchsize): $ghbatch"
             local subimages=$(do_list_image $img)
             if [[ -z $subimages ]];then break;fi
             for j in $subimages;do
@@ -1160,6 +1167,7 @@ load_batched_images() {
                         space=""
                         if [ $counter -gt 0 ];then
                             batch="$(printf -- "${batch}\"\n  - IMAGES=\""; )"
+                            ghbatch="$(printf -- "${ghbatch}\"\n        - \""; )"
                         fi
                     fi
                     counter=$(( $counter+1 ))
@@ -1167,14 +1175,28 @@ load_batched_images() {
 $j
                     "
                     batch="${batch}${space}${j}"
+                    ghbatch="${ghbatch}${space}${j}"
                 fi
             done
         done
     done
     if [ $counter -gt 0 ];then
         _images_="$(printf "${_images_}\n${batch}\"" )"
+        _ghimages_="$(printf "${_ghimages_}\n${ghbatch}\"" )"
     fi
 }
+
+#  gen_gh; regenerate .github/workflows/cicd.yml file
+do_gen_gh() {
+    reset_images
+    debug "_images_(pre): $_ghimages_"
+    # batch first each explicily built images
+    load_all_batched_images
+    __IMAGES="$_ghimages_" \
+        envsubst '$__IMAGES;' > "$W/.github/workflows/cicd.yml" \
+        < "$W/.github/workflows/cicd.yml.in"
+}
+
 
 #  gen_travis; regenerate .travis.yml file
 do_gen_travis() {
@@ -1190,7 +1212,7 @@ do_gen_travis() {
 #  gen: regenerate both images and travis.yml
 do_gen() {
     if [[ -z "$NOREFRESH" ]];then do_refresh_images $@;fi
-    do_gen_travis
+    do_gen_gh
 }
 
 do_make_tags() {
@@ -1210,7 +1232,7 @@ do_usage() {
 
 do_main() {
     local args=${@:-usage}
-    local actions="make_tags|refresh_corpusops|refresh_images|build|gen_travis|gen|list_images|clean_tags|get_namespace_tag"
+    local actions="make_tags|refresh_corpusops|refresh_images|build|gen_travis|gen_gh|gen|list_images|clean_tags|get_namespace_tag"
     actions="@($actions)"
     action=${1-};
     if [[ -n "$@" ]];then shift;fi
