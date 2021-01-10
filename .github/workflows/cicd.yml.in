@@ -1,0 +1,156 @@
+env:
+  DOCKER_BUILDKIT: "1"
+  COMPOSE_DOCKER_CLI_BUILD: "1"
+  BUILDKIT_PROGRESS: "plain"
+  NO_SQUASH: ""
+  NONINTERACTIVE: "1"
+  FORCE_ONLINE: "1"
+  NBPARALLEL: "2"
+  RELEASABLE_REPOS: "^corpusops/"
+  RELEASABLE_BRANCHES: "^(refs/heads/)?(master|2.0|workflows)$"
+  COPS_URL: "https://github.com/corpusops/corpusops.bootstrap"
+  COPS_ROOT: "${{github.workspace}}/local/corpusops.bootstrap"
+  silent: "$COPS_ROOT/bin/cops_shell_common output_in_error silent_vv"
+  DOCKER_RELEASER: "${{ secrets.DOCKER_HUB_USERNAME }}"
+  DOCKER_PASSWORD: "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"
+jobs:
+  r:
+    runs-on: ubuntu-latest
+    env: {IMAGES: "${{matrix.IMAGES}}"}
+    steps:
+      - name: Set vars
+        run: |-
+            if ( echo "$GITHUB_REF" | egrep -q "${RELEASABLE_BRANCHES}" ) \
+            && ( echo "$GITHUB_REPOSITORY" | egrep -q "${RELEASABLE_REPOS}" )
+            then releasable=true;else releasable=false;fi
+            echo "::set-output name=releasable::$releasable"
+            echo "::set-output name=silent::$(echo $silent)"
+        id: v
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Activate docker experimental
+        run: |-
+          sudo bash -exc "service docker stop;python -c \
+          \"d='/etc/docker/daemon.json';\
+          import json;c=json.load(open(d));c['experimental']=True;\
+          open(d, 'w').write(json.dumps(c))\"
+          systemctl restart docker"
+      - uses: actions/checkout@v2
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache
+            local
+          key: 5-${{ runner.os }}-${{ github.ref }}-${{ github.repository }}-venvstatics
+      - name: setup
+        run: set -e;i=$(whoami);sudo sh -c "chown -Rf $i .";
+             ./main.sh refresh_corpusops;
+             sudo sh -c 'apt-get update -qq &&
+                         apt-get install -qqy --force-yes parallel'
+      - name: refresh images
+        run: set -e;if (echo $IMAGES|grep -q zleftover);then
+             rm -f */*/*/Dockerfile&&${{steps.v.outputs.silent}} ./refresh_images.sh;
+             fi
+      - name: build & release
+        run: set -e;
+             if [ "x${{steps.v.outputs.releasable}}" = "xtrue" ];then export DO_RELEASE=1;fi;
+             ${{steps.v.outputs.silent}} ./build.sh $IMAGES
+    strategy:
+      fail-fast: false
+      matrix:
+        IMAGES:$__IMAGES
+        # all images that werent explicitly told to be built would be built in the next batches
+        # we span them onto N jobs
+        - "zleftover:1/91"
+        - "zleftover:2/91"
+        - "zleftover:3/91"
+        - "zleftover:4/91"
+        - "zleftover:5/91"
+        - "zleftover:6/91"
+        - "zleftover:7/91"
+        - "zleftover:8/91"
+        - "zleftover:9/91"
+        - "zleftover:10/91"
+        - "zleftover:11/91"
+        - "zleftover:12/91"
+        - "zleftover:13/91"
+        - "zleftover:14/91"
+        - "zleftover:15/91"
+        - "zleftover:16/91"
+        - "zleftover:17/91"
+        - "zleftover:18/91"
+        - "zleftover:19/91"
+        - "zleftover:20/91"
+        - "zleftover:21/91"
+        - "zleftover:22/91"
+        - "zleftover:23/91"
+        - "zleftover:24/91"
+        - "zleftover:25/91"
+        - "zleftover:26/91"
+        - "zleftover:27/91"
+        - "zleftover:28/91"
+        - "zleftover:29/91"
+        - "zleftover:30/91"
+        - "zleftover:31/91"
+        - "zleftover:32/91"
+        - "zleftover:33/91"
+        - "zleftover:34/91"
+        - "zleftover:35/91"
+        - "zleftover:36/91"
+        - "zleftover:37/91"
+        - "zleftover:38/91"
+        - "zleftover:39/91"
+        - "zleftover:40/91"
+        - "zleftover:41/91"
+        - "zleftover:42/91"
+        - "zleftover:43/91"
+        - "zleftover:44/91"
+        - "zleftover:45/91"
+        - "zleftover:46/91"
+        - "zleftover:47/91"
+        - "zleftover:48/91"
+        - "zleftover:49/91"
+        - "zleftover:50/91"
+        - "zleftover:60/91"
+        - "zleftover:61/91"
+        - "zleftover:62/91"
+        - "zleftover:63/91"
+        - "zleftover:64/91"
+        - "zleftover:65/91"
+        - "zleftover:66/91"
+        - "zleftover:67/91"
+        - "zleftover:68/91"
+        - "zleftover:69/91"
+        - "zleftover:70/91"
+        - "zleftover:70/91"
+        - "zleftover:71/91"
+        - "zleftover:72/91"
+        - "zleftover:73/91"
+        - "zleftover:74/91"
+        - "zleftover:75/91"
+        - "zleftover:76/91"
+        - "zleftover:77/91"
+        - "zleftover:78/91"
+        - "zleftover:79/91"
+        - "zleftover:80/91"
+        - "zleftover:80/91"
+        - "zleftover:81/91"
+        - "zleftover:82/91"
+        - "zleftover:83/91"
+        - "zleftover:84/91"
+        - "zleftover:85/91"
+        - "zleftover:86/91"
+        - "zleftover:87/91"
+        - "zleftover:88/91"
+        - "zleftover:89/91"
+        - "zleftover:90/91"
+        - "zleftover:90/91"
+        - "zleftover:91/91"
+on:
+  push:
+  pull_request:
+  schedule: [{cron: '1 0 1,15 * *'}]
