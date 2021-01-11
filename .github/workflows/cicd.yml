@@ -167,4 +167,4 @@ jobs:
 on:
   push:
   pull_request:
-  schedule: [{cron: '1 0 1,15 * *'}]
+  schedule: [{cron: '1 0 1,3,5,15,17,19 * *'}]
