@@ -10,7 +10,11 @@ readlinkf() {
             python -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' "$@"
         fi
     else
-        readlink -f "$@"
+        val="$(readlink -f "$@")"
+        if [[ -z "$val" ]];then
+            val=$(readlink "$@")
+        fi
+        echo "$val"
     fi
 }
 # scripts vars
@@ -28,11 +32,11 @@ W=${OVERRIDEN_W:-$(cd "$SCRIPT_DIR/.." && pwd)}
 DEFAULT_COPS_ROOT="/srv/corpusops/corpusops.bootstrap"
 DEFAULT_COPS_URL="https://github.com/corpusops/corpusops.bootstrap"
 #
-FORCE_INSTALL=${FORCE_INSTALL-${FORCE_REINSTALL-}}
 SYSTEM_COPS_ROOT=${SYSTEM_COPS_ROOT-$DEFAULT_COPS_ROOT}
 DOCKER_COPS_ROOT=${DOCKER_COPS_ROOT-$SYSTEM_COPS_ROOT}
 COPS_URL=${COPS_URL-$DEFAULT_COPS_URL}
 BASE_PREPROVISION_IMAGES="ubuntu:latest_preprovision"
+BASE_PREPROVISION_IMAGES="$BASE_PREPROVISION_IMAGES corpusops/ubuntu:20.04_preprovision"
 BASE_PREPROVISION_IMAGES="$BASE_PREPROVISION_IMAGES corpusops/ubuntu:18.04_preprovision"
 BASE_PREPROVISION_IMAGES="$BASE_PREPROVISION_IMAGES corpusops/ubuntu:16.04_preprovision"
 BASE_PREPROVISION_IMAGES="$BASE_PREPROVISION_IMAGES corpusops/ubuntu:14.04_preprovision"
@@ -40,6 +44,7 @@ BASE_PREPROVISION_IMAGES="$BASE_PREPROVISION_IMAGES corpusops/centos:7_preprovis
 BASE_CORE_IMAGES="$BASE_CORE_IMAGES corpusops/ubuntu:latest"
 
 BASE_CORE_IMAGES="$BASE_CORE_IMAGES corpusops/ubuntu:latest"
+BASE_CORE_IMAGES="$BASE_CORE_IMAGES corpusops/ubuntu:20.04"
 BASE_CORE_IMAGES="$BASE_CORE_IMAGES corpusops/ubuntu:18.04"
 BASE_CORE_IMAGES="$BASE_CORE_IMAGES corpusops/ubuntu:16.04"
 BASE_CORE_IMAGES="$BASE_CORE_IMAGES corpusops/ubuntu:14.04"
@@ -49,13 +54,17 @@ EXP_PREPROVISION_IMAGES=""
 EXP_PREPROVISION_IMAGES="$EXP_PREPROVISION_IMAGES archlinux:latest_preprovision"
 EXP_PREPROVISION_IMAGES="$EXP_PREPROVISION_IMAGES debian:latest_preprovision"
 EXP_PREPROVISION_IMAGES="$EXP_PREPROVISION_IMAGES debian:stretch_preprovision"
-EXP_PREPROVISION_IMAGES="$EXP_PREPROVISION_IMAGES debian:jessie_preprovision"
+EXP_PREPROVISION_IMAGES="$EXP_PREPROVISION_IMAGES debian:buster_preprovision"
+EXP_PREPROVISION_IMAGES="$EXP_PREPROVISION_IMAGES debian:sid_preprovision"
 EXP_CORE_IMAGES=""
 EXP_CORE_IMAGES="$EXP_CORE_IMAGES corpusops/archlinux:latest"
 EXP_CORE_IMAGES="$EXP_CORE_IMAGES corpusops/debian:latest"
 EXP_CORE_IMAGES="$EXP_CORE_IMAGES corpusops/debian:stretch"
-EXP_CORE_IMAGES="$EXP_CORE_IMAGES corpusops/debian:jessie"
+EXP_CORE_IMAGES="$EXP_CORE_IMAGES corpusops/debian:buster"
+EXP_CORE_IMAGES="$EXP_CORE_IMAGES corpusops/debian:sid"
 EXP_IMAGES="$EXP_PREPROVISION_IMAGES $EXP_CORE_IMAGES"
+# ansible related
+export DISABLE_MITOGEN=${DISABLE_MITOGEN-1}
 #
 # colors
 RED="\\e[0;31m"
@@ -69,7 +78,7 @@ uniquify_string() {
     local pattern=$1
     shift
     echo "$@" \
-        | sed -e "s/${pattern}/\n/g" \
+        | awk '{gsub(/'"$pattern"'/, RS) ; print;}' \
         | awk '!seen[$0]++' \
         | tr "\n" "${pattern}" \
         | sed -e "s/^${pattern}\|${pattern}$//g"
@@ -162,8 +171,8 @@ output_in_error_() {
     fi
     CI_BUILD="${CI_BUILD-${DEFAULT_CI_BUILD-}}"
     if [ "x$CI_BUILD" != "x" ];then
-        DEFAULT_NO_OUTPUT=y
-        DEFAULT_DO_OUTPUT_TIMER=y
+        DEFAULT_NO_OUTPUT=${FORCE_NO_OUTPUT-y}
+        DEFAULT_DO_OUTPUT_TIMER=${FORCE_OUTPUT_TIMER:-y}
     fi
     VERBOSE="${VERBOSE-}"
     TIMER_FREQUENCE="${TIMER_FREQUENCE:-120}"
@@ -236,7 +245,7 @@ run_silent() {
     (
     DEFAULT_RUN_SILENT=1;
     if [ "x${NO_SILENT-}" != "x" ];then DEFAULT_RUN_SILENT=;fi;
-    SILENT=${SILENT-DEFAULT_RUN_SILENT} silent_run "${@}";
+    SILENT=${SILENT-${DEFAULT_RUN_SILENT}} silent_run "${@}";
     )
 }
 vvv() { debug "${@}";silent_run "${@}"; }
@@ -247,6 +256,7 @@ version_lte() { [  "$1" = "$(printf "$1\n$2" | sort -V | head -n1)" ]; }
 version_lt() { [ "$1" = "$2" ] && return 1 || version_lte $1 $2; }
 version_gte() { [  "$2" = "$(printf "$1\n$2" | sort -V | head -n1)" ]; }
 version_gt() { [ "$1" = "$2" ] && return 1 || version_gte $1 $2; }
+lowcase_distribid() { echo $DISTRIB_ID| awk '{print tolower($0)}'; }
 is_archlinux_like() { echo $DISTRIB_ID | egrep -iq "archlinux|arch"; }
 is_debian_like() { echo $DISTRIB_ID | egrep -iq "debian|ubuntu|mint"; }
 is_suse_like() { echo $DISTRIB_ID | egrep -iq "suse"; }
@@ -254,6 +264,12 @@ is_alpine_like() { echo $DISTRIB_ID | egrep -iq "alpine" || test -e /etc/alpine-
 is_redhat_like() { echo $DISTRIB_ID \
         | egrep -iq "((^ol$)|rhel|redhat|red-hat|centos|fedora)"; }
 set_lang() { locale=${1:-C};export LANG=${locale};export LC_ALL=${locale}; }
+is_darwin () {
+    if [ "x${FORCE_DARWIN-}" != "x" ];then return 0;fi
+    if [ "x${FORCE_NO_DARWIN-}" != "x" ];then return 1;fi
+    if ( uname | grep -iq darwin );then return 0;fi
+    return 1
+}
 detect_os() {
     # this function should be copiable in other scripts, dont use adjacent functions
     UNAME="${UNAME:-"$(uname | awk '{print tolower($1)}')"}"
@@ -265,7 +281,11 @@ detect_os() {
     DISTRIB_CODENAME=""
     DISTRIB_ID=""
     DISTRIB_RELEASE=""
-    if ( lsb_release -h >/dev/null 2>&1 ); then
+    if ( is_darwin ); then
+        DISTRIB_ID=Darwin
+        DISTRIB_CODENAME=Darwin
+        DISTRIB_RELEASE=$(uname -a|awk '{print $7}'|cut -d : -f1)
+    elif ( lsb_release -h >/dev/null 2>&1 ); then
         DISTRIB_ID=$(lsb_release -si)
         DISTRIB_CODENAME=$(lsb_release -sc)
         DISTRIB_RELEASE=$(lsb_release -sr)
@@ -460,16 +480,32 @@ upgrade_wd_to_br() {
         fi
     )
 }
-get_python2() {
-    local py2=
-    for i in python2.7 python2.6 python-2.7 python-2.6 python-2;do
+get_python_() {
+    local py_ver=$1
+    shift
+    local selectedpy=""
+    local py_bins="$@"
+    for i in $py_bins;do
         local lpy=$(get_command $i 2>/dev/null)
-        if [ "x$lpy" != "x" ] && ( ${lpy} -V 2>&1| egrep -qi 'python 2' );then
-            py2=${lpy}
+        if [ "x$lpy" != "x" ] && ( ${lpy} -V 2>&1| egrep -qi "python $py_ver" );then
+            selectedpy=${lpy}
             break
         fi
     done
-    echo $py2
+    echo $selectedpy
+}
+get_python2() {
+    local py_ver=2
+    get_python_ $py_ver \
+        python2.7 python2.6 python-2.7 python-2.6 \
+        python-${py_ver} python${py_ver} python
+}
+get_python3() {
+    local py_ver=3
+    get_python_ $py_ver \
+        python3.9  python3.8  python3.7  python3.6  python3.5  python3.4  \
+        python-3.9 python-3.8 python-3.7 python-3.6 python-3.5 python-3.4 \
+        python-${py_ver} python${py_ver} python
 }
 has_python_module() {
     local py="${py:-python}"
@@ -484,6 +520,12 @@ pymod_ver() {
     local py="${2:-${py:-python}}"
     "$py" -c "from __future__ import print_function;import $mod;print($mod.__version__)"
 }
+get_setuptools() {
+    local py=${1:-python}
+    local setuptoolsreq="setuptools"
+    if ( is_python2 $py );then setuptoolsreq="setuptools<=45"; else setuptoolsreq="setuptools<50"; fi
+    echo "$setuptoolsreq"
+}
 install_pip() {
     local py="${1:-python}"
     local DEFAULT_PIP_URL="https://bootstrap.pypa.io/get-pip.py"
@@ -494,7 +536,14 @@ install_pip() {
         log "Error downloading pip installer"
         return 1
     fi
-    $(may_sudo) "$py" "$PIP_INST" -U pip setuptools six
+    $(may_sudo) "$py" "$PIP_INST" -U pip $(get_setuptools $py) six
+}
+is_python2() {
+    local py=${1:-python}
+    if ( $py -V 2>&1| grep -iq "python 2" );then
+        return 0
+    fi
+    return 1
 }
 uninstall_at_least_pymodule() {
     local py="${3:-${py-python}}"
@@ -503,14 +552,22 @@ uninstall_at_least_pymodule() {
     local import="${4:-${1}}"
     if ( ( has_python_module "$mod" ) && ( version_lt "$(pymod_ver "$mod" "$py")" "$ver" ) );then
         local modd=$($py -c "from __future__ import print_function;import $import,os;print(os.path.dirname($import.__file__.replace('/__init__.pyc', '')))")
+        submods=$(echo "$import"|grep -o "\."|wc -l)
+        if [ $submods -gt 0 ];then
+            for i in $(seq 1 $submods);do
+                modd=$modd/..
+            done
+            modd=$(cd "$modd" && pwd)
+        fi
         local modb="$HOME/.$mod.backup.$chrono.tar.bz2"
+        local importp=${import//.//}
         ( log "Backup mod install in $modb" \
-          && if [ -e "$modd/${import}.py" ];then
-            tar cjf "$modb" $modd/${import}.py* $modd/${mod}*egg-info &&\
-                $(may_sudo) rm -rf $modd/${import}.py* $modd/${mod}*egg-info; \
-            elif [ -e "$modd/${import}" ];then
-                tar cjf "$modb" $modd/${import} $modd/${mod}*egg-info &&\
-                    $(may_sudo) rm -rf $modd/${import} $modd/${mod}*egg-info; \
+          && if [ -e "$modd/${importp}.py" ];then
+            tar cjf "$modb" $modd/${importp}.py* $modd/${mod}*egg-info &&\
+                $(may_sudo) rm -rf $modd/${importp}.py* $modd/${mod}*egg-info; \
+            elif [ -e "$modd/${importp}" ];then
+                tar cjf "$modb" $modd/${importp} $modd/${mod}*egg-info &&\
+                    $(may_sudo) rm -rf $modd/${importp} $modd/${mod}*egg-info; \
             fi && log "Upgrading now from legacy pre $mod $ver" ) || \
         die_in_error "Removing legacy $mod failed"
     fi
@@ -527,6 +584,7 @@ upgrade_pip() {
         vv uninstall_at_least_pymodule pyasn1    0.4.2  "$py"
         vv uninstall_at_least_pymodule urllib3   1.20   "$py"
         vv uninstall_at_least_pymodule pyopenssl 18.0.0 "$py" OpenSSL
+        vv uninstall_at_least_pymodule backports.ssl_match_hostname 3.7.0 "$py" backports.ssl_match_hostname
     fi
     uninstall_at_least_pymodule six     1.11.0
     uninstall_at_least_pymodule chardet 2.3.0
@@ -544,8 +602,8 @@ upgrade_pip() {
     else
         local maysudo=$(may_sudo)
     fi
-    vv $maysudo "${py}" -m pip install -U setuptools \
-        && vv $maysudo "${py}" -m pip install -U pip six urllib3\
+    vv $maysudo "${py}" -m pip install -U "$(get_setuptools $py)"\
+        && vv $maysudo "${py}" -m pip install -U "$(get_setuptools $py)" pip six urllib3\
         && vv $maysudo "${py}" -m pip install chardet \
         && if ( version_lt "$($py -V 2>&1|awk '{print $2}')" "3.0" );then
             vv $maysudo "${py}" -m pip install -U backports.ssl_match_hostname ndg-httpsclient pyasn1 &&\
@@ -558,41 +616,47 @@ make_virtualenv() {
     local venv_path=${2-${VENV_PATH:-$DEFAULT_VENV_PATH}}
     local venv=$(get_command $(basename ${VIRTUALENV_BIN:-virtualenv}))
     local PIP_CACHE=${PIP_CACHE:-${venv_path}/cache}
+    if [ ! -e "${venv_path}" ];then
+        mkdir -p "${venv_path}"
+    fi
+    if     [ ! -e "${venv_path}/bin/activate" ] \
+        || [ ! -e "${venv_path}/lib" ] \
+        ; then
+        bs_log "Creating virtualenv in ${venv_path}"
+        if [ ! -e "${PIP_CACHE}" ]; then
+            mkdir -p "${PIP_CACHE}"
+        fi
+    ust="--unzip-setuptools"
+    if ! ( $venv --help 2>&1 | grep -q -- $ust );then
+        ust=""
+    fi
+    sp="--system-site-packages"
+    if ( is_darwin ); then
+        sp=""
+    else
+        sp="--system-site-packages"
+    fi
+    $venv \
+        $( [ "x$py" != "x" ] && echo "--python=$py"; ) \
+        $sp $ust \
+        "${venv_path}" &&\
+    ( . "${venv_path}/bin/activate" &&\
+      upgrade_pip "${venv_path}/bin/python" &&\
+      deactivate; )
+    fi
     if [ "x${DEFAULT_VENV_PATH}" != "${venv_path}" ];then
-        if [ ! -e "${venv_path}" ];then
-            mkdir -p "${venv_path}"
+        if [ -h $DEFAULT_VENV_PATH ] &&\
+            [ "x$(readlink $DEFAULT_VENV_PATH)" != "$venv_path" ];then
+            rm -f "${DEFAULT_VENV_PATH}"
         fi
         if [ -e "${DEFAULT_VENV_PATH}" ] && \
             [ "$DEFAULT_VENV_PATH" != "$venv_path" ] &&\
             [ ! -h "${DEFAULT_VENV_PATH}" ];then
             die "$DEFAULT_VENV_PATH is not a symlink but we want to create it"
         fi
-        if [ -h $DEFAULT_VENV_PATH ] &&\
-            [ "x$(readlink $DEFAULT_VENV_PATH)" != "$venv_path" ];then
-            rm -f "${DEFAULT_VENV_PATH}"
-        fi
         if [ ! -e $DEFAULT_VENV_PATH ];then
             ln -s "${venv_path}" "${DEFAULT_VENV_PATH}"
         fi
-    fi
-    if     [ ! -e "${venv_path}/bin/activate" ] \
-        || [ ! -e "${venv_path}/lib" ] \
-        || [ ! -e "${venv_path}/include" ] \
-        ; then
-        bs_log "Creating virtualenv in ${venv_path}"
-        if [ ! -e "${PIP_CACHE}" ]; then
-            mkdir -p "${PIP_CACHE}"
-        fi
-        if [ ! -e "${venv_path}" ]; then
-            mkdir -p "${venv_path}"
-        fi
-    $venv \
-        $( [ "x$py" != "x" ] && echo "--python=$py"; ) \
-        --system-site-packages --unzip-setuptools \
-        "${venv_path}" &&\
-    ( . "${venv_path}/bin/activate" &&\
-      upgrade_pip "${venv_path}/bin/python" &&\
-      deactivate; )
     fi
 }
 ensure_last_python_requirement() {
@@ -717,7 +781,56 @@ pacman_setup() {
     ensure_command which core/which
 }
 
-### redhat alike (dnf & yum)
+### redhat alike (microdnf, dnf & yum)
+### MICRODNF
+microdnf_repoquery() {
+    vvv microdnf repoquery "${@}"
+}
+
+is_microdnf_available() {
+    pkgs="$(microdnf repoquery --available)"
+    for i in $@;do
+        if ! ( echo "$pkgs" | egrep -iq "${i}" ; ); then
+            return 1
+        fi
+    done
+}
+
+is_microdnf_installed() {
+    pkgs="$(microdnf repoquery --installed)"
+    for i in $@;do
+        if ! ( echo "$pkgs" | egrep -iq "${i}" ; ); then
+            return 1
+        fi
+    done
+}
+
+microdnf_update() {
+    vvv microdnf repoquery $(i_y) --refresh --available --installed >/dev/null
+    ret=$?
+    if echo ${ret} | egrep -q '^(0|100)$'; then
+        return 0
+    fi
+    return 1
+}
+
+microdnf_upgrade() {
+    vvv microdnf update $(i_y) $@
+}
+
+microdnf_install() {
+    vvv microdnf install $(i_y) $@ &&\
+        if [ "x$NO_LATEST" = "x" ];then vvv microdnf_update $@;fi
+}
+
+microdnf_ensure_repoquery() {
+    return 0
+}
+
+microdnf_setup() {
+    rh_setup
+}
+
 ### DNF
 dnf_repoquery() {
     vvv dnf repoquery -q "${@}"
@@ -1005,7 +1118,9 @@ parse_cli() {
         INSTALLER=pacman
     elif ( is_redhat_like; );then
         INSTALLER=yum
-        if has_command dnf;then
+        if has_command microdnf;then
+            INSTALLER=microdnf
+        elif has_command dnf;then
             INSTALLER=dnf
         fi
     else
