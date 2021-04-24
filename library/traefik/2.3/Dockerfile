@@ -1,4 +1,4 @@
-FROM library/traefik:morbier-alpine
+FROM library/traefik:2.3
 ARG DO_UPDATE=y
 ARG NONINTERACTIVE=y
 ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"

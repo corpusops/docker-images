@@ -1,4 +1,4 @@
-FROM library/traefik:cancoillotte-alpine
+FROM library/traefik:v2.1
 ARG DO_UPDATE=y
 ARG NONINTERACTIVE=y
 ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"

@@ -1,4 +1,4 @@
-FROM library/traefik:camembert-alpine
+FROM library/traefik:v2.4
 ARG DO_UPDATE=y
 ARG NONINTERACTIVE=y
 ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"

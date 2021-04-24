@@ -1,4 +1,4 @@
-FROM library/traefik:tetedemoine-alpine
+FROM library/traefik:v1.5
 ARG DO_UPDATE=y
 ARG NONINTERACTIVE=y
 ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"
