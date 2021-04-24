@@ -1,4 +1,4 @@
-FROM library/traefik:montdor-alpine
+FROM library/traefik:latest
 ARG DO_UPDATE=y
 ARG NONINTERACTIVE=y
 ARG INSTALL_DEFAULT_LOCALE="fr_FR.UTF-8"
