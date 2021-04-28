@@ -147,7 +147,6 @@ fi
 curl_updated=
 if ( echo $DISTRIB_ID | egrep -iq "debian|mint|ubuntu" );then
     if ( dpkg -l libcurl3 );then
-        set -x
         for i in curl libcurl3;do
             if ( dpkg -l $i );then
                 dpkg --purge --force-all $i
