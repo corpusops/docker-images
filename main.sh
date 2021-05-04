@@ -273,7 +273,6 @@ library/redis
 library/rabbitmq
 library/node
 library/php
-library/postgres
 library/python
 library/traefik
 library/ruby
@@ -284,8 +283,6 @@ library/mongo
 library/elasticsearch
 opensuse/tumbleweed
 opensuse/leap
-corpusops/pgrouting-bare
-corpusops/postgis-bare
 mailhog/mailhog
 mailu/postfix
 mailu/rspamd
@@ -352,14 +349,6 @@ library/alpine/latest\
  mailu/postfix/latest\
  mailu/postfix/master\
  $NODE_TOP\
- library/postgres/alpine\
- library/postgres/12-alpine\
- library/postgres/13-alpine\
- library/postgres/11-alpine\
- library/postgres/10-alpine\
- corpusops/postgis-bare/alpine\
- corpusops/postgis-bare/11-alpine\
- corpusops/postgis-bare/10-alpine\
  library/traefik/alpine\
  library/nginx/1-alpine\
  library/nginx/1.15-alpine\
@@ -439,17 +428,7 @@ library/debian/latest\
  minio/mc/edge\
  minio/mc/latest\
  library/elasticsearch/2::17
-library/postgres/latest\
- corpusops/postgis-bare/latest\
- library/postgres/12\
- library/postgres/13\
- library/postgres/11\
- library/postgres/10\
- library/postgres/9\
- corpusops/postgis-bare/11\
- corpusops/postgis-bare/10\
- corpusops/postgis-bare/9\
- library/mysql/latest\
+library/mysql/latest\
  library/elasticsearch/5\
  library/mongo/3\
  library/solr/6\
@@ -550,8 +529,6 @@ library/ruby/latest\
  library/ruby/1.9-slim::37
 library/ruby/2.4-alpine\
  library/ruby/2.4-slim-alpine\
- library/postgres/9-alpine\
- corpusops/postgis-bare/9-alpine\
  library/php/5.6-alpine\
  library/php/5.6-cli-alpine\
  library/php/5.6-fpm-alpine\
