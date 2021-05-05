@@ -40,13 +40,20 @@
   their fixes including security patches, this repo has a Travis cron enabled to rebuild everything at least daily.
 
 ## Wrapped images
+- `corpusops/postgres`, `corpusops/pgrouting` & `corpusops/postgis` pipelines has been moved to [this repo](https://github.com/corpusops/docker-postgresql)
+   and those 2 children: [postgis](https://github.com/corpusops/docker-postgis) / [pgrouting](https://github.com/corpusops/docker-pgrouting)
 
-- [![Build Status](https://travis-ci.org/corpusops/docker-images.svg?branch=master)](https://travis-ci.org/corpusops/docker-images)
+| repo  | status  |
+|------------|-----------|
+| [docker-images](https://github.com/corpusops/docker-images)    | [![images](https://github.com/corpusops/docker-images/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-images/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
+| [docker-postgis](https://github.com/corpusops/docker-postgis)   | [![postgis](https://github.com/corpusops/docker-postgis/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-postgis/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
+| [docker-pgrouting](https://github.com/corpusops/docker-pgrouting) | [![pgrouting](https://github.com/corpusops/docker-pgrouting/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-pgrouting/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
+| [docker-postgres](https://github.com/corpusops/docker-postgresql)  | [![postgres](https://github.com/corpusops/docker-postgresql/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-postgresql/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster)  |
 
 | original  | corpusops  |
 |------------|-----------|
-| [library/redmine](https://hub.redmine.com/_/redmine)([./library/redmine](./library/redmine))                                       | [corpusops/redmine](https://hub.redmine.com/r/corpusops/redmine)         |
-| [library/docker](https://hub.docker.com/_/docker)([./library/docker](./library/docker))                                       | [corpusops/docker](https://hub.docker.com/r/corpusops/docker)         |
+| [library/redmine](https://hub.redmine.com/_/redmine)([./library/redmine](./library/redmine))                                  | [corpusops/redmine](https://hub.redmine.com/r/corpusops/redmine)                |
+| [library/docker](https://hub.docker.com/_/docker)([./library/docker](./library/docker))                                       | [corpusops/docker](https://hub.docker.com/r/corpusops/docker)                   |
 | [library/alpine](https://hub.docker.com/_/alpine)([./library/alpine](./library/alpine))                                       | [corpusops/alpine-bare](https://hub.docker.com/r/corpusops/alpine-bare)         |
 | [library/centos](https://hub.docker.com/_/centos)([./library/centos](./library/centos))                                       | [corpusops/centos-bare](https://hub.docker.com/r/corpusops/centos-bare)         |
 | [library/debian](https://hub.docker.com/_/debian)([./library/debian](./library/debian))                                       | [corpusops/debian-bare](https://hub.docker.com/r/corpusops/debian-bare)         |
@@ -55,11 +62,10 @@
 | [library/golang](https://hub.docker.com/_/golang)([./library/golang](./library/golang))                                       | [corpusops/golang](https://hub.docker.com/r/corpusops/golang)                   |
 | [library/mongo](https://hub.docker.com/_/mongo)([./library/mongo](./library/mongo))                                           | [corpusops/mongo](https://hub.docker.com/r/corpusops/mongo)                     |
 | [library/mysql](https://hub.docker.com/_/mysql)([./library/mysql](./library/mysql))                                           | [corpusops/mysql](https://hub.docker.com/r/corpusops/mysql)                     |
-| [library/mariadb](https://hub.docker.com/_/mariadb)([./library/mariadb](./library/mariadb))                                           | [corpusops/mariadb](https://hub.docker.com/r/corpusops/mariadb)                     |
+| [library/mariadb](https://hub.docker.com/_/mariadb)([./library/mariadb](./library/mariadb))                                   | [corpusops/mariadb](https://hub.docker.com/r/corpusops/mariadb)                 |
 | [library/nginx](https://hub.docker.com/_/nginx)([./library/nginx](./library/nginx)) ( also add **htpasswd** )                 | [corpusops/nginx](https://hub.docker.com/r/corpusops/nginx)                     |
 | [library/traefik](https://hub.docker.com/_/traefik)([./library/traefik](./library/traefik))                                   | [corpusops/traefik](https://hub.docker.com/r/corpusops/traefik)                 |
 | [library/php](https://hub.docker.com/_/php)([./library/php](./library/php))                                                   | [corpusops/php](https://hub.docker.com/r/corpusops/php)                         |
-| [library/postgres](https://hub.docker.com/_/postgres)([./library/postgres](./library/postgres))                               | [corpusops/postgres](https://hub.docker.com/r/corpusops/postgres)               |
 | [library/python](https://hub.docker.com/_/python)([./library/python](./library/python))                                       | [corpusops/python](https://hub.docker.com/r/corpusops/python)                   |
 | [library/ruby](https://hub.docker.com/_/ruby)([./library/ruby](./library/ruby))                                               | [corpusops/ruby](https://hub.docker.com/r/corpusops/ruby)                       |
 | [library/solr](https://hub.docker.com/_/solr)([./library/solr](./library/solr))                                               | [corpusops/solr](https://hub.docker.com/r/corpusops/solr)                       |
@@ -68,8 +74,6 @@
 | [library/rabbitmq](https://hub.docker.com/_/rabbitmq)([./library/rabbitmq](./library/rabbitmq))                                           | [corpusops/rabbitmq](https://hub.docker.com/r/corpusops/rabbitmq)   |
 | [library/opensuse](https://hub.docker.com/_/opensuse)([./library/opensuse](./library/opensuse))                               | [corpusops/opensuse-bare](https://hub.docker.com/r/corpusops/opensuse-bare)     |
 | [library/ubuntu](https://hub.docker.com/_/ubuntu)([./library/ubuntu](./library/ubuntu))                                       | [corpusops/ubuntu-bare](https://hub.docker.com/r/corpusops/ubuntu-bare)         |
-| [makinacorpus/pgrouting](https://hub.docker.com/r/makinacorpus/pgrouting)([./makinacorpus/pgrouting](./makinacorpus/pgrouting)) | [corpusops/pgrouting](https://hub.docker.com/r/corpusops/pgrouting)             |
-| [mdillon/postgis](https://hub.docker.com/r/mdillon/postgis)([./mdillon/postgis](./mdillon/postgis))                             | [corpusops/postgis](https://hub.docker.com/r/corpusops/postgis)                 |
 | [mailhog/mailhog](https://hub.docker.com/r/mailhog/mailhog)([./mailhog/mailhog](./mailhog/mailhog))                             | [corpusops/mailhog](https://hub.docker.com/r/corpusops/mailhog)                 |
 | [minio/k8s-operator](https://hub.docker.com/r/minio/k8s-operator)([./minio/k8s-operator](./minio/k8s-operator))                 | [corpusops/minio-k8s-operator](https://hub.docker.com/r/corpusops/minio-k8s-operator)       |
 | [minio/doctor](https://hub.docker.com/r/minio/doctor)([./minio/doctor](./minio/doctor))                                         | [corpusops/minio-doctor](https://hub.docker.com/r/corpusops/minio-doctor)                   |
