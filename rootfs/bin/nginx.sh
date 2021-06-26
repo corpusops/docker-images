@@ -20,7 +20,7 @@ export NGINX_HTTP_PROTECT_PASSWORD=${NGINX_HTTP_PROTECT_PASSWORD-}
 export NGINX_SKIP_CHECK="${NGINX_SKIP_CHECK-}"
 export NGINX_ROTATE_YEARS="${NGINX_ROTATE_YEARS:-1}"
 export NGINX_ROTATE=${NGINX_ROTATE-$((365*${NGINX_ROTATE_YEARS}))}
-export NGINX_USER=${NGINX_USER-"nginx"}
+export NGINX_USER=${NGINX_USER-"root"}
 export NGINX_GROUP=${NGINX_GROUP-"nginx"}
 export NGINX_STD_OUTPUT=${NGINX_STD_OUTPUT-}
 export NGINX_AUTOCLEANUP_LOGS=${NGINX_AUTOCLEANUP_LOGS-}
@@ -141,6 +141,9 @@ else
         cops_gen_cert.sh
     fi
     log "$SSL_CERT_PATH found as SSL certificate"
+fi
+if [ -e /etc/nginx/nginx.conf ];then
+    sed -i -re "s/user\s+.*;/user ${NGINX_USER};/g" /etc/nginx/nginx.conf
 fi
 DEFAULT_NGINX_DEBUG_BIN=$(which nginx-debug 2>/dev/null )
 NGINX_DEBUG_BIN=${NGINX_DEBUG_BIN-$DEFAULT_NGINX_DEBUG_BIN}
