@@ -39,7 +39,7 @@
 - To be sure to include new tags nearly as soon as they are out, and to also refresh images to include
   their fixes including security patches, this repo has a Travis cron enabled to rebuild everything at least daily.
 
-## Wrapped images
+## Separatly mananged images
 - `corpusops/postgres`, `corpusops/pgrouting` & `corpusops/postgis` pipelines has been moved to [this repo](https://github.com/corpusops/docker-postgresql)
    and those 2 children: [postgis](https://github.com/corpusops/docker-postgis) / [pgrouting](https://github.com/corpusops/docker-pgrouting)
 
@@ -49,6 +49,12 @@
 | [docker-postgis](https://github.com/corpusops/docker-postgis)   | [![postgis](https://github.com/corpusops/docker-postgis/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-postgis/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
 | [docker-pgrouting](https://github.com/corpusops/docker-pgrouting) | [![pgrouting](https://github.com/corpusops/docker-pgrouting/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-pgrouting/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
 | [docker-postgres](https://github.com/corpusops/docker-postgresql)  | [![postgres](https://github.com/corpusops/docker-postgresql/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-postgresql/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster)  |
+
+- other images managed separatly
+
+| repo  | status  |
+|------------|-----------|
+| [docker-vault](https://github.com/corpusops/docker-vault)  | [![vault](https://github.com/corpusops/docker-vault/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-vault/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster)  |
 
 | original  | corpusops  |
 |------------|-----------|
