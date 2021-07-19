@@ -54,7 +54,7 @@
 
 | repo  | status  |
 |------------|-----------|
-| [docker-vault](https://github.com/corpusops/docker-vault)  | [![vault](https://github.com/corpusops/docker-vault/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-vault/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster)  |
+| [docker-vault](https://github.com/corpusops/docker-vault)  | [![vault](https://github.com/corpusops/docker-vault/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-vault/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 
 | original  | corpusops  |
 |------------|-----------|
