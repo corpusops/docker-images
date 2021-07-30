@@ -340,7 +340,7 @@ library/ubuntu/latest\
  library/memcached/latest\
  library/memcached/alpine\
  library/mongo/latest\
- library/mongo/4::42
+ library/mongo/4::7
 library/alpine/latest\
  library/alpine/3\
  mailu/rspamd/$MAILU_VERSiON\
@@ -403,7 +403,7 @@ library/alpine/latest\
  minio/minio/edge\
  minio/minio/latest\
  mailhog/mailhog/latest\
- library/solr/7-alpine::34
+ library/solr/7-alpine::7
 library/debian/latest\
  library/debian/slim\
  library/debian/sid\
@@ -428,7 +428,7 @@ library/debian/latest\
  minio/doctor/latest\
  minio/mc/edge\
  minio/mc/latest\
- library/elasticsearch/2::17
+ library/elasticsearch/2::7
 library/mysql/latest\
  library/elasticsearch/5\
  library/mongo/3\
@@ -440,7 +440,7 @@ library/mysql/latest\
  library/mariadb/10.2\
  library/mariadb/10.3\
  library/mariadb/10.4\
- library/archlinux/latest::29
+ library/archlinux/latest::7
 library/golang/latest\
  library/python/3\
  library/python/2\
@@ -463,7 +463,7 @@ library/golang/latest\
  library/node/7-slim\
  library/solr/5-slim\
  library/solr/5\
- library/mongo/2::23
+ library/mongo/2::7
 library/php/7\
  library/php/7-cli\
  library/php/7-fpm\
@@ -495,7 +495,7 @@ library/php/7\
  library/php/7.1\
  library/php/7.1-cli\
  library/php/7.1-fpm\
- library/php/7.1-zts::20
+ library/php/7.1-zts::7
 library/ruby/latest\
  library/ruby/slim\
  library/ruby/2\
@@ -527,7 +527,7 @@ library/ruby/latest\
  corpusops/pgrouting-bare/10-2.5\
  corpusops/pgrouting-bare/10-2.4-2.6\
  corpusops/pgrouting-bare/10-2.4\
- library/ruby/1.9-slim::37
+ library/ruby/1.9-slim::7
 library/ruby/2.4-alpine\
  library/ruby/2.4-slim-alpine\
  library/php/5.6-alpine\
@@ -566,7 +566,7 @@ library/ruby/2.4-alpine\
  library/elasticsearch/1-alpine\
  library/elasticsearch/2-alpine\
  seafileltd/seafile-mc/7.1.4\
- seafileltd/seafile-mc/7.1.5::13
+ seafileltd/seafile-mc/7.1.5::7
 library/docker/dind\
  library/docker/dind-rootless\
  library/docker/edge\
@@ -595,7 +595,7 @@ library/docker/dind\
  library/tensorflow/serving/latest\
  library/tensorflow/serving/latest-gpu\
  library/docker/test-dind-rootless\
- library/redmine/4-passenger::21
+ library/redmine/4-passenger::7
 "
 
 declare -A registry_tokens
