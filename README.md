@@ -55,6 +55,14 @@
 | repo  | status  |
 |------------|-----------|
 | [docker-vault](https://github.com/corpusops/docker-vault)  | [![vault](https://github.com/corpusops/docker-vault/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-vault/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-bitwarden](https://github.com/corpusops/docker-bitwarden)  | [![bitwarden](https://github.com/corpusops/docker-bitwarden/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-bitwarden/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-php](https://github.com/corpusops/docker-php)  | [![php](https://github.com/corpusops/docker-php/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-php/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-ruby](https://github.com/corpusops/docker-ruby)  | [![ruby](https://github.com/corpusops/docker-ruby/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-ruby/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-nginx](https://github.com/corpusops/docker-nginx)  | [![nginx](https://github.com/corpusops/docker-nginx/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-nginx/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-debian](https://github.com/corpusops/docker-debian)  | [![debian](https://github.com/corpusops/docker-debian/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-debian/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-ubuntu](https://github.com/corpusops/docker-ubuntu)  | [![ubuntu](https://github.com/corpusops/docker-ubuntu/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-ubuntu/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-node](https://github.com/corpusops/docker-node)  | [![node](https://github.com/corpusops/docker-node/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-node/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-python](https://github.com/corpusops/docker-python)  | [![python](https://github.com/corpusops/docker-python/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-python/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 
 | original  | corpusops  |
 |------------|-----------|
@@ -71,8 +79,6 @@
 | [library/mariadb](https://hub.docker.com/_/mariadb)([./library/mariadb](./library/mariadb))                                   | [corpusops/mariadb](https://hub.docker.com/r/corpusops/mariadb)                 |
 | [library/nginx](https://hub.docker.com/_/nginx)([./library/nginx](./library/nginx)) ( also add **htpasswd** )                 | [corpusops/nginx](https://hub.docker.com/r/corpusops/nginx)                     |
 | [library/traefik](https://hub.docker.com/_/traefik)([./library/traefik](./library/traefik))                                   | [corpusops/traefik](https://hub.docker.com/r/corpusops/traefik)                 |
-| [library/php](https://hub.docker.com/_/php)([./library/php](./library/php))                                                   | [corpusops/php](https://hub.docker.com/r/corpusops/php)                         |
-| [library/python](https://hub.docker.com/_/python)([./library/python](./library/python))                                       | [corpusops/python](https://hub.docker.com/r/corpusops/python)                   |
 | [library/ruby](https://hub.docker.com/_/ruby)([./library/ruby](./library/ruby))                                               | [corpusops/ruby](https://hub.docker.com/r/corpusops/ruby)                       |
 | [library/solr](https://hub.docker.com/_/solr)([./library/solr](./library/solr))                                               | [corpusops/solr](https://hub.docker.com/r/corpusops/solr)                       |
 | [library/wordpress](https://hub.docker.com/_/wordpress)([./library/wordpress](./library/wordpress))                           | [corpusops/wordpress](https://hub.docker.com/r/corpusops/wordpress)             |
