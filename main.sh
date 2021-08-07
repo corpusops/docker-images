@@ -264,20 +264,13 @@ minio/doctor
 library/memcached
 library/alpine
 library/centos
-library/debian
 library/fedora
 library/golang
 library/mysql
 library/mariadb
-library/nginx
 library/redis
 library/rabbitmq
-library/node
-library/php
-library/python
 library/traefik
-library/ruby
-library/ubuntu
 library/opensuse
 library/solr
 library/mongo
@@ -309,16 +302,7 @@ find_top_node() { (set +e && find_top_node_ && set -e;); }
 NODE_TOP="$(echo $(find_top_node))"
 MAILU_VERSiON=1.7
 BATCHED_IMAGES="\
-library/ubuntu/latest\
- library/ubuntu/focal\
- library/ubuntu/bionic\
- library/ubuntu/20.04\
- library/ubuntu/18.04\
- library/ubuntu/16.04\
- library/ubuntu/xenial\
- library/ubuntu/14.04\
- library/ubuntu/trusty\
- library/solr/latest\
+library/solr/latest\
  library/solr/7\
  library/solr/7-slim\
  library/mysql/8\
@@ -351,15 +335,6 @@ library/alpine/latest\
  mailu/postfix/master\
  $NODE_TOP\
  library/traefik/alpine\
- library/nginx/1-alpine\
- library/nginx/1.15-alpine\
- library/nginx/1.14-alpine\
- library/nginx/alpine-perl\
- library/nginx/mainline-alpine-perl\
- library/nginx/stable-alpine-perl\
- library/nginx/alpine\
- library/nginx/mainline-alpine\
- library/nginx/stable-alpine\
  library/node/alpine\
  library/node/slim-alpine\
  library/node/lts-alpine\
@@ -369,32 +344,6 @@ library/alpine/latest\
  library/node/12-slim-alpine\
  library/node/13-alpine\
  library/node/13-slim-alpine\
- library/ruby/alpine\
- library/ruby/slim-alpine\
- library/ruby/1-alpine\
- library/ruby/1-slim-alpine\
- library/ruby/2-alpine\
- library/ruby/2-slim-alpine\
- library/ruby/2.3-alpine\
- library/ruby/2.3-slim-alpine\
- library/ruby/2.5-alpine\
- library/ruby/2.5-slim-alpine\
- library/php/alpine\
- library/php/cli-alpine\
- library/php/fpm-alpine\
- library/php/zts-alpine\
- library/php/5-alpine\
- library/php/5-cli-alpine\
- library/php/5-fpm-alpine\
- library/php/5-zts-alpine\
- library/php/7-alpine\
- library/php/7-cli-alpine\
- library/php/7-fpm-alpine\
- library/php/7-zts-alpine\
- library/php/7.3-alpine\
- library/php/7.3-cli-alpine\
- library/php/7.3-fpm-alpine\
- library/php/7.3-zts-alpine\
  library/elasticsearch/5-alpine\
  library/solr/alpine\
  library/redis/alpine\
@@ -404,26 +353,8 @@ library/alpine/latest\
  minio/minio/latest\
  mailhog/mailhog/latest\
  library/solr/7-alpine::7
-library/debian/latest\
- library/debian/slim\
- library/debian/sid\
- library/debian/sid-slim\
- library/debian/9\
- library/debian/9-slim\
- library/debian/stable\
- library/debian/stable-slim\
- library/debian/7-slim\
- library/debian/8-slim\
- library/debian/7\
- library/debian/8\
- library/centos/latest\
+library/centos/latest\
  library/centos/7\
- library/nginx/latest\
- library/nginx/perl\
- library/nginx/mainline\
- library/nginx/mainline-perl\
- library/nginx/stable\
- library/nginx/stable-perl\
  library/elasticsearch/1\
  minio/doctor/latest\
  minio/mc/edge\
@@ -442,78 +373,10 @@ library/mysql/latest\
  library/mariadb/10.4\
  library/archlinux/latest::7
 library/golang/latest\
- library/python/3\
- library/python/2\
- library/python/latest\
- library/python/3.7\
- library/python/3.6\
- library/node/latest\
- library/node/slim\
- library/node/lts\
- library/node/lts-slim\
- library/node/11\
- library/node/11-slim\
- library/node/10\
- library/node/10-slim\
- library/node/9\
- library/node/9-slim\
- library/node/8\
- library/node/8-slim\
- library/node/7\
- library/node/7-slim\
  library/solr/5-slim\
  library/solr/5\
  library/mongo/2::7
-library/php/7\
- library/php/7-cli\
- library/php/7-fpm\
- library/php/7-zts\
- library/php/5\
- library/php/5-cli\
- library/php/5-fpm\
- library/php/5-zts\
- library/php/latest\
- library/php/cli\
- library/php/fpm\
- library/php/zts\
- library/php/7.3\
- library/php/7.3-cli\
- library/php/7.3-fpm\
- library/php/7.3-zts\
- library/php/7.2\
- library/php/7.2-cli\
- library/php/7.2-fpm\
- library/php/7.2-zts\
- library/php/5.6\
- library/php/5.6-cli\
- library/php/5.6-fpm\
- library/php/5.6-zts\
- library/php/7.0\
- library/php/7.0-cli\
- library/php/7.0-fpm\
- library/php/7.0-zts\
- library/php/7.1\
- library/php/7.1-cli\
- library/php/7.1-fpm\
- library/php/7.1-zts::7
-library/ruby/latest\
- library/ruby/slim\
- library/ruby/2\
- library/ruby/2-slim\
- library/ruby/2.5\
- library/ruby/2.5-slim\
- library/ruby/2.4\
- library/ruby/2.4-slim\
- library/ruby/2.3\
- library/ruby/2.3-slim\
- library/ruby/2.1\
- library/ruby/2.1-slim\
- library/ruby/2.2\
- library/ruby/2.2-slim\
- library/ruby/1\
- library/ruby/1-slim\
- library/ruby/1.9\
- corpusops/pgrouting-bare/latest\
+corpusops/pgrouting-bare/latest\
  corpusops/pgrouting-bare/10\
  corpusops/pgrouting-bare/11\
  corpusops/pgrouting-bare/11-2.5\
@@ -526,39 +389,8 @@ library/ruby/latest\
  corpusops/pgrouting-bare/10-2.5-2.6\
  corpusops/pgrouting-bare/10-2.5\
  corpusops/pgrouting-bare/10-2.4-2.6\
- corpusops/pgrouting-bare/10-2.4\
- library/ruby/1.9-slim::7
-library/ruby/2.4-alpine\
- library/ruby/2.4-slim-alpine\
- library/php/5.6-alpine\
- library/php/5.6-cli-alpine\
- library/php/5.6-fpm-alpine\
- library/php/5.6-zts-alpine\
- library/solr/6-alpine\
- library/node/7-alpine\
- library/node/7-slim-alpine\
- library/node/8-alpine\
- library/node/8-slim-alpine\
- library/node/9-alpine\
- library/node/9-slim-alpine\
- library/ruby/1.9-alpine\
- library/ruby/1.9-slim-alpine\
- library/ruby/2.1-alpine\
- library/ruby/2.1-slim-alpine\
- library/ruby/2.2-alpine\
- library/ruby/2.2-slim-alpine\
- library/php/7.0-alpine\
- library/php/7.0-cli-alpine\
- library/php/7.0-fpm-alpine\
- library/php/7.0-zts-alpine\
- library/php/7.1-alpine\
- library/php/7.1-cli-alpine\
- library/php/7.1-fpm-alpine\
- library/php/7.1-zts-alpine\
- library/php/7.2-alpine\
- library/php/7.2-cli-alpine\
- library/php/7.2-fpm-alpine\
- library/php/7.2-zts-alpine\
+ corpusops/pgrouting-bare/10-2.4::7
+library/solr/6-alpine\
  library/solr/5-alpine\
  library/solr/7-slim-alpine\
  library/solr/6-slim-alpine\
