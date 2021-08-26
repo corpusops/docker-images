@@ -7,3 +7,4 @@ acl
 iproute
 cronie
 jq
+nc
