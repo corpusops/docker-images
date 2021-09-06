@@ -223,7 +223,7 @@ NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
-SKIP_MINOR_ES2="$SKIP_MINOR_ES|(elasticsearch:(5\.[0-4]\.)|(6\.8\.[0-8])|(6\.[0-7])|(7\.9\.[0-2])|(7\.[0-8]))"
+SKIP_MINOR_ES2="$SKIP_MINOR_ES|(elasticsearch:(1.[6-7]\.|5\.[0-4]\.|5\.6\.[0-7]|6\.8\.[0-8]|6\.[0-7]\.|7\.9\.[0-2]|7\.[0-8]).*(-alpine)?$)"
 # SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
 MINOR_IMAGES="(golang|mariadb|memcached|mongo|mysql|nginx|node|php|postgres|python|rabbitmq|redis|redmine|ruby|solr)"
 SKIP_MINOR_OS="$MINOR_IMAGES:.*alpine[0-9].*"
@@ -247,12 +247,13 @@ SKIP_WINDOWS="(.*(nanoserver|windows))"
 SKIP_MISC="(-?(on.?build)|pgrouting.*old)|seafile-mc:(7.0.1|7.0.2|7.0.3|7.0.4|7.0.5|7.1.3)|(dejavu:(v.*|1\..\.?.?|2\..\..)|3\.[1-3]\..|3.0.0|.*alpha.*$)"
 SKIP_NODE="((node):.*alpine3\..?.?)"
 SKIP_TF="(tensorflow.serving:[0-9].*)"
-SKIP_MINIO="(k8s-operator|((minio|mc):(RELEASE.)?[0-9]{4}-.{7}))"
+SKIP_MINIO="(k8s-operator|((minio\/mc):(RELEASE.)?[0-9]{4}-.{7}))"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
 SKIP_DOCKER="docker(\/|:)([0-9]+\.[0-9]+\.|17|18.0[1-6]|1$|1(\.|-)).*"
-SKIPPED_TAGS="$SKIP_TF|$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES2|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC"
+SKIPPED_TAGS="$SKIP_MINOR_ES2|$SKIP_MAILU|$SKIP_MINOR|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_TF|$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC"
 CURRENT_TS=$(date +%s)
-IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
+IMAGES_SKIP_NS="(mailhog|postgis|pgrouting(-bare)?|^library|dejavu|minio/minio|minio/mc)"
+IMAGES_SKIP_NS=""
 
 
 default_images="
@@ -564,7 +565,8 @@ library/ruby/2.4-alpine\
  library/solr/5-slim-alpine\
  library/elasticsearch/1-alpine\
  library/elasticsearch/2-alpine\
- seafileltd/seafile-mc/7.1.4::12
+ seafileltd/seafile-mc/7.1.4\
+ seafileltd/seafile-mc/7.1.5::13
 library/docker/dind\
  library/docker/dind-rootless\
  library/docker/edge\
