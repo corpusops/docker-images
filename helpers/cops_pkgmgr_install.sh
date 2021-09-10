@@ -74,6 +74,14 @@ NORMAL="\\e[0;0m"
 NO_COLOR=${NO_COLORS-${NO_COLORS-${NOCOLOR-${NOCOLORS-}}}}
 LOGGER_NAME=${LOGGER_NAME:-corpusops_build}
 ERROR_MSG="There were errors"
+is_container() {
+    if ( grep -q container= /proc/1/environ 2>/dev/null ) \
+       || ( egrep -q 'docker|lxc' /proc/1/cgroup 2>/dev/null ) \
+       || [ -e /.dockerenv ];then
+           return 0
+    fi
+    return 1
+}
 uniquify_string() {
     local pattern=$1
     shift

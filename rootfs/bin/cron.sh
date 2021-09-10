@@ -19,11 +19,18 @@ if [ -e /etc/pam.d/cron ];then
     sed -i -re "s/^session    required     pam_loginuid.so/#session    required   pam_loginuid.so/g" /etc/pam.d/cron
 fi
 logrotateconf=/etc/logrotate.d/rsyslog
+fixlogrotateconf() {
+    if [  ! -e $1 ];then return;fi
+    if [ "x${2-}" != "x" ];then shift;fi
+    chmod -v g-wx,o-wx $@
+}
 if [ -e $logrotateconf ];then
     sed -i -r \
         -e "s/rotate [0-9]+/rotate $LOGROTATE_DAYS/g" \
         -e "s/size .*/size $LOGROTATE_SIZE/g" \
         $logrotateconf
+    fixlogrotateconf /etc/logrotate.d "/etc/logrotate.d/*"
+    fixlogrotateconf /etc/logrotate.conf
 fi
 if [ -e /etc/security/pam_env.conf ];then
     env | grep -- = | while read -r line; do  # read STDIN by line
