@@ -102,7 +102,7 @@ if [ "x${INSTALL_DEFAULT_LOCALE}" != "x" ];then
                         | awk '{print tolower($0)}' \
                         |sed -re "s/([-_.])/\1?/g" )$" \
         |head -n1)
-    if [[ -n "$AUTODETECTED_LOCALE" ]];then
+    if [ "x$AUTODETECTED_LOCALE" != "x" ];then
         log "Installing autodetected locale: $AUTODETECTED_LOCALE"
         INSTALL_DEFAULT_LOCALE="$AUTODETECTED_LOCALE"
     fi
