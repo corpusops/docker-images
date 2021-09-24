@@ -38,6 +38,7 @@
 - debian 6 (stretch) is not supported anymore.
 - To be sure to include new tags nearly as soon as they are out, and to also refresh images to include
   their fixes including security patches, this repo has a Travis cron enabled to rebuild everything at least daily.
+- Note: All single binaries and scripts are installed inside `/cops_helpers`, you can them use any docker-images related image as a source to ignite a volume or use multistage builds to copy them.
 
 ## Separatly mananged images
 - `corpusops/postgres`, `corpusops/pgrouting` & `corpusops/postgis` pipelines has been moved to [this repo](https://github.com/corpusops/docker-postgresql)
