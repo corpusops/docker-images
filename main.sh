@@ -963,7 +963,7 @@ record_build_image() {
         return
     fi
     dargs="${DOCKER_BUILD_ARGS-} $(get_docker_squash_args)"
-    local dbuild="docker build ${dargs-}  -t $itag . -f $image/$df --build-arg=DOCKER_IMAGES_COMMIT=$git_commit"
+    local dbuild="cat $image/$df|docker build ${dargs-}  -t $itag . -f - --build-arg=DOCKER_IMAGES_COMMIT=$git_commit"
     local retries=${DOCKER_BUILD_RETRIES:-2}
     local cmd="dret=8 && for i in \$(seq $retries);do if ($dbuild);then dret=0;break;else dret=6;fi;done"
     local cmd="$cmd && if [ \"x\$dret\" != \"x0\" ];then"
