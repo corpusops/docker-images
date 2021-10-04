@@ -938,7 +938,10 @@ is_same_commit_label() {
 
 get_docker_squash_args() {
     DOCKER_DO_SQUASH=${DOCKER_DO_SQUASH-init}
-    if [[ "$DOCKER_DO_SQUASH" = init ]];then
+    if ! ( echo "${NO_SQUASH-}"|egrep -q "^(no)?$" );then
+        DOCKER_DO_SQUASH=""
+        log "no squash"
+    elif [[ "$DOCKER_DO_SQUASH" = init ]];then
         DOCKER_DO_SQUASH="--squash"
         if ! (printf "FROM alpine\nRUN touch foo\n" | docker build --squash - >/dev/null 2>&1 );then
             DOCKER_DO_SQUASH=
