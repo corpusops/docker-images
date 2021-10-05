@@ -15,7 +15,7 @@ env:
   DOCKER_PASSWORD: "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"
 jobs:
   r:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env: {IMAGES: "${{matrix.IMAGES}}"}
     steps:
       - name: Set vars
