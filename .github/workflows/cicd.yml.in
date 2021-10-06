@@ -3,6 +3,7 @@ env:
   COMPOSE_DOCKER_CLI_BUILD: "1"
   BUILDKIT_PROGRESS: "plain"
   NO_SQUASH: ""
+  NO_SILENT: "1"
   NONINTERACTIVE: "1"
   FORCE_ONLINE: "1"
   NBPARALLEL: "2"
@@ -45,12 +46,11 @@ jobs:
           path: |
             ~/.cache
             local
-          key: 5-${{ runner.os }}-${{ github.ref }}-${{ github.repository }}-venvstatics
+          key: 6-${{ runner.os }}-${{ github.ref }}-${{ github.repository }}-venvstatics
       - name: setup
         run: set -e;i=$(whoami);sudo sh -c "chown -Rf $i .";
              ./main.sh refresh_corpusops;
-             sudo sh -c 'apt-get update -qq &&
-                         apt-get install -qqy --force-yes parallel'
+             sudo sh -c 'apt-get update -qq && apt-get install -qqy --force-yes parallel'
       - name: refresh images
         run: set -e;if (echo $IMAGES|grep -q zleftover);then
              rm -f */*/*/Dockerfile&&${{steps.v.outputs.silent}} ./refresh_images.sh;
@@ -58,11 +58,13 @@ jobs:
       - name: build & release
         run: set -e;
              if [ "x${{steps.v.outputs.releasable}}" = "xtrue" ];then export DO_RELEASE=1;fi;
-             ${{steps.v.outputs.silent}} ./build.sh $IMAGES
+             ./build.sh $IMAGES
+# ${{steps.v.outputs.silent}} ./build.sh $IMAGES
     strategy:
       fail-fast: false
       matrix:
         IMAGES:$__IMAGES
+        #- "corpusops/test/a corpusops/test/b corpusops/test/c"
         # all images that werent explicitly told to be built would be built in the next batches
         # we span them onto N jobs
         - "zleftover:1/91"
@@ -152,5 +154,5 @@ jobs:
         - "zleftover:91/91"
 on:
   push:
-  pull_request:
-  schedule: [{cron: '1 0 1,15 * *'}]
+  workflow_dispatch:
+  schedule: [{cron: '1 0 1,3,5,15,17,19 * *'}]
