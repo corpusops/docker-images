@@ -976,8 +976,8 @@ record_build_image() {
     if [[ -n "$DO_RELEASE" ]];then
         run="$run && ./local/corpusops.bootstrap/hacking/docker_release $itag"
         if [[ -n "${GITHUB_REF-}" ]];then
-            run="$run && docker rmi $itag"
-            run="$run && ./local/corpusops.bootstrap/bin/cops_docker_cleanup.sh"
+            run="$run && ( docker rmi $itag || /bin/true )"
+            run="$run && (./local/corpusops.bootstrap/bin/cops_docker_cleanup.sh || /bin/true)"
         fi
     fi
     book="$(printf "$run\n${book}" )"
