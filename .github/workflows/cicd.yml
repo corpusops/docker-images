@@ -3,6 +3,7 @@ env:
   COMPOSE_DOCKER_CLI_BUILD: "1"
   BUILDKIT_PROGRESS: "plain"
   NO_SQUASH: ""
+  NO_SILENT: "1"
   NONINTERACTIVE: "1"
   FORCE_ONLINE: "1"
   NBPARALLEL: "2"
@@ -45,12 +46,11 @@ jobs:
           path: |
             ~/.cache
             local
-          key: 5-${{ runner.os }}-${{ github.ref }}-${{ github.repository }}-venvstatics
+          key: 6-${{ runner.os }}-${{ github.ref }}-${{ github.repository }}-venvstatics
       - name: setup
         run: set -e;i=$(whoami);sudo sh -c "chown -Rf $i .";
              ./main.sh refresh_corpusops;
-             sudo sh -c 'apt-get update -qq &&
-                         apt-get install -qqy --force-yes parallel'
+             sudo sh -c 'apt-get update -qq && apt-get install -qqy --force-yes parallel'
       - name: refresh images
         run: set -e;if (echo $IMAGES|grep -q zleftover);then
              rm -f */*/*/Dockerfile&&${{steps.v.outputs.silent}} ./refresh_images.sh;
@@ -58,7 +58,8 @@ jobs:
       - name: build & release
         run: set -e;
              if [ "x${{steps.v.outputs.releasable}}" = "xtrue" ];then export DO_RELEASE=1;fi;
-             ${{steps.v.outputs.silent}} ./build.sh $IMAGES
+             ./build.sh $IMAGES
+# ${{steps.v.outputs.silent}} ./build.sh $IMAGES
     strategy:
       fail-fast: false
       matrix:
@@ -77,6 +78,7 @@ jobs:
         - "library/ruby/2.2-alpine library/php/7.0-alpine library/php/7.0-cli-alpine library/php/7.0-fpm-alpine library/php/7.0-zts-alpine library/php/7.1-alpine library/php/7.1-cli-alpine library/php/7.1-fpm-alpine library/php/7.1-zts-alpine library/php/7.2-alpine library/php/7.2-cli-alpine library/php/7.2-fpm-alpine"
         - "library/php/7.2-zts-alpine library/solr/5-alpine library/elasticsearch/1-alpine library/elasticsearch/2-alpine seafileltd/seafile-mc/7.1.4"
         - "library/docker/dind library/docker/dind-rootless library/docker/edge library/docker/edge-dind library/docker/experimental library/docker/experimental-dind library/docker/git library/docker/latest library/docker/rc library/docker/rc-dind library/docker/rc-dind-rootless library/docker/rc-experimental library/docker/rc-experimental-dind library/docker/stable library/docker/stable-dind library/docker/stable-dind-rootless library/docker/test library/docker/test-dind library/docker/test-dind-rootless library/redmine/4-passenger"
+        #- "corpusops/test/a corpusops/test/b corpusops/test/c"
         # all images that werent explicitly told to be built would be built in the next batches
         # we span them onto N jobs
         - "zleftover:1/91"
