@@ -223,6 +223,7 @@ NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-4}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
+SKIP_MINOR_ES2="$SKIP_MINOR_ES|(elasticsearch:(5\.[0-4]\.)|(6\.8\.[0-8])|(6\.[0-7])|(7\.9\.[0-2])|(7\.[0-8]))"
 # SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
 MINOR_IMAGES="(golang|mariadb|memcached|mongo|mysql|nginx|node|php|postgres|python|rabbitmq|redis|redmine|ruby|solr|traefik)"
 SKIP_MINOR_OS="$MINOR_IMAGES:.*alpine[0-9].*"
@@ -249,7 +250,7 @@ SKIP_TF="(tensorflow.serving:[0-9].*)"
 SKIP_MINIO="(k8s-operator|((minio|mc):(RELEASE.)?[0-9]{4}-.{7}))"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
 SKIP_DOCKER="docker(\/|:)([0-9]+\.[0-9]+\.|17|18.0[1-6]|1$|1(\.|-)).*"
-SKIPPED_TAGS="$SKIP_TF|$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC"
+SKIPPED_TAGS="$SKIP_TF|$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES2|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC"
 CURRENT_TS=$(date +%s)
 IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
 default_images="
@@ -403,11 +404,6 @@ library/alpine/latest\
  library/php/7.3-fpm-alpine\
  library/php/7.3-zts-alpine\
  library/elasticsearch/5-alpine\
- library/elasticsearch/6.5.4\
- library/elasticsearch/6.5.3\
- library/elasticsearch/6.5.2\
- library/elasticsearch/6.5.1\
- library/elasticsearch/6.5.0\
  library/solr/alpine\
  library/redis/alpine\
  library/redis/5-alpine\
@@ -436,10 +432,6 @@ library/debian/latest\
  library/nginx/mainline-perl\
  library/nginx/stable\
  library/nginx/stable-perl\
- library/elasticsearch/6.4.3\
- library/elasticsearch/6.4.2\
- library/elasticsearch/6.4.1\
- library/elasticsearch/6.4.0\
  library/elasticsearch/1\
  minio/doctor/latest\
  minio/mc/edge\
