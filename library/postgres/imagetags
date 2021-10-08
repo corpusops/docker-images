@@ -46,6 +46,8 @@
 10.13-alpine
 10.14
 10.14-alpine
+10.15
+10.15-alpine
 11
 11-alpine
 11.0
@@ -68,6 +70,8 @@
 11.8-alpine
 11.9
 11.9-alpine
+11.10
+11.10-alpine
 12
 12-alpine
 12.0
@@ -80,9 +84,13 @@
 12.3-alpine
 12.4
 12.4-alpine
+12.5
+12.5-alpine
 13
 13-alpine
 13.0
 13.0-alpine
+13.1
+13.1-alpine
 alpine
 latest

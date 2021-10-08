@@ -570,7 +570,7 @@
 5.6.40-zts-alpine3.8
 5.6.40-zts-jessie
 5.6.40-zts-stretch
-7 rc-fpm-alpine3.12
+7
 7-alpine
 7-alpine3.4
 7-alpine3.6
@@ -578,32 +578,31 @@
 7-alpine3.9
 7-alpine3.10
 7-alpine3.11
-7-alpine3.12
-7-apache
+7-apache 7-alpine3.12
 7-apache-buster
 7-apache-jessie
 7-apache-stretch
 7-buster
 7-cli
+7-cli-alpine
 7-cli-alpine3.4
 7-cli-alpine3.6
 7-cli-alpine3.7
 7-cli-alpine3.8 7-alpine3.8
 7-cli-alpine3.10
-7-cli-alpine3.11 7-cli-alpine
+7-cli-alpine3.11
 7-cli-alpine3.12
 7-cli-buster
 7-cli-jessie
 7-cli-stretch
 7-fpm
-7-fpm-alpine
 7-fpm-alpine3.4 alpine3.4
 7-fpm-alpine3.6 7.2-fpm-alpine3.6
 7-fpm-alpine3.7
 7-fpm-alpine3.8
 7-fpm-alpine3.9 7-cli-alpine3.9
 7-fpm-alpine3.10
-7-fpm-alpine3.11
+7-fpm-alpine3.11 7-fpm-alpine
 7-fpm-alpine3.12
 7-fpm-buster
 7-fpm-jessie apache-jessie
@@ -619,6 +618,7 @@
 7-zts-alpine3.10
 7-zts-alpine3.11
 7-zts-alpine3.12
+7-zts-buster
 7-zts-jessie
 7-zts-stretch 7-stretch
 7.0
@@ -1709,24 +1709,23 @@
 7.1.33-zts-alpine3.10
 7.1.33-zts-buster
 7.1.33-zts-stretch
-7.2 7-zts-buster
+7.2
 7.2-alpine
 7.2-alpine3.6
 7.2-alpine3.8
 7.2-alpine3.9
 7.2-alpine3.10
-7.2-alpine3.12 7.2-alpine3.11
-7.2-apache
-7.2-apache-buster
+7.2-alpine3.11
+7.2-apache-buster 7.2-apache
 7.2-apache-stretch
 7.2-buster
 7.2-cli
-7.2-cli-alpine
 7.2-cli-alpine3.6
 7.2-cli-alpine3.7
 7.2-cli-alpine3.8
 7.2-cli-alpine3.11
 7.2-cli-alpine3.12
+7.2-cli-alpine 7.2-alpine3.12
 7.2-cli-buster
 7.2-cli-stretch
 7.2-fpm
@@ -1737,7 +1736,8 @@
 7.2-fpm-alpine3.10 7.2-cli-alpine3.10
 7.2-fpm-alpine3.11
 7.2-fpm-alpine3.12
-7.2-fpm-stretch 7.2-fpm-buster
+7.2-fpm-buster
+7.2-fpm-stretch
 7.2-rc
 7.2-rc-alpine
 7.2-rc-alpine3.6 7.2.0RC6-alpine3.6
@@ -1763,6 +1763,7 @@
 7.2-zts-alpine3.9
 7.2-zts-alpine3.10
 7.2-zts-alpine3.11
+7.2-zts-alpine3.12
 7.2-zts-buster
 7.2-zts-stretch
 7.2.0
@@ -2612,34 +2613,32 @@
 7.2.33-zts-buster
 7.2.33-zts-stretch
 7.2.34
-7.2.34-alpine3.11
+7.2.34-alpine3.11 7.2.34-alpine
 7.2.34-alpine3.12
-7.2.34-alpine 7.2-zts-alpine3.12
-7.2.34-apache
-7.2.34-apache-buster
+7.2.34-apache-buster 7.2.34-apache
 7.2.34-apache-stretch
-7.2.34-cli 7.2.34-buster
+7.2.34-buster
+7.2.34-cli
 7.2.34-cli-alpine
 7.2.34-cli-alpine3.11
 7.2.34-cli-alpine3.12
 7.2.34-cli-buster
-7.2.34-cli-stretch
 7.2.34-fpm
 7.2.34-fpm-alpine
 7.2.34-fpm-alpine3.11
 7.2.34-fpm-alpine3.12
 7.2.34-fpm-buster
-7.2.34-fpm-stretch
+7.2.34-fpm-stretch 7.2.34-cli-stretch
 7.2.34-stretch
 7.2.34-zts
-7.2.34-zts-alpine3.11 7.2.34-zts-alpine
-7.2.34-zts-alpine3.12
+7.2.34-zts-alpine
+7.2.34-zts-alpine3.12 7.2.34-zts-alpine3.11
 7.2.34-zts-buster
-7.3 7.2.34-zts-stretch
-7.3-alpine
+7.2.34-zts-stretch
+7.3
 7.3-alpine3.9
 7.3-alpine3.10 7.2.31-zts-alpine3.11
-7.3-alpine3.11
+7.3-alpine3.11 7.3-alpine
 7.3-alpine3.12
 7.3-apache
 7.3-apache-buster
@@ -2651,16 +2650,17 @@
 7.3-cli-alpine3.9
 7.3-cli-alpine3.10
 7.3-cli-alpine3.11
-7.3-cli-alpine3.12
-7.3-cli-buster
+7.3-cli-buster 7.3-cli-alpine3.12
 7.3-cli-stretch
 7.3-fpm
 7.3-fpm-alpine
 7.3-fpm-alpine3.8
 7.3-fpm-alpine3.9
 7.3-fpm-alpine3.10
-7.3-fpm-alpine3.12 7.3-fpm-alpine3.11
-7.3-fpm-stretch 7.3-fpm-buster
+7.3-fpm-alpine3.11
+7.3-fpm-alpine3.12
+7.3-fpm-buster
+7.3-fpm-stretch
 7.3-rc 7.3.0RC6
 7.3-rc-alpine
 7.3-rc-alpine3.8
@@ -2680,12 +2680,11 @@
 7.3-rc-zts-alpine3.8
 7.3-rc-zts-stretch
 7.3-stretch
-7.3-zts
-7.3-zts-alpine
 7.3-zts-alpine3.8
 7.3-zts-alpine3.10
 7.3-zts-alpine3.11
 7.3-zts-alpine3.12
+7.3-zts-alpine 7.3-zts
 7.3-zts-buster
 7.3-zts-stretch
 7.3.0
@@ -3359,13 +3358,13 @@
 7.3.23-cli 7.3.23-buster
 7.3.23-cli-alpine
 7.3.23-cli-alpine3.11
+7.3.23-cli-alpine3.12
 7.3.23-cli-buster
 7.3.23-cli-stretch
 7.3.23-fpm
+7.3.23-fpm-alpine
 7.3.23-fpm-alpine3.11
-7.3.23-fpm-alpine3.12
-7.3.23-fpm-alpine 7.3.23-cli-alpine3.12
-7.3.23-fpm-buster
+7.3.23-fpm-buster 7.3.23-fpm-alpine3.12
 7.3.23-fpm-stretch
 7.3.23-stretch
 7.3.23-zts
@@ -3373,7 +3372,57 @@
 7.3.23-zts-alpine3.11
 7.3.23-zts-alpine3.12
 7.3.23-zts-buster
-7.4 7.3.23-zts-stretch
+7.3.23-zts-stretch
+7.3.24
+7.3.24-alpine
+7.3.24-alpine3.11
+7.3.24-alpine3.12
+7.3.24-apache-buster 7.3.24-apache
+7.3.24-apache-stretch
+7.3.24-buster
+7.3.24-cli
+7.3.24-cli-alpine
+7.3.24-cli-alpine3.11
+7.3.24-cli-alpine3.12
+7.3.24-cli-buster
+7.3.24-cli-stretch
+7.3.24-fpm
+7.3.24-fpm-alpine
+7.3.24-fpm-alpine3.11
+7.3.24-fpm-buster
+7.3.24-fpm-stretch
+7.3.24-stretch
+7.3.24-zts
+7.3.24-zts-alpine3.11
+7.3.24-zts-alpine3.12
+7.3.24-zts-alpine 7.3.24-fpm-alpine3.12
+7.3.24-zts-buster
+7.3.24-zts-stretch
+7.3.25
+7.3.25-alpine
+7.3.25-alpine3.11
+7.3.25-alpine3.12
+7.3.25-apache-buster 7.3.25-apache
+7.3.25-apache-stretch
+7.3.25-buster
+7.3.25-cli
+7.3.25-cli-alpine
+7.3.25-cli-alpine3.11
+7.3.25-cli-alpine3.12
+7.3.25-cli-buster
+7.3.25-cli-stretch
+7.3.25-fpm-alpine3.11
+7.3.25-fpm-alpine3.12
+7.3.25-fpm-alpine 7.3.25-fpm
+7.3.25-fpm-buster
+7.3.25-fpm-stretch
+7.3.25-stretch
+7.3.25-zts
+7.3.25-zts-alpine
+7.3.25-zts-alpine3.11
+7.3.25-zts-buster 7.3.25-zts-alpine3.12
+7.3.25-zts-stretch
+7.4
 7.4-alpine
 7.4-alpine3.10
 7.4-alpine3.11
@@ -3381,10 +3430,10 @@
 7.4-apache
 7.4-apache-buster
 7.4-buster
-7.4-cli
 7.4-cli-alpine3.10
-7.4-cli-alpine3.11 7.4-cli-alpine
+7.4-cli-alpine3.11
 7.4-cli-alpine3.12
+7.4-cli-alpine 7.4-cli
 7.4-cli-buster
 7.4-fpm
 7.4-fpm-alpine
@@ -3416,10 +3465,10 @@
 7.4-rc-zts-alpine3.10
 7.4-rc-zts-buster
 7.4-rc-zts-stretch
-7.4-zts
-7.4-zts-alpine
 7.4-zts-alpine3.11
 7.4-zts-alpine3.12
+7.4-zts-alpine 7.4-zts
+7.4-zts-buster
 7.4.0RC1
 7.4.0RC1-alpine
 7.4.0RC1-alpine3.10
@@ -3821,17 +3870,16 @@
 7.4.10-zts-alpine
 7.4.10-zts-alpine3.11
 7.4.10-zts-alpine3.12
-7.4.11 7.4-zts-buster
-7.4.11-alpine
-7.4.11-alpine3.12 7.4.11-alpine3.11
+7.4.11-alpine3.11
+7.4.11-alpine3.12
+7.4.11-alpine 7.4.11
 7.4.11-apache
 7.4.11-apache-buster
 7.4.11-buster
 7.4.11-cli
 7.4.11-cli-alpine
 7.4.11-cli-alpine3.11
-7.4.11-cli-alpine3.12
-7.4.11-cli-buster
+7.4.11-cli-buster 7.4.11-cli-alpine3.12
 7.4.11-fpm
 7.4.11-fpm-alpine
 7.4.11-fpm-alpine3.11
@@ -3840,9 +3888,76 @@
 7.4.11-zts
 7.4.11-zts-alpine
 7.4.11-zts-alpine3.11
-8.0-rc 7.4.11-zts-buster
-8.0-rc-alpine
-8.0-rc-alpine3.12
+7.4.11-zts-buster 7.4.11-zts-alpine3.12
+7.4.12
+7.4.12-alpine
+7.4.12-alpine3.11
+7.4.12-alpine3.12
+7.4.12-apache-buster 7.4.12-apache
+7.4.12-buster
+7.4.12-cli
+7.4.12-cli-alpine
+7.4.12-cli-alpine3.11
+7.4.12-cli-alpine3.12
+7.4.12-cli-buster
+7.4.12-fpm
+7.4.12-fpm-alpine3.11 7.4.12-fpm-alpine
+7.4.12-fpm-alpine3.12
+7.4.12-fpm-buster
+7.4.12-zts
+7.4.12-zts-alpine
+7.4.12-zts-alpine3.11
+7.4.12-zts-alpine3.12
+7.4.12-zts-buster
+7.4.13
+7.4.13-alpine
+7.4.13-alpine3.11
+7.4.13-alpine3.12
+7.4.13-apache
+7.4.13-buster 7.4.13-apache-buster
+7.4.13-cli
+7.4.13-cli-alpine
+7.4.13-cli-alpine3.11
+7.4.13-cli-alpine3.12
+7.4.13-cli-buster
+7.4.13-fpm
+7.4.13-fpm-alpine
+7.4.13-fpm-alpine3.11
+7.4.13-fpm-buster 7.4.13-fpm-alpine3.12
+7.4.13-zts
+7.4.13-zts-alpine
+7.4.13-zts-alpine3.11
+7.4.13-zts-alpine3.12
+7.4.13-zts-buster
+8
+8-alpine
+8-alpine3.12
+8-apache-buster 8-apache
+8-buster
+8-cli
+8-cli-alpine
+8-cli-alpine3.12
+8-cli-buster
+8-fpm
+8-fpm-alpine
+8-fpm-alpine3.12
+8-zts 8-fpm-buster
+8-zts-buster
+8.0
+8.0-alpine
+8.0-alpine3.12
+8.0-apache
+8.0-apache-buster
+8.0-buster
+8.0-cli
+8.0-cli-alpine3.12 8.0-cli-alpine
+8.0-cli-buster
+8.0-fpm
+8.0-fpm-alpine
+8.0-fpm-alpine3.12
+8.0-fpm-buster
+8.0-rc
+8.0-rc-alpine3.12 8.0-rc-alpine
 8.0-rc-apache
 8.0-rc-apache-buster
 8.0-rc-buster
@@ -3851,10 +3966,70 @@
 8.0-rc-cli-alpine3.12
 8.0-rc-cli-buster
 8.0-rc-fpm
-8.0-rc-fpm-alpine
-8.0-rc-fpm-alpine3.12
+8.0-rc-fpm-alpine3.12 8.0-rc-fpm-alpine
 8.0-rc-fpm-buster
 8.0-rc-zts
+8.0-rc-zts-buster
+8.0-zts
+8.0-zts-buster
+8.0.0
+8.0.0RC2
+8.0.0RC2-alpine
+8.0.0RC2-alpine3.12
+8.0.0RC2-apache
+8.0.0RC2-apache-buster
+8.0.0RC2-buster
+8.0.0RC2-cli
+8.0.0RC2-cli-alpine
+8.0.0RC2-cli-buster 8.0.0RC2-cli-alpine3.12
+8.0.0RC2-fpm
+8.0.0RC2-fpm-alpine
+8.0.0RC2-fpm-alpine3.12
+8.0.0RC2-fpm-buster
+8.0.0RC2-zts
+8.0.0RC2-zts-buster
+8.0.0RC3
+8.0.0RC3-alpine
+8.0.0RC3-alpine3.12
+8.0.0RC3-apache
+8.0.0RC3-buster 8.0.0RC3-apache-buster
+8.0.0RC3-cli
+8.0.0RC3-cli-alpine
+8.0.0RC3-cli-alpine3.12
+8.0.0RC3-cli-buster
+8.0.0RC3-fpm
+8.0.0RC3-fpm-alpine
+8.0.0RC3-fpm-alpine3.12
+8.0.0RC3-fpm-buster
+8.0.0RC3-zts-buster 8.0.0RC3-zts
+8.0.0RC4
+8.0.0RC4-alpine
+8.0.0RC4-alpine3.12
+8.0.0RC4-apache-buster 8.0.0RC4-apache
+8.0.0RC4-buster
+8.0.0RC4-cli
+8.0.0RC4-cli-alpine3.12 8.0.0RC4-cli-alpine
+8.0.0RC4-cli-buster
+8.0.0RC4-fpm
+8.0.0RC4-fpm-alpine
+8.0.0RC4-fpm-alpine3.12
+8.0.0RC4-fpm-buster
+8.0.0RC4-zts
+8.0.0RC4-zts-buster
+8.0.0RC5
+8.0.0RC5-alpine
+8.0.0RC5-alpine3.12
+8.0.0RC5-apache
+8.0.0RC5-apache-buster
+8.0.0RC5-cli 8.0.0RC5-buster
+8.0.0RC5-cli-alpine
+8.0.0RC5-cli-alpine3.12
+8.0.0RC5-cli-buster
+8.0.0RC5-fpm
+8.0.0RC5-fpm-alpine
+8.0.0RC5-fpm-alpine3.12
+8.0.0RC5-fpm-buster
+8.0.0RC5-zts
 8.0.0alpha1
 8.0.0alpha1-alpine
 8.0.0alpha1-alpine3.12
@@ -3957,20 +4132,34 @@
 8.0.0beta4-fpm-buster
 8.0.0beta4-zts
 8.0.0beta4-zts-buster
-8.0.0rc1 8.0-rc-zts-buster
+8.0.0rc1
 8.0.0rc1-alpine
+8.0.0rc1-alpine3.12
 8.0.0rc1-apache
 8.0.0rc1-apache-buster
 8.0.0rc1-buster
 8.0.0rc1-cli
-8.0.0rc1-cli-alpine3.12
-8.0.0rc1-cli-alpine 8.0.0rc1-alpine3.12
+8.0.0rc1-cli-alpine
 8.0.0rc1-cli-buster
 8.0.0rc1-fpm
-8.0.0rc1-fpm-alpine
 8.0.0rc1-fpm-alpine3.12
-8.0.0rc1-fpm-buster
-8.0.0rc1-zts
+8.0.0rc1-fpm-alpine 8.0.0rc1-cli-alpine3.12
+8.0.0rc1-zts 8.0.0rc1-fpm-buster
+8.0.0rc1-zts-buster
+8.0.0-alpine3.12 8.0.0-alpine
+8.0.0-apache
+8.0.0-apache-buster
+8.0.0-buster
+8.0.0-cli
+8.0.0-cli-alpine
+8.0.0-cli-alpine3.12
+8.0.0-cli-buster
+8.0.0-fpm
+8.0.0-fpm-alpine3.12 8.0.0-fpm-alpine
+8.0.0-fpm-buster
+8.0.0-zts
+8.0.0-zts-buster
+alpine
 alpine3.6
 alpine3.7
 alpine3.8
@@ -3978,13 +4167,10 @@ alpine3.9
 alpine3.10
 alpine3.11
 alpine3.12
-alpine 7.4.11-zts-alpine3.12
-apache 8.0.0rc1-zts-buster
+apache
 apache-buster
 apache-stretch
 buster
-cli
-cli-alpine
 cli-alpine3.4
 cli-alpine3.6
 cli-alpine3.7
@@ -3993,6 +4179,7 @@ cli-alpine3.9
 cli-alpine3.10
 cli-alpine3.11
 cli-alpine3.12
+cli-alpine cli
 cli-buster
 cli-jessie
 cli-stretch
@@ -4009,7 +4196,7 @@ fpm-buster
 fpm-jessie
 fpm-stretch
 jessie
-rc
+rc 8.0.0RC5-zts-buster
 rc-alpine
 rc-alpine3.6
 rc-alpine3.8
@@ -4017,7 +4204,7 @@ rc-alpine3.9
 rc-alpine3.10
 rc-alpine3.12
 rc-apache
-rc-apache-buster latest
+rc-apache-buster
 rc-apache-stretch
 rc-buster
 rc-cli
@@ -4027,14 +4214,14 @@ rc-cli-alpine3.8
 rc-cli-alpine3.9
 rc-cli-alpine3.10
 rc-cli-alpine3.12
-rc-cli-buster
 rc-cli-stretch
-rc-fpm
+rc-fpm rc-cli-buster
 rc-fpm-alpine
 rc-fpm-alpine3.6
 rc-fpm-alpine3.8
 rc-fpm-alpine3.9
 rc-fpm-alpine3.10
+rc-fpm-alpine3.12
 rc-fpm-buster
 rc-fpm-stretch
 rc-stretch
@@ -4047,12 +4234,14 @@ rc-zts-alpine3.10
 rc-zts-buster
 stretch
 zts
+zts-alpine
 zts-alpine3.4
 zts-alpine3.6
 zts-alpine3.8 fpm-alpine3.8
 zts-alpine3.9
 zts-alpine3.10
-zts-alpine3.11 zts-alpine
+zts-alpine3.11
 zts-alpine3.12
+zts-buster
 zts-jessie
- zts-buster
+ latest

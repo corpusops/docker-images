@@ -21,6 +21,7 @@
 19.04
 20.04
 20.10
+21.04
 artful
 artful-20170511.1
 artful-20170601
@@ -38,6 +39,7 @@ artful-20180412 artful-20180227
 artful-20180417
 artful-20180524
 artful-20180706
+bionic
 bionic-20171114
 bionic-20171214
 bionic-20180125
@@ -70,7 +72,8 @@ bionic-20200526 19.10
 bionic-20200630
 bionic-20200713 groovy-20200704
 bionic-20200807
-bionic-20200921 bionic
+bionic-20200921
+bionic-20201119
 cosmic
 cosmic-20180605 bionic-20180526
 cosmic-20180716
@@ -123,6 +126,7 @@ focal-20200720
 focal-20200729
 focal-20200916 bionic-20200903
 focal-20200925
+focal-20201106
 groovy
 groovy-20200505
 groovy-20200609
@@ -130,6 +134,9 @@ groovy-20200723
 groovy-20200812
 groovy-20200911
 groovy-20200921
+groovy-20201022.1 focal-20201008
+groovy-20201125.2
+hirsute-20201119 hirsute
 precise precise-20170331
 precise-20150212
 precise-20150228.11
@@ -328,6 +335,8 @@ xenial-20200706
 xenial-20200807
 xenial-20200903
 xenial-20200916
+xenial-20201014
+xenial-20201030
 yakkety
 yakkety-20160708
 yakkety-20160717

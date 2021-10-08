@@ -180,7 +180,7 @@
 4.0.14-buster
 4.0.14-stretch
 5
-5-32bit
+5-32bit alpine3.12
 5-32bit-buster
 5-32bit-stretch
 5-alpine
@@ -188,17 +188,17 @@
 5-alpine3.9
 5-alpine3.10
 5-alpine3.11
+5-alpine3.12
 5-buster
 5-stretch
 5.0
 5.0-32bit
 5.0-32bit-buster
 5.0-32bit-stretch
+5.0-alpine
 5.0-alpine3.8
 5.0-alpine3.10
 5.0-alpine3.11
-5.0-alpine3.12
-5.0-alpine 5-alpine3.12
 5.0-rc
 5.0-rc3
 5.0-rc3-32bit
@@ -279,21 +279,27 @@
 5.0.8-alpine
 5.0.8-alpine3.11
 5.0.8-buster
-5.0.9 5.0-buster
+5.0.9
 5.0.9-32bit
 5.0.9-32bit-buster
-5.0.9-alpine
 5.0.9-alpine3.11
-5.0.9-alpine3.12
+5.0.9-alpine3.12 5.0.9-alpine
 5.0.9-buster
+5.0.10 5.0-buster
+5.0.10-32bit
+5.0.10-32bit-buster
+5.0.10-alpine3.12
+5.0.10-alpine 5.0-alpine3.12
+5.0.10-buster
 6
 6-alpine
 6-alpine3.11
+6-alpine3.12
 6-buster
 6.0
+6.0-alpine
 6.0-alpine3.11
 6.0-alpine3.12
-6.0-alpine 6-alpine3.12
 6.0-buster
 6.0-rc1-32bit
 6.0-rc1-32bit-buster
@@ -341,17 +347,21 @@
 6.0.5-alpine
 6.0.5-alpine3.12
 6.0.5-buster
-6.0.6
+6.0.6 6.0.6-alpine3.12
 6.0.6-alpine
-6.0.6-alpine3.12
 6.0.6-buster
-6.0.7 6.0.7-alpine3.12
+6.0.7
 6.0.7-alpine
+6.0.7-alpine3.12
 6.0.7-buster
 6.0.8
 6.0.8-alpine
 6.0.8-alpine3.12
 6.0.8-buster
+6.0.9
+6.0.9-alpine
+6.0.9-alpine3.12
+6.0.9-buster
 32bit
 32bit-buster
 32bit-stretch
@@ -359,7 +369,6 @@ alpine
 alpine3.8
 alpine3.9
 alpine3.10
-alpine3.12
 buster
 rc
 rc-32bit-buster rc-32bit

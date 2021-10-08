@@ -74,6 +74,13 @@
 14-slim
 14-stretch
 14-stretch-slim
+15
+15-alpine
+15-buster
+15-buster-slim
+15-slim
+15-stretch
+15-stretch-slim
 alpine
 argon
 argon-alpine
@@ -133,6 +140,13 @@ erbium-buster-slim
 erbium-slim
 erbium-stretch
 erbium-stretch-slim
+fermium
+fermium-alpine
+fermium-buster
+fermium-buster-slim
+fermium-slim
+fermium-stretch
+fermium-stretch-slim
 jessie
 latest
 lts
