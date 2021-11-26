@@ -1,7 +1,0 @@
-# Add rsyslog from AUR
-ARG AUR_PACKAGES="librelp liblogging libfastjson libestr rsyslog"
-ADD helpers/aur_build.sh /bin
-RUN sh -c ': \
-    && pacman -S --noconfirm postgresql-libs mariadb-libs net-snmp \
-    && aur_build.sh \
-    && pacman -Rs --noconfirm postgresql-libs mariadb-libs net-snmp'

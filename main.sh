@@ -257,30 +257,6 @@ IMAGES_SKIP_NS=""
 
 
 default_images="
-appbaseio/dejavu
-minio/minio
-minio/mc
-minio/doctor
-library/memcached
-library/alpine
-library/centos
-library/fedora
-library/golang
-library/mysql
-library/mariadb
-library/redis
-library/rabbitmq
-library/traefik
-library/opensuse
-library/solr
-library/mongo
-library/elasticsearch
-opensuse/tumbleweed
-opensuse/leap
-mailhog/mailhog
-mailu/postfix
-mailu/rspamd
-seafileltd/seafile-mc
 "
 
 find_top_node_() {
@@ -302,80 +278,7 @@ find_top_node() { (set +e && find_top_node_ && set -e;); }
 NODE_TOP="$(echo $(find_top_node))"
 MAILU_VERSiON=1.7
 BATCHED_IMAGES="\
-library/solr/latest\
- library/solr/7\
- library/solr/7-slim\
- library/mysql/8\
- library/mysql/5\
- library/rabbitmq/3\
- library/rabbitmq/3-alpine\
- library/rabbitmq/3-management\
- library/rabbitmq/3-management-alpine\
- library/rabbitmq/alpine\
- library/rabbitmq/latest\
- library/rabbitmq/management\
- library/rabbitmq/management-alpine\
- library/redis/stretch\
- library/redis/latest\
- library/redis/5-stretch\
- library/redis/5\
- library/redis/4-stretch\
- library/redis/4\
- library/memcached/latest\
- library/memcached/alpine\
- library/mongo/latest\
- library/mongo/4::7
-library/alpine/latest\
- library/alpine/3\
- mailu/rspamd/$MAILU_VERSiON\
- mailu/rspamd/latest\
- mailu/rspamd/master\
- mailu/postfix/$MAILU_VERSiON\
- mailu/postfix/latest\
- mailu/postfix/master\
- $NODE_TOP\
- library/traefik/alpine\
- library/node/alpine\
- library/node/slim-alpine\
- library/node/lts-alpine\
- library/node/lts-slim-alpine\
- library/node/slim-alpine\
- library/node/12-alpine\
- library/node/12-slim-alpine\
- library/node/13-alpine\
- library/node/13-slim-alpine\
- library/elasticsearch/5-alpine\
- library/solr/alpine\
- library/redis/alpine\
- library/redis/5-alpine\
- library/redis/4-alpine\
- minio/minio/edge\
- minio/minio/latest\
- mailhog/mailhog/latest\
- library/solr/7-alpine::7
-library/centos/latest\
- library/centos/7\
- library/elasticsearch/1\
- minio/doctor/latest\
- minio/mc/edge\
- minio/mc/latest\
- library/elasticsearch/2::7
-library/mysql/latest\
- library/elasticsearch/5\
- library/mongo/3\
- library/solr/6\
- library/solr/6-slim\
- library/mariadb/latest\
- library/mariadb/10\
- library/mariadb/10.1\
- library/mariadb/10.2\
- library/mariadb/10.3\
- library/mariadb/10.4\
  library/archlinux/latest::7
-library/golang/latest\
- library/solr/5-slim\
- library/solr/5\
- library/mongo/2::7
 corpusops/pgrouting-bare/latest\
  corpusops/pgrouting-bare/10\
  corpusops/pgrouting-bare/11\
@@ -389,47 +292,11 @@ corpusops/pgrouting-bare/latest\
  corpusops/pgrouting-bare/10-2.5-2.6\
  corpusops/pgrouting-bare/10-2.5\
  corpusops/pgrouting-bare/10-2.4-2.6\
- corpusops/pgrouting-bare/10-2.4::7
-library/solr/6-alpine\
- library/solr/5-alpine\
- library/solr/7-slim-alpine\
- library/solr/6-slim-alpine\
- library/solr/5-slim-alpine\
- library/elasticsearch/1-alpine\
- library/elasticsearch/2-alpine\
- seafileltd/seafile-mc/7.1.4\
- seafileltd/seafile-mc/7.1.5::7
-library/docker/dind\
- library/docker/dind-rootless\
- library/docker/edge\
- library/docker/edge-dind\
- library/docker/experimental\
- library/docker/experimental-dind\
- library/docker/git\
- library/docker/latest\
- library/docker/rc\
- library/docker/rc-dind\
- library/docker/rc-dind-rootless\
- library/docker/rc-experimental\
- library/docker/rc-experimental-dind\
- library/docker/stable\
- library/docker/stable-dind\
- library/docker/stable-dind-rootless\
- library/docker/test\
- library/docker/test-dind\
- library/tensorflow/serving/nightly-devel\
- library/tensorflow/serving/nightly-devel-gpu\
- library/tensorflow/serving/nightly\
- library/tensorflow/serving/nightly-gpu\
- library/tensorflow/serving/nightl-gpu\
- library/tensorflow/serving/latest-devel\
- library/tensorflow/serving/latest-devel-gpu\
- library/tensorflow/serving/latest\
- library/tensorflow/serving/latest-gpu\
- library/docker/test-dind-rootless\
- library/redmine/4-passenger::7
+ corpusops/pgrouting-bare/10-2.4\
 "
+SKIP_REFRESH_ANCESTORS=${SKIP_REFRESH_ANCESTORS-}
 
+declare -A duplicated_tags
 declare -A registry_tokens
 declare -A registry_services
 
@@ -711,7 +578,9 @@ do_refresh_images() {
     while read images;do
         for image in $images;do
             if [[ -n $image ]];then
-                make_tags $image
+                if [[ -z "${SKIP_MAKE_TAGS-}" ]];then
+                    make_tags $image
+                fi
                 do_clean_tags $image
             fi
         done
@@ -961,6 +830,7 @@ load_batched_images() {
     local counter=0
     local default_batchsize=$1
     shift
+    local batched_images="$(echo $@ |xargs -n1)"
     for i in $@;do
         local imgs=${i//::*}
         local batchsize=$default_batchsize
@@ -973,7 +843,7 @@ load_batched_images() {
             local subimages=$(do_list_image $img)
             if [[ -z $subimages ]];then break;fi
             for j in $subimages;do
-                if ! ( is_in_images $j );then
+                if ! ( is_in_images $j ) && ( echo "$batched_images" | egrep -q "^$j$");then
                     local space=" "
                     if [ `expr $counter % $batchsize` = 0 ];then
                         space=""
