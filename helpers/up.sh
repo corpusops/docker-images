@@ -40,6 +40,16 @@ elif [ -e /etc/redhat-release ];then
     DISTRIB_CODENAME=$(echo $(head  /etc/issue)|awk '{print substr(substr($4,2),1,length($4)-2)}');echo $DISTRIB_RELEASE
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print tolower($3)}')
 fi
+if [ -e /etc/redhat-release ];then
+    if [ -e /etc/fedora-release ];then
+        vv yum upgrade -y --nogpg fedora-gpg-keys fedora-repos
+    fi
+    if ! ( find --version >/dev/null 2>&1);then
+        for pkg in findutils;do
+            ( vv yum -y install $pkg || vv yum --disablerepo=epel -y install $pkg ) || /bin/true
+        done
+    fi
+fi
 DEBIAN_OLDSTABLE=8
 find /etc -name "*.reactivate" | while read f;do
     mv -fv "$f" "$(basename $f .reactivate)"
