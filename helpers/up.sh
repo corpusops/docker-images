@@ -22,6 +22,13 @@ oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04|17\.10|18\.10|19\.04|19\.10)
 # oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04)"
 NOSOCAT=""
 OAPTMIRROR="${OAPTMIRROR:-}"
+yuminstall () {
+    if (yum --version >/dev/null 2>&1 );then
+        ( vv yum -y install $@ || vv yum --disablerepo=epel -y install $@ ) || /bin/true
+    else
+        ( vv microdnf install $@ || vv yum --disablerepo=epel -y install $@ ) || /bin/true
+    fi
+}
 if [ -e /etc/lsb-release ];then
     DISTRIB_ID=$(. /etc/lsb-release;echo ${DISTRIB_ID})
     DISTRIB_CODENAME=$(. /etc/lsb-release;echo ${DISTRIB_CODENAME})
@@ -40,14 +47,18 @@ elif [ -e /etc/redhat-release ];then
     DISTRIB_CODENAME=$(echo $(head  /etc/issue)|awk '{print substr(substr($4,2),1,length($4)-2)}');echo $DISTRIB_RELEASE
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print tolower($3)}')
 fi
+DISTRIB_MAJOR="$(echo ${DISTRIB_RELEASE}|sed -re "s/\..*//g")"
 if [ -e /etc/redhat-release ];then
     if [ -e /etc/fedora-release ];then
         vv yum upgrade -y --nogpg fedora-gpg-keys fedora-repos
     fi
+    if [ ! -e /etc/yum.repos.d/epel.repo ];then
+        rpm="epel-release-latest-${DISTRIB_MAJOR}.noarch.rpm"
+        curl -sSLO "https://dl.fedoraproject.org/pub/epel/$rpm"
+        rpm -ivh $(pwd)/$rpm
+    fi
     if ! ( find --version >/dev/null 2>&1);then
-        for pkg in findutils;do
-            ( vv yum -y install $pkg || vv yum --disablerepo=epel -y install $pkg ) || /bin/true
-        done
+        yuminstall findutils
     fi
 fi
 DEBIAN_OLDSTABLE=8
@@ -178,7 +189,7 @@ if [ -e /etc/fedora-release ];then
     fi
     if [ "x$DISTRO_SYNC" != "x" ];then vv yum -y distro-sync;fi
     # be sure to install locales
-    yum install $yumopts -y glibc-common
+    yuminstall $yumopts -y glibc-common
 fi
 if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME" | egrep -iq alpine );then
     log "Upgrading alpine"
