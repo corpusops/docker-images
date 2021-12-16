@@ -790,7 +790,7 @@ microdnf_repoquery() {
 is_microdnf_available() {
     pkgs="$(microdnf repoquery --available)"
     for i in $@;do
-        if ! ( echo "$pkgs" | egrep -iq "${i}" ; ); then
+        if ! ( echo "$pkgs" | egrep -iq "^${i}" ; ); then
             return 1
         fi
     done
@@ -799,7 +799,7 @@ is_microdnf_available() {
 is_microdnf_installed() {
     pkgs="$(microdnf repoquery --installed)"
     for i in $@;do
-        if ! ( echo "$pkgs" | egrep -iq "${i}" ; ); then
+        if ! ( echo "$pkgs" | egrep -iq "^${i}" ; ); then
             return 1
         fi
     done
