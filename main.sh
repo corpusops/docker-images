@@ -575,6 +575,7 @@ do_clean_tags() {
 #     refresh_images library/ubuntu: only refresh ubuntu images
 do_refresh_images() {
     local imagess="${@:-$default_images}"
+    cp -vf local/corpusops.bootstrap/bin/cops_pkgmgr_install.sh helpers/
     while read images;do
         for image in $images;do
             if [[ -n $image ]];then
