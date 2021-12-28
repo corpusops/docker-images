@@ -3,6 +3,7 @@ SDEBUG=${SDEBUG-}
 GITHUB_PAT="${GITHUB_PAT:-$(echo 'OGUzNjkwMDZlMzNhYmNmMGRiNmE5Yjg1NWViMmJkNWVlNjcwYTExZg=='|base64 -d)}"
 CONFD_RELEASE="${CONFD_RELEASE:-latest}"
 CURL_SSL_OPTS="${CURL_SSL_OPTS:-"--tlsv1"}"
+COPS_HELPERS=${COPS_HELPERS:-/cops_helpers}
 do_curl() { if ! ( curl "$@" );then curl $CURL_SSL_OPTS "$@";fi; }
 install() {
     if [ "x${SDEBUG}" != "x" ];then set -x;fi
@@ -18,8 +19,10 @@ install() {
         | egrep -i "($(uname -s).*$arch|sha)" )" \
     && : :: confd: download and unpack artefacts \
     && for u in $urls;do do_curl -sLO $u;done \
-    && mv -vf confd* /usr/bin/confd \
-    && chmod +x /usr/bin/confd && cd / && rm -rf /tmp/confd
+    && if [ ! -e $COPS_HELPERS ];then mkdir -p "$COPS_HELPERS";fi \
+    && ln -sfv $COPS_HELPERS/confd /usr/bin \
+    && mv -vf confd* $COPS_HELPERS/confd \
+    && chmod +x $COPS_HELPERS/confd && cd / && rm -rf /tmp/confd
 }
 install;ret=$?;if [ "x$ret" != "x0" ];then SDEBUG=1 install;fi;exit $ret
 # vim:set et sts=4 ts=4 tw=80:
