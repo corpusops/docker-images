@@ -6,6 +6,7 @@ CURL_SSL_OPTS="${CURL_SSL_OPTS:-"--tlsv1"}"
 # original but does not work on alpine
 PKG="corpusops/frep"
 PKG="subchen/frep"
+COPS_HELPERS=${COPS_HELPERS:-/cops_helpers}
 do_curl() { if ! ( curl "$@" );then curl $CURL_SSL_OPTS "$@";fi; }
 install() {
     if [ "x${SDEBUG}" != "x" ];then set -x;fi
@@ -22,8 +23,10 @@ install() {
     && : :: frep: download and unpack artefacts \
     && for u in $urls;do do_curl -sLO $u;done \
     && sha256sum -c frep-*-linux-$arch.sha256 >/dev/nulm 2>&1 \
-    && mv -vf frep*-linux*$arch /usr/bin/frep \
-    && chmod +x /usr/bin/frep && cd / && rm -rf /tmp/frep
+    && if [ ! -e $COPS_HELPERS ];then mkdir -p "$COPS_HELPERS";fi \
+    && ln -sfv $COPS_HELPERS/frep /usr/bin \
+    && mv -vf frep*-linux*$arch $COPS_HELPERS/frep \
+    && chmod +x $COPS_HELPERS/frep && cd / && rm -rf /tmp/frep
 }
 install;ret=$?;if [ "x$ret" != "x0" ];then SDEBUG=1 install;fi;exit $ret
 # vim:set et sts=4 ts=4 tw=80:
