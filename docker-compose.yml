@@ -1,0 +1,6 @@
+version: "3"
+services:
+  scripts:
+    build: {context: ., dockerfile: scripts/Dockerfile}
+    volumes: ["./scripts:/scripts"]
+    env_file: [.env]

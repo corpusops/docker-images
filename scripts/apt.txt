@@ -1,0 +1,4 @@
+gh
+sudo
+python3
+python3-dev
