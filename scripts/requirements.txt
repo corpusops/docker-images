@@ -1,0 +1,4 @@
+pygithub
+requests
+pdbpp
+ipython
