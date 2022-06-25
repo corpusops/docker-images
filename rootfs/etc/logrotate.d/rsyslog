@@ -7,7 +7,7 @@
         delaycompress
         compress
         postrotate
-                if [ -e /usr/lib/rsyslog/rsyslog-rotate ];then /usr/lib/rsyslog/rsyslog-rotate;fi
+                if [ -e /usr/lib/rsyslog/rsyslog-rotate ];then /usr/lib/rsyslog/rsyslog-rotate;else /usr/bin/killall -HUP rsyslogd;fi
         endscript
 }
 
@@ -23,15 +23,17 @@
 /var/log/cron.log
 /var/log/debug
 /var/log/messages
+/var/log/docker/*.log
 {
         rotate 4
         weekly
+        size 200M
         missingok
         notifempty
         compress
         delaycompress
         sharedscripts
         postrotate
-                if [ -e /usr/lib/rsyslog/rsyslog-rotate ];then /usr/lib/rsyslog/rsyslog-rotate;fi
+                if [ -e /usr/lib/rsyslog/rsyslog-rotate ];then /usr/lib/rsyslog/rsyslog-rotate;else /usr/bin/killall -HUP rsyslogd;fi
         endscript
 }

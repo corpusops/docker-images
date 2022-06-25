@@ -10,10 +10,11 @@ $ActionFileDefaultTemplate dockerFormat
 {{ $outstdout  := .Env.RSYSLOG_OUT_SDTOUT |default "notset" }}
 {{ $outlogfile := .Env.RSYSLOG_OUT_LOGFILE|default "notset" }}
 {{ $confdir := .Env.RSYSLOG_CONF_DIR|default "/etc/rsyslog.d" }}
+{{ $splitconf := .Env.RSYSLOG_SPLITTED_CONFIGS|default "0" }}
 {{ if ne $outstdout "n" }}
 *.*;auth,authpriv.none /dev/stdout
 {{ end }}
-{{ if ne $outlogfile "n" }}
+{{ if and (ne $outlogfile "n") (ne $splitconf "1") }}
 *.*;auth,authpriv.none :omfile:$rsyslog_outfile
 {{ end }}
 $IncludeConfig {{$confdir}}/*.conf
