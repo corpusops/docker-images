@@ -12,6 +12,5 @@ if [ "x${NO_DEFAULT_RSYSLOG_CONF}" = "x" ] && [ -e /etc/rsyslog.conf.frep ];then
 fi
 for i in $(ls $RSYSLOG_CONF_DIR/*.conf.frep 2>/dev/null || true);do
     frep "$i:$RSYSLOG_CONF_DIR/$(basename $i .frep)" --overwrite
-done
 exec $RSYSLOGD_BIN $RSYSLOGD_ARGS
 # vim:set et sts=4 ts=4 tw=80:
