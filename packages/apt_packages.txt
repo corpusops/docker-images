@@ -1,7 +1,6 @@
 cron
 curl
 locales
-netcat
 logrotate
 socat
 tzdata
