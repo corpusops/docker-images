@@ -49,7 +49,7 @@ jobs:
           key: 6-${{ runner.os }}-${{ github.ref }}-${{ github.repository }}-venvstatics
       - name: setup
         run: set -e;i=$(whoami);sudo sh -c "chown -Rf $i .";
-             ./main.sh refresh_corpusops;
+             sudo sh -c 'sed -i -re 's/azure.//' /etc/apt/sources.list && apt-get update -qq && ./main.sh refresh_corpusops;
              sudo sh -c 'apt-get update -qq && apt-get install -qqy --force-yes parallel'
       - name: refresh images
         run: set -e;if (echo $IMAGES|grep -q zleftover);then
