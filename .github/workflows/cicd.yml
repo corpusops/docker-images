@@ -50,7 +50,7 @@ jobs:
       - name: setup
         run: set -e;i=$(whoami);sudo sh -c "chown -Rf $i .";
              ./main.sh refresh_corpusops;
-             sudo sh -c 'apt-get update -qq && apt-get install -qqy --force-yes parallel'
+             sudo sh -c 'sed -i -re 's/azure.//' /etc/apt/sources.list && apt-get update -qq && apt-get install -qqy --force-yes parallel'
       - name: refresh images
         run: set -e;if (echo $IMAGES|grep -q zleftover);then
              rm -f */*/*/Dockerfile&&${{steps.v.outputs.silent}} ./refresh_images.sh;
