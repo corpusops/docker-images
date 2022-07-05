@@ -13,7 +13,7 @@ CRONIE_ARGS=${CRONIE_ARGS:-"-n -s"}
 CRON_CMD=${CRON_CMD-}
 CRON_IMPLEMENTATION=${CRON_IMPLEMENTATION-}
 LOGROTATE_DAYS=${LOGROTATE_DAYS:-30}
-LOGROTATE_SIZE=${LOGROTATE_SIZE:-200M}
+LOGROTATE_SIZE=${LOGROTATE_SIZE:-5M}
 # update default values of PAM environment variables (used by CRON scripts)
 if [ -e /etc/pam.d/cron ];then
     sed -i -re "s/^session    required     pam_loginuid.so/#session    required   pam_loginuid.so/g" /etc/pam.d/cron
