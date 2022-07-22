@@ -1,3 +1,38 @@
+# to be processed by frep
+/log/nginx/*-error.log
+/log/nginx/*-access.log
+/logs/nginx/*-error.log
+/logs/nginx/*-access.log
+/log/*-error.log
+/log/*-access.log
+/logs/*-error.log
+/logs/*-access.log
+/var/log/nginx/*.log
+/var/log/apache/*.log
+/var/log/apache2/*.log
+/var/log/haproxy/*.log
+/var/log/docker/nginx.log
+/var/log/docker/haproxy.log
+/var/log/docker/apache.log
+/var/log/docker/proxy.log
+/var/log/docker/haproxy.log
+/var/log/docker/traefik.log
+/var/log/docker/traefik2.log
+/var/log/docker/lb.log
+{
+        rotate 365
+        weekly
+        size 200M
+        missingok
+        notifempty
+        compress
+        sharedscripts
+        postrotate
+                if [ -e /usr/lib/rsyslog/rsyslog-rotate ];then /usr/lib/rsyslog/rsyslog-rotate;else /usr/bin/killall -HUP rsyslogd;fi
+        endscript
+
+}
+
 /var/log/mail.info
 /var/log/mail.warn
 /var/log/mail.err

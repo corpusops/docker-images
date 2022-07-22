@@ -1,0 +1,13 @@
+ARG DEV_DEPENDENCIES_PATTERN='^#\s*dev dependencies'
+ADD /images/rsyslog/ /install
+RUN \
+  set -e \
+  && cd install \
+  && sed -i -re "s/(python-?)[0-9]\.[0-9]+/\1$PY_VER/g" pkgs.txt \
+  && cops_pkgmgr_install.sh $(egrep -v '^#' pkgs.txt) \
+  && rm -rf /var/cache/apk/* /var/lib/apt/lists/*
+USER root
+ENV SUPERVISORD_CONFIGS="cron rsyslog"\
+    SYSLOG_ONLY="1"\
+    RSYSLOG_SPLITTED_CONFIGS="1"
+ENTRYPOINT ["/bin/supervisord.sh"]

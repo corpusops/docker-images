@@ -35,6 +35,8 @@ export NGINX_SKIP_EXPOSE_HOST="${NGINX_SKIP_EXPOSE_HOST-}"
 export NGINX_DH_FILE="${NGINX_DH_FILE-/certs/dhparams.pem}"
 export NGINX_DH_FILES="$NGINX_DH_FILE"
 export NGINX_CONF_RENDER_DIR="${NGINX_CONF_RENDER_DIR:-"/tmp/nginxconf"}"
+# let cron wrapper script use the custom nginx conf
+export NO_NGINX_LOGROTATE=${NO_NGINX_LOGROTATE-}
 export NGINX_CONFIGS="${NGINX_CONFIGS-"$( \
     find "$NGINX_CONF_DIR" -type f \
     |egrep -v "$NGINX_FREP_SKIP|\.template$")

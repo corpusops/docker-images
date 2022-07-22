@@ -220,10 +220,10 @@ DEBUG=${DEBUG-}
 FORCE_REBUILD=${FORCE_REBUILD-}
 DRYRUN=${DRYRUN-}
 NOREFRESH=${NOREFRESH-}
-NBPARALLEL=${NBPARALLEL-4}
+NBPARALLEL=${NBPARALLEL-2}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
-SKIP_MINOR_ES2="$SKIP_MINOR_ES|(elasticsearch:(1.[6-7]\.|5\.[0-4]\.|5\.6\.[0-7]|6\.8\.[0-8]|6\.[0-7]\.|7\.9\.[0-2]|7\.[0-8]).*(-alpine)?$)"
+SKIP_MINOR_ES2="$SKIP_MINOR_ES|(elasticsearch:(5\.[0-4]\.)|(6\.8\.[0-8])|(6\.[0-7])|(7\.9\.[0-2])|(7\.[0-8]))"
 # SKIP_MINOR_NGINX="((nginx):.*[0-9]+\.[0-9]+\.[0-9]+(-32bit.*)?)"
 MINOR_IMAGES="(golang|mariadb|memcached|mongo|mysql|nginx|node|php|postgres|python|rabbitmq|redis|redmine|ruby|solr)"
 SKIP_MINOR_OS="$MINOR_IMAGES:.*alpine[0-9].*"
@@ -241,24 +241,23 @@ SKIP_OS="$SKIP_OS|(centos:(centos)?5)"
 SKIP_OS="$SKIP_OS|(fedora.*(modular|21))"
 SKIP_OS="$SKIP_OS|(traefik:((camembert|cancoillotte|cantal|chevrotin|faisselle|livarot|maroilles|montdor|morbier|picodon|raclette|reblochon|roquefort|tetedemoine)(-alpine)?|rc.*|(v?([0-9]+\.[0-9]+\.).*$)))"
 SKIP_OS="$SKIP_OS|(minio.*(armhf|aarch))"
+SKIP_PHP="(php:(5.4|5.3|.*(RC|-rc-).*))"
 SKIP_OS="$SKIP_OS)"
-SKIP_PHP="(php:(.*(RC|-rc-).*))"
 SKIP_WINDOWS="(.*(nanoserver|windows))"
 SKIP_MISC="(-?(on.?build)|pgrouting.*old)|seafile-mc:(7.0.1|7.0.2|7.0.3|7.0.4|7.0.5|7.1.3)|(dejavu:(v.*|1\..\.?.?|2\..\..)|3\.[1-3]\..|3.0.0|.*alpha.*$)"
 SKIP_NODE="((node):.*alpine3\..?.?)"
 SKIP_TF="(tensorflow.serving:[0-9].*)"
-SKIP_MINIO="(k8s-operator|((minio\/mc):(RELEASE.)?[0-9]{4}-.{7}))"
+SKIP_MINIO="(k8s-operator|((minio|mc):(RELEASE.)?[0-9]{4}-.{7}))"
 SKIP_MAILU="(mailu.*(feat|patch|merg|refactor|revert|upgrade|fix-|pr-template))"
 SKIP_DOCKER="docker(\/|:)([0-9]+\.[0-9]+\.|17|18.0[1-6]|1$|1(\.|-)).*"
-SKIPPED_TAGS="$SKIP_MINOR_ES2|$SKIP_MAILU|$SKIP_MINOR|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_TF|$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC"
+SKIPPED_TAGS="$SKIP_TF|$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_MAILU|$SKIP_MINOR_ES2|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_PHP|$SKIP_WINDOWS|$SKIP_MISC"
 CURRENT_TS=$(date +%s)
-IMAGES_SKIP_NS="(mailhog|postgis|pgrouting(-bare)?|^library|dejavu|minio/minio|minio/mc)"
-IMAGES_SKIP_NS=""
+IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
 
 
 default_images="
+corpusops/rsyslog
 "
-
 find_top_node_() {
     img=library/node
     if [ ! -e $img ];then return;fi
@@ -277,22 +276,9 @@ find_top_node_() {
 find_top_node() { (set +e && find_top_node_ && set -e;); }
 NODE_TOP="$(echo $(find_top_node))"
 MAILU_VERSiON=1.7
+
 BATCHED_IMAGES="\
- library/archlinux/latest::7
-corpusops/pgrouting-bare/latest\
- corpusops/pgrouting-bare/10\
- corpusops/pgrouting-bare/11\
- corpusops/pgrouting-bare/11-2.5\
- corpusops/pgrouting-bare/9.6-2.5-2.6\
- corpusops/pgrouting-bare/9.6-2.5\
- corpusops/pgrouting-bare/9.6-2.4-2.6\
- corpusops/pgrouting-bare/9.6-2.4\
- corpusops/pgrouting-bare/9.6\
- corpusops/pgrouting-bare/11-2.5-2.6\
- corpusops/pgrouting-bare/10-2.5-2.6\
- corpusops/pgrouting-bare/10-2.5\
- corpusops/pgrouting-bare/10-2.4-2.6\
- corpusops/pgrouting-bare/10-2.4\
+corpusops/rsyslog/latest corpusops/rsyslog/ubuntu corpusops/rsyslog/debian corpusops/rsyslog/alpine::7
 "
 SKIP_REFRESH_ANCESTORS=${SKIP_REFRESH_ANCESTORS-}
 
@@ -429,6 +415,7 @@ get_image_changeset() {
     echo "$ret"
 }
 
+do_gen_image() { gen_image "$@"; }
 gen_image() {
     local image=$1 tag=$2
     local ldir="$TOPDIR/$image/$tag"
@@ -455,7 +442,7 @@ gen_image() {
         local df="$folder/Dockerfile.override"
         if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
     done
-    local parts="from args argspost helpers pre base post clean cleanpost labels labelspost"
+    local parts="from args argspost helpers pre base post clean cleanpost extra labels labelspost"
     for order in $parts;do
         for folder in . .. ../../..;do
             local df="$folder/Dockerfile.$order"
@@ -509,10 +496,12 @@ do_get_namespace_tag() {
             # ubuntu-bare / postgis
             if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
         done
-        echo "$repo/$tag:$version"
+        echo "$repo/$tag:$version" \
+            | sed -re "s/(-?(server)?-(web-vault|postgresql|mysql)):/-server:\3-/g"
     done
 }
 
+do_get_image_tags() { get_image_tags "$@"; }
 get_image_tags() {
     local n=$1
     local results="" result=""
@@ -576,6 +565,13 @@ do_clean_tags() {
 do_refresh_images() {
     local imagess="${@:-$default_images}"
     cp -vf local/corpusops.bootstrap/bin/cops_pkgmgr_install.sh helpers/
+    if ! ( cat .git/config |grep -q corpusops/docker-images; );then
+    if [ ! -e local/docker-images ];then
+        git clone https://github.com/corpusops/docker-images local/docker-images
+    fi
+    ( cd local/docker-images && git fetch --all && git reset --hard origin/master \
+      && cp -rf helpers Dock* rootfs packages ../..; )
+    fi
     while read images;do
         for image in $images;do
             if [[ -n $image ]];then
@@ -915,7 +911,7 @@ do_usage() {
 
 do_main() {
     local args=${@:-usage}
-    local actions="make_tags|refresh_corpusops|refresh_images|build|gen_travis|gen_gh|gen|list_images|clean_tags|get_namespace_tag"
+    local actions="make_tags|refresh_corpusops|refresh_images|build|gen_travis|gen_gh|gen|list_images|clean_tags|get_namespace_tag|gen_image|get_image_tags"
     actions="@($actions)"
     action=${1-};
     if [[ -n "$@" ]];then shift;fi
