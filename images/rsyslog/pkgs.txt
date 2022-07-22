@@ -1,0 +1,5 @@
+# for teleport, do not remove
+rsyslog
+procps
+logrotate
+# dev dependencies (after this line, all packages will be removed after build)
