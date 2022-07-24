@@ -65,7 +65,8 @@ jobs:
       fail-fast: false
       matrix:
         IMAGES:
-        - "corpusops/rsyslog/latest corpusops/rsyslog/ubuntu corpusops/rsyslog/debian corpusops/rsyslog/alpine"
+        - "corpusops/rsyslog/ubuntu corpusops/rsyslog/debian"
+        - "corpusops/rsyslog/latest corpusops/rsyslog/alpine"
         #- "corpusops/test/a corpusops/test/b corpusops/test/c"
         # all images that werent explicitly told to be built would be built in the next batches
         # we span them onto N jobs
