@@ -278,7 +278,8 @@ NODE_TOP="$(echo $(find_top_node))"
 MAILU_VERSiON=1.7
 
 BATCHED_IMAGES="\
-corpusops/rsyslog/latest corpusops/rsyslog/ubuntu corpusops/rsyslog/debian corpusops/rsyslog/alpine::7
+corpusops/rsyslog/ubuntu corpusops/rsyslog/debian::2
+corpusops/rsyslog/latest corpusops/rsyslog/alpine::2
 "
 SKIP_REFRESH_ANCESTORS=${SKIP_REFRESH_ANCESTORS-}
 
