@@ -322,9 +322,10 @@ You better have to read the entrypoints to understand how they work.
 - this image exposes a syslog daemon on port ``10514``
 - It will split with its default config every log inside ``/var/log/docker/<prog_name>.log``
 - logs also go to stdout
-- env vars:
+- env vars (mainly to control log retention) [[see logrotate](./rootfs/etc/logrotate.d/rsyslog)]:
     - ``LOGROTATE_SIZE=5M``: size to trigger a logrotate from.
     - ``LOGROTATE_DAYS=30``: number of days to keep logs for.
+    - ``LOGROTATE_WEB_DAYS=365``: number of days to keep web & loadbalancers logs for.
     - ``RSYSLOG_SPLITTED_CONFIGS=1``:
         - if ``1``: logs are splitted under ``/var/log/docker/<prog_name>.log``
         - else things go inside like usually in ``/var/log``
