@@ -7,18 +7,17 @@
 /log/*-access.log
 /logs/*-error.log
 /logs/*-access.log
-/var/log/nginx/*.log
-/var/log/apache/*.log
 /var/log/apache2/*.log
+/var/log/apache/*.log
 /var/log/haproxy/*.log
-/var/log/docker/nginx.log
-/var/log/docker/haproxy.log
+/var/log/nginx/*.log      
 /var/log/docker/apache.log
-/var/log/docker/proxy.log
 /var/log/docker/haproxy.log
-/var/log/docker/traefik.log
-/var/log/docker/traefik2.log
 /var/log/docker/lb.log
+/var/log/docker/nginx.log
+/var/log/docker/proxy.log
+/var/log/docker/traefik2.log
+/var/log/docker/traefik.log
 {
         rotate 365
         weekly
