@@ -87,6 +87,8 @@
 | [docker-memcached](https://github.com/corpusops/docker-memcached)  | [![memcached](https://github.com/corpusops/docker-memcached/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-memcached/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-seafile](https://github.com/corpusops/docker-seafile)  | [![seafile](https://github.com/corpusops/docker-seafile/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-seafile/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-mailhog](https://github.com/corpusops/docker-mailhog)  | [![mailhog](https://github.com/corpusops/docker-mailhog/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-mailhog/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-slapd](https://github.com/corpusops/docker-slapd)  | [![slapd](https://github.com/corpusops/docker-slapd/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-slapd/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-sshd](https://github.com/corpusops/docker-sshd)  | [![sshd](https://github.com/corpusops/docker-sshd/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-sshd/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 
 
 - Those helpers (docker entrypoints) are added:
