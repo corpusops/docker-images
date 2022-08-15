@@ -221,6 +221,8 @@ FORCE_REBUILD=${FORCE_REBUILD-}
 DRYRUN=${DRYRUN-}
 NOREFRESH=${NOREFRESH-}
 NBPARALLEL=${NBPARALLEL-2}
+SKIP_TAGS_REBUILD=${SKIP_TAGS_REBUILD-}
+SKIP_TAGS_REFRESH=${SKIP_TAGS_REFRESH-${SKIP_TAGS_REBUILD}}
 SKIP_IMAGES_SCAN=${SKIP_IMAGES_SCAN-}
 SKIP_MINOR_ES="((elasticsearch):.*([0-5]\.?){3}(-32bit.*)?)"
 SKIP_MINOR_ES2="$SKIP_MINOR_ES|(elasticsearch:(5\.[0-4]\.)|(6\.8\.[0-8])|(6\.[0-7])|(7\.9\.[0-2])|(7\.[0-8]))"
@@ -516,7 +518,7 @@ get_image_tags() {
     else
         has_more=0
     fi
-    if [ $has_more -eq 0 ];then
+    if [[ -z ${SKIP_TAGS_REFRESH} ]] && [ $has_more -eq 0 ];then
         while [ $has_more -eq 0 ];do
             i=$((i+1))
             result=$( curl "${u}?page=${i}" 2>/dev/null \
@@ -527,10 +529,12 @@ get_image_tags() {
         if [ ! -e "$TOPDIR/$n" ];then mkdir -p "$TOPDIR/$n";fi
         printf "$results\n" | sort -V > "$t.raw"
     fi
+    if [[ -z ${SKIP_TAGS_REBUILD} ]];then
     rm -f "$t"
     ( for i in $(cat "$t.raw");do
         if is_skipped "$n:$i";then debug "Skipped: $n:$i";else printf "$i\n";fi
       done | awk '!seen[$0]++' | sort -V ) >> "$t"
+    fi
     set -e
     if [ -e "$t" ];then cat "$t";fi
 }
