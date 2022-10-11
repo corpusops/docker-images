@@ -17,6 +17,7 @@ RUN sh -c 'set -ex \
     && ./add_dockerize.sh \
     && ./add_gosu.sh \
     && ./add_forego.sh \
+    && ln -sfv ${COPS_HELPERS}/supervisord-go /bin/supervisord-go \
     && DEBUG=1 ./setup_locales.sh \
     && sed -i -re "/var\\/log\\/messages \\{\\}/d" /etc/logrotate.conf\
     && sed -i -re "s/ dateext/nodateext/g" /etc/logrotate.conf\
@@ -27,4 +28,4 @@ RUN sh -c 'set -ex \
     && ./${_cops_SYSTEM}_clean.sh \
     '
 COPY --from=ochinchina/supervisord:latest \
-    /usr/local/bin/supervisord /bin/supervisord-go
+    /usr/local/bin/supervisord ${COPS_HELPERS}/supervisord-go
