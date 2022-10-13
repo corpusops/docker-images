@@ -21,7 +21,7 @@
 {
         rotate 365
         nodateext
-        weekly
+        daily
         size 200M
         missingok
         notifempty
@@ -49,7 +49,7 @@
 {
         rotate 7
         nodateext
-        weekly
+        daily
         size 200M
         missingok
         notifempty
@@ -65,7 +65,7 @@
 {
         rotate 4
         nodateext
-        weekly
+        daily
         size 200M
         missingok
         notifempty
