@@ -48,17 +48,17 @@ RUN sh -c 'set -ex \
     && ./add_dockerize.sh \
     && ./add_gosu.sh \
     && ./add_forego.sh \
+    && ln -sfv ${COPS_HELPERS}/supervisord-go /bin/supervisord-go \
     && DEBUG=1 ./setup_locales.sh \
     && sed -i -re "/var\\/log\\/messages \\{\\}/d" /etc/logrotate.conf\
     && sed -i -re "s/ dateext/nodateext/g" /etc/logrotate.conf\
     && if ! (grep -q /var/log/messages /etc/logrotate.conf);then\
            printf "\\n/var/log/messages {\\nmissingok\\n}\\n\\n" >>/etc/logrotate.conf;fi\
-    && for i in /bin $COPS_HELPERS;do cp -v bin/* system_detect.sh setup_locales.sh \
-        cops_pkgmgr_install.sh $i;done \
+    && for i in bin/* system_detect.sh setup_locales.sh cops_pkgmgr_install.sh;do cp -v $i /cops_helpers && ln -sfv /cops_helpers/$i /bin/$i;done\
     && ./${_cops_SYSTEM}_clean.sh \
     '
 COPY --from=ochinchina/supervisord:latest \
-    /usr/local/bin/supervisord /bin/supervisord-go
+    /usr/local/bin/supervisord ${COPS_HELPERS}/supervisord-go
 ADD \
     rootfs/etc/rsyslog.d/ \
     /etc/rsyslog.d/
