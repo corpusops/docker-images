@@ -570,7 +570,7 @@ do_clean_tags() {
 do_refresh_images() {
     local imagess="${@:-$default_images}"
     cp -vf local/corpusops.bootstrap/bin/cops_pkgmgr_install.sh helpers/
-    if ! ( cat .git/config |grep -q corpusops/docker-images; );then
+    if ! ( grep -q corpusops/docker-images .git/config );then
     if [ ! -e local/docker-images ];then
         git clone https://github.com/corpusops/docker-images local/docker-images
     fi
