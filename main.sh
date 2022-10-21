@@ -531,9 +531,9 @@ get_image_tags() {
     fi
     if [[ -z ${SKIP_TAGS_REBUILD} ]];then
     rm -f "$t"
-    ( for i in $(cat "$t.raw");do
+    ( for j in $(cat "$t.raw");do for i in $j;do
         if is_skipped "$n:$i";then debug "Skipped: $n:$i";else printf "$i\n";fi
-      done | awk '!seen[$0]++' | sort -V ) >> "$t"
+      done;done | awk '!seen[$0]++' | sort -V ) >> "$t"
     fi
     set -e
     if [ -e "$t" ];then cat "$t";fi
