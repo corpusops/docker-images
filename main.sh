@@ -499,6 +499,10 @@ do_get_namespace_tag() {
             # ubuntu-bare / postgis
             if [ -e $i/tag ];then tag=$( cat $i/tag );break;fi
         done
+        for i in $image $image/.. $image/../../..;do
+            # ubuntu-bare / postgis
+            if [ -e $i/version ];then version=$( cat $i/version );break;fi
+        done
         echo "$repo/$tag:$version" \
             | sed -re "s/(-?(server)?-(web-vault|postgresql|mysql)):/-server:\3-/g"
     done
