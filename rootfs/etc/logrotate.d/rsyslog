@@ -20,6 +20,7 @@
 /var/log/docker/traefik.log
 {
         rotate 365
+        nodateext
         weekly
         size 200M
         missingok
@@ -47,6 +48,7 @@
 /var/log/syslog
 {
         rotate 7
+        nodateext
         weekly
         size 200M
         missingok
@@ -62,6 +64,7 @@
 /var/log/docker/*.log
 {
         rotate 4
+        nodateext
         weekly
         size 200M
         missingok
