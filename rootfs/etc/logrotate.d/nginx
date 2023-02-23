@@ -11,6 +11,7 @@
 /var/log/nginx/*.log
 {
   daily
+  nodateext
   missingok
   rotate {{.Env.NGINX_ROTATE}}
   compress
