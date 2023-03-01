@@ -48,6 +48,15 @@ elif [ -e /etc/redhat-release ];then
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print tolower($3)}')
 fi
 DISTRIB_MAJOR="$(echo ${DISTRIB_RELEASE}|sed -re "s/\..*//g")"
+if ( grep -q amzn /etc/os-release );then
+    yuminstall findutils
+    if ( amazon-linux-extras help >/dev/null 2>&1 );then
+        amazon-linux-extras install -y epel
+    else
+        yum install -y epel-release
+        yum-config-manager --enable epel
+    fi
+fi
 if [ -e /etc/redhat-release ];then
     if [ -e /etc/fedora-release ];then
         vv yum upgrade -y --nogpg fedora-gpg-keys fedora-repos

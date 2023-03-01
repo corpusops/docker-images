@@ -1,6 +1,7 @@
 # fedora locales
 # glibc-all-langpacks
 glibc-locale-source
+p7zip
 p7zip-plugins
 busybox
 acl
