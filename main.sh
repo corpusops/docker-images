@@ -255,10 +255,11 @@ CURRENT_TS=$(date +%s)
 IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
 
 
-SKIP_MINOR_ES="elasticsearch:(([0-4]\.?){3}(-32bit.*)?|2\.[0-3]\.|5\.[1-5]\.|1\.[3-7])"
+SKIPPED_TAGS=""
 default_images="
 corpusops/rsyslog
 "
+PROTECTED_TAGS="corpusops/rsyslog"
 find_top_node_() {
     img=library/node
     if [ ! -e $img ];then return;fi
@@ -465,6 +466,7 @@ gen_image() {
 
 is_skipped() {
     local ret=1 t="$@"
+    if [[ -z $SKIPPED_TAGS ]];then return 1;fi
     if ( echo "$t" | egrep -q "$SKIPPED_TAGS" );then
         ret=0
     fi
@@ -530,7 +532,7 @@ get_image_tags() {
             if [[ -n "${result}" ]];then results="${results} ${result}";else has_more=256;fi
         done
         if [ ! -e "$TOPDIR/$n" ];then mkdir -p "$TOPDIR/$n";fi
-        printf "$results\n" | xargs -n 1 | sort -V > "$t.raw"
+        printf "$results\n" | xargs -n 1 | sed -e "s/ //g" | sort -V > "$t.raw"
     fi
     # cleanup elastic minor images (keep latest)
     ONE_MINOR="elasticsearch"
@@ -606,7 +608,9 @@ do_refresh_images() {
                 if [[ -z "${SKIP_MAKE_TAGS-}" ]];then
                     make_tags $image
                 fi
-                do_clean_tags $image
+                if ( echo "$image" | egrep -vq "${PROTECTED_TAGS-}" ) || [[ -z ${PROTECTED_TAGS-} ]];then
+                    do_clean_tags $image
+                fi
             fi
         done
     done <<< "$imagess"
