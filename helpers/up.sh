@@ -203,6 +203,7 @@ if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME" | egrep -iq alpine );
     log "Upgrading alpine"
     apk upgrade --update-cache --available
 fi
+./bin/fix_letsencrypt.sh
 export FORCE_INSTALL=y
 DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
 install_gpg
