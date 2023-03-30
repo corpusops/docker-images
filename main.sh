@@ -262,6 +262,7 @@ SKIPPED_TAGS=""
 default_images="
 corpusops/rsyslog
 "
+ONLY_ONE_MINOR="elasticsearch|nginx"
 PROTECTED_TAGS="corpusops/rsyslog"
 find_top_node_() {
     img=library/node
@@ -538,17 +539,16 @@ get_image_tags() {
         printf "$results\n" | xargs -n 1 | sed -e "s/ //g" | sort -V > "$t.raw"
     fi
     # cleanup elastic minor images (keep latest)
-    ONE_MINOR="elasticsearch"
-    if ( echo $t | egrep -q "$ONE_MINOR" );then
+    if ( echo $t | egrep -q "$ONLY_ONE_MINOR" );then
         atags="$(cat $t.raw)"
-        for ix in $(seq 0 15);do
-            for j in $(seq 0 30);do
+        for ix in $(seq 0 30);do
+            for j in $(seq 0 99);do
                 mv="$(  (( echo "$atags" | egrep "$ix\.$j\." | grep -v alpine ) || true )|sort -V )"
                 amv="$( (( echo "$atags" | egrep "$ix\.$j\." | grep    alpine ) || true )|sort -V )"
                 for selected in "$mv" "$amv";do
                     if [[ -n "$selected" ]];then
                         for l in $(echo "$selected"|sed -e "$ d");do
-                            SKIPPED_TAGS="$SKIPPED_TAGS|${ONE_MINOR}:$l$"
+                            SKIPPED_TAGS="$SKIPPED_TAGS|${ONLY_ONE_MINOR}:$l$"
                         done
                     fi
                 done
