@@ -262,7 +262,7 @@ SKIPPED_TAGS=""
 default_images="
 corpusops/rsyslog
 "
-ONLY_ONE_MINOR="elasticsearch|nginx"
+ONLY_ONE_MINOR="postgres|elasticsearch|nginx"
 PROTECTED_TAGS="corpusops/rsyslog"
 find_top_node_() {
     img=library/node
@@ -513,6 +513,13 @@ do_get_namespace_tag() {
     done
 }
 
+
+filter_tags() {
+    for j in $@ ;do for i in $j;do
+        if is_skipped "$n:$i";then debug "Skipped: $n:$i";else printf "$i\n";fi
+    done;done | awk '!seen[$0]++' | sort -V
+}
+
 do_get_image_tags() { get_image_tags "$@"; }
 get_image_tags() {
     local n=$1
@@ -539,27 +546,50 @@ get_image_tags() {
         printf "$results\n" | xargs -n 1 | sed -e "s/ //g" | sort -V > "$t.raw"
     fi
     # cleanup elastic minor images (keep latest)
+    atags="$(filter_tags "$(cat $t.raw)")"
+    changed=
     if ( echo $t | egrep -q "$ONLY_ONE_MINOR" );then
-        atags="$(cat $t.raw)"
+        oomt=""
         for ix in $(seq 0 30);do
+            if ! ( echo "$atags" | egrep -q "^$ix\." );then continue;fi
             for j in $(seq 0 99);do
-                mv="$(  (( echo "$atags" | egrep "$ix\.$j\." | grep -v alpine ) || true )|sort -V )"
-                amv="$( (( echo "$atags" | egrep "$ix\.$j\." | grep    alpine ) || true )|sort -V )"
-                for selected in "$mv" "$amv";do
+                if ! ( echo "$atags" | egrep -q "^$ix\.${j}\." );then continue;fi
+                for flavor in "" \
+                    alpine alpine3.13 alpine3.14 alpine3.15 alpine3.16 alpine3.5 \
+                    trusty xenial bionic focal jammy \
+                    bullseye stretch buster jessie \
+                    ;do
+                    selected=""
+                    if [[ -z "$flavor" ]];then
+                        selected="$( (( echo "$atags" | egrep "$ix\.$j\.[0-9]+$" )    || true )|sort -V )"
+                    else
+                        if ! ( echo "$atags" | egrep -q "$ix\.$j\..*$flavor$" );then continue;fi
+                        for k in $(seq 0 99);do
+                            v=$( (( echo "$atags" | egrep "$ix\.$j\.${k}.*$flavor$" ) || true )|sort -V )
+                            if [[ -n $v ]];then
+                                if [[ -n $selected ]];then selected="$selected $v";else selected="$v";fi
+                            fi
+                        done
+                    fi
                     if [[ -n "$selected" ]];then
                         for l in $(echo "$selected"|sed -e "$ d");do
-                            SKIPPED_TAGS="$SKIPPED_TAGS|${ONLY_ONE_MINOR}:$l$"
+                            if [[ -z $oomt ]];then
+                                oomt="$l$"
+                            else
+                                oomt="$oomt|$l"
+                            fi
                         done
                     fi
                 done
             done
+            if [[ -n $oomt ]];then
+                SKIPPED_TAGS="$SKIPPED_TAGS|(($ONLY_ONE_MINOR):($oomt)$)"
+            fi
         done
     fi
     if [[ -z ${SKIP_TAGS_REBUILD} ]];then
-    rm -f "$t"
-    ( for j in $(cat "$t.raw");do for i in $j;do
-        if is_skipped "$n:$i";then debug "Skipped: $n:$i";else printf "$i\n";fi
-      done;done | awk '!seen[$0]++' | sort -V ) >> "$t"
+        rm -f "$t"
+        filter_tags "$atags" > $t
     fi
     set -e
     if [ -e "$t" ];then cat "$t";fi
