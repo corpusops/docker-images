@@ -332,6 +332,8 @@ You better have to read the entrypoints to understand how they work.
     - ``RSYSLOG_SPLITTED_CONFIGS=1``:
         - if ``1``: logs are splitted under ``/var/log/docker/<prog_name>.log``
         - else things go inside like usually in ``/var/log``
+- Any file inside ``/entry`` will be copied to ``/etc`` with same location
+- Any file named ``*.frep`` into ``/etc/logrotate.d`` && ``/etc/rsyslog.d`` will be processed through frep
 
 One current pattern is to redirect docker logs through a local syslog this way:
 
