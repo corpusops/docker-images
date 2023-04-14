@@ -54,6 +54,15 @@ wait_for_postgres() {
     dockerize -wait file://$flag -timeout ${DB_STARTUP_TIMEOUT} 2>/dev/null
 }
 
+wait_for_zeo() {
+    flag=/tmp/started_$(echo ${ZEO_ADDRESS}|sed -re "s![/:]!__!g")
+    if [ -e "$flag" ];then rm -f "$flag";fi
+    debuglog "Try connection to zeo: $ZEO_ADDRESS"
+    ( while true;do if ( set +x && \
+        echo is_up|busybox nc $(echo "${ZEO_ADDRESS}"|sed -re "s![/:]! !g") >/dev/null );then touch $flag && break;fi;sleep ${DB_SLEEP_TIME};done; )&
+    dockerize -wait file://$flag -timeout ${DB_STARTUP_TIMEOUT} 2>/dev/null
+}
+
 if [ "x${DB_MODE}" != "x" ] && [ "x${SKIP_STARTUP_DB}" = "x" ]; then
     if ! ( "wait_for_${DB_MODE}"; );then log "DB not available";exit 1;fi
     if [ "x${DB_SERVICE_MODE}" = "x1" ];then
