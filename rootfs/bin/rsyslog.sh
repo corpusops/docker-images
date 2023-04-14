@@ -13,7 +13,7 @@ export RSYSLOG_SPLITTED_CONFIGS=${RSYSLOG_SPLITTED_CONFIGS-}
 SDEBUG=${SDEBUG-}
 if [ "x$SDEBUG" != "x" ];then set -x;fi
 if [ -e "$RSYSLOG_INJECT_DIR" ];then
-    cp -rfv "$RSYSLOG_INJECT_DIR" /etc
+    cp -rfv "$RSYSLOG_INJECT_DIR"/. /etc/
 fi
 if [ "x${NO_DEFAULT_RSYSLOG_CONF}" = "x" ] && [ -e /etc/rsyslog.conf.frep ];then
     frep --overwrite /etc/rsyslog.conf.frep:/etc/rsyslog.conf
