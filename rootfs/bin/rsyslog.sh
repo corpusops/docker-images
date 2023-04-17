@@ -26,6 +26,7 @@ fi
 if [ "x${NO_DEFAULT_RSYSLOGD_CONF}" = "x" ] && [ -e $RSYSLOG_CONF_DIR ];then
     for i in $(ls $RSYSLOG_CONF_DIR/*.conf.frep 2>/dev/null || true);do
         frep "$i:$RSYSLOG_CONF_DIR/$(basename $i .frep)" --overwrite
+        rm -fv "$i"
     done
 fi
 if [ "x${RSYSLOG_SPLITTED_CONFIGS}" = "x" ];then
