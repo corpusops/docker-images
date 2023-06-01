@@ -201,6 +201,7 @@ if [ -e /etc/fedora-release ];then
 fi
 if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME" | egrep -iq alpine );then
     log "Upgrading alpine"
+    apk update && apk add bash
     apk upgrade --update-cache --available
 fi
 ./bin/fix_letsencrypt.sh
