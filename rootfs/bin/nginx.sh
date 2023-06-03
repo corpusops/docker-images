@@ -104,7 +104,7 @@ else
     if ( $NGINX_BIN -h 2>&1|grep -q -- -T; );then
         if ( nginx -t &>/dev/null );then
             for i in $($NGINX_BIN -T \
-                | egrep "\s*ssl_dhparam"\
+                | egrep "\s*ssl_dhparam" | grep -v "{{" \
                 | awk '{print $2}'|sed -re "s/;//g"|awk '!seen[$0]++' );do
                 NGINX_DH_FILES="$NGINX_DH_FILES $i"
             done
