@@ -112,7 +112,7 @@ else
             nginxconfs="$(find /etc/nginx/ -type f|xargs cat)"
             if [ "x$nginxconfs" != "x0" ];then
                 for i in $( echo "$nginxconfs"\
-                    | egrep "\s*ssl_dhparam"\
+                    | egrep "\s*ssl_dhparam" | grep -v "{{" \
                     | awk '{print $2}'|sed -re "s/;//g"|awk '!seen[$0]++' );do
                     NGINX_DH_FILES="$NGINX_DH_FILES $i"
                 done
