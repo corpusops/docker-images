@@ -24,6 +24,22 @@ export SSL_CERT_VALIDITY=${SSL_CERT_VALIDITY:-$SSL_INFINITE_VALIDATY}
 export SSL_DIR_MODE=${SSL_DIR_MODE:-"u+x,g+x,o+x"}
 export SSL_CERT_MODE=${SSL_CERT_MODE:-0644}
 export SSL_KEY_MODE=${SSL_KEY_MODE:-0640}
+
+SSL_DIRECTORY=${SSL_DIRECTORY-}
+if [ "x${SSL_DIRECTORY}" = "x" ];then
+    for i in /etc/ssl /etc/ssl1.2 /etc/ssl1.1 /etc/ssl1.0 /etc/openssl;do
+        if [ -e $i/openssl.cnf ];then
+            SSL_DIRECTORY=$i
+            break
+        fi
+    done
+fi
+if [ "x${SSL_DIRECTORY}" = "x" ];then
+    echo "no SSL_DIRECTORY found" >&2;exit 1
+else
+    echo "SSL_DIRECTORY: $SSL_DIRECTORY" >&2
+fi
+
 log() { echo "$@" >&2; }
 vv() { log "$@";"$@"; }
 open_dir_perms() {
@@ -51,7 +67,7 @@ gen_cert() {
         done
         sans="$(echo "$sans"|sed -re "s/,$//g")"
     fi
-    cp -f /etc/ssl/openssl.cnf "$tmpcfg"
+    cp -f ${SSL_DIRECTORY}/openssl.cnf "$tmpcfg"
     printf "\n\n[SAN]\nsubjectAltName = $sans\n\n" >> $tmpcfg
     openssl req -x509 -nodes \
         -key "$SSL_KEY_PATH" \
