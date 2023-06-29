@@ -849,6 +849,8 @@ is_image() {
 do_refresh_corpusops() {
     if [[ -z ${SKIP_CORPUSOPS-} ]];then
         if [[ -n $COPS_ROOT ]] && [ ! -e "$COPS_ROOT" ];then mkdir -p "$COPS_ROOT";fi
+        COPS_ROOT="${COPS_ROOT:-$(pwd)/local/corpusops/corpusops.bootstrap}"
+        if [ -e $COPS_ROOT/.git ];then cd $COPS_ROOT && git pull && cd -;fi
         vv .ansible/scripts/download_corpusops.sh
         vv .ansible/scripts/setup_corpusops.sh
     fi
