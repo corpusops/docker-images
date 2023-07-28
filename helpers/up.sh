@@ -215,6 +215,5 @@ if ! ( echo foo|envsubst >/dev/null 2>&1);then
         echo "envsubst is missing"
     fi
 fi
-find /etc/rsyslog.d -name "*.conf" -not -type d \
-    | while read f;do mv -vf "$f" "$f.sample";done
+find /etc/rsyslog.d -name "*.conf" -not -type d |while read f;do mv -vf "$f" "$f.sample";done
 # vim:set et sts=4 ts=4 tw=0:
