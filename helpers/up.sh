@@ -102,7 +102,7 @@ if [ -e /etc/redhat-release ];then
         yuminstall findutils
     fi
 fi
-DEBIAN_OLDSTABLE=8
+DEBIAN_OLDSTABLE=9
 PG_DEBIAN_OLDSTABLE=9
 find /etc -name "*.reactivate" | while read f;do
     mv -fv "$f" "$(basename $f .reactivate)"
@@ -121,6 +121,7 @@ if (echo $DISTRIB_ID | grep -E -iq "debian");then
         if (echo $DISTRIB_RELEASE | grep -E -iq stretch );then  DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="9" ;fi
         if (echo $DISTRIB_RELEASE | grep -E -iq buster );then   DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="10";fi
         if (echo $DISTRIB_RELEASE | grep -E -iq bullseye );then DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="11";fi
+        if (echo $DISTRIB_RELEASE | grep -E -iq bookworm );then DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="12";fi
     fi
     sed -i -re "s/(old)?oldstable/$DISTRIB_CODENAME/g" $(find /etc/apt/sources.list* -type f)
     NAPTMIRROR="${NDEBIANMIRROR}"
@@ -162,7 +163,7 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
         sed -i -re "s!sid(/)?!$DISTRIB_CODENAME\1!" $(find /etc/apt/sources.list* -type f)
         OAPTMIRROR="${OAPTMIRROR:-$ODEBIANMIRROR}"
         sed -i -r -e '/-updates|security.debian.org/d' $( find /etc/apt/sources.list* -type f; )
-        if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -eq $DEBIAN_OLDSTABLE ];then
+        if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -eq $DEBIAN_OLDSTABLE ] && [ $DEBIAN_OLDSTABLE -lt 9 ];then
             log "Using debian LTS packages"
             echo "$DEBIAN_LTS_SOURCELIST" >> /etc/apt/sources.list
             rm -rvf /var/lib/apt/*

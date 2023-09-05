@@ -424,4 +424,3 @@ services:
     - `corpusops/project:dbsetup`
 - helper to wait for db availability and then setup a dummy webserver to help dependent services orchestration
  
-
