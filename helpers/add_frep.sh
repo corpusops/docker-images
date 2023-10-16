@@ -22,7 +22,8 @@ install() {
         | egrep -i "($(uname -s).*$arch|sha)" )" \
     && : :: frep: download and unpack artefacts \
     && for u in $urls;do do_curl -sLO $u;done \
-    && sha256sum -c frep-*-linux-$arch.sha256 >/dev/nulm 2>&1 \
+    && echo $(cat frep-*-linux-$arch.sha256|awk '{print $1}';echo " frep-*-linux-$arch") > frep-*-linux-$arch.sha256.v \
+    && sha256sum -c frep-*-linux-$arch.sha256.v >/dev/null 2>&1 \
     && if [ ! -e $COPS_HELPERS ];then mkdir -p "$COPS_HELPERS";fi \
     && ln -sfv $COPS_HELPERS/frep /usr/bin \
     && mv -vf frep*-linux*$arch $COPS_HELPERS/frep \
