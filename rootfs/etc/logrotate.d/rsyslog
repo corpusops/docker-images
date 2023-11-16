@@ -1,4 +1,8 @@
 # to be processed by frep
+/log/apache*/*-error.log
+/log/apache*/*-access.log
+/logs/apache*/*-error.log
+/logs/apache*/*-access.log
 /log/nginx/*-error.log
 /log/nginx/*-access.log
 /logs/nginx/*-error.log
@@ -10,7 +14,7 @@
 /var/log/apache2/*.log
 /var/log/apache/*.log
 /var/log/haproxy/*.log
-/var/log/nginx/*.log      
+/var/log/nginx/*.log
 /var/log/docker/apache.log
 /var/log/docker/haproxy.log
 /var/log/docker/lb.log
@@ -71,6 +75,9 @@
         notifempty
         compress
         sharedscripts
+        prerotate
+           sh -ec "echo $1 | grep -vE 'docker/(lb|nginx|proxy|traefik|haproxy|apache)\.(log|warn|info|error|debug)$'|grep -Eq '.+\.(log|warn|info|error|debug)'"
+        endscript
         postrotate
                 if [ -e /usr/lib/rsyslog/rsyslog-rotate ];then /usr/lib/rsyslog/rsyslog-rotate;else /usr/bin/killall -HUP rsyslogd;fi
         endscript
