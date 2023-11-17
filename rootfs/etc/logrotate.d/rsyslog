@@ -74,7 +74,7 @@
         missingok
         notifempty
         compress
-        sharedscripts
+        nosharedscripts
         prerotate
            sh -ec "echo $1 | grep -vE 'docker/(lb|nginx|proxy|traefik|haproxy|apache)\.(log|warn|info|error|debug)$'|grep -Eq '.+\.(log|warn|info|error|debug)'"
         endscript
