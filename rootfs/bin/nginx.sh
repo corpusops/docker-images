@@ -43,6 +43,13 @@ export NGINX_CONFIGS="${NGINX_CONFIGS-"$( \
 /etc/logrotate.d/nginx"}"
 log() { echo "$@" >&2; }
 vv() { log "$@";"$@"; }
+# patch rsyslog default conf not to interfer with nginx self contained
+for i in /etc/logrotate.d/rsyslog;do
+    if [ -e $i ];then
+        # do not crash on this
+        ( sed -i -re "/\/nginx\/|nginx.log|\/\*-(error|access)/ d" $i || true)
+    fi
+done
 touch /etc/htpasswd-protect
 chmod 644 /etc/htpasswd-protect
 if [ "x$NGINX_HTTP_PROTECT_PASSWORD" != "x" ];then
