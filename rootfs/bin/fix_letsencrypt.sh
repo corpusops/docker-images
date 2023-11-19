@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+set -e
 if [ -e /etc/lsb-release ];then
     DISTRIB_ID=$(. /etc/lsb-release;echo ${DISTRIB_ID})
     DISTRIB_CODENAME=$(. /etc/lsb-release;echo ${DISTRIB_CODENAME})
@@ -19,8 +19,10 @@ elif [ -e /etc/redhat-release ];then
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print tolower($3)}')
 fi
 if ( echo ${DISTRIB_ID}${DISTRIB_CODENAME} | grep -E -iq ubuntutrusty ) ;then
+    set -x
     sed -i -re 's/mozilla\/DST_Root_CA_X3.crt/!mozilla\/DST_Root_CA_X3.crt/' /etc/ca-certificates.conf
     dpkg-reconfigure -fnoninteractive ca-certificates
     update-ca-certificates
+    set -x
 fi
 # vim:set et sts=4 ts=4 tw=80:
