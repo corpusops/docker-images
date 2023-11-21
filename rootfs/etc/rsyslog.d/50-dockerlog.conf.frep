@@ -1,8 +1,10 @@
 # Rsyslog configuration file for docker.
-
-template(name="DynaFile" type="string" string="/var/log/docker/%programname%.log")
-
-if $programname != "rsyslogd" then {
-        action(type="omfile" dynaFile="DynaFile")
+template(name="DynaFileDockerWeb" type="string" string="/var/log/docker/web/%programname%.log")
+template(name="DynaFileDocker" type="string" string="/var/log/docker/%programname%.log")
+if re_match($programname, '^(lb|nginx|proxy|traefik|haproxy|apache)') then {
+    action(type="omfile" dynaFile="DynaFileDockerWeb" template="dockerFormat")
+}
+else {
+    action(type="omfile" dynaFile="DynaFileDocker" template="dockerFormat")
 }
 
