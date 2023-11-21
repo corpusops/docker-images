@@ -15,13 +15,7 @@
 /var/log/apache/*.log
 /var/log/haproxy/*.log
 /var/log/nginx/*.log
-/var/log/docker/apache.log
-/var/log/docker/haproxy.log
-/var/log/docker/lb.log
-/var/log/docker/nginx.log
-/var/log/docker/proxy.log
-/var/log/docker/traefik2.log
-/var/log/docker/traefik.log
+/var/log/docker/web/*.log
 {
         rotate 365
         nodateext
@@ -75,9 +69,6 @@
         notifempty
         compress
         nosharedscripts
-        prerotate
-           sh -ec "echo $1 | grep -vE 'docker/(lb|nginx|proxy|traefik|haproxy|apache)\.(log|warn|info|error|debug)$'|grep -Eq '.+\.(log|warn|info|error|debug)'"
-        endscript
         postrotate
                 if [ -e /usr/lib/rsyslog/rsyslog-rotate ];then /usr/lib/rsyslog/rsyslog-rotate;else /usr/bin/killall -HUP rsyslogd;fi
         endscript

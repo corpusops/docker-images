@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  rsyslog:
+    image: corpusops/rsyslog:latest.test
+    build:
+      context: .
+      dockerfile: corpusops/rsyslog/latest/Dockerfile
+    volumes:
+    - "./rootfs/etc/rsyslog.conf.frep:/etc/rsyslog.conf.frep"
+    - "./rootfs/etc/rsyslog.d/50-dockerlog.conf.frep:/etc/rsyslog.d/50-dockerlog.conf.frep"
+    - "./rootfs/etc/rsyslog.d/50-net.conf.sample:/etc/rsyslog.d/50-net.conf.sample"
+
