@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: corpusops/rsyslog/latest/Dockerfile
     volumes:
+    - "./rootfs/bin/cron.sh:/bin/cron.sh"
+    - "./rootfs/bin/rsyslogd.sh:/bin/rsyslogd.sh"
     - "./rootfs/etc/rsyslog.conf.frep:/etc/rsyslog.conf.frep"
     - "./rootfs/etc/rsyslog.d/50-dockerlog.conf.frep:/etc/rsyslog.d/50-dockerlog.conf.frep"
     - "./rootfs/etc/rsyslog.d/50-net.conf.sample:/etc/rsyslog.d/50-net.conf.sample"

@@ -328,7 +328,10 @@ You better have to read the entrypoints to understand how they work.
     - ``RSYSLOG_PORT=10514``: rsyslog port
     - ``LOGROTATE_SIZE=5M``: size to trigger a logrotate from.
     - ``LOGROTATE_DAYS=30``: number of days to keep logs for.
-    - ``LOGROTATE_WEB_DAYS=365``: number of days to keep web & loadbalancers logs for.
+    - ``LOGROTATE_LONGRETENTION_DAYS=365``: number of days to keep long retention (web & loadbalancers) logs for.
+    - ``RSYSLOG_DOCKER_LOGS_PATH=/var/log/docker``: path to logs
+    - ``RSYSLOG_DOCKER_LONGRETENTION_LOGS_PATH=/var/log/docker/longretention``: path to logs with long retention
+    - ``RSYSLOG_DOCKER_LONGRETENTION_PATTERN=^(lb|nginx|proxy|traefik|haproxy|apache)``: regex to know which tagnames can be treated as long retention logs
     - ``RSYSLOG_SPLITTED_CONFIGS=1``:
         - if ``1``: logs are splitted under ``/var/log/docker/<prog_name>.log``
         - else things go inside like usually in ``/var/log``
