@@ -15,7 +15,7 @@
 /var/log/apache/*.log
 /var/log/haproxy/*.log
 /var/log/nginx/*.log
-/var/log/docker/web/*.log
+/var/log/docker/longretention/*.log
 {
         rotate 365
         nodateext

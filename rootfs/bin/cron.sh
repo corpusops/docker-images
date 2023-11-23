@@ -15,8 +15,11 @@ CRON_IMPLEMENTATION=${CRON_IMPLEMENTATION-}
 LOGROTATE_WEB_PATTERN=${LOGROTATE_WEB_PATTERN:-365}
 LOGROTATE_DAYS_PATTERN=${LOGROTATE_DAYS_PATTERN:-"[0-9]"}
 LOGROTATE_WEB_DAYS=${LOGROTATE_WEB_DAYS:-365}
-LOGROTATE_DAYS=${LOGROTATE_DAYS:-30}
+LOGROTATE_LONGRETENTION_DAYS=${LOGROTATE_LONGRETENTION_DAYS:-${LOGROTATE_DAYS:-30}}
 LOGROTATE_SIZE=${LOGROTATE_SIZE:-5M}
+RSYSLOG_DOCKER_LOGS_PATH="${RSYSLOG_DOCKER_LOGS_PATH:-"/var/log/docker"}"
+RSYSLOG_DOCKER_LONGRETENTION_LOGS_PATH="${RSYSLOG_DOCKER_LONGRETENTION_LOGS_PATH:-"/var/log/docker/longretention"}"
+
 export SYSLOG_ONLY=${SYSLOG_ONLY-}
 # update default values of PAM environment variables (used by CRON scripts)
 if [ -e /etc/pam.d/cron ];then
@@ -33,6 +36,8 @@ if [ -e $logrotateconf ];then
         -e "s/rotate $LOGROTATE_WEB_PATTERN/rotate $LOGROTATE_WEB_DAYS/g" \
         -e "s/rotate ${LOGROTATE_DAYS_PATTERN}$/rotate $LOGROTATE_DAYS/g" \
         -e "s/size .*/size $LOGROTATE_SIZE/g" \
+        -e "s|/var/log/docker/\*|$RSYSLOG_DOCKER_LOGS_PATH/*|g" \
+        -e "s|/var/log/docker/longretention|$RSYSLOG_DOCKER_LONGRETENTION_LOGS_PATH|g" \
         $logrotateconf
     if [ "x$SYSLOG_ONLY" != "x" ];then
         for i in /etc/logrotate.d/nginx;do if [ -e "$i" ];then rm -f "$i";fi;done
