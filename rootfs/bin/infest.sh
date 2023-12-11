@@ -5,7 +5,8 @@ NO_PKGS_INSTALL=${NO_PKGS_INSTALL-}
 NO_HELPERS_SYNC=${NO_HELPERS_SYNC-}
 # assuming we are in $prefix/bin
 if [ "x${SDEBUG-}" != "x" ];then set -x;fi
-T=$(cd $(dirname $(readlink -f $0))/.. && pwd)
+W=$(cd $(dirname $(readlink -f $0)) && pwd)
+T=$(cd $W/.. && pwd)
 log() { echo $@ >&2; }
 pkgs=""
 if [ "x$NO_PKGS_INSTALL" = "x" ];then
@@ -21,7 +22,7 @@ if [ "x$NO_PKGS_INSTALL" = "x" ];then
         pkgs="$pkgs cron"
     fi
     if [ "x$pkgs" != "x" ];then
-       WANTED_EXTRA_PACKAGES="$pkgs" $T/bin/cops_pkgmgr_install.sh
+       WANTED_EXTRA_PACKAGES="$pkgs" $W/cops_pkgmgr_install.sh
     fi
 fi
 if [ "x$NO_HELPERS_SYNC" = "x" ] && ! ( echo $T | egrep -q "^/$" );then
