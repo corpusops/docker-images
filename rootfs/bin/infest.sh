@@ -9,6 +9,7 @@ W=$(cd $(dirname $(readlink -f $0)) && pwd)
 T=$(cd $W/.. && pwd)
 log() { echo $@ >&2; }
 pkgs=""
+cd "$T"
 if [ "x$NO_PKGS_INSTALL" = "x" ];then
     for i in logrotate rsync rsyslog curl openssh-client;do
         if ! ( $i --version &>/dev/null );then
@@ -37,4 +38,5 @@ if [ "x$NO_HELPERS_SYNC" = "x" ] && ! ( echo $T | egrep -q "^/$" );then
             rsync -aAHv --numeric-ids $i /$i
         done
 fi
+cd -
 # vim:set et sts=4 ts=4 tw=0:
