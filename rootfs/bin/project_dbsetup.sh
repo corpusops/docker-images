@@ -36,14 +36,10 @@ wait_for_postgres() {
     dockerize -wait file://$flag -timeout ${DB_STARTUP_TIMEOUT} 2>/dev/null
 }
 
-if [ "x$@" != "x" ];then
-    "$@"
-else
-    if [ "${DB_MODE}" != "x" ] && [ "x${SKIP_STARTUP_DB}" = "x" ]; then
-        if ! ( "wait_for_${DB_MODE}"; );then log "DB not available";exit 1;fi
-        if [ "x${DB_SERVICE_MODE}" = "x1" ];then
-            while true;do printf "HTTP/1.1 200 OK\n\nstarted"| ( busybox nc -l -p 80 || /bin/true );done
-        fi
+if [ "x${DB_MODE}" != "x" ] && [ "x${SKIP_STARTUP_DB}" = "x" ]; then
+    if ! ( "wait_for_${DB_MODE}"; );then log "DB not available";exit 1;fi
+    if [ "x${DB_SERVICE_MODE}" = "x1" ];then
+        while true;do printf "HTTP/1.1 200 OK\n\nstarted"| ( busybox nc -l -p 80 || /bin/true );done
     fi
 fi
 # vim:set et sts=4 ts=4 tw=0:
