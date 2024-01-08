@@ -1,6 +1,6 @@
 
 [program:rsyslog]
-command = /bin/rsyslog.sh
+command = rsyslog.sh
 autostart = true
 restartpause = 5
 startretries = 3

@@ -1,6 +1,6 @@
 
 [program:crond]
-command = /bin/cron.sh
+command = cron.sh
 autostart = true
 restartpause = 5
 startretries = 3
