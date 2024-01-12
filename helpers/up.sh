@@ -22,6 +22,16 @@ oldubuntu="^(10\.|12\.|13\.|14\.|15\.|16\.|17\.|18\.10|19\.|20\.10|21\.)"
 # oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04)"
 NOSOCAT=""
 OAPTMIRROR="${OAPTMIRROR:-}"
+CENTOS_OLDSTABLE=8
+OYUMMIRROR="${OYUMMIRROR:-}"
+NYUMMIRROR="${NYUMMIRROR:-}"
+OUBUNTUMIRROR="${OUBUNTUMIRROR:-old-releases.ubuntu.com}"
+ODEBIANMIRROR="${ODEBIANMIRROR:-archive.debian.org}"
+NDEBIANMIRROR="${NDEBIANMIRROR:-http.debian.net|httpredir.debian.org|deb.debian.org}"
+SNCENTOSMIRROR="$(echo "${NCENTOSMIRROR}"|sed -re "s/\|.*//g")"
+SNDEBIANMIRROR="$(echo "${NDEBIANMIRROR}"|sed -re "s/\|.*//g")"
+SNUBUNTUMIRROR="$(echo "${NUBUNTUMIRROR}"|sed -re "s/\|.*//g")"
+NUBUNTUMIRROR="${NUBUNTUMIRROR:-archive.ubuntu.com|security.ubuntu.com}"
 yuminstall () {
     if (yum --version >/dev/null 2>&1 );then
         ( vv yum -y install $@ || vv yum --disablerepo=epel -y install $@ ) || /bin/true
@@ -49,7 +59,23 @@ elif [ -e /etc/redhat-release ];then
 fi
 DISTRIB_MAJOR="$(echo ${DISTRIB_RELEASE}|sed -re "s/\..*//g")"
 if [ "x${DISTRIB_ID}" = "xcentos" ] && ( echo  "${DISTRIB_MAJOR}" | grep -Eq "^(6|7|8)");then
-    sed -i 's/mirrorlist/#mirrorlist/g;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+    sed -i 's/^mirrorlist/#mirrorlist/g;s|^#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+fi
+if ( echo $DISTRIB_ID | grep -E -iq "centos|red|fedora" );then
+    if (echo $DISTRIB_ID|grep -E -iq centos);then
+        if [ $DISTRIB_RELEASE -le $CENTOS_OLDSTABLE ];then
+            OCENTOSMIRROR="${OCENTOSMIRROR:-vault.centos.org}"
+            NCENTOSMIRROR="${NCENTOSMIRROR:-mirror.centos.org}"
+        else
+            OCENTOSMIRROR="${OCENTOSMIRROR:-mirror.centos.org}"
+            NCENTOSMIRROR="${NCENTOSMIRROR:-vault.centos.org}"
+        fi
+        OYUMMIRROR="${OCENTOSMIRROR}"
+        NYUMMIRROR="${NCENTOSMIRROR}"
+    fi
+    if [ "$OYUMMIRROR" != "x" ];then
+        sed -i -r -e 's!'$NCENTOSMIRROR'!'$OCENTOSMIRROR'!g' $( find /etc/yum.repos.d -type f; )
+    fi
 fi
 if ( grep -q amzn /etc/os-release );then
     yuminstall findutils
@@ -94,9 +120,11 @@ if (echo $DISTRIB_ID | grep -E -iq "debian");then
         if (echo $DISTRIB_RELEASE | grep -E -iq bullseye );then DISTRIB_CODENAME="$DISTRIB_RELEASE";DISTRIB_RELEASE="11";fi
     fi
     sed -i -re "s/(old)?oldstable/$DISTRIB_CODENAME/g" $(find /etc/apt/sources.list* -type f)
-    NAPTMIRROR="http.debian.net|httpredir.debian.org|deb.debian.org"
+    NAPTMIRROR="${NDEBIANMIRROR}"
+    SNAPTMIRROR="${SNDEBIANMIRROR}"
 elif ( echo $DISTRIB_ID | grep -E -iq "mint|ubuntu" );then
-    NAPTMIRROR="archive.ubuntu.com|security.ubuntu.com"
+    NAPTMIRROR="${NUBUNTUMIRROR}"
+    SNAPTMIRROR="${SNUBUNTUMIRROR}"
 fi
 DEBIAN_LTS_SOURCELIST="
 deb http://security.debian.org/     $DISTRIB_CODENAME/updates main contrib non-free
@@ -124,13 +152,12 @@ if ( echo $DISTRIB_ID | grep -E -iq "centos|red|fedora" ) && ! ( echo $DISTRIB_I
 fi
 if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
     if (echo $DISTRIB_ID|grep -E -iq debian);then
-        sed -i -r -e '/(((squeeze)-(lts))|testing-backports)/d' \
-            $( find /etc/apt/sources.list* -type f; )
+        sed -i -r -e '/(((squeeze)-(lts))|testing-backports)/d' $( find /etc/apt/sources.list* -type f; )
     fi
     if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ];then
         # fix old debian unstable images
         sed -i -re "s!sid(/)?!$DISTRIB_CODENAME\1!" $(find /etc/apt/sources.list* -type f)
-        OAPTMIRROR="archive.debian.org"
+        OAPTMIRROR="${OAPTMIRROR:-$ODEBIANMIRROR}"
         sed -i -r -e '/-updates|security.debian.org/d' $( find /etc/apt/sources.list* -type f; )
         if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -eq $DEBIAN_OLDSTABLE ];then
             log "Using debian LTS packages"
@@ -139,27 +166,30 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
         fi
     fi
     if ( echo $DISTRIB_ID | grep -E -iq "mint|ubuntu" ) && ( echo $DISTRIB_RELEASE |grep -E -iq $oldubuntu);then
-        OAPTMIRROR="old-releases.ubuntu.com"
-        # 16.04/14.04 is not yet on old mirrors and were switched back to regular mirrors
-        if (echo $DISTRIB_RELEASE |grep -E -v -iq "14.04|16.04");then
-            sed -i -r \
-            -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
-            -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
-            $( find /etc/apt/sources.list* -type f; )
-        else
-             sed -i -r \
-            -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
-            -e 's!'$OAPTMIRROR'!'$NAPTMIRROR'!g' \
-            $( find /etc/apt/sources.list* -type f; )
-       fi
+        OAPTMIRROR="${OAPTMIRROR:-$OUBUNTUMIRROR}"
     fi
     if (echo $DISTRIB_ID|grep -E -iq debian) && [ -e $pglist ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ] && [ -e /etc/apt/sources.list.d/pgdg.list ];then
         sed -i -re "s/apt.postgresql/apt-archive.postgresql/g" -e "s/http:/https:/g" /etc/apt/sources.list.d/pgdg.list
     fi
+    # 16.04/14.04 is not yet on old mirrors and were switched back to regular mirrors
+    if [ "x$OAPTMIRROR" != "x" ];then
+        echo "Patching APT to use $OAPTMIRROR" >&2
+        printf 'Acquire::Check-Valid-Until no;\nAPT{ Get { AllowUnauthenticated "1"; }; };\n\n'>/etc/apt/apt.conf.d/nogpgverif
+        if (echo $DISTRIB_RELEASE |grep -E -iq "14.04|16.04");then
+            sed -i -r \
+                -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
+                -e 's!'$OAPTMIRROR'!'$SNAPTMIRROR'!g' \
+                $( find /etc/apt/sources.list* -type f; )
+         else
+            sed -i -r \
+                -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
+                -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
+                $( find /etc/apt/sources.list* -type f; )
+        fi
+    fi
     if ( (echo $DISTRIB_ID|grep -E -iq "mint|ubuntu" ) && ( echo $DISTRIB_RELEASE |grep -E -iq $oldubuntu); ) ||\
        ( (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ]; ) ||\
        ( (echo $DISTRIB_ID|grep -E -iq debian) && [ -e $pglist ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ]; );then
-        printf 'Acquire::Check-Valid-Until no;\nAPT{ Get { AllowUnauthenticated "1"; }; };\n\n'>/etc/apt/apt.conf.d/nogpgverif
         if (dpkg -l|grep -vq apt-transport-https);then sed -i -re "s/^(deb.*https:.*)/#\1 #httpsfix/g" $(find /etc/apt/sources.list* -type f);fi
         apt-get update || true
         if ! (apt-get install -y ca-certificates apt-transport-https apt bzip2);then
@@ -169,14 +199,6 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
         sed -i -re "s/^#(.*)#httpsfix/\1/g" $(find /etc/apt/sources.list* -type f)
         apt-get update
     fi
-fi
-
-if [ "x$OAPTMIRROR" != "x" ];then
-    echo "Patching APT to use $OAPTMIRROR" >&2
-    printf 'Acquire::Check-Valid-Until "0";\n' \
-        > /etc/apt/apt.conf.d/noreleaseexpired.conf
-    sed -i -r -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
-        $( find /etc/apt/sources.list* -type f; )
 fi
 # fix broken curl if needed
 curl_updated=
