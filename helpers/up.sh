@@ -28,10 +28,10 @@ NYUMMIRROR="${NYUMMIRROR:-}"
 OUBUNTUMIRROR="${OUBUNTUMIRROR:-old-releases.ubuntu.com}"
 ODEBIANMIRROR="${ODEBIANMIRROR:-archive.debian.org}"
 NDEBIANMIRROR="${NDEBIANMIRROR:-http.debian.net|httpredir.debian.org|deb.debian.org}"
+NUBUNTUMIRROR="${NUBUNTUMIRROR:-archive.ubuntu.com|security.ubuntu.com}"
 SNCENTOSMIRROR="$(echo "${NCENTOSMIRROR}"|sed -re "s/\|.*//g")"
 SNDEBIANMIRROR="$(echo "${NDEBIANMIRROR}"|sed -re "s/\|.*//g")"
 SNUBUNTUMIRROR="$(echo "${NUBUNTUMIRROR}"|sed -re "s/\|.*//g")"
-NUBUNTUMIRROR="${NUBUNTUMIRROR:-archive.ubuntu.com|security.ubuntu.com}"
 yuminstall () {
     if (yum --version >/dev/null 2>&1 );then
         ( vv yum -y install $@ || vv yum --disablerepo=epel -y install $@ ) || /bin/true
@@ -173,14 +173,16 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
     fi
     # 16.04/14.04 is not yet on old mirrors and were switched back to regular mirrors
     if [ "x$OAPTMIRROR" != "x" ];then
-        echo "Patching APT to use $OAPTMIRROR" >&2
         printf 'Acquire::Check-Valid-Until no;\nAPT{ Get { AllowUnauthenticated "1"; }; };\n\n'>/etc/apt/apt.conf.d/nogpgverif
         if (echo $DISTRIB_RELEASE |grep -E -iq "14.04|16.04");then
+            echo "Patching APT to use $SNAPTMIRROR" >&2
             sed -i -r \
                 -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
                 -e 's!'$OAPTMIRROR'!'$SNAPTMIRROR'!g' \
                 $( find /etc/apt/sources.list* -type f; )
+            echo "deb http://$SNAPTMIRROR/ubuntu/ $DISTRIB_CODENAME-security main restricted universe multiverse" >> /etc/apt/sources.list
          else
+            echo "Patching APT to use $OAPTMIRROR" >&2
             sed -i -r \
                 -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
                 -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
