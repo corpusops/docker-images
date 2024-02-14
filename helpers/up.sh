@@ -174,10 +174,10 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
     if (echo $DISTRIB_ID|grep -E -iq debian) && [ -e $pglist ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ] && [ -e /etc/apt/sources.list.d/pgdg.list ];then
         sed -i -re "s/apt.postgresql/apt-archive.postgresql/g" -e "s/http:/https:/g" /etc/apt/sources.list.d/pgdg.list
     fi
-    # 16.04/14.04 is not yet on old mirrors and were switched back to regular mirrors
     if [ "x$OAPTMIRROR" != "x" ];then
         printf 'Acquire::Check-Valid-Until no;\nAPT{ Get { AllowUnauthenticated "1"; }; };\n\n'>/etc/apt/apt.conf.d/nogpgverif
-        if (echo $DISTRIB_RELEASE |grep -E -iq "14.04|16.04");then
+        # 16.04/14.04 is not yet on old mirrors and were switched back to regular mirrors
+        if (echo $DISTRIB_RELEASE |grep -E -iq "14.04|16.04|18.04");then
             echo "Patching APT to use $SNAPTMIRROR" >&2
             sed -i -r \
                 -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
@@ -191,6 +191,13 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
                 -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
                 $( find /etc/apt/sources.list* -type f; )
         fi
+    fi
+    if (echo $DISTRIB_RELEASE |grep -E -iq "18.04") && (grep -q cuda $(find /etc/apt/sources.list* -type f));then
+        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb
+        dpkg -i cuda-keyring_1.0-1_all.deb
+        sed -i -re "/cuda/d" /etc/apt/sources.list
+        rm -f /etc/apt/sources.list.d/cuda-ubuntu1804-x86_64.list || true
+        apt-key adv --keyserver keyserver.ubuntu.com --recv A4B469963BF863CC F60F4B3D7FA2AF80
     fi
     if ( (echo $DISTRIB_ID|grep -E -iq "mint|ubuntu" ) && ( echo $DISTRIB_RELEASE |grep -E -iq $oldubuntu); ) ||\
        ( (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ]; ) ||\
