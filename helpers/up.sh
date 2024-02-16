@@ -193,7 +193,7 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
         fi
     fi
     if (echo $DISTRIB_RELEASE |grep -E -iq "18.04") && (grep -q cuda $(find /etc/apt/sources.list* -type f));then
-        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb
+        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb || curl -O https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb
         dpkg -i cuda-keyring_1.0-1_all.deb
         sed -i -re "/cuda/d" /etc/apt/sources.list
         rm -f /etc/apt/sources.list.d/cuda-ubuntu1804-x86_64.list || true
