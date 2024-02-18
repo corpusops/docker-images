@@ -479,11 +479,9 @@ is_skipped() {
     # fi
     return $ret
 }
-# echo $(set -x && is_skipped library/redis/3.0.4-32bit;echo $?)
-# exit 1
 
 skip_local() {
-    grep -E -v "(.\/)?local"
+    grep -E -v "(.\/)?local|\.git|docker-pgrouting|docker-postgis"
 }
 
 #  get_namespace_tag libary/foo/bar : get image tag with its final namespace

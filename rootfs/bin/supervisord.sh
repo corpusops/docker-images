@@ -5,6 +5,7 @@ if [ "x$SDEBUG" != "x" ];then set -x;fi
 export NO_SUPERVISORD_LOGTAIL="${NO_SUPERVISORD_LOGTAIL-1}"
 export SUPERVISORD_USER="${SUPERVISORD_USER:-supervisord}"
 export SUPERVISORD_PASSWORD="${SUPERVISORD_PASSWORD:-supervisord}"
+export SUPERVISORD_CONFIGS_DIR="${SUPERVISORD_CONFIGS_DIR:-"/etc/supervisor.d"}"
 export SUPERVISORD_DIR="${SUPERVISORD_DIR:-"/etc/supervisord-go"}"
 export SUPERVISORD_DEFAULT_CFG="${SUPERVISORD_DEFAULT_CFG:-"$SUPERVISORD_DIR/supervisord.conf"}"
 export SUPERVISORD_SOCKET_PATH="${SUPERVISORD_SOCKET_PATH:-"$SUPERVISORD_DIR/sock/supervisord.sock"}"
@@ -106,7 +107,7 @@ for i in $SUPERVISORD_LOGSDIR $SUPERVISORD_DIR;do
 done
 SUPERVISORD_CFG="${SUPERVISORD_CFG:-"$SUPERVISORD_DIR/supervisord.conf"}"
 DEFAULT_SUPERVISORD_CONFIGS="
-$( (find /etc/supervisord.d /etc/supervisor.d -type f 2>/dev/null || /bin/true)|grep -v $SUPERVISORD_CFG|sort -d|awk '!seen[$0]++')
+$( (find /etc/supervisord.d "$SUPERVISORD_CONFIGS_DIR" -type f 2>/dev/null || /bin/true)|grep -v $SUPERVISORD_CFG|sort -d|awk '!seen[$0]++')
 $( (find \
     /etc/supervisor $SUPERVISORD_DIR /etc/supervisord \
     -type f -and \( -name '*.conf' -or -name '*.ini' \) -and min-depth 2\
@@ -117,7 +118,7 @@ SUPERVISORD_CONFIGS_=
 for i in $SUPERVISORD_CONFIGS;do
     j=$i
     if ! ( echo $i | grep -E -q ^/ );then
-        j=/etc/supervisor.d/$j
+        j="$SUPERVISORD_CONFIGS_DIR/$j"
     fi
     if [ "x$SUPERVISORD_CONFIGS_" != "x" ];then
         SUPERVISORD_CONFIGS_="${SUPERVISORD_CONFIGS_} "
