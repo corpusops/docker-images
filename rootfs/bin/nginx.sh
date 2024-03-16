@@ -54,6 +54,14 @@ create_file() {
 }
 log() { echo "$@" >&2; }
 vv() { log "$@";"$@"; }
+if [ "x${REFRESH_HOSTS_FROM_CI-}" = "x1" ] && [ "x${COMMON_HOSTS_FILE}" != "x" ];then
+    while [ ! -e $COMMON_HOSTS_FILE ];do sleep 1;done
+    cat ${COMMON_HOSTS_FILE}>>/etc/hosts
+fi
+if [ "x${REFRESH_VHOST_FROM_CI-}" = "x1" ];then
+    CI_VHOST=${CI_VHOST:-$CI_PROJECT_DIR/sys/etc/nginx/vhost.conf.template}
+    cp -vf $CI_VHOST /etc/nginx/conf.d/default.conf.template
+fi
 if [ "x${NGINX_USER}" = "x" ];then
     for i in www-data nginx www root;do
         if (getent passwd $i >/dev/null 2>&1);then NGINX_USER=$i;fi
