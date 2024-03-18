@@ -54,10 +54,12 @@ create_file() {
 }
 log() { echo "$@" >&2; }
 vv() { log "$@";"$@"; }
+# refresh /etc/hosts for adjacents services & job container in gitab-ci
 if [ "x${REFRESH_HOSTS_FROM_CI-}" = "x1" ] && [ "x${COMMON_HOSTS_FILE}" != "x" ];then
     while [ ! -e $COMMON_HOSTS_FILE ];do sleep 1;done
     cat ${COMMON_HOSTS_FILE}>>/etc/hosts
 fi
+# refresh VHOST from current CI checkout
 if [ "x${REFRESH_VHOST_FROM_CI-}" = "x1" ];then
     CI_VHOST=${CI_VHOST:-$CI_PROJECT_DIR/sys/etc/nginx/vhost.conf.template}
     cp -vf $CI_VHOST /etc/nginx/conf.d/default.conf.template
