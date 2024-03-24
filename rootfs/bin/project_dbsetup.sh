@@ -2,7 +2,7 @@
 set -e
 export DEBUG="${DEBUG-}"
 export DB_SLEEP_TIME="${DB_SLEEP_TIME:-0.1}"
-export DB_SERVICE_MODE=${SERVICE_MODE-1}
+export DB_SERVICE_MODE=${DB_SERVICE_MODE-}
 export DB_STARTUP_TIMEOUT="${DB_STARTUP_TIMEOUT-45s}"
 export DB_MODE="${DB_MODE-postgresql}"
 if ( echo "$DB_MODE" | grep -q post );then DB_MODE="postgres";fi
@@ -17,7 +17,7 @@ if ( echo $DB_MODE|grep -q post );then
 fi
 if [ "x${SDEBUG-}" = "x1" ];then set -x;fi
 
-debuglog() { if [[ -n "$DEBUG" ]];then echo "$@" >&2;fi }
+debuglog() { if [ "x$DEBUG" != "x" ];then echo "$@" >&2;fi; }
 
 log() { echo "$@" >&2; }
 
@@ -42,7 +42,7 @@ else
     if [ "${DB_MODE}" != "x" ] && [ "x${SKIP_STARTUP_DB}" = "x" ]; then
         if ! ( "wait_for_${DB_MODE}"; );then log "DB not available";exit 1;fi
         if [ "x${DB_SERVICE_MODE}" = "x1" ];then
-            while true;do printf "HTTP/1.1 200 OK\n\nstarted"| ( nc -l -p 80 || /bin/true);done
+            while true;do printf "HTTP/1.1 200 OK\n\nstarted"| ( busybox nc -l -p 80 || /bin/true );done
         fi
     fi
 fi
