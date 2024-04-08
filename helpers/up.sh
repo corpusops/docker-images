@@ -217,7 +217,9 @@ fi
 if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME" | grep -E -iq alpine );then
     log "Upgrading alpine"
     apk update && apk add bash
-    apk upgrade --update-cache --available
+    if !(apk upgrade --update-cache --available);then
+        apk upgrade --update-cache && apk upgrade --update-cache --available
+    fi
 fi
 ./bin/fix_letsencrypt.sh
 export FORCE_INSTALL=y
