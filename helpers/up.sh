@@ -267,6 +267,10 @@ if ( echo "$DISTRIB_ID $DISTRIB_RELEASE $DISTRIB_CODENAME" | grep -E -iq alpine 
     fi
 fi
 ./bin/fix_letsencrypt.sh
+if ( echo $DISTRIB_ID | grep -E -iq "centos|red|fedora|amzn" );then
+    # ensure no conflict between curl & curl-minimal
+    yum install -y  --allowerasing curl
+fi
 export FORCE_INSTALL=y
 DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
 install_gpg
@@ -278,4 +282,4 @@ if ! ( echo foo|envsubst >/dev/null 2>&1);then
     fi
 fi
 find /etc/rsyslog.d -name "*.conf" -not -type d |while read f;do mv -vf "$f" "$f.sample";done
-# vim:set et sts=4 ts=4 tw=0:
+# Vim:set et sts=4 ts=4 tw=0:
