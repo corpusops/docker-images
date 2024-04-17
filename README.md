@@ -235,6 +235,8 @@ You better have to read the entrypoints to understand how they work.
 
 ### nginx helper: /bin/nginx.sh
 - [/bin/nginx.sh](./rootfs/bin/nginx.sh): helper to dockerize nginx
+- Helper image built by [docker-project](https://github.com/corpusops/docker-project/), tags:
+    - `corpusops/project:{nginx,nginx-alpine,nginx-stable,nginx-stable-alpine}`
 - One usual way to use this providen entrypoint is to launch it through supervisord-go to gain also logrotate support for free.
 - Remember also that all files in ``/etc/nginx`` will be proccessed by frep<br/>
 - Remember also that all files in ``/nginx.d`` if existing will be proccessed by frep with same rules and copied to /etc/nginx<br/>
@@ -283,6 +285,37 @@ You better have to read the entrypoints to understand how they work.
 
         ```
 
+### CopsHelpers installer: /bin/install_cops_helpers.sh
+- Helper image built by [docker-project](https://github.com/corpusops/docker-project/), tags:
+    - `corpusops/project:helpers-ubuntu`
+    - `corpusops/project:helpers-ubuntu-{22,20,16,14,16}.04`
+    - `corpusops/project:helpers-debian`
+    - `corpusops/project:helpers-debian-{11,10,9,8}`
+    - `corpusops/project:helpers-alpine`
+    - `corpusops/project:helpers-alpine{3}`
+    - `corpusops/project:helpers-centos`
+    - `corpusops/project:helpers-centos-{9,8,7}`
+    - `corpusops/project:helpers-centos-stream`
+    - `corpusops/project:helpers-centos-stream{9,8,7}`
+- Install all helpers from `/cops_helpers` to `$HELPERS_DIR` (`/helpers`)
+- It will start a dummy http server to work in pair with sidekar containers which use dockerize, unless you set `SKIP_HELPERS_SERVICE=1`, eg
+
+```yaml
+helpers:
+  image: corpusops/project:helpers-ubuntu-22.04
+  volumes: [helpers:/helpers]
+redmine:
+  volumes: [helpers:/helpers]
+  entrypoint:
+  - /bin/bash
+  - '-exc'
+  - |-
+    export PATH="/helpers:$PATH";until [ -e /helpers/frep ];do sleep 1;done;dockerize -wait http://helpers -timeout 120s
+    # now frep is available
+    frep /conf/foo:/conf/bar --overwrite
+    /start
+```
+
 ### SSL Certificate Helper: /bin/cops_gen_cert.sh
 - see [script](./rootfs/bin/cops_gen_cert.sh)
 - controlled via env vars:
@@ -328,9 +361,7 @@ You better have to read the entrypoints to understand how they work.
 - See [./corpusops/rsyslog](./corpusops/rsyslog).
 - tag is ``corpusops/rsyslog``
     - OS based variants:
-        - ``corpusops/rsyslog:debian``
-        - ``corpusops/rsyslog:alpine``
-        - ``corpusops/rsyslog:ubuntu``
+        - ``corpusops/rsyslog:{debian,alpîne,ubuntu}``
 - this image exposes a syslog daemon on port ``10514``
 - It will split with its default config every log inside ``/var/log/docker/<prog_name>.log``
 - logs also go to stdout
@@ -372,4 +403,26 @@ services:
     <<: [ *base ]
     image: some/service
 ```
+
+## mailhog helper: /bin/project_mailhog.sh 
+- Helper image built by [docker-project](https://github.com/corpusops/docker-project/), tags:
+    - `corpusops/project:mailhog`
+
+- `corpusops/project:mailhog`: mailhog wrapper to setup a user/password file from envvars:
+    - `MAILCATCHER_PASSWORD`
+    - `MAILCATCHER_USER`
+- smtp_port is on port `1025`, UI/API on port `8025`
+
+```yaml
+  mailcatcher:
+    image: "corpusops/project:mailhog"
+    hostname: mailcatcher
+    volumes: ["mails:/mails"]
+```
+
+# dbsetup : /bin/project_db_setup.sh
+- Helper image built by [docker-project](https://github.com/corpusops/docker-project/), tags:
+    - `corpusops/project:dbsetup`
+- helper to wait for db availability and then setup a dummy webserver to help dependent services orchestration
+ 
 
