@@ -269,7 +269,7 @@ fi
 ./bin/fix_letsencrypt.sh
 if ( echo $DISTRIB_ID | grep -E -iq "centos|red|fedora|amzn" );then
     # ensure no conflict between curl & curl-minimal
-    yum install -y  --allowerasing curl
+    yum install -y --allowerasing curl || yum install -y curl
 fi
 export FORCE_INSTALL=y
 DO_UPDATE="$DO_UPDATE" WANTED_PACKAGES="$pkgs" ./cops_pkgmgr_install.sh
