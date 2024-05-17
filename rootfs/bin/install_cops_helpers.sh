@@ -12,8 +12,7 @@ else
 fi
 touch "$HELPERS_FLAG"
 if [ "x${SKIP_HELPERS_SERVICE}" = "x" ];then
-    while true;do
-        printf "HTTP/1.1 200 OK\n\nstarted" | ( nc -l -p $HELPERS_PORT || /bin/true )
-    done
+    echo "Starting dummy HTTP server on port $HELPERS_PORT"
+    while true;do printf "HTTP/1.1 200 OK\nContent-Length: 8\n\nstarted\n" | ( nc -l -p $HELPERS_PORT || /bin/true );done
 fi
 # vim:set et sts=4 ts=4 tw=0:
