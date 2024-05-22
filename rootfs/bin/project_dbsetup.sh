@@ -39,7 +39,7 @@ wait_for_postgres() {
 if [ "x${DB_MODE}" != "x" ] && [ "x${SKIP_STARTUP_DB}" = "x" ]; then
     if ! ( "wait_for_${DB_MODE}"; );then log "DB not available";exit 1;fi
     if [ "x${DB_SERVICE_MODE}" = "x1" ];then
-        while true;do printf "HTTP/1.1 200 OK\n\nstarted"| ( busybox nc -l -p 80 || /bin/true );done
+        while true;do printf "HTTP/1.1 200 OK\nContent-Length: 8\n\nstarted"| ( busybox nc -l -p 80 || /bin/true );done
     fi
 fi
 # vim:set et sts=4 ts=4 tw=0:
