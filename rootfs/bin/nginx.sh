@@ -79,7 +79,6 @@ for envline in $(env|grep -E "^([^\s ]+_)?HTTP_PROTECT_PASSWORD=");do
         filevariable="$(echo $variable|sed -re "s/PASSWORD$/FILE/g")"
         prefix="$(echo "$variable"|tr '[:upper:]' '[:lower:]'|sed -re "s/_http_protect_password//gi")"
         default_passwdfile="$NGINX_PASSWORDS_DIR/${prefix}protect"
-        echo $filevariable
         passwd_file="$(eval "echo "\${${filevariable}:-\$default_passwdfile}"")"
         passwd_user="$(eval "echo "\${${uservariable}:-root}"")"
         log "Generating HTPASSWD for $uservariable ($passwd_file & $NGINX_PASSWORD_FILE)"
