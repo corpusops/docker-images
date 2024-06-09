@@ -140,10 +140,18 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
     fi
     if ( echo $DISTRIB_ID | grep -E -iq "mint|ubuntu" ) && ( echo $DISTRIB_RELEASE |grep -E -iq $oldubuntu);then
         OAPTMIRROR="old-releases.ubuntu.com"
-        sed -i -r \
+        # 16.04/14.04 is not yet on old mirrors and were switched back to regular mirrors
+        if (echo $DISTRIB_RELEASE |grep -E -v -iq "14.04|16.04");then
+            sed -i -r \
             -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
             -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
             $( find /etc/apt/sources.list* -type f; )
+        else
+             sed -i -r \
+            -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
+            -e 's!'$OAPTMIRROR'!'$NAPTMIRROR'!g' \
+            $( find /etc/apt/sources.list* -type f; )
+       fi
     fi
     if (echo $DISTRIB_ID|grep -E -iq debian) && [ -e $pglist ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ] && [ -e /etc/apt/sources.list.d/pgdg.list ];then
         sed -i -re "s/apt.postgresql/apt-archive.postgresql/g" -e "s/http:/https:/g" /etc/apt/sources.list.d/pgdg.list
@@ -154,7 +162,10 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
         printf 'Acquire::Check-Valid-Until no;\nAPT{ Get { AllowUnauthenticated "1"; }; };\n\n'>/etc/apt/apt.conf.d/nogpgverif
         if (dpkg -l|grep -vq apt-transport-https);then sed -i -re "s/^(deb.*https:.*)/#\1 #httpsfix/g" $(find /etc/apt/sources.list* -type f);fi
         apt-get update || true
-        apt-get install -y ca-certificates apt-transport-https apt bzip2
+        if ! (apt-get install -y ca-certificates apt-transport-https apt bzip2);then
+            apt-get full-upgrade -y
+            apt-get install -y ca-certificates apt-transport-https apt bzip2
+        fi
         sed -i -re "s/^#(.*)#httpsfix/\1/g" $(find /etc/apt/sources.list* -type f)
         apt-get update
     fi
