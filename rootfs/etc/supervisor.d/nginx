@@ -1,8 +1,7 @@
-
 [program:nginx]
-command = sh -c 'set -ex\
+command = sh -c 'set -e\
     && b=nginx \
-    && if [ -e /bin/nginx.sh ];then b=nginx.sh;fi \
+    && if ( command -v nginx.sh >/dev/null 2>&1 );then b=nginx.sh;fi \
     && echo "Using $b">&2 && exec $b -g "daemon off;"'
 autorestart = true
 restartpause = 5

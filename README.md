@@ -243,7 +243,13 @@ You better have to read the entrypoints to understand how they work.
     - `SKIP_EXTRA_CONF=`: set to 1 to skip extra conf in /nginx.d copy
     - `SKIP_CONF_RENDER=`: set to 1 skip frep rendering
     - `SKIP_OPENSSL_INSTALL=`: set to 1 skip openssl autoinstall if not installed
-    - `NGINX_HTTP_PROTECT_USER/NGINX_HTTP_PROTECT_PASSWORD`: generate `/etc/htpasswd-protect` htpasswd file  with those credentials
+    - **ALL** `XXX_HTTP_PROTECT_USER/XXX_HTTP_PROTECT_PASSWORD/XXX_HTTP_PROTECT_FILE`: generate `$XXX_HTTP_PROTECT_FILE` & `/etc/htpasswd/protect` htpasswd files with those credentials
+        - if `$XXX_HTTP_PROTECT_FILE` isnt set, it defaults to `/etc/htpasswd/xxxprotect`
+        - if `$XXX_HTTP_PROTECT_USER` isnt set, it defaults to `root`
+        - `/etc/htpasswd/protect` will contain all defined users
+        - Symlinks from `/etc/htpasswd-xxxprotect` are done for convenience (retrocompat)
+    - `VHOST_TEMPLATES`: list of vhost template to render through frep. (default: `/etc/nginx/conf.d/default.conf`)
+    - `VHOST_TEMPLATE_EXTS`: exts to search for templates
     - `NO_SSL=1`: set to 1 not to generate a selfisgned certificate for `SSL_CERT_BASENAME` and `SSL_ALT_NAMES` (space sparated)
     - `SSL_CERT_PATH=/certs/cert.pem`: ssl certificate path (also used when using the selfsigned certificate generator)
     - `SSL_KEY_PATH=/certs/cert.key`: ssl certificate key path
