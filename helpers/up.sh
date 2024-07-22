@@ -74,6 +74,7 @@ if [ -e /etc/redhat-release ];then
     fi
 fi
 DEBIAN_OLDSTABLE=8
+PG_DEBIAN_OLDSTABLE=9
 find /etc -name "*.reactivate" | while read f;do
     mv -fv "$f" "$(basename $f .reactivate)"
 done
@@ -125,6 +126,11 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
     if (echo $DISTRIB_ID|grep -E -iq debian);then
         sed -i -r -e '/(((squeeze)-(lts))|testing-backports)/d' \
             $( find /etc/apt/sources.list* -type f; )
+    fi
+    if (echo $DISTRIB_ID|grep -E -iq debian) && [ -e /etc/apt/sources.list.d/pgdg.list ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ];then
+        sed -i -re "s|apt.postgresql.org|apt-archive.postgresql.org|g" /etc/apt/sources.list.d/pgdg.list
+        apt update || true
+        apt install -y apt-transport-https && apt update
     fi
     if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ];then
         # fix old debian unstable images
