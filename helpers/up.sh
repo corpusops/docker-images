@@ -127,10 +127,11 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
         sed -i -r -e '/(((squeeze)-(lts))|testing-backports)/d' \
             $( find /etc/apt/sources.list* -type f; )
     fi
-    if (echo $DISTRIB_ID|grep -E -iq debian) && [ -e /etc/apt/sources.list.d/pgdg.list ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ];then
-        sed -i -re "s|apt.postgresql.org|apt-archive.postgresql.org|g" /etc/apt/sources.list.d/pgdg.list
-        apt update || true
-        apt install -y apt-transport-https && apt update
+    pglist="/etc/apt/sources.list.d/pgdg.list"
+    if (echo $DISTRIB_ID|grep -E -iq debian) && [ -e $pglist ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ];then
+        sed -i -re "s/apt.postgresql/apt-archive.postgresql/g" -e "s/http:/https:/g" $pglist
+        apt-get update || true
+        apt-get install -y ca-certificates apt-transport-https apt bzip2 && apt-get update
     fi
     if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ];then
         # fix old debian unstable images
