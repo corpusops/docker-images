@@ -128,30 +128,34 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
             $( find /etc/apt/sources.list* -type f; )
     fi
     pglist="/etc/apt/sources.list.d/pgdg.list"
-    if (echo $DISTRIB_ID|grep -E -iq debian) && [ -e $pglist ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ];then
-        sed -i -re "s/apt.postgresql/apt-archive.postgresql/g" -e "s/http:/https:/g" $pglist
-        apt-get update || true
-        apt-get install -y ca-certificates apt-transport-https apt bzip2 && apt-get update
-    fi
     if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ];then
         # fix old debian unstable images
         sed -i -re "s!sid(/)?!$DISTRIB_CODENAME\1!" $(find /etc/apt/sources.list* -type f)
         OAPTMIRROR="archive.debian.org"
-        sed -i -r -e '/-updates|security.debian.org/d' \
-            $( find /etc/apt/sources.list* -type f; )
+        sed -i -r -e '/-updates|security.debian.org/d' $( find /etc/apt/sources.list* -type f; )
+        sed -i -re "s/apt.postgresql/apt-archive.postgresql/g" -e "s/http:/https:/g" $pglist
         if (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -eq $DEBIAN_OLDSTABLE ];then
             log "Using debian LTS packages"
             echo "$DEBIAN_LTS_SOURCELIST" >> /etc/apt/sources.list
             rm -rvf /var/lib/apt/*
         fi
     fi
-    if ( echo $DISTRIB_ID | grep -E -iq "mint|ubuntu" ) && \
-        ( echo $DISTRIB_RELEASE |grep -E -iq $oldubuntu);then
+    if ( echo $DISTRIB_ID | grep -E -iq "mint|ubuntu" ) && ( echo $DISTRIB_RELEASE |grep -E -iq $oldubuntu);then
         OAPTMIRROR="old-releases.ubuntu.com"
         sed -i -r \
             -e 's/^(deb.*ubuntu)\/?(.*-(security|backport|updates).*)/#\1\/\2/g' \
             -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
             $( find /etc/apt/sources.list* -type f; )
+    fi
+    if ( (echo $DISTRIB_ID|grep -E -iq "mint|ubuntu" ) && ( echo $DISTRIB_RELEASE |grep -E -iq $oldubuntu); ) ||\
+       ( (echo $DISTRIB_ID|grep -E -iq debian) && [ $DISTRIB_RELEASE -le $DEBIAN_OLDSTABLE ]; ) ||\
+       ( (echo $DISTRIB_ID|grep -E -iq debian) && [ -e $pglist ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ]; );then
+        printf 'Acquire::Check-Valid-Until no;\nAPT{ Get { AllowUnauthenticated "1"; }; };\n\n'>/etc/apt/apt.conf.d/nogpgverif
+        if (dpkg -l|grep -vq apt-transport-https);then sed -i -re "s/^(deb.*https:.*)/#\1 #httpsfix/g" $(find /etc/apt/sources.list* -type f);fi
+        apt-get update || true
+        apt-get install -y ca-certificates apt-transport-https apt bzip2
+        sed -i -re "s/^#(.*)#httpsfix/\1/g" $(find /etc/apt/sources.list* -type f)
+        apt-get update
     fi
 fi
 
