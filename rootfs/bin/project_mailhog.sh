@@ -9,7 +9,8 @@ export MH_UI_BIND_ADDR="${MH_UI_BIND_ADDR:-${MH_API_BIND_ADDR:-0.0.0.0:8025}}"
 export MH_UI_WEB_PATH="${MH_UI_WEB_PATH:-/mailcatcher}"
 export MH_AUTH_FILE="${MH_AUTH_FILE:-/home/mailhog/pw}"
 
-chown mailhog /mails
+if [ ! -e "$MH_MAILDIR_PATH" ];then mkdir "$MH_MAILDIR_PATH";fi
+chown mailhog "$MH_MAILDIR_PATH"
 pw=$(MH_AUTH_FILE="" MailHog bcrypt "${MAILCATCHER_PASSWORD:-mailcatcher}")
 echo "${MAILCATCHER_USER:-mailcatcher}:$pw" > $MH_AUTH_FILE
 if [[ -n $@ ]];then
