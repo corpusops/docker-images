@@ -26,6 +26,10 @@ NORMAL="\\e[0;0m"
 NO_COLOR=${NO_COLORS-${NO_COLORS-${NOCOLOR-${NOCOLORS-}}}}
 LOGGER_NAME=${LOGGER_NAME:-corpusops_build}
 ERROR_MSG="There were errors"
+ver_ge() { [  "$2" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]; }
+ver_gt() { [ "$1" = "$2" ] && return 1 || ver_ge $1 $2; }
+ver_le() { [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]; }
+ver_lt() { [ "$1" = "$2" ] && return 1 || ver_le $1 $2; }
 uniquify_string() {
     local pattern=$1
     shift
