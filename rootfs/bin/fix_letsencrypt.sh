@@ -25,7 +25,7 @@ if ( echo ${DISTRIB_ID}${DISTRIB_CODENAME} | grep -E -iq ubuntutrusty ) ;then
     update-ca-certificates
     set -x
 fi
-if (curl --version &>/dev/null) && ! (curl https://community.letsencrypt.org &>/dev/null);then
+if (apt-get --version &>/dev/null) && (curl --version &>/dev/null) && ! (curl https://community.letsencrypt.org &>/dev/null);then
     apt-get update -yqq
     apt-get install -y $(dpkg -l|grep -E "ii.*(ssl|ca-certificates|gnutls)"|awk '{print $2}')
 fi
