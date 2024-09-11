@@ -51,7 +51,7 @@ if [ -e /etc/security/pam_env.conf ];then
         var=$(echo "$line"|sed -re "s/\s*=.*//g")
         val=$(echo "$line"|sed -re "s/^[^=]+=\s*//g")
         # remove existing definition of environment variable, ignoring exit code
-        sed --in-place "/^${var}[[:blank:]=]/d" /etc/security/pam_env.conf || true
+        sed --in-place "/^$(echo ${var}|sed -re "s|/|\\/|g")[[:blank:]=]/d" /etc/security/pam_env.conf || true
         # append new default value of environment variable
         echo "${var} DEFAULT=\"${val}\"" >> /etc/security/pam_env.conf
     done
