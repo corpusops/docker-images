@@ -85,8 +85,10 @@ if ( grep -q amzn /etc/os-release );then
     if ( amazon-linux-extras help >/dev/null 2>&1 );then
         amazon-linux-extras install -y epel
     else
-        yum install -y epel-release
-        yum-config-manager --enable epel
+        if ( yum list | grep -q epel );then
+            yum install -y epel-release
+            yum-config-manager --enable epel
+        fi
     fi
 fi
 if [ -e /etc/redhat-release ];then
