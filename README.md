@@ -46,10 +46,10 @@
 
 | repo  | status  |
 |------------|-----------|
-| [docker-images](https://github.com/corpusops/docker-images)    | [![images](https://github.com/corpusops/docker-images/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-images/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
-| [docker-postgis](https://github.com/corpusops/docker-postgis)   | [![postgis](https://github.com/corpusops/docker-postgis/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-postgis/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
-| [docker-pgrouting](https://github.com/corpusops/docker-pgrouting) | [![pgrouting](https://github.com/corpusops/docker-pgrouting/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-pgrouting/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
-| [docker-postgres](https://github.com/corpusops/docker-postgresql)  | [![postgres](https://github.com/corpusops/docker-postgresql/workflows/.github/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-postgresql/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster)  |
+| [docker-images](https://github.com/corpusops/docker-images)    | [![images](https://github.com/corpusops/docker-images/actions/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-images/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
+| [docker-postgis](https://github.com/corpusops/docker-postgis)   | [![postgis](https://github.com/corpusops/docker-postgis/actions/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-postgis/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
+| [docker-pgrouting](https://github.com/corpusops/docker-pgrouting) | [![pgrouting](https://github.com/corpusops/docker-pgrouting/actions/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-pgrouting/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster) |
+| [docker-postgres](https://github.com/corpusops/docker-postgresql)  | [![postgres](https://github.com/corpusops/docker-postgresql/actions/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-postgresql/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster)  |
 
 - other images managed separatly
 
