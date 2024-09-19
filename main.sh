@@ -242,7 +242,6 @@ SKIP_OS="$SKIP_OS|((debian|redis):[0-9]+\.[0-9]+.*)"
 SKIP_OS="$SKIP_OS|(centos:.\..\.....|centos.\..\.....)"
 SKIP_OS="$SKIP_OS|(alpine:.\.[0-9]+\.[0-9]+)"
 SKIP_OS="$SKIP_OS|(debian:(6.*|squeeze))"
-SKIP_OS="$SKIP_OS|(ubuntu:(([0-9][0-9]\.[0-9][0-9]\..*)|(14.10|12|10|11|13|15)))"
 SKIP_OS="$SKIP_OS|(lucid|maverick|natty|precise|quantal|raring|saucy)"
 SKIP_OS="$SKIP_OS|(centos:(centos)?5)"
 SKIP_OS="$SKIP_OS|(fedora.*(modular|21))"
@@ -261,7 +260,7 @@ SKIPPED_TAGS="$SKIP_TF|$SKIP_MINOR_OS|$SKIP_NODE|$SKIP_DOCKER|$SKIP_MINIO|$SKIP_
 CURRENT_TS=$(date +%s)
 IMAGES_SKIP_NS="((mailhog|postgis|pgrouting(-bare)?|^library|dejavu|(minio/(minio|mc))))"
 
-SKIPPED_TAGS=""
+SKIPPED_TAGS="$SKIP_MINOR_OS|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_MISC"
 
 default_images="
 corpusops/rsyslog
@@ -461,7 +460,7 @@ gen_image() {
         if [ -e "$df" ];then dockerfiles="$dockerfiles $df" && break;fi
     done
     local parts=""
-    for partsstep in from args argspost helpers pre base post postextra clean cleanpost extra labels labelspost;do
+    for partsstep in squashpre from args argspost helpers pre base post postextra clean cleanpost squash extra labels labelspost;do
         parts="$parts pre_${partsstep} ${partsstep} post_${partsstep}"
     done
     parts=$(echo "$parts"|xargs)
@@ -496,7 +495,7 @@ is_skipped() {
 }
 
 skip_local() {
-    grep -E -v "(.\/)?local|\.git|docker-pgrouting|docker-postgis"
+    grep -E -v "(.\/)?local|\.git"
 }
 
 #  get_namespace_tag libary/foo/bar : get image tag with its final namespace
@@ -525,7 +524,6 @@ do_get_namespace_tag() {
             | sed -re "s/(-?(server)?-(web-vault|elasticsearch|opensearch|postgresql|mysql|mongo|mongodb|maria|mariadb)):/-server:\3-/g"
     done
 }
-
 
 filter_tags() {
     for j in $@ ;do for i in $j;do
@@ -569,8 +567,8 @@ get_image_tags() {
                 if ! ( echo "$atags" | grep -E -q "^$ix\.${j}\." );then continue;fi
                 for flavor in "" \
                     alpine alpine3.13 alpine3.14 alpine3.15 alpine3.16 alpine3.5 \
-                    trusty xenial bionic focal jammy \
-                    bullseye stretch buster jessie \
+                    trusty xenial bionic focal jammy noble \
+                    bookworm bullseye stretch buster jessie \
                     ;do
                     selected=""
                     if [[ -z "$flavor" ]];then
@@ -685,20 +683,20 @@ is_same_commit_label() {
     return $ret
 }
 
-get_docker_squash_args() {
-    DOCKER_DO_SQUASH=${DOCKER_DO_SQUASH-init}
-    if ! ( echo "${NO_SQUASH-}"|grep -E -q "^(no)?$" );then
-        DOCKER_DO_SQUASH=""
-        log "no squash"
-    elif [[ "$DOCKER_DO_SQUASH" = init ]];then
-        DOCKER_DO_SQUASH="--squash"
-        if ! (printf "FROM alpine\nRUN touch foo\n" | docker build --squash - >/dev/null 2>&1 );then
-            DOCKER_DO_SQUASH=
-            log "docker squash isnt not supported"
-        fi
-    fi
-    echo $DOCKER_DO_SQUASH
-}
+#get_docker_squash_args() {
+#    DOCKER_DO_SQUASH=${DOCKER_DO_SQUASH-init}
+#    if ! ( echo "${NO_SQUASH-}"|grep -E -q "^(no)?$" );then
+#        DOCKER_DO_SQUASH=""
+#        log "no squash"
+#    elif [[ "$DOCKER_DO_SQUASH" = init ]];then
+#        DOCKER_DO_SQUASH="--squash"
+#        if ! (printf "FROM alpine\nRUN touch foo\n" | docker build --squash - >/dev/null 2>&1 );then
+#            DOCKER_DO_SQUASH=
+#            log "docker squash isnt not supported"
+#        fi
+#    fi
+#    echo $DOCKER_DO_SQUASH
+#}
 
 record_build_image() {
     # library/ubuntu/latest / corpusops/postgis/latest
@@ -714,7 +712,7 @@ record_build_image() {
         log "Image $itag is update to date, skipping build"
         return
     fi
-    dargs="${DOCKER_BUILD_ARGS-} $(get_docker_squash_args)"
+    dargs="${DOCKER_BUILD_ARGS-}"
     local dbuild="cat $image/$df|docker build ${dargs-}  -t $itag . -f - --build-arg=DOCKER_IMAGES_COMMIT=$git_commit"
     local retries=${DOCKER_BUILD_RETRIES:-2}
     local cmd="dret=8 && for i in \$(seq $retries);do if ($dbuild);then dret=0;break;else dret=6;fi;done"

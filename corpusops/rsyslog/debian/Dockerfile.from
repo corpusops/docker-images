@@ -1,1 +1,1 @@
-FROM corpusops/ubuntu-bare:latest
+FROM corpusops/ubuntu-bare:latest AS final
