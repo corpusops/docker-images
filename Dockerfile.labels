@@ -1,1 +1,2 @@
+ARG DOCKER_IMAGES_COMMIT="$DOCKER_IMAGES_COMMIT"
 LABEL com.github.corpusops.docker-images-commit="$DOCKER_IMAGES_COMMIT"
