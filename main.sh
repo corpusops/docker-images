@@ -295,13 +295,6 @@ SKIP_REFRESH_ANCESTORS=${SKIP_REFRESH_ANCESTORS-}
 declare -A duplicated_tags
 declare -A registry_tokens
 declare -A registry_services
-declare -A postgis_alpine_vers
-postgis_alpine_vers[2.3]="2.3.11"
-postgis_alpine_vers[2.3.11]="98b4bde783d6d2cda01ac268317ef83210370253f41c9dc937adeea2aa443dc3"
-postgis_alpine_vers[2.4]="2.4.9"
-postgis_alpine_vers[2.4.9]="77ba24bf8fbbfa65881d7d24bd6379f2001fff781d6ff512590bfaf16e605288"
-postgis_alpine_vers[2.5]="2.5.5"
-postgis_alpine_vers[2.5.5]="24b15ee36f3af02015da0e92a18f9046ea0b4fd24896196c8e6c2aa8e4b56baa"
 
 is_on_build() { echo "$@" | grep -E -iq "on.*build"; }
 slashcount() { local _slashcount="$(echo "${@}"|sed -e 's![^/]!!g')";echo ${#_slashcount}; }
