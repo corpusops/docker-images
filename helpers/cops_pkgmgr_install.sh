@@ -277,7 +277,7 @@ is_debian_like() { echo $DISTRIB_ID | grep -E -iq "debian|ubuntu|mint"; }
 is_suse_like() { echo $DISTRIB_ID | grep -E -iq "suse"; }
 is_alpine_like() { echo $DISTRIB_ID | grep -E -iq "alpine" || test -e /etc/alpine-release; }
 is_redhat_like() { echo $DISTRIB_ID \
-        | grep -E -iq "((^ol$)|rhel|redhat|red-hat|centos|fedora)"; }
+        | grep -E -iq "((^ol$)|rhel|redhat|red-hat|centos|fedora|amzn)"; }
 set_lang() { locale=${1:-C};export LANG=${locale};export LC_ALL=${locale}; }
 is_darwin () {
     if [ "x${FORCE_DARWIN-}" != "x" ];then return 0;fi
