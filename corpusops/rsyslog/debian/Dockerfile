@@ -106,4 +106,5 @@ ENV SUPERVISORD_CONFIGS="cron rsyslog"\
     SYSLOG_ONLY="1"\
     RSYSLOG_SPLITTED_CONFIGS="1"
 ENTRYPOINT ["/bin/supervisord.sh"]
+ARG DOCKER_IMAGES_COMMIT="$DOCKER_IMAGES_COMMIT"
 LABEL com.github.corpusops.docker-images-commit="$DOCKER_IMAGES_COMMIT"
