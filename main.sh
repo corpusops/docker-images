@@ -265,7 +265,7 @@ SKIPPED_TAGS="$SKIP_MINOR_OS|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_MISC"
 default_images="
 corpusops/rsyslog
 "
-ONLY_ONE_MINOR="postgres|elasticsearch|nginx"
+ONLY_ONE_MINOR="postgres|elasticsearch|nginx|opensearch"
 PROTECTED_TAGS="corpusops/rsyslog"
 find_top_node_() {
     img=library/node
