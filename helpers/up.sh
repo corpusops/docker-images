@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -e
+set -ex
 log() { echo "${@}" >&2; }
 vv() { log "${@}";"${@}"; }
 DO_UPDATE=1
@@ -22,6 +22,7 @@ oldubuntu="^(10\.|12\.|13\.|14\.|15\.|16\.|17\.|18\.10|19\.|20\.10|21\.|22\.10)"
 # oldubuntu="^(10\.|12\.|13\.|14.10|15\.|16.10|17\.04)"
 NOSOCAT=""
 CENTOS_OLDSTABLE=8
+CENTOS_OLDSTABLES="6|7|8"
 OAPTMIRROR="${OAPTMIRROR:-}"
 OYUMMIRROR="${OYUMMIRROR:-}"
 NYUMMIRROR="${NYUMMIRROR:-}"
@@ -29,6 +30,7 @@ OUBUNTUMIRROR="${OUBUNTUMIRROR:-old-releases.ubuntu.com}"
 ODEBIANMIRROR="${ODEBIANMIRROR:-archive.debian.org}"
 NDEBIANMIRROR="${NDEBIANMIRROR:-http.debian.net|httpredir.debian.org|deb.debian.org}"
 NUBUNTUMIRROR="${NUBUNTUMIRROR:-archive.ubuntu.com|security.ubuntu.com}"
+IS_OLD_CENTOS_STABLE=""
 SNCENTOSMIRROR="$(echo "${NCENTOSMIRROR}"|sed -re "s/\|.*//g")"
 SNDEBIANMIRROR="$(echo "${NDEBIANMIRROR}"|sed -re "s/\|.*//g")"
 SNUBUNTUMIRROR="$(echo "${NUBUNTUMIRROR}"|sed -re "s/\|.*//g")"
@@ -58,27 +60,27 @@ elif [ -e /etc/redhat-release ];then
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print tolower($3)}')
 fi
 DISTRIB_MAJOR="$(echo ${DISTRIB_RELEASE}|sed -re "s/\..*//g")"
-if [ "x${DISTRIB_ID}" = "xcentos" ] && ( echo  "${DISTRIB_MAJOR}" | grep -Eq "^(6|7|8)");then
-    sed -i 's/^mirrorlist/#mirrorlist/g;s|^#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
-fi
-if ( echo $DISTRIB_ID | grep -E -iq "centos|red|fedora" );then
-    if (echo $DISTRIB_ID|grep -E -iq centos);then
-        if (echo "$DISTRIB_RELEASE"|egrep -q "8|7");then
-            OCENTOSMIRROR="${OCENTOSMIRROR:-mirror.centos.org}"
-            NCENTOSMIRROR="${NCENTOSMIRROR:-vault.centos.org}"
-        elif [ $DISTRIB_RELEASE -le $CENTOS_OLDSTABLE ];then
-            OCENTOSMIRROR="${OCENTOSMIRROR:-vault.centos.org}"
-            NCENTOSMIRROR="${NCENTOSMIRROR:-mirror.centos.org}"
-        else
-            OCENTOSMIRROR="${OCENTOSMIRROR:-mirror.centos.org}"
-            NCENTOSMIRROR="${NCENTOSMIRROR:-vault.centos.org}"
-        fi
-        OYUMMIRROR="${OCENTOSMIRROR}"
-        NYUMMIRROR="${NCENTOSMIRROR}"
+EPEL_RPM_URL="https://dl.fedoraproject.org/pub/epel/epel-release-latest-${DISTRIB_MAJOR}.noarch.rpm"
+if [ "x${DISTRIB_ID}" = "xcentos" ] && ( echo  "${DISTRIB_MAJOR}" | grep -Eq "$CENTOS_OLDSTABLES");then
+    IS_OLD_CENTOS_STABLE="1"
+    EPEL_RPM_URL="https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm"
+    if (echo "$DISTRIB_RELEASE"|egrep -q "8|7");then
+        OCENTOSMIRROR="${OCENTOSMIRROR:-mirror.centos.org}"
+        NCENTOSMIRROR="${NCENTOSMIRROR:-vault.centos.org}"
+    elif [ $DISTRIB_RELEASE -le $CENTOS_OLDSTABLE ];then
+        OCENTOSMIRROR="${OCENTOSMIRROR:-vault.centos.org}"
+        NCENTOSMIRROR="${NCENTOSMIRROR:-mirror.centos.org}"
+    else
+        OCENTOSMIRROR="${OCENTOSMIRROR:-mirror.centos.org}"
+        NCENTOSMIRROR="${NCENTOSMIRROR:-vault.centos.org}"
     fi
+    OYUMMIRROR="${OCENTOSMIRROR}"
+    NYUMMIRROR="${NCENTOSMIRROR}"
     if [ "$OYUMMIRROR" != "x" ];then
-        sed -i -r -e 's!'$NCENTOSMIRROR'!'$OCENTOSMIRROR'!g' $( find /etc/yum.repos.d -type f; )
+        sed -i -r -e 's!'$OCENTOSMIRROR'!'$NCENTOSMIRROR'!g' $( find /etc/yum.repos.d -type f; )
     fi
+    sed -i "s/^#.*baseurl=http/baseurl=http/g" $( find /etc/yum.repos.d -type f; )
+    sed -i "s/^mirrorlist=http/#mirrorlist=http/g" $( find /etc/yum.repos.d -type f; )
 fi
 if ( grep -q amzn /etc/os-release );then
     yuminstall findutils
@@ -96,9 +98,8 @@ if [ -e /etc/redhat-release ];then
         vv yum upgrade -y --nogpg fedora-gpg-keys fedora-repos
     fi
     if [ ! -e /etc/yum.repos.d/epel.repo ];then
-        rpm="epel-release-latest-${DISTRIB_MAJOR}.noarch.rpm"
-        curl -sSLO "https://dl.fedoraproject.org/pub/epel/$rpm"
-        rpm -ivh $(pwd)/$rpm
+        curl -sSLO "$EPEL_RPM_URL"
+        rpm -ivh $(pwd)/$(basename $EPEL_RPM_URL)
     fi
     if ! ( find --version >/dev/null 2>&1);then
         yuminstall findutils
