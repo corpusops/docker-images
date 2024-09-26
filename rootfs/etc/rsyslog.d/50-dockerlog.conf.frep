@@ -1,7 +1,7 @@
 # Rsyslog configuration file for docker.
 {{ $LOGS_PATH               := .Env.RSYSLOG_DOCKER_LOGS_PATH | default "/var/log/docker" }}
 {{ $LONGRETENTION_LOGS_PATH := .Env.RSYSLOG_DOCKER_LONGRETENTION_LOGS_PATH | default "/var/log/docker/longretention" }}
-{{ $LONGRETENTION_LOGS_PATTERN := .Env.RSYSLOG_DOCKER_LONGRETENTION_PATTERN | default "^(lb|nginx|proxy|traefik|haproxy|apache)" }}
+{{ $LONGRETENTION_LOGS_PATTERN := .Env.RSYSLOG_DOCKER_LONGRETENTION_PATTERN | default "^(lb|ftp|ssh|nginx|proxy|traefik|haproxy|apache)" }}
 template(name="DynaFileDockerLR" type="string" string="{{$LONGRETENTION_LOGS_PATH}}/%programname%.log")
 template(name="DynaFileDocker" type="string" string="{{$LOGS_PATH}}/%programname%.log")
 if re_match($programname, '{{$LONGRETENTION_LOGS_PATTERN}}') then {
