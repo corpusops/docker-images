@@ -7,6 +7,13 @@ export DB_STARTUP_TIMEOUT="${DB_STARTUP_TIMEOUT-45s}"
 export DB_MODE="${DB_MODE-postgresql}"
 if ( echo "$DB_MODE" | grep -q post );then DB_MODE="postgres";fi
 if ( echo "$DB_MODE" | grep -qE "maria|mysql" );then DB_MODE="mysql";fi
+if ( echo $DB_MODE|grep -q mysql );then
+    export MYSQL_USER=${MYSQL_USER-}
+    export MYSQL_PASSWORD=${MYSQL_PASSWORD-}
+    export MYSQL_HOST=${MYSQL_HOST-}
+    export MYSQL_PORT=${MYSQL_PORT-}
+    export MYSQL_DB=${MYSQL_DB-}
+fi
 if ( echo $DB_MODE|grep -q post );then
     export POSTGRES_HAS_POSTGIS="${POSTGRES_HAS_POSTGIS-}"
     export POSTGRES_USER=${POSTGRES_USER-}
@@ -22,6 +29,17 @@ debuglog() { if [ "x$DEBUG" != "x" ];then echo "$@" >&2;fi; }
 log() { echo "$@" >&2; }
 
 vv() { log "$@";"$@"; }
+
+wait_for_mysql() {
+    flag=/tmp/started_$(echo $MYSQL_DB|sed -re "s![/:]!__!g")
+    if [ -e "$flag" ];then rm -f "$flag";fi
+    debuglog "Try connection to mysql: $MYSQL_DB & wait for db init" >&2
+    set +x
+    ( while true;do if ( \
+      echo "select 1;"\
+      | mysql --user="$MYSQL_USER" --password="$MYSQL_PASSWORD" --host="$MYSQL_HOST" "$MYSQL_DB" );then touch $flag && break;fi;done )&
+    dockerize -wait file://$flag -timeout ${DB_STARTUP_TIMEOUT} 2>/dev/null
+}
 
 wait_for_postgres() {
     flag=/tmp/started_$(echo $POSTGRES_DB|sed -re "s![/:]!__!g")
