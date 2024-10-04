@@ -46,11 +46,14 @@ if [ -e $logrotateconf ];then
     fixlogrotateconf /etc/logrotate.conf
 fi
 if [ -e /etc/security/pam_env.conf ];then
-    env | grep -E "^([a-zA-Z_][a-zA-Z_0-9]?)+=(.+)" | while read -r line; do  # read STDIN by line
-        # split LINE by "=", multiline values are unsupported as pam_env wont eat them
-        var="$(echo "$line"|sed -re "s/^([a-zA-Z_][a-zA-Z_0-9]?)+=(.+)/\1/g")"
-        val="$(echo "$line"|sed -re "s/^([a-zA-Z_][a-zA-Z_0-9]?)+=(.+)/\2/g")"
-        # for multiline, just use: val="$(eval echo '"$'"$var"'"')"
+    # split LINE by "=", multiline values are unsupported as pam_env wont eat them
+    for var in $(awk 'BEGIN{for (i in ENVIRON) {print i}}');do
+        val="$(eval echo '"$'"$var"'"')"
+        if $(echo "$val"|grep -qzP "\\n.*\\n");then
+            echo "Unsetting multiline envvar: \$$var"
+            eval "unset $var" || true
+            continue
+        fi
         # remove existing definition of environment variable, ignoring exit code
         sed --in-place "/^$(echo ${var})[[:blank:]=]/d" /etc/security/pam_env.conf || true
         # append new default value of environment variable
