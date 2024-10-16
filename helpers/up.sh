@@ -106,7 +106,7 @@ if [ -e /etc/redhat-release ];then
     fi
 fi
 DEBIAN_OLDSTABLE=9
-PG_DEBIAN_OLDSTABLE=9
+PG_DEBIAN_OLDSTABLE=10
 find /etc -name "*.reactivate" | while read f;do
     mv -fv "$f" "$(basename $f .reactivate)"
 done
