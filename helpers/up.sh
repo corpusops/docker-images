@@ -23,6 +23,8 @@ oldubuntu="^(10\.|12\.|13\.|14\.|15\.|16\.|17\.|18\.10|19\.|20\.10|21\.|22\.10)"
 NOSOCAT=""
 CENTOS_OLDSTABLE=8
 CENTOS_OLDSTABLES="6|7|8"
+# was to support latest dev release, but disabled as missing packages in epel (p7*)
+CENTOS_STABLE=9999
 OAPTMIRROR="${OAPTMIRROR:-}"
 OYUMMIRROR="${OYUMMIRROR:-}"
 NYUMMIRROR="${NYUMMIRROR:-}"
@@ -60,7 +62,10 @@ elif [ -e /etc/redhat-release ];then
     DISTRIB_RELEASE=$(echo $(head  /etc/issue)|awk '{print tolower($3)}')
 fi
 DISTRIB_MAJOR="$(echo ${DISTRIB_RELEASE}|sed -re "s/\..*//g")"
-EPEL_RPM_URL="https://dl.fedoraproject.org/pub/epel/epel-release-latest-${DISTRIB_MAJOR}.noarch.rpm"
+EPEL_BASE_URL="https://dl.fedoraproject.org/pub/epel"
+EPEL_RPM_URL="$EPEL_BASE_URL/epel-release-latest-${DISTRIB_MAJOR}.noarch.rpm"
+DISTRIB_ARCH="x86_64"
+EPEL_PACKAGES_URL="$EPEL_BASE_URL/${DISTRIB_MAJOR}/Everything/$DISTRIB_ARCH/Packages/e"
 if [ "x${DISTRIB_ID}" = "xcentos" ] && ( echo  "${DISTRIB_MAJOR}" | grep -Eq "$CENTOS_OLDSTABLES");then
     IS_OLD_CENTOS_STABLE="1"
     EPEL_RPM_URL="https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm"
@@ -98,6 +103,9 @@ if [ -e /etc/redhat-release ];then
         vv yum upgrade -y --nogpg fedora-gpg-keys fedora-repos
     fi
     if [ ! -e /etc/yum.repos.d/epel.repo ];then
+        if [ "x${DISTRIB_ID}" = "xcentos" ] && [ "${DISTRIB_MAJOR}" -gt $CENTOS_STABLE ];then
+            EPEL_RPM_URL="$EPEL_PACKAGES_URL/$(curl -sSlL $EPEL_PACKAGES_URL 2>&1|grep epel-release|sed -re 's/.*href="([^"]+)".*/\1/')"
+        fi
         curl -sSLO "$EPEL_RPM_URL"
         rpm -ivh $(pwd)/$(basename $EPEL_RPM_URL)
     fi
