@@ -47,7 +47,8 @@ $(find "$NGINX_CONF_DIR" -type f |grep -E -v "$NGINX_FREP_SKIP|\.(${VHOST_TEMPLA
 /etc/logrotate.d/nginx"}"
 create_file() {
     for i in $@;do
-        if [ ! -e "$(dirname $i)" ];then mkdir -p "$i";fi
+        if [ ! -e "$(dirname $i)" ];then mkdir -p "$(dirname $i)";fi
+        if [ -d "$i" ];then if [ "x$(ls -A "$i"||true)" = "x" ];then rm -rf "$i";fi;fi
         touch "$i" && chown $NGINX_USER:$NGINX_USER "$i" && chmod 640 "$i"
     done
 }
@@ -71,9 +72,9 @@ done
 OIFS=${IFS-}
 IFS=$'\n'
 for envline in $(env|grep -E "^([^\s ]+_)?HTTP_PROTECT_PASSWORD=");do
-    value="$(echo $envline|sed -re "s/^([^=]+)=(.*)/\2/g")"
+    password="$(echo $envline|sed -re "s/^([^=]+)=(.*)/\2/g")"
     variable="$(echo $envline|sed -re "s/^([^=]+)=(.*)/\1/g")"
-    if [ "x${value}" != "x" ];then
+    if [ "x${password}" != "x" ];then
         uservariable="$(echo $variable|sed -re "s/PASSWORD$/USER/g")"
         filevariable="$(echo $variable|sed -re "s/PASSWORD$/FILE/g")"
         prefix="$(echo "$variable"|tr '[:upper:]' '[:lower:]'|sed -re "s/_http_protect_password//gi")"

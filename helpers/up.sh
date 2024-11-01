@@ -145,7 +145,7 @@ if ( echo $DISTRIB_ID | grep -E -iq "debian|mint|ubuntu" );then
             -e 's!'$NAPTMIRROR'!'$OAPTMIRROR'!g' \
             $( find /etc/apt/sources.list* -type f; )
     fi
-    if (echo $DISTRIB_ID|grep -E -iq debian) && [ -e $pglist ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ];then
+    if (echo $DISTRIB_ID|grep -E -iq debian) && [ -e $pglist ] && [ $DISTRIB_RELEASE -le $PG_DEBIAN_OLDSTABLE ] && [ -e /etc/apt/sources.list.d/pgdg.list ];then
         sed -i -re "s/apt.postgresql/apt-archive.postgresql/g" -e "s/http:/https:/g" /etc/apt/sources.list.d/pgdg.list
     fi
     if ( (echo $DISTRIB_ID|grep -E -iq "mint|ubuntu" ) && ( echo $DISTRIB_RELEASE |grep -E -iq $oldubuntu); ) ||\
