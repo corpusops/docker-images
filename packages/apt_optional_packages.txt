@@ -4,3 +4,4 @@ iproute2
 apt-tranport-https
 jq
 netcat
+netcat-openbsd
