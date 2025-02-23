@@ -101,7 +101,7 @@ IFS=${OIFS}
 # retrocompat: link all subpassword files in /etc/htpasswd/* to /etc/htpasswd-$i counterparts
 for i in $(find "$NGINX_PASSWORDS_DIR" -type f -maxdepth 1);do ln -sfv "$i" "/etc/htpasswd-$(basename $i)";done
 ###
-if [[ -z ${NGINX_SKIP_EXPOSE_HOST} ]];then
+if [ "x${NGINX_SKIP_EXPOSE_HOST}" = "x" ];then
     if ( ip -4 route list match 0/0 >/dev/null 2>&1 );then
         ip -4 route list match 0/0 | awk '{print $3" host.docker.internal"}' >> /etc/hosts
     fi
