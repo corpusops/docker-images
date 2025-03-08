@@ -43,7 +43,7 @@ export NO_NGINX_LOGROTATE=${NO_NGINX_LOGROTATE-}
 export VHOST_TEMPLATES="${VHOST_TEMPLATES-"/etc/nginx/conf.d/default.conf"}"
 export VHOST_TEMPLATE_EXTS="${VHOST_TEMPLATE_EXTS:-frep template}"
 export NGINX_CONFIGS="${NGINX_CONFIGS-"
-$(find "$NGINX_CONF_DIR" -type f |grep -E -v "$NGINX_FREP_SKIP|\.(${VHOST_TEMPLATE_EXTS// /|})$")
+$(find "$NGINX_CONF_DIR" -type f |grep -E -v "$NGINX_FREP_SKIP|\.($(echo $VHOST_TEMPLATE_EXTS|sed -re "s/ /|/g"))$")
 /etc/logrotate.d/nginx"}"
 create_file() {
     for i in $@;do
