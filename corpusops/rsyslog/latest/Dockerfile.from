@@ -1,1 +1,1 @@
-FROM corpusops/alpine-bare:latest
+FROM corpusops/alpine-bare:latest AS final
