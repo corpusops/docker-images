@@ -81,6 +81,7 @@
 | [docker-rabbitmq](https://github.com/corpusops/docker-rabbitmq)  | [![rabbitmq](https://github.com/corpusops/docker-rabbitmq/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-rabbitmq/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-redis](https://github.com/corpusops/docker-redis)  | [![redis](https://github.com/corpusops/docker-redis/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-redis/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-redmine](https://github.com/corpusops/docker-redmine)  | [![redmine](https://github.com/corpusops/docker-redmine/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-redmine/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-rsync](https://github.com/corpusops/docker-rsync)  | [![rsync](https://github.com/corpusops/docker-rsync/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-rsync/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-ruby](https://github.com/corpusops/docker-ruby)  | [![ruby](https://github.com/corpusops/docker-ruby/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-ruby/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-seafile](https://github.com/corpusops/docker-seafile)  | [![seafile](https://github.com/corpusops/docker-seafile/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-seafile/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-slapd](https://github.com/corpusops/docker-slapd)  | [![slapd](https://github.com/corpusops/docker-slapd/workflows/.github/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-slapd/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
@@ -403,7 +404,7 @@ services:
     image: some/service
 ```
 
-## mailhog helper: /bin/project_mailhog.sh 
+## mailhog helper: /bin/project_mailhog.sh
 - Helper image built by [docker-project](https://github.com/corpusops/docker-project/), tags:
     - `corpusops/project:mailhog`
 
@@ -423,4 +424,4 @@ services:
 - Helper image built by [docker-project](https://github.com/corpusops/docker-project/), tags:
     - `corpusops/project:dbsetup`
 - helper to wait for db availability and then setup a dummy webserver to help dependent services orchestration
- 
+
