@@ -46,7 +46,7 @@ jobs:
           path: |
             ~/.cache
             local
-          key: 6-${{ runner.os }}-${{ github.ref }}-${{ github.repository }}-venvstatics2
+          key: 6-${{ runner.os }}-${{ github.ref }}-${{ github.repository }}-venvstatics
       - name: setup
         run: set -e;i=$(whoami);sudo sh -c "chown -Rf $i .";
              sudo sh -c 'sed -i -re 's/azure.//' /etc/apt/sources.list && apt-get update -qq' && ./main.sh refresh_corpusops;
