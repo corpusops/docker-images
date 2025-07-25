@@ -42,7 +42,7 @@
 
 ## Separatly mananged images
 - `corpusops/postgres`, `corpusops/pgrouting` & `corpusops/postgis` pipelines has been moved to [this repo](https://github.com/corpusops/docker-postgresql)
-   and those 2 children: [postgis](https://github.com/corpusops/docker-postgis) / [pgrouting](https://github.com/corpusops/docker-pgrouting)
+   and those 2 children `postgis-bare` && `pgrouring-bare` images : [postgis](https://github.com/corpusops/docker-postgis) / [pgrouting](https://github.com/corpusops/docker-pgrouting)
 
 | repo  | status  |
 |------------|-----------|
@@ -57,6 +57,7 @@
 |------------|-----------|
 | [docker-alpine](https://github.com/corpusops/docker-alpine)  | [![alpine](https://github.com/corpusops/docker-alpine/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-alpine/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-amazonlinux](https://github.com/corpusops/docker-amazonlinux)  | [![amazonlinux](https://github.com/corpusops/docker-amazonlinux/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-amazonlinux/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
+| [docker-amazonlinux-bare](https://github.com/corpusops/docker-amazonlinux-bare)  | [![amazonlinux-bare](https://github.com/corpusops/docker-amazonlinux-bare/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-amazonlinux-bare/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-archlinux](https://github.com/corpusops/docker-archlinux)  | [![archlinux](https://github.com/corpusops/docker-archlinux/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-archlinux/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-centos](https://github.com/corpusops/docker-centos)  | [![centos](https://github.com/corpusops/docker-centos/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/corpusops/docker-centos/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amain)  |
 | [docker-dbsmartbackup](https://github.com/corpusops/docker-dbsmartbackup)  | [![dbsmartbackup](https://github.com/corpusops/docker-dbsmartbackup/actions/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/corpusops/docker-dbsmartbackup/actions?query=workflow%3A.github%2Fworkflows%2Fcicd.yml+branch%3Amaster)  |
