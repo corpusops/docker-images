@@ -264,11 +264,9 @@ SKIPPED_TAGS="$SKIP_MINOR_OS|$SKIP_MINOR|$SKIP_PRE|$SKIP_OS|$SKIP_MISC"
 
 # (see docker-elasticsearch for example on how to use)
 PROTECTED_VERSIONS=""
-PROTECTED_TAG_VERSIONS=""
 default_images="
 corpusops/rsyslog
 "
-
 ONLY_ONE_MINOR="postgres|nginx|opensearch|elasticsearch"
 PROTECTED_TAGS="corpusops/rsyslog"
 find_top_node_() {
